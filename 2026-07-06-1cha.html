@@ -495,7 +495,7 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
     <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
 
     <div class="name-gate" id="nameGate">
-      <p>퀴즈를 풀기 전에 이름을 입력해주세요. 제출 결과가 선생님께 자동으로 전달됩니다.</p>
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
       <input type="text" id="studentName" placeholder="이름을 입력하세요">
       <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
     </div>
@@ -620,112 +620,4 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
       <div class="check-item"><input type="checkbox" id="c4"><label for="c4">'01012345678처럼 작은따옴표로 전화번호 입력해보기</label></div>
       <div class="check-item"><input type="checkbox" id="c5"><label for="c5">Ctrl+;, Ctrl+Shift+;로 날짜·시간 입력해보기</label></div>
       <div class="check-item"><input type="checkbox" id="c6"><label for="c6">숫자와 문자가 섞인 데이터의 정렬 방향 확인하기</label></div>
-      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="school">우리컴퓨터학원</div>
-    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
-  </footer>
-
-</main>
-
-<script>
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('show');
-}
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('overlay').classList.remove('show');
-}
-
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCSOUrctx6YlEz9fRBMmbEcsx9VJSvkATY3Nfff0fa4IFQbfXLksuTSorUDRjUavTU/exec';
-const SHEET_NAME = '1차시';
-let studentName = '';
-const quizAnswers = new Array(10).fill(null);
-
-function startQuiz(){
-  const val = document.getElementById('studentName').value.trim();
-  if(!val){ alert('이름을 입력해주세요.'); return; }
-  studentName = val;
-  document.getElementById('nameGate').style.display = 'none';
-  document.getElementById('quizBody').style.display = 'block';
-}
-
-function submitQuiz(){
-  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
-  const answeredCount = quizAnswers.filter(a => a !== null).length;
-  if(answeredCount < quizAnswers.length){
-    const ok = confirm('아직 안 푼 문제가 있어요. 그래도 제출할까요?');
-    if(!ok) return;
-  }
-  const score = quizAnswers.filter(a => a === 1).length;
-  const payload = {
-    sheetName: SHEET_NAME,
-    name: studentName,
-    score: score,
-    answers: quizAnswers.map(a => a === null ? '' : a)
-  };
-  fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload)
-  }).catch(() => {});
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '제출 완료';
-  document.getElementById('submitStatus').textContent = studentName + '님, 제출이 완료되었습니다! 수고하셨어요 🎉 (10문제 중 ' + score + '문제 정답)';
-}
-
-document.querySelectorAll('.quiz-item').forEach(item => {
-  const opts = item.querySelectorAll('.quiz-opt');
-  const feedback = item.querySelector('.quiz-feedback');
-  const retryBtn = item.querySelector('.retry-btn');
-  const qIndex = parseInt(item.dataset.q, 10) - 1;
-
-  function lockAndReveal(clicked){
-    const isCorrect = clicked.dataset.correct === 'true';
-    let correctText = '';
-    opts.forEach(o => {
-      o.disabled = true;
-      if(o.dataset.correct === 'true'){
-        o.classList.add('correct');
-        correctText = o.textContent;
-      }
-    });
-    if(!isCorrect) clicked.classList.add('wrong');
-    feedback.textContent = isCorrect ? '정답입니다! 🎉' : `오답입니다. 정답은 '${correctText}' 입니다.`;
-    feedback.classList.add('show', isCorrect ? 'ok' : 'no');
-    retryBtn.classList.add('show');
-    if(quizAnswers[qIndex] === null){
-      quizAnswers[qIndex] = isCorrect ? 1 : 0;
-    }
-  }
-
-  opts.forEach(opt => {
-    opt.addEventListener('click', () => {
-      if(item.dataset.answered) return;
-      item.dataset.answered = 'true';
-      lockAndReveal(opt);
-    });
-  });
-
-  retryBtn.addEventListener('click', () => {
-    item.dataset.answered = '';
-    opts.forEach(o => {
-      o.disabled = false;
-      o.classList.remove('correct', 'wrong');
-    });
-    feedback.classList.remove('show', 'ok', 'no');
-    feedback.textContent = '';
-    retryBtn.classList.remove('show');
-  });
-});
-</script>
-
-</body>
-</html>
+      <div 
