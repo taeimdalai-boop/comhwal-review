@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3차시 복습자료 | 컴활2급 - 윗주·채우기핸들·시트보호·표시형식·틀고정</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">3차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>3차시 복습자료</h1>
+  <p class="meta"><b>2026-07-08</b><br>한자/특수문자, 메모·윗주, 채우기핸들, 유효성검사, 행열숨기기, 시트관리, 선택하여붙여넣기, 시트보호, 표시형식, 틀고정</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·서식코드 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag b">필기 · 윗주·행열숨기기·시트그룹화·표시형식·틀고정 규칙</span>
+      <span class="tag g">실기 · 유효성검사·선택하여붙여넣기·시트보호</span>
+    </div>
+    <h1>오늘의 핵심은 "겉으로 보이는 값과 실제 저장된 값을 구분하고, 화면 보기와 인쇄·정렬 같은 실제 동작을 정확히 나누는 것"입니다.</h1>
+    <p class="sub">2026-07-08 · 3차시 · 한자/특수문자, 메모·윗주 비교, 채우기 핸들, 데이터 유효성 검사·자동고침, 행/열 숨기기, 워크시트 관리·그룹화, 선택하여 붙여넣기, 시트·통합문서 보호, 표시 형식, 틀 고정·창 나누기</p>
+    <div class="key-badges">
+      <span class="key-badge">📝 메모 vs 윗주</span>
+      <span class="key-badge">🙈 행/열 숨기기</span>
+      <span class="key-badge">🖼️ 선택하여 붙여넣기</span>
+      <span class="key-badge">🔒 시트 보호</span>
+      <span class="key-badge">🔢 표시 형식</span>
+      <span class="key-badge">📌 틀 고정·창 나누기</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>윗주는 메모와 완전히 다르다</h3>
+        <p>①숫자 데이터엔 표시 안 됨 ②서식은 전체만 변경 가능 ③본문을 지우면 윗주도 함께 삭제됨. 메모와 정반대되는 특징이라 시험에 자주 나옵니다.</p>
+        <div class="use">예: 604라는 숫자엔 윗주를 달아도 화면에 안 보임</div>
+      </div>
+
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>사용자 지정 목록: 내장 vs 미등록</h3>
+        <p>'월화수목금토일', '갑을병정', '자축인묘'는 엑셀에 내장돼 자동 채우기가 되지만, '가나다라'나 'ABCD'는 등록돼 있지 않아 드래그해도 복사만 됩니다.</p>
+        <div class="use">확인: 파일 → 옵션 → 고급 → 사용자 지정 목록 편집</div>
+      </div>
+
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>자동 고침 옵션 (줄임말 등록)</h3>
+        <p>입력창에 줄임말(우컴), 결과창에 정식 명칭(우리컴퓨터학원)을 등록해두면 실무에서 타이핑 시간을 크게 줄여줍니다.</p>
+        <div class="use">경로: 파일 → 옵션 → 언어 교정 → 자동 고침 옵션</div>
+      </div>
+
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>숨긴 행/열은 인쇄 안 됨 + 정렬 시 안 움직임</h3>
+        <p>숨겨진 행/열은 인쇄에서 제외되고, 정렬(Sort)할 때도 위치가 이동하지 않습니다. 정렬 전엔 반드시 숨기기부터 해제해야 해요.</p>
+        <div class="use">시험 단골: 숨김 상태로 정렬하면 데이터가 꼬인다</div>
+      </div>
+
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>시트 그룹화 시 비활성화되는 기능</h3>
+        <p>여러 시트를 그룹으로 묶으면 제목표시줄에 [그룹]이 표시되고, 삽입 탭(도형·차트)과 데이터 탭(정렬·필터·유효성검사)의 대다수 기능이 비활성화됩니다.</p>
+        <div class="use">활용: 그룹 상태로 입력하면 여러 시트에 동시 입력 (1~12월 장부 틀)</div>
+      </div>
+
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>연결된 그림으로 붙여넣기</h3>
+        <p>원본 셀 텍스트를 수정하면 붙여넣은 그림 속 텍스트도 실시간으로 자동 업데이트됩니다. 일반 '그림으로 붙여넣기'는 원본과 링크가 끊긴 고정 이미지예요.</p>
+        <div class="use">활용: 결제란처럼 표 너비에 안 맞는 텍스트를 깔끔하게 배치</div>
+      </div>
+
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>시트 보호로 입력창 폼 만들기</h3>
+        <p>입력을 허용할 셀만 먼저 잠금 해제(Ctrl+1 → 보호 탭)한 뒤 시트 보호를 실행하면, 나머지 셀은 편집이 막힌 완벽한 서식 파일이 됩니다.</p>
+        <div class="use">옵션: '잠긴 셀 선택' 해제 시 마우스 클릭조차 막을 수 있음</div>
+      </div>
+
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>표시 형식 #,##0"원"</h3>
+        <p># 은 의미 없는 0을 표시 안 하고, 0 은 자릿수를 강제로 채웁니다. #,##0"원"은 천 단위 콤마를 찍고 값이 0이어도 "0원"으로 명확히 표시하는 시험 단골 서식입니다.</p>
+        <div class="use">주의: 문자 뒤에 '원'을 직접 타이핑하면 계산 불가능한 문자가 됨</div>
+      </div>
+
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>틀 고정의 핵심 규칙</h3>
+        <p>항상 스크롤되기 시작할 첫 번째 셀을 선택한 뒤 틀 고정을 실행해야 하며, 고정선은 항상 선택한 셀의 '왼쪽'과 '위쪽'에 생깁니다.</p>
+        <div class="use">예: 1~3행, A~B열 고정 → C4 셀 선택 후 틀 고정</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box exam-type">
+      <h3>(필기) 한자·특수문자 입력</h3>
+      <div class="step"><b>한자 변환</b> 단어 입력 후 한자 키를 누릅니다. 노트북에 한자 키가 없으면 대부분 오른쪽 Alt 키가 그 역할을 합니다.</div>
+      <div class="step"><b>특수문자</b> 한글 자음(ㄱ, ㄴ, ㄷ 등)을 입력한 뒤 한자 키를 누르면 특수문자 목록이 뜹니다. 가장 많이 쓰이는 자음은 미음(ㅁ)이에요.</div>
+      <div class="step"><b>목록 이동</b> 마우스 대신 Page Up / Page Down 키로 이동하면 빠르고, 선택할 때는 숫자 키패드를 쓰면 더 편리합니다.</div>
+      <div class="exam-ex">시험 예시: "특수문자를 입력하려면 반드시 마우스로 목록을 클릭해야 한다" → 틀린 설명. 키보드만으로도 입력 가능합니다.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>(필기) 메모 vs 윗주 — 반드시 구분해서 외우기</h3>
+      <div class="step"><b>메모(노트)</b> Shift+F2로 삽입. Delete로 셀 내용을 지워도 메모는 남습니다. 메모 테두리 선택(상하좌우 화살표) 후 우클릭 → 메모 서식 → 맞춤 탭 → 자동 크기로 크기를 조절해요.</div>
+      <div class="step"><b>윗주(위쪽에 작은 글자)</b> 문자 데이터에만 입력 가능 — 숫자(예: 604)에는 설정해도 화면에 표시되지 않습니다.</div>
+      <div class="step"><b>윗주 서식</b> 일부분만 골라 서식을 바꿀 수 없고, 전체 글꼴만 한 번에 바꿀 수 있어요.</div>
+      <div class="step"><b>윗주 삭제 규칙</b> 셀 안의 본문 텍스트를 지우면 위에 달린 윗주도 함께 자동으로 삭제됩니다. 이것이 메모와 가장 큰 차이점이에요.</div>
+      <div class="step"><b>표시 방법</b> 홈 탭 → 글꼴 그룹의 윗주 필드 표시/숨기기 버튼을 눌러 켜고 끕니다.</div>
+      <div class="exam-ex">시험 예시: "메모와 윗주 모두 본문을 지우면 함께 사라진다" → 틀린 설명. 메모는 안 지워지고, 윗주만 함께 지워집니다.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>(필기) 채우기 핸들 — 순수 데이터, 혼합 데이터, 사용자 지정 목록</h3>
+      <div class="step"><b>순수 데이터</b> 숫자만 또는 문자만 있으면 드래그 시 기본적으로 복사됩니다.</div>
+      <div class="step"><b>숫자 연속 데이터 채우기 4가지 방법</b> ①드래그 후 자동 채우기 옵션에서 '연속 데이터 채우기' 선택 ②Ctrl 누른 채 드래그 ③패턴을 보여주는 두 셀(1, 2)을 함께 잡고 드래그 ④홈 탭 → 편집 → 채우기 → 계열(방향: 열, 종료값 입력).</div>
+      <div class="step"><b>혼합 데이터·날짜</b> 문자+숫자 조합은 마지막 숫자가 1씩 증가하고, 날짜는 하루씩 증가합니다. 그대로 복사하고 싶으면 Ctrl을 누른 채 드래그하세요.</div>
+      <div class="step"><b>사용자 지정 목록</b> '갑을병정', '자축인묘', '월화수목금토일'은 내장돼 있어 자동 채우기가 되지만, '가나다라', 'ABCD'는 기본 목록에 없어 드래그해도 복사만 됩니다.</div>
+      <div class="exam-ex">시험 예시: "가나다라"를 드래그하면 "마바사아"로 이어진다 → 틀린 설명. 기본 목록에 없어서 그대로 복사됩니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>(실기) 데이터 유효성 검사 & 자동 고침 옵션</h3>
+      <div class="step"><b>순서</b> 범위를 먼저 지정한 뒤 데이터 탭 → 데이터 유효성 검사를 실행합니다.</div>
+      <div class="step"><b>목록 제한</b> 제한 대상을 '목록'으로 하고, 원본에 쉼표(,)로 구분해 입력합니다 (예: 월,화,수,목,금,토,일).</div>
+      <div class="step"><b>숫자 제한</b> 제한 대상을 '정수'로 하고 최소값(0)·최대값(100)을 지정합니다.</div>
+      <div class="step"><b>자동 고침 옵션</b> 파일 → 옵션 → 언어 교정 → 자동 고침 옵션에서 줄임말(우컴) → 정식 명칭(우리컴퓨터학원)을 등록하면 입력 시 자동 변환됩니다.</div>
+      <div class="step"><b>기본 서식 예시</b> (c) 입력 시 ©로, (tel) 입력 시 전화기 모양 기호로 자동 변경됩니다.</div>
+      <div class="exam-ex">시험 예시: 목록 제한의 원본 항목 구분자는 세미콜론(;)이 아니라 쉼표(,)입니다.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>(필기) 행/열 너비 조절 및 숨기기·숨기기 취소</h3>
+      <div class="step"><b>자동 조절</b> 열 머리글 경계선을 더블 클릭하면 가장 긴 데이터에 맞춰 너비가 자동 조절됩니다.</div>
+      <div class="step"><b>전체 동일 조절</b> 시트 전체 선택 후 열 머리글 경계선을 드래그하면 모든 열이 같은 너비로 바뀝니다.</div>
+      <div class="step"><b>숨기기</b> 열/행 머리글 선택 후 우클릭 → 숨기기. 숨겨진 부분은 머리글 경계선이 이중 실선으로 표시됩니다.</div>
+      <div class="step"><b>숨기기 취소 4가지 방법</b> ①숨겨진 열의 좌우 머리글을 포함해 범위 지정 후 우클릭 → 숨기기 취소 ②이중 실선에 마우스를 대고 더블 클릭 ③시트 전체 선택 후 열 너비를 특정 숫자로 일괄 변경 ④이름 상자에 A1 입력 후 엔터 → 홈 탭 → 서식 → 숨기기 및 숨기기 취소 → 열/행 숨기기 취소.</div>
+      <div class="step"><b>⚠️ 주의(필기 기출)</b> 숨겨진 행/열은 인쇄되지 않으며, 정렬(Sort) 시 위치가 이동하지 않으므로 정렬 전 반드시 숨기기를 해제해야 합니다.</div>
+      <div class="exam-ex">시험 예시: A1 셀이 숨겨져 안 보일 때는 이름 상자에 직접 'A1'을 입력해 찾아간 뒤 숨기기 취소를 실행합니다.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>(필기) 워크시트 관리 및 그룹화</h3>
+      <div class="step"><b>시트 선택</b> 연속 선택은 Shift, 비연속 선택은 Ctrl을 누른 채 클릭합니다.</div>
+      <div class="step"><b>시트 추가</b> 단축키는 Shift+F11이며, 현재 시트의 왼쪽(앞)에 추가됩니다. 우측 하단의 + 버튼은 반대로 오른쪽(뒤)에 추가돼요.</div>
+      <div class="step"><b>시트 삭제</b> 삭제된 시트는 Ctrl+Z(실행 취소)로 되살릴 수 없는 영구 삭제입니다.</div>
+      <div class="step"><b>그룹화 특징</b> 제목 표시줄에 [그룹]이 표시되고, 삽입 탭(도형·차트 등)과 데이터 탭(정렬·필터·유효성검사)의 대다수 기능이 비활성화됩니다.</div>
+      <div class="step"><b>그룹 활용</b> 여러 시트를 묶어 데이터를 입력하면 모든 시트의 동일한 셀 위치에 동시 입력되어 1월~12월 장부 틀을 짤 때 유용합니다. Ctrl 누른 채 드래그하면 여러 시트를 한 번에 복사할 수 있어요.</div>
+      <div class="step"><b>그룹 해제</b> 그룹에 포함되지 않은 다른 시트를 클릭하면 자동으로 풀립니다.</div>
+      <div class="exam-ex">시험 예시: 그룹 상태에서는 차트를 삽입할 수 없다 → 맞는 설명. 삽입 탭의 그래픽 개체 기능은 비활성화됩니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>(실기) 선택하여 붙여넣기 — 결제란 만들기</h3>
+      <div class="step"><b>목적</b> 표의 행/열 너비와 상관없이 깔끔한 결제란을 배치하기 위해 그림으로 붙여넣기를 활용합니다.</div>
+      <div class="step"><b>텍스트 세로 쓰기</b> 홈 탭 → 맞춤 그룹의 방향(가나 화살표 모양) → '세로 쓰기'를 선택합니다.</div>
+      <div class="step"><b>그림으로 붙여넣기</b> 원본 복사(Ctrl+C) 후 우클릭 → 선택하여 붙여넣기에서 선택. 원본과 링크가 끊긴 순수 이미지로 고정되어, 원본 시트를 나중에 지워도 안전합니다.</div>
+      <div class="step"><b>연결된 그림으로 붙여넣기</b> 원본 셀 텍스트를 수정(예: 담당 → 사원)하면 붙여넣은 그림 속 텍스트도 실시간 자동 업데이트됩니다. 단, 원본 시트를 삭제하면 그림이 깨집니다.</div>
+      <div class="exam-ex">시험 예시: 원본이 삭제돼도 안전한 것은 '그림으로 붙여넣기'이고, 원본과 실시간 연동되는 것은 '연결된 그림으로 붙여넣기'입니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>(실기) 시트 보호 및 통합 문서 보호</h3>
+      <div class="step"><b>기본 속성</b> 모든 셀은 기본적으로 '잠금' 속성이 체크돼 있습니다 (Ctrl+1 → 보호 탭에서 확인 가능).</div>
+      <div class="step"><b>시트 보호</b> 검토 탭에서 실행하며, 활성화하는 순간 기본적으로 잠겨 있던 모든 셀의 편집이 막힙니다.</div>
+      <div class="step"><b>서식 파일(폼) 만들기 순서</b> ①사용자가 입력해야 할 흰색 셀들만 Ctrl로 지정 → ②Ctrl+1(셀 서식) → 보호 탭 → '잠금' 체크 해제 → ③검토 탭 → 시트 보호 실행.</div>
+      <div class="step"><b>잠긴 셀 선택 옵션</b> 이 옵션을 체크 해제하면 사용자는 마우스로 잠긴 셀을 클릭조차 할 수 없고, 입력 가능한 셀로만 포인터가 이동하는 완벽한 폼 문서가 완성됩니다.</div>
+      <div class="step"><b>통합 문서 보호</b> 시트 안의 내용이 아니라 시트 자체의 구조(삽입, 삭제, 이동, 이름 바꾸기 등)를 못 하도록 막는 기능입니다.</div>
+      <div class="exam-ex">시험 예시: 시트 보호는 셀 내용을, 통합 문서 보호는 시트 구조 자체를 지키는 기능으로 구분해서 외웁니다.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>(필기) 표시 형식 — 겉모습과 실제 값은 다르다</h3>
+      <div class="step"><b>기본 원리</b> 문자 뒤에 직접 '원'을 타이핑하면 숫자가 아닌 문자로 인식되어 함수 계산이 불가능해집니다. 표시 형식으로 겉모습만 바꾸고 실제 값은 숫자로 유지해야 해요.</div>
+      <div class="step"><b>숫자 서식 코드</b> # 은 의미 없는 0을 표시하지 않고, 0 은 자릿수를 강제로 채우며 값이 0일 때도 '0'을 표시합니다.</div>
+      <div class="step"><b>★시험 단골</b> #,##0 은 세 자리마다 콤마를 찍고, 값이 0원일 때 '0원'으로 명확히 표시하는 서식입니다. 작성 예시: #,##0"원"</div>
+      <div class="step"><b>문자 서식 코드</b> @ 는 입력된 문자 데이터 자체를 의미합니다. 사용자 지정에 @"지점"을 설정하면 '서울' 입력 시 화면에 '서울지점'으로 표시됩니다.</div>
+      <div class="step"><b>날짜·시간 서식 코드</b> yy/yyyy(연도 2자리/4자리), m~mmmm(월, 개수에 따라 숫자 또는 영문 텍스트), d/dd(일), aaa(한글 요일 1글자, 예: 금)/aaaa(한글 요일 3글자, 예: 금요일).</div>
+      <div class="exam-ex">시험 예시: 셀 서식을 #,##0"원"으로 지정하면 0이 입력된 셀은 "0원"으로 표시됩니다.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>(필기) 틀 고정 및 창 나누기 — 화면 보기 전용 기능</h3>
+      <div class="step"><b>공통점</b> 인쇄에는 영향을 주지 않고, 오직 작업 화면 보기만 제어합니다 (보기 탭 → 창 그룹).</div>
+      <div class="step"><b>틀 고정 핵심 규칙</b> 항상 스크롤되기 시작할 첫 번째 셀을 선택해야 하며, 틀 고정 선은 항상 셀 포인터의 '왼쪽'과 '위쪽'에 생깁니다. 예: 1~3행과 A~B열을 고정하려면 C4 셀을 클릭한 상태에서 틀 고정을 실행합니다.</div>
+      <div class="step"><b>창 나누기</b> 서로 멀리 떨어진 데이터(예: 4행과 100행)를 한 화면에서 비교하기 위해 화면을 등분합니다. 행 선택 시 상하 2분할, 열 선택 시 좌우 2분할, 일반 셀 선택 시 최대 4분할됩니다.</div>
+      <div class="step"><b>차이점</b> 창 나누기 분할 선은 마우스로 드래그해 위치 이동이 가능하고 더블 클릭하면 해제되지만, 틀 고정 선은 마우스로 움직일 수 없습니다.</div>
+      <div class="step"><b>교재 외 꿀팁: 정답 시트와 문제 시트 나란히 비교하기</b> 보기 탭 → 새 창 클릭(동일 문서가 2번 창으로 열림) → 보기 탭 → 모두 정렬 → '세로' 선택. 왼쪽엔 내가 풀 시트, 오른쪽엔 정답 시트를 띄워 비교할 수 있습니다. 작업 후 한쪽 창을 닫으면 정상 복귀돼요.</div>
+      <div class="exam-ex">시험 예시: 틀 고정 선을 마우스로 드래그해 위치를 옮길 수 있다 → 틀린 설명. 그건 창 나누기의 특징입니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 틀린 부분</div>
+      <h3>윗주도 메모처럼 본문을 지워도 안 없어진다고 착각해요</h3>
+      <p>메모는 Delete로 셀 내용을 지워도 남지만, 윗주는 정반대입니다. 본문 텍스트를 지우면 위에 달린 윗주도 함께 자동으로 삭제됩니다.</p>
+      <p class="fix">"메모는 남고, 윗주는 같이 사라진다"로 짝지어 외우세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>숨긴 행/열을 그대로 두고 정렬해버려요</h3>
+      <p>숨겨진 행/열은 정렬(Sort) 시 위치가 이동하지 않아 데이터가 뒤섞일 수 있습니다. 또한 인쇄 시에도 자동으로 제외됩니다.</p>
+      <p class="fix">정렬하기 전엔 반드시 숨기기부터 해제하세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>시트를 그룹으로 묶은 채 차트나 정렬을 시도해요</h3>
+      <p>그룹 상태에서는 삽입 탭(도형·차트)과 데이터 탭(정렬·필터·유효성검사)의 대다수 기능이 비활성화돼 있어 눌러도 반응하지 않습니다.</p>
+      <p class="fix">그룹에 포함 안 된 다른 시트를 클릭해 그룹부터 해제한 뒤 작업하세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>숫자 뒤에 '원'을 직접 타이핑해요</h3>
+      <p>화면엔 "10000원"처럼 보여도, 문자를 직접 입력하면 더 이상 숫자가 아니라 문자 데이터가 되어 SUM 같은 함수 계산이 불가능해집니다.</p>
+      <p class="fix">값은 숫자 그대로 두고, 표시 형식에 #,##0"원"을 지정하세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>틀 고정과 창 나누기를 같은 기능으로 헷갈려요</h3>
+      <p>둘 다 화면 보기를 나누지만, 틀 고정 선은 마우스로 옮길 수 없고 창 나누기 선은 드래그로 이동·더블 클릭으로 해제할 수 있습니다.</p>
+      <p class="fix">"틀 고정 = 고정, 창 나누기 = 이동 가능"으로 구분하세요.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·서식 코드 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>단축키/코드</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>입력</td><td><code>한자 키</code></td><td>한자 변환 / 특수문자 목록 표시</td><td>노트북은 대부분 오른쪽 Alt로 대체</td></tr>
+          <tr><td>메모</td><td><code>Shift+F2</code></td><td>메모(노트) 삽입</td><td>Delete로 내용 지워도 메모는 남음</td></tr>
+          <tr><td>윗주</td><td>홈 탭 → 글꼴 → 윗주 필드 표시/숨기기</td><td>윗주 켜고 끄기</td><td>숫자엔 표시 안 됨</td></tr>
+          <tr><td>채우기</td><td><code>Ctrl</code>+드래그</td><td>숫자 1개: 복사→증가 / 숫자 2개: 증가→복사</td><td>Ctrl은 항상 반대 동작</td></tr>
+          <tr><td>시트 추가</td><td><code>Shift+F11</code></td><td>새 시트 삽입</td><td>현재 시트의 왼쪽(앞)에 추가</td></tr>
+          <tr><td>서식</td><td><code>Ctrl+1</code></td><td>셀 서식 대화상자</td><td>보호 탭에서 잠금 해제 가능</td></tr>
+          <tr><td>숫자 서식</td><td><code>#,##0"원"</code></td><td>천단위 콤마 + 0일 때 "0원" 표시</td><td>★시험 단골</td></tr>
+          <tr><td>숫자 서식</td><td><code>#</code> / <code>0</code></td><td>무의미한 0 생략 / 자릿수 강제 채움</td><td></td></tr>
+          <tr><td>문자 서식</td><td><code>@"지점"</code></td><td>입력값 뒤에 "지점" 자동 추가</td><td>예: 서울 → 서울지점</td></tr>
+          <tr><td>날짜 서식</td><td><code>aaa</code> / <code>aaaa</code></td><td>한글 요일 1글자 / 3글자</td><td>금 / 금요일</td></tr>
+          <tr><td>붙여넣기</td><td>우클릭 → 선택하여 붙여넣기</td><td>그림 / 연결된 그림으로 붙여넣기</td><td>연결된 그림은 원본과 실시간 연동</td></tr>
+          <tr><td>보호</td><td>검토 탭 → 시트 보호</td><td>셀 편집 제한 (폼 만들기)</td><td>입력 허용 셀은 잠금 해제 먼저</td></tr>
+          <tr><td>화면 보기</td><td>보기 탭 → 틀 고정</td><td>제목 행/열 고정</td><td>고정선은 선택 셀의 왼쪽·위쪽</td></tr>
+          <tr><td>화면 보기</td><td>보기 탭 → 나누기</td><td>화면 2~4분할 비교</td><td>드래그 이동·더블클릭 해제 가능</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">노트북에 한자 키가 없을 때 대부분 그 역할을 대신하는 키는?</p>
+      <button class="quiz-opt" data-correct="false">왼쪽 Ctrl</button>
+      <button class="quiz-opt" data-correct="true">오른쪽 Alt</button>
+      <button class="quiz-opt" data-correct="false">Tab</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">숫자 데이터(예: 604)에 윗주를 설정하면 화면에 어떻게 될까요?</p>
+      <button class="quiz-opt" data-correct="false">작은 글씨로 표시된다</button>
+      <button class="quiz-opt" data-correct="true">표시되지 않는다</button>
+      <button class="quiz-opt" data-correct="false">빨간색으로 강조된다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">셀의 본문 텍스트를 지웠을 때, 메모와 달리 윗주는 어떻게 될까요?</p>
+      <button class="quiz-opt" data-correct="false">그대로 남는다</button>
+      <button class="quiz-opt" data-correct="true">함께 자동으로 삭제된다</button>
+      <button class="quiz-opt" data-correct="false">숨김 처리된다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">'가나다라'를 입력하고 채우기 핸들로 드래그하면 어떻게 될까요? (사용자 지정 목록에 미등록 상태)</p>
+      <button class="quiz-opt" data-correct="false">마바사아로 이어진다</button>
+      <button class="quiz-opt" data-correct="true">그대로 복사된다</button>
+      <button class="quiz-opt" data-correct="false">오류가 발생한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">데이터 유효성 검사에서 '목록'으로 제한할 때, 원본 항목은 어떤 기호로 구분해서 입력할까요?</p>
+      <button class="quiz-opt" data-correct="false">세미콜론(;)</button>
+      <button class="quiz-opt" data-correct="true">쉼표(,)</button>
+      <button class="quiz-opt" data-correct="false">콜론(:)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">숨겨진 행이나 열은 인쇄할 때 어떻게 될까요?</p>
+      <button class="quiz-opt" data-correct="true">출력되지 않는다</button>
+      <button class="quiz-opt" data-correct="false">회색으로 흐리게 출력된다</button>
+      <button class="quiz-opt" data-correct="false">정상 출력된다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">숨겨진 행이나 열이 있는 상태로 정렬(Sort)을 실행하면?</p>
+      <button class="quiz-opt" data-correct="false">숨겨진 행/열도 함께 정상적으로 이동한다</button>
+      <button class="quiz-opt" data-correct="true">숨겨진 행/열은 위치가 이동하지 않는다</button>
+      <button class="quiz-opt" data-correct="false">정렬 자체가 실행되지 않는다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">여러 시트를 그룹으로 묶었을 때 비활성화되는 기능은?</p>
+      <button class="quiz-opt" data-correct="false">글꼴 크기 변경</button>
+      <button class="quiz-opt" data-correct="true">삽입 탭의 도형·차트 삽입</button>
+      <button class="quiz-opt" data-correct="false">셀 색 채우기</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">표시 형식을 #,##0"원"으로 지정했을 때, 값이 0인 셀은 어떻게 표시될까요?</p>
+      <button class="quiz-opt" data-correct="false">아무것도 표시되지 않는다</button>
+      <button class="quiz-opt" data-correct="true">0원</button>
+      <button class="quiz-opt" data-correct="false">공백(빈칸)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">1~3행과 A~B열을 고정하려고 합니다. 어느 셀을 선택한 상태에서 틀 고정을 실행해야 할까요?</p>
+      <button class="quiz-opt" data-correct="false">A1</button>
+      <button class="quiz-opt" data-correct="true">C4</button>
+      <button class="quiz-opt" data-correct="false">B3</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">한자 키(또는 오른쪽 Alt)로 한자·특수문자 입력해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">메모(Shift+F2)와 윗주(홈 탭 → 글꼴)를 각각 넣고 본문 삭제 시 차이 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">'가나다라'와 '월화수목금토일'을 각각 드래그해 채우기 결과 비교해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">데이터 유효성 검사로 목록 제한 만들어보기 (쉼표 구분)</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">열/행을 숨기고 인쇄 미리보기·정렬로 실제 동작 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">시트 여러 개를 그룹으로 묶고 삽입 탭이 비활성화되는지 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">그림으로 붙여넣기 vs 연결된 그림으로 붙여넣기 차이 실습해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">셀 잠금 해제 후 시트 보호로 간단한 입력 폼 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">#,##0"원", @"지점" 서식 코드를 직접 셀 서식에 입력해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">C4 셀에서 틀 고정 실행하고, 창 나누기와 차이 비교해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '3차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
