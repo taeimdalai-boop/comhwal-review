@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5차시 복습자료 | 컴활2급 - 인쇄설정 복습·정렬·자동필터·고급필터·함수기초·참조</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">5차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>5차시 복습자료</h1>
+  <p class="meta"><b>2026-07-10</b><br>인쇄 설정 복습(루틴), 정렬(범위 인식·다중 기준·사용자 지정 목록), 자동 필터, 고급 필터(AND/OR), 함수 기초, 참조(상대·절대·혼합)</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">인쇄 설정 루틴 · 정렬 · 자동/고급 필터</span>
+      <span class="tag">함수 기초 · 참조(상대·절대·혼합)</span>
+    </div>
+    <h1>오늘의 핵심은 "인쇄·정렬·필터는 순서(루틴)대로, 함수는 참조를 고정할 곳과 움직일 곳을 구분하는 것"입니다.</h1>
+    <p class="sub">2026-07-10 · 5차시 · 인쇄 설정 3단계 루틴(페이지 나누기 미리 보기→Ctrl+P→페이지 설정), 정렬(데이터 범위 인식·다중 기준·셀 색·사용자 지정 목록), 자동 필터(숨김·AND 조건), 고급 필터(조건 목록·같은 줄 AND/다른 줄 OR), 함수 기초(SUM·AVERAGE·COUNT 계열·SUMIF·AVERAGEIF·COUNTIF), 참조(상대·절대·혼합·F4)</p>
+    <div class="key-badges">
+      <span class="key-badge">🖨️ 인쇄 3단계 루틴</span>
+      <span class="key-badge">↕️ 정렬·범위 인식</span>
+      <span class="key-badge">🔍 자동 필터</span>
+      <span class="key-badge">🎯 고급 필터 AND/OR</span>
+      <span class="key-badge">🧮 함수 기초</span>
+      <span class="key-badge">📌 참조·F4</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>인쇄 설정은 3단계 루틴으로</h3>
+        <p>①보기 탭 → 페이지 나누기 미리 보기로 영역 확인 → ②Ctrl+P로 전체 그림 확인 → ③페이지 설정에서 여백·반복할 행·배율 등 세부 조정. 이 순서를 루틴으로 만들면 외우지 않아도 몸이 기억합니다.</p>
+        <div class="use">암기: "보기 바꾸고 → Ctrl+P로 보고 → 페이지 설정에서 고친다"</div>
+      </div>
+
+      <div class="card">
+        <h3>정렬은 엑셀이 표를 알아봐야 된다</h3>
+        <p>표 위에 "단위: 천원" 같은 문구가 붙어 있으면 엑셀이 데이터 범위를 인식하지 못해 정렬이 제대로 안 됩니다. 이럴 땐 범위를 직접 선택(B3에서 Ctrl+Shift+방향키)해서 알려줘야 합니다.</p>
+        <div class="use">Ctrl+A를 눌러보면 엑셀이 표를 인식하는지 바로 확인 가능</div>
+      </div>
+
+      <div class="card">
+        <h3>다중 기준 정렬 + 셀 색 정렬</h3>
+        <p>정렬 대화상자에서 기준 추가로 2차·3차 기준을 넣을 수 있고, 셀 값뿐 아니라 셀 색·글꼴 색으로도 정렬할 수 있습니다. 조합·회원사처럼 가나다순이 아닌 순서는 사용자 지정 목록으로 정렬합니다.</p>
+        <div class="use">사용자 지정 목록은 입력 후 반드시 '추가' 버튼을 눌러야 저장됨</div>
+      </div>
+
+      <div class="card">
+        <h3>자동 필터 = 숨기기, 지우기 아님</h3>
+        <p>자동 필터는 조건에 맞지 않는 행을 삭제하는 게 아니라 숨깁니다. 필터가 걸린 상태에서 복사하면 화면에 보이는 데이터만 복사됩니다. 여러 필드에 조건을 걸면 AND로 동작합니다.</p>
+        <div class="use">서로 다른 필드의 OR 조건은 자동 필터로 안 됨 → 고급 필터</div>
+      </div>
+
+      <div class="card">
+        <h3>고급 필터: 같은 줄 AND, 다른 줄 OR</h3>
+        <p>고급 필터는 조건 목록을 먼저 만들어야 하고, 필드명은 원본 표와 똑같이 적어야 합니다. 조건을 같은 줄에 쓰면 AND(그리고), 다른 줄에 쓰면 OR(또는)입니다.</p>
+        <div class="use">★시험 단골: 조건 배치만 보고 AND인지 OR인지 판단하기</div>
+      </div>
+
+      <div class="card">
+        <h3>함수 기초: =함수명(인수)</h3>
+        <p>함수는 =로 시작하고 함수명 뒤 괄호에 인수를 넣습니다. SUM·AVERAGE·MAX·MIN, 개수 세는 COUNT(숫자)·COUNTA(비어있지 않은 셀)·COUNTBLANK(빈 셀)를 구분해야 합니다.</p>
+        <div class="use">함수 자동완성 목록에서 선택은 Enter가 아니라 Tab</div>
+      </div>
+
+      <div class="card">
+        <h3>조건부 집계: SUMIF·AVERAGEIF·COUNTIF</h3>
+        <p>SUMIF(조건 검사 범위, 조건, 합계 범위) 순서입니다. AVERAGEIF도 같은 구조이고, COUNTIF는 (범위, 조건)만 씁니다. 채우기 핸들로 복사할 땐 범위를 절대 참조로 고정해야 합니다.</p>
+        <div class="use">암기: "어디서 찾을지 → 뭘 찾을지 → 뭘 더할지"</div>
+      </div>
+
+      <div class="card">
+        <h3>참조: 상대·절대·혼합, F4로 순환</h3>
+        <p>채우기 핸들을 아래로 내리면 행 번호가, 오른쪽으로 끌면 열 문자가 변합니다. $C$7은 절대(둘 다 고정), $B8은 열 고정, C$7은 행 고정. F4를 누르면 네 가지 형태가 순환됩니다.</p>
+        <div class="use">고정하고 싶은 것 앞에 $ — "달러는 자물쇠"</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>인쇄 설정 3단계 루틴 (복습 + 심화)</h3>
+      <div class="step"><b>1단계</b> 보기 탭 → 페이지 나누기 미리 보기. 인쇄 영역에 쓸데없는 내용(단가표·메모 등)이 포함됐는지 확인하고, 파란 경계선을 드래그해 조정합니다.</div>
+      <div class="step"><b>2단계</b> Ctrl+P로 인쇄 미리 보기. 여백·치우침·머리글 유무·페이지 번호 필요 여부를 끝 페이지까지 쭉 확인하고, 고칠 목록을 메모합니다.</div>
+      <div class="step"><b>3단계</b> 페이지 설정 대화상자에서 하나씩 해결: 여백 탭 가로/세로 가운데 맞춤, 시트 탭 반복할 행, 머리글/바닥글, 배율 조정.</div>
+      <div class="step"><b>주의</b> 인쇄 미리 보기 상태에서는 반복할 행을 지정할 수 없습니다. ESC로 빠져나온 뒤 페이지 레이아웃 탭 → 인쇄 제목에서 지정하세요.</div>
+      <div class="step"><b>레코드 균등 배치</b> 전체 레코드 수(예: 224개)를 세고(Ctrl+Shift+↓) 목표 페이지 수로 나눠(224÷7=32) 페이지 나누기 선을 32개씩 끊어지게 옮깁니다. 상태 표시줄의 개수를 보면서 세면 편합니다.</div>
+      <div class="exam-ex">시험 예시: "내용이 왼쪽으로 치우쳐 있을 때 빈 열을 삽입한다"는 틀린 방법 — 여백 탭의 가로 가운데 맞춤을 써야 합니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>정렬 — 엑셀이 데이터베이스를 인식해야 한다</h3>
+      <div class="step"><b>정상 케이스</b> 표가 깔끔하면 셀 하나만 클릭하고 데이터 탭 → 오름차순/내림차순을 눌러도 알아서 전체가 정렬됩니다.</div>
+      <div class="step"><b>문제 케이스</b> 표 위에 "단위: 1000원" 같은 문구가 셀에 입력돼 있으면 엑셀이 어디까지가 표인지 인식하지 못합니다. Ctrl+A를 눌러 표 전체가 선택되는지로 인식 여부를 확인할 수 있습니다.</div>
+      <div class="step"><b>해결법</b> 범위를 직접 선택해 알려줍니다: 필드명 첫 셀(예: B3) 클릭 → Ctrl+Shift+→ → Ctrl+Shift+↓ 그리고 정렬 실행.</div>
+      <div class="step"><b>다중 기준</b> 정렬 대화상자에서 '기준 추가'로 1차(부서명 오름차순) → 2차(중형차의 셀 색이 파란색 계열 먼저) 같은 복합 정렬이 가능합니다.</div>
+      <div class="step"><b>사용자 지정 목록</b> 조합→회원사→비회원사처럼 가나다순이 아닌 순서로 정렬하려면 사용자 지정 목록에 순서를 입력하고 반드시 '추가' 버튼을 누른 뒤 사용합니다.</div>
+      <div class="step"><b>합계 행 주의</b> 표 아래 합계(요약) 행이 붙어 있으면 정렬 범위에서 제외해야 합니다. 그러지 않으면 합계 행이 데이터 사이에 섞여 버립니다.</div>
+      <div class="exam-ex">시험 예시: 문제 지문은 끊어 읽으세요 — "부서명을 기준으로 오름차순, 동일한 부서일 경우 중형차의 셀 색이 위에 오도록" = 기준 2개.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>자동 필터 — 조건에 맞는 것만 보이게</h3>
+      <div class="step"><b>켜기/끄기</b> 표 안에 셀 포인터를 두고 데이터 탭 → 필터. 필드명에 ▼ 단추가 생깁니다.</div>
+      <div class="step"><b>동작 원리</b> 조건에 맞지 않는 행은 삭제되는 게 아니라 숨겨집니다. 행 번호가 파란색으로 띄엄띄엄 보이면 필터가 걸린 상태입니다.</div>
+      <div class="step"><b>숫자 필터</b> 크거나 같음(이상), 보다 큼(초과), 보다 작음(미만), 크거나 같고~작거나 같음(사이) 등 조건을 지정할 수 있습니다.</div>
+      <div class="step"><b>복사 특징</b> 필터가 걸린 상태에서 복사하면 화면에 보이는 데이터만 복사됩니다. 필요한 데이터만 뽑아 옮길 때 유용합니다.</div>
+      <div class="step"><b>한계</b> 여러 필드에 조건을 걸면 AND(모두 만족)로만 동작합니다. "부서가 영업1부이거나 직급이 과장"처럼 서로 다른 필드의 OR 조건은 자동 필터로 안 됩니다.</div>
+      <div class="exam-ex">시험 예시: "자동 필터를 적용하면 조건에 맞지 않는 데이터는 삭제된다" — 틀린 설명, 숨겨질 뿐입니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>고급 필터 — 조건 목록을 먼저 만든다</h3>
+      <div class="step"><b>순서</b> ①빈 곳에 조건 목록 작성(필드명 + 조건) → ②데이터 탭 → 고급 → ③목록 범위·조건 범위·결과 위치 지정.</div>
+      <div class="step"><b>필드명 일치</b> 조건 목록의 필드명은 원본 표의 필드명과 완전히 같아야 합니다. 오타가 나면 조건이 무시됩니다.</div>
+      <div class="step"><b>AND vs OR</b> 조건을 같은 줄에 쓰면 AND("그리고"), 다른 줄에 쓰면 OR("또는")입니다. 이게 고급 필터의 핵심입니다.</div>
+      <div class="step"><b>다른 위치에 결과 복사</b> '다른 장소에 복사'를 선택하면 원본은 그대로 두고 결과만 추출됩니다.</div>
+      <div class="step"><b>일부 필드만 추출</b> 결과 위치에 추출하고 싶은 필드명들을 미리 복사해 두고, '복사 위치'에 그 필드명 범위 전체를 지정합니다. 시작 셀 하나만 지정하면 안 됩니다.</div>
+      <div class="step"><b>비교 연산자</b> >=(이상), >(초과), <=(이하), <(미만), <>(같지 않다). =>나 =<처럼 순서를 바꿔 쓰면 안 됩니다.</div>
+      <div class="exam-ex">시험 예시: 조건 목록에서 "영업부 / >=3000000"이 같은 줄 → 영업부이면서 급여 300만 이상(AND). 줄이 다르면 OR.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>함수 기초 — 구조와 입력 요령</h3>
+      <div class="step"><b>기본 구조</b> =함수명(인수1, 인수2, …). 반드시 =로 시작하고, 인수의 개수와 순서는 함수마다 정해져 있습니다.</div>
+      <div class="step"><b>입력 요령</b> =su까지 치면 자동완성 목록이 뜹니다. 여기서 Enter가 아니라 Tab을 눌러야 함수가 선택되며 괄호까지 자동으로 입력됩니다.</div>
+      <div class="step"><b>기본 5총사</b> SUM(합계), AVERAGE(평균), MAX(최댓값), MIN(최솟값), 그리고 개수 3형제.</div>
+      <div class="step"><b>개수 3형제 구분</b> COUNT는 숫자가 들어 있는 셀만, COUNTA는 비어 있지 않은 모든 셀, COUNTBLANK는 빈 셀만 셉니다.</div>
+      <div class="step"><b>조건부 집계</b> SUMIF(조건 검사 범위, 조건, 합계 범위) / AVERAGEIF(조건 범위, 조건, 평균 범위) / COUNTIF(범위, 조건). "어디서 찾을지 → 뭘 찾을지 → 뭘 계산할지" 순서로 기억하세요.</div>
+      <div class="step"><b>확인 도구</b> Ctrl+~(수식 표시), F9(수식 일부를 계산값으로 확인), F2(셀 수식 편집), fx 버튼(함수 인수 대화상자).</div>
+      <div class="exam-ex">시험 예시: SUMIF의 세 번째 인수(합계 범위)를 빼먹거나, 조건 범위와 합계 범위를 서로 바꿔 쓰는 문제가 단골로 출제됩니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>참조 — 상대·절대·혼합, 그리고 F4</h3>
+      <div class="step"><b>참조란</b> 셀 주소를 수식에 써서 그 셀의 값을 가져다 쓰는 것입니다. 값이 바뀌면 수식 결과도 자동으로 바뀝니다.</div>
+      <div class="step"><b>상대 참조</b> C7처럼 그냥 쓰면 채우기 핸들로 복사할 때 주소가 따라 움직입니다. 아래로 내리면 행 번호가, 오른쪽으로 끌면 열 문자가 변합니다.</div>
+      <div class="step"><b>절대 참조</b> $C$7 — 열과 행 모두 고정. 어디로 복사해도 항상 같은 셀을 봅니다.</div>
+      <div class="step"><b>혼합 참조</b> $B8은 열만 고정(B는 안 변하고 8은 변함), C$7은 행만 고정(C는 변하고 7은 안 변함).</div>
+      <div class="step"><b>F4 키</b> 주소를 입력한 뒤 F4를 누르면 C7 → $C$7 → C$7 → $C7 순으로 순환됩니다.</div>
+      <div class="step"><b>실전 원칙</b> SUMIF·COUNTIF의 조건 범위·합계 범위처럼 "모든 행이 같은 범위를 봐야 하는 것"은 절대 참조로 고정하고, 조건처럼 행마다 달라져야 하는 것은 상대 참조로 둡니다.</div>
+      <div class="exam-ex">시험 예시: 채우기 핸들로 아래로 복사했더니 결과가 이상하다 → 범위가 절대 참조로 고정되지 않아 함께 밀려 내려간 경우가 대부분입니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 틀린 부분</div>
+      <h3>고급 필터에서 AND와 OR의 줄 배치를 반대로 써요</h3>
+      <p>"영업부이면서 300만 이상"(AND)인데 조건을 두 줄에 나눠 쓰거나, "영업부이거나 300만 이상"(OR)인데 한 줄에 쓰는 실수가 가장 많습니다.</p>
+      <p class="fix">"같은 줄 = 그리고(AND), 다른 줄 = 또는(OR)" — 이 한 문장만 확실히 외우세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>표 위 "단위: 천원" 문구를 그대로 두고 정렬해요</h3>
+      <p>표 위에 문구가 셀로 입력돼 있으면 엑셀이 데이터 범위를 잘못 인식해 정렬이 제대로 되지 않거나 엉뚱한 범위가 선택됩니다.</p>
+      <p class="fix">범위를 직접 선택(첫 필드명 셀에서 Ctrl+Shift+방향키)해서 엑셀에게 표를 알려주세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>채우기 핸들 복사에서 범위를 고정하지 않아요</h3>
+      <p>SUMIF·COUNTIF를 아래로 복사할 때 조건 범위·합계 범위를 절대 참조($)로 고정하지 않으면 범위가 한 칸씩 밀려 내려가 결과가 틀어집니다.</p>
+      <p class="fix">범위를 지정한 직후 F4를 눌러 $를 붙이는 습관을 들이세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>비교 연산자를 =>, =&lt; 로 거꾸로 써요</h3>
+      <p>이상은 >=, 이하는 <=입니다. 등호를 앞에 쓰면 엑셀이 인식하지 못합니다. "같지 않다"는 <>입니다.</p>
+      <p class="fix">"부등호 먼저, 등호 나중" — >=, <= 순서를 소리 내어 외우세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>함수 자동완성에서 Enter를 눌러버려요</h3>
+      <p>자동완성 목록에서 Enter를 누르면 함수가 선택되지 않고 입력이 끝나버리는 경우가 있습니다.</p>
+      <p class="fix">자동완성 목록에서는 Tab 키로 선택하세요. 괄호까지 자동으로 입력됩니다.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>사용자 지정 목록을 입력만 하고 '추가'를 안 눌러요</h3>
+      <p>정렬용 사용자 지정 목록에 순서를 입력한 뒤 '추가' 버튼을 누르지 않으면 목록이 저장되지 않아 정렬에 적용되지 않습니다.</p>
+      <p class="fix">입력 → 추가 → 확인, 세 단계를 끝까지 진행하세요.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·함수 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>단축키/함수</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>인쇄</td><td>보기 탭 → 페이지 나누기 미리 보기</td><td>인쇄 영역 확인·경계선 조정</td><td>인쇄 루틴 1단계</td></tr>
+          <tr><td>인쇄</td><td><code>Ctrl+P</code></td><td>인쇄 미리 보기</td><td>인쇄 루틴 2단계</td></tr>
+          <tr><td>인쇄</td><td>페이지 설정 → 여백 → 가운데 맞춤</td><td>내용을 용지 가운데 배치</td><td>빈 열 삽입 금지</td></tr>
+          <tr><td>인쇄</td><td>페이지 설정 → 시트 → 반복할 행</td><td>모든 페이지에 제목 행 반복</td><td>미리 보기에서는 설정 불가</td></tr>
+          <tr><td>정렬</td><td>데이터 탭 → 정렬</td><td>다중 기준·셀 색·사용자 지정 목록 정렬</td><td>기준 추가로 2차·3차</td></tr>
+          <tr><td>정렬</td><td>정렬 → 사용자 지정 목록</td><td>가나다순이 아닌 순서로 정렬</td><td>입력 후 '추가' 필수</td></tr>
+          <tr><td>필터</td><td>데이터 탭 → 필터</td><td>자동 필터 켜기/끄기</td><td>숨김이지 삭제 아님</td></tr>
+          <tr><td>필터</td><td>숫자 필터 → 크거나 같음/보다 작음</td><td>이상/미만 조건 필터링</td><td></td></tr>
+          <tr><td>필터</td><td>데이터 탭 → 고급</td><td>고급 필터 실행</td><td>조건 목록 먼저 작성</td></tr>
+          <tr><td>선택</td><td><code>Ctrl+A</code></td><td>현재 데이터 영역 전체 선택</td><td>표 인식 여부 확인용</td></tr>
+          <tr><td>선택</td><td><code>Ctrl+Shift+방향키</code></td><td>연속 데이터 끝까지 선택</td><td>범위 직접 지정</td></tr>
+          <tr><td>편집</td><td><code>Shift+F11</code></td><td>새 워크시트 삽입</td><td></td></tr>
+          <tr><td>편집</td><td><code>F2</code> / <code>F9</code> / <code>Ctrl+~</code></td><td>수식 편집 / 부분 계산 확인 / 수식 표시</td><td>수식 디버깅 3종</td></tr>
+          <tr><td>참조</td><td><code>F4</code></td><td>상대→절대→행고정→열고정 순환</td><td>$C$7, C$7, $C7</td></tr>
+          <tr><td>함수</td><td><code>SUM / AVERAGE / MAX / MIN</code></td><td>합계 / 평균 / 최댓값 / 최솟값</td><td>기본 4총사</td></tr>
+          <tr><td>함수</td><td><code>COUNT / COUNTA / COUNTBLANK</code></td><td>숫자 셀 / 비어있지 않은 셀 / 빈 셀 개수</td><td>★구분 시험 단골</td></tr>
+          <tr><td>함수</td><td><code>SUMIF / AVERAGEIF / COUNTIF</code></td><td>조건에 맞는 합계 / 평균 / 개수</td><td>범위는 절대 참조 고정</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">인쇄 설정의 올바른 기본 순서(루틴)는?</p>
+      <button class="quiz-opt" data-correct="true">페이지 나누기 미리 보기 → Ctrl+P 확인 → 페이지 설정</button>
+      <button class="quiz-opt" data-correct="false">페이지 설정 → 페이지 나누기 미리 보기 → Ctrl+P</button>
+      <button class="quiz-opt" data-correct="false">Ctrl+P → 셀 크기 조정 → 인쇄</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">한 장 인쇄에서 내용이 왼쪽으로 치우쳐 보일 때 올바른 해결 방법은?</p>
+      <button class="quiz-opt" data-correct="false">표 앞에 빈 열을 삽입한다</button>
+      <button class="quiz-opt" data-correct="true">페이지 설정 → 여백에서 가로 가운데 맞춤을 지정한다</button>
+      <button class="quiz-opt" data-correct="false">글자 크기와 셀 너비를 늘린다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">표 위에 "단위: 천원" 문구가 셀에 입력되어 있어 정렬이 제대로 안 될 때 올바른 해결 방법은?</p>
+      <button class="quiz-opt" data-correct="false">문구를 무시하고 정렬 버튼을 계속 누른다</button>
+      <button class="quiz-opt" data-correct="true">필드명 첫 셀부터 Ctrl+Shift+방향키로 범위를 직접 선택하고 정렬한다</button>
+      <button class="quiz-opt" data-correct="false">표 전체를 다른 시트로 옮겨야만 정렬할 수 있다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">자동 필터를 적용했을 때 조건에 맞지 않는 데이터는 어떻게 될까요?</p>
+      <button class="quiz-opt" data-correct="false">완전히 삭제된다</button>
+      <button class="quiz-opt" data-correct="true">삭제되지 않고 숨겨진다</button>
+      <button class="quiz-opt" data-correct="false">다른 시트로 이동한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">서로 다른 필드의 OR 조건(예: 부서가 영업1부이거나 급여가 300만 이상)을 처리하려면?</p>
+      <button class="quiz-opt" data-correct="false">자동 필터에서 두 필드에 각각 조건을 건다</button>
+      <button class="quiz-opt" data-correct="true">고급 필터에서 조건을 서로 다른 줄에 적는다</button>
+      <button class="quiz-opt" data-correct="false">정렬을 두 번 실행한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">고급 필터 조건 목록에서 두 조건을 같은 줄에 나란히 적으면 어떤 의미일까요?</p>
+      <button class="quiz-opt" data-correct="true">AND (두 조건을 모두 만족)</button>
+      <button class="quiz-opt" data-correct="false">OR (둘 중 하나만 만족)</button>
+      <button class="quiz-opt" data-correct="false">첫 번째 조건만 적용</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">비어 있지 않은 모든 셀(숫자·문자 모두)의 개수를 세는 함수는?</p>
+      <button class="quiz-opt" data-correct="false">COUNT</button>
+      <button class="quiz-opt" data-correct="true">COUNTA</button>
+      <button class="quiz-opt" data-correct="false">COUNTBLANK</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">SUMIF 함수의 올바른 인수 순서는?</p>
+      <button class="quiz-opt" data-correct="false">(합계 범위, 조건, 조건 검사 범위)</button>
+      <button class="quiz-opt" data-correct="true">(조건 검사 범위, 조건, 합계 범위)</button>
+      <button class="quiz-opt" data-correct="false">(조건, 조건 검사 범위, 합계 범위)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">혼합 참조 C$7의 의미로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">열(C)만 고정된다</button>
+      <button class="quiz-opt" data-correct="true">행(7)만 고정된다</button>
+      <button class="quiz-opt" data-correct="false">열과 행이 모두 고정된다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">"같지 않다"를 의미하는 비교 연산자는?</p>
+      <button class="quiz-opt" data-correct="false">=!</button>
+      <button class="quiz-opt" data-correct="true">&lt;&gt;</button>
+      <button class="quiz-opt" data-correct="false">=&lt;</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">인쇄 3단계 루틴(페이지 나누기 미리 보기 → Ctrl+P → 페이지 설정)을 직접 실행해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">레코드 수를 세고(Ctrl+Shift+↓) 페이지 나누기 선을 옮겨 균등 배치해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">"단위: 천원" 문구가 있는 표에서 범위 직접 선택 후 정렬해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">정렬 대화상자에서 기준 2개(값 + 셀 색) 정렬 실습해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">사용자 지정 목록을 만들어(입력 → 추가) 정렬에 적용해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">자동 필터로 숫자 조건(이상/미만) 걸고 보이는 데이터만 복사해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">고급 필터 조건 목록을 같은 줄(AND)과 다른 줄(OR)로 각각 만들어 결과 비교하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">COUNT / COUNTA / COUNTBLANK를 같은 범위에 써서 결과 차이 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">SUMIF를 입력하고 채우기 핸들로 복사하며 F4로 범위 고정 연습하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">셀 주소에 F4를 반복해서 눌러 참조 4가지 형태 순환 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '5차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
