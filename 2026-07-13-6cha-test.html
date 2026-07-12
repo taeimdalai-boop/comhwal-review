@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6차시 복습자료 [테스트용 샘플] | 컴활2급 - VLOOKUP·INDEX/MATCH</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+.test-banner{
+  background:var(--red); color:var(--white); text-align:center; font-weight:700;
+  font-size:13px; padding:8px 12px; position:relative; z-index:60;
+}
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:36px; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar .badge.test{ background:var(--red-bg); color:var(--red); margin-left:6px; }
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; margin-top:36px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; top:36px; }
+  .sidebar{
+    top:90px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; margin-top:36px; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="test-banner">⚠️ 이 페이지는 하네스 동작 테스트용 가상 샘플입니다 (실제 6차시 수업 자료 아님)</div>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">6차시 복습자료 [테스트]</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span><span class="badge test">테스트 샘플</span>
+  <h1>6차시 복습자료</h1>
+  <p class="meta"><b>2026-07-13 (가상 테스트)</b><br>VLOOKUP 실무 조회, INDEX+MATCH(왼쪽 조회·역방향 조회), 절대참조 실전 적용, VLOOKUP 4대 오류</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">VLOOKUP 실무 조회</span>
+      <span class="tag">INDEX+MATCH · 절대참조 실전</span>
+    </div>
+    <h1>오늘의 핵심은 "VLOOKUP은 왼쪽 열만 찾을 수 있고, INDEX+MATCH는 방향 제약 없이 어디든 찾을 수 있다"는 것입니다.</h1>
+    <p class="sub">2026-07-13 (가상 테스트) · 6차시 · 공정코드 참조표로 VLOOKUP 실습, 공정명 → 코드 역방향 조회는 INDEX+MATCH로만 가능, 절대참조로 채우기 핸들 복사 시 범위 고정, VLOOKUP 4대 오류(#N/A·#REF!·근사값 오류·복사 오류) 정리</p>
+    <div class="key-badges">
+      <span class="key-badge">🔎 VLOOKUP</span>
+      <span class="key-badge">🔁 INDEX+MATCH</span>
+      <span class="key-badge">📌 절대참조 $</span>
+      <span class="key-badge">🚨 4대 오류</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>VLOOKUP은 첫 번째 열만 검색 기준</h3>
+        <p>VLOOKUP(찾을값, 범위, 열번호, 0)에서 "찾을값"은 항상 범위의 맨 왼쪽 열에 있어야 합니다. 공정코드(왼쪽)로 공정명·위치·담당팀장(오른쪽 열들)을 찾는 구조입니다.</p>
+        <div class="use">암기: "왼쪽에서 찾아서 오른쪽으로 이동"</div>
+      </div>
+
+      <div class="card">
+        <h3>열번호는 범위 기준 상대 위치</h3>
+        <p>열번호는 시트 전체 열(A, B, C…)이 아니라 지정한 범위 안에서 몇 번째 열인지입니다. 참조표가 A~E열이면 공정명=2, 위치=3, 담당팀장=4, 특이사항=5입니다.</p>
+        <div class="use">범위 밖 열번호를 쓰면 #REF! 오류 발생</div>
+      </div>
+
+      <div class="card">
+        <h3>마지막 인수는 반드시 0(정확히 일치)</h3>
+        <p>코드나 이름처럼 정확히 일치하는 값을 찾을 때는 마지막 인수를 0(또는 FALSE)로 씁니다. 1(TRUE)을 쓰면 근사값을 찾아 엉뚱한 결과가 나옵니다.</p>
+        <div class="use">시험 단골: 마지막 인수를 생략하거나 1로 잘못 쓰는 실수</div>
+      </div>
+
+      <div class="card">
+        <h3>VLOOKUP의 한계 = 왼쪽 조회 불가</h3>
+        <p>공정명으로 공정코드를 거꾸로 찾는 것처럼, 찾을값이 결과값보다 오른쪽에 있으면 VLOOKUP으로는 안 됩니다. 표 구조를 바꾸지 않고 해결하려면 INDEX+MATCH가 필요합니다.</p>
+        <div class="use">"VLOOKUP은 한쪽 방향(왼→오)만" 기억하기</div>
+      </div>
+
+      <div class="card">
+        <h3>INDEX+MATCH 구조</h3>
+        <p>MATCH(찾을값, 검색범위, 0)가 위치 번호를 찾고, INDEX(결과범위, 위치번호)가 그 위치의 값을 꺼냅니다. 검색범위와 결과범위가 서로 다른 열이어도 상관없습니다.</p>
+        <div class="use">암기: "MATCH가 몇 번째인지 찾으면, INDEX가 그 자리 값을 꺼낸다"</div>
+      </div>
+
+      <div class="card">
+        <h3>INDEX+MATCH 3가지 장점</h3>
+        <p>① 왼쪽 열도 검색 기준으로 쓸 수 있고(역방향 조회) ② 표 중간에 열을 삽입해도 수식이 깨지지 않으며 ③ 대용량 데이터에서 VLOOKUP보다 속도가 빠릅니다.</p>
+        <div class="use">실무에서는 VLOOKUP보다 INDEX+MATCH를 더 많이 씁니다</div>
+      </div>
+
+      <div class="card">
+        <h3>절대참조로 범위 고정 필수</h3>
+        <p>VLOOKUP·MATCH의 범위 인수는 채우기 핸들로 아래로 복사해도 항상 같은 곳을 봐야 하므로 $A$4:$E$9처럼 절대참조로 고정합니다. 찾을값(첫 셀)만 상대참조로 둡니다.</p>
+        <div class="use">범위 지정 직후 F4를 눌러 $ 붙이는 습관</div>
+      </div>
+
+      <div class="card">
+        <h3>VLOOKUP 오류 4가지 원인</h3>
+        <p>#N/A(찾는 값이 범위에 없음·스펠링 오류), #REF!(열번호가 범위 열 수보다 큼), 근사값 오류(마지막 인수 1로 설정), 복사 오류(범위가 상대참조라 밀림)로 나뉩니다.</p>
+        <div class="use">오류가 나면 이 4가지 순서로 원인을 점검</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>VLOOKUP — 공정코드로 정보 조회하기</h3>
+      <div class="step"><b>상황</b> 공정코드 참조표(A열 공정코드~E열 특이사항)가 있고, 날짜별 실적표에서 공정코드만 보고 공정명·위치·담당팀장을 채워 넣어야 합니다.</div>
+      <div class="step"><b>수식</b> =VLOOKUP(B2, 참조표!$A$4:$E$9, 2, 0) — B2(공정코드)를 참조표 범위에서 찾아 2번째 열(공정명)을 반환합니다.</div>
+      <div class="step"><b>범위 고정</b> 참조표 범위는 절대참조($A$4:$E$9)로 고정해야, 아래로 채우기 핸들 복사를 해도 범위가 함께 밀리지 않습니다.</div>
+      <div class="step"><b>열번호 확장</b> 위치는 열번호 3, 담당팀장은 열번호 4로 바꿔서 옆으로 복사하면 나머지 항목도 채워집니다.</div>
+      <div class="exam-ex">시험 예시: 참조표가 A~E열(5개 열)인데 열번호에 6을 쓰면 #REF! 오류가 발생합니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>VLOOKUP의 한계 — 왼쪽 열은 못 찾는다</h3>
+      <div class="step"><b>문제 상황</b> 이번엔 반대로 "공정명"을 알고 있고 거기서 "공정코드"와 "월 목표량"을 찾아야 합니다. 그런데 참조표에서 공정명은 공정코드보다 오른쪽에 있습니다.</div>
+      <div class="step"><b>왜 안 되나</b> VLOOKUP은 항상 범위의 첫 번째(가장 왼쪽) 열에서만 찾을값을 검색합니다. 공정명이 왼쪽에 없으므로 VLOOKUP으로는 이 조회가 불가능합니다.</div>
+      <div class="step"><b>대안</b> 표의 열 순서를 바꾸지 않고 해결하려면 INDEX+MATCH를 씁니다.</div>
+      <div class="exam-ex">시험 예시: "찾을 값이 범위의 맨 왼쪽 열에 없어도 VLOOKUP으로 찾을 수 있다" — 틀린 설명입니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>INDEX+MATCH — 방향 제약 없는 조회</h3>
+      <div class="step"><b>MATCH 역할</b> =MATCH(B2, 참조표!$B$4:$B$9, 0) — 공정명(B2)이 공정명 열(B4:B9) 중 몇 번째에 있는지 위치 번호를 반환합니다.</div>
+      <div class="step"><b>INDEX 역할</b> =INDEX(참조표!$A$4:$A$9, 위치번호) — MATCH가 찾은 위치 번호를 이용해 공정코드 열(A4:A9)에서 같은 순번의 값을 꺼냅니다.</div>
+      <div class="step"><b>중첩 수식</b> 두 함수를 합쳐 =INDEX(참조표!$A$4:$A$9, MATCH(B2, 참조표!$B$4:$B$9, 0)) 한 줄로 씁니다.</div>
+      <div class="step"><b>범위 고정</b> INDEX의 결과범위, MATCH의 검색범위 모두 절대참조로 고정합니다.</div>
+      <div class="step"><b>응용</b> 결과범위만 다른 열(월 목표량 열)로 바꾸면 같은 MATCH 결과로 다른 항목도 조회할 수 있습니다.</div>
+      <div class="exam-ex">시험 예시: MATCH의 세 번째 인수를 빼먹으면 근사 일치로 동작해 엉뚱한 위치를 반환할 수 있습니다 — 항상 0을 씁니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>VLOOKUP vs INDEX+MATCH 비교</h3>
+      <div class="step"><b>검색 방향</b> VLOOKUP은 왼→오 한 방향만, INDEX+MATCH는 방향 제약이 없습니다.</div>
+      <div class="step"><b>열 삽입 안정성</b> VLOOKUP은 표 중간에 열이 삽입되면 열번호가 밀려 결과가 틀어질 수 있지만, INDEX+MATCH는 범위를 열 이름 기준으로 참조하므로 열 삽입에 영향을 덜 받습니다.</div>
+      <div class="step"><b>실무 선택 기준</b> 간단한 조회는 VLOOKUP이 빠르고, 역방향 조회나 대용량·복잡한 표는 INDEX+MATCH가 안전합니다.</div>
+      <div class="exam-ex">시험 예시: "INDEX+MATCH는 VLOOKUP과 달리 찾을값이 결과값보다 오른쪽에 있어도 사용할 수 있다" — 맞는 설명입니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 틀린 부분</div>
+      <h3>공정명으로 공정코드를 찾을 때 VLOOKUP을 그대로 써요</h3>
+      <p>참조표에서 공정명이 공정코드보다 오른쪽에 있는데도 VLOOKUP을 쓰면 #N/A 오류가 나거나 엉뚱한 값이 나옵니다.</p>
+      <p class="fix">찾을값이 결과값보다 오른쪽에 있으면 무조건 INDEX+MATCH로 바꿔서 풉니다.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>VLOOKUP 마지막 인수를 생략하거나 1로 써요</h3>
+      <p>마지막 인수를 비워두거나 1(TRUE)로 쓰면 정확히 일치하는 값이 아니라 근사값을 찾아 전혀 다른 결과가 나옵니다.</p>
+      <p class="fix">코드·이름 조회는 항상 마지막 인수를 0(FALSE)으로 명시하세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>참조표 범위를 상대참조로 두고 복사해요</h3>
+      <p>범위를 절대참조($)로 고정하지 않으면 채우기 핸들로 아래 행에 복사할 때 범위가 같이 밀려 내려가 결과가 틀립니다.</p>
+      <p class="fix">범위 지정 직후 F4를 눌러 $A$4:$E$9 형태로 고정하세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>열번호를 시트 전체 열(A, B, C…) 기준으로 세요</h3>
+      <p>열번호는 시트 열 문자가 아니라 지정한 범위 안에서 몇 번째 열인지입니다. 범위가 C열부터 시작하면 C열이 1번입니다.</p>
+      <p class="fix">범위의 첫 열을 1로 놓고 다시 세어보세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>MATCH의 세 번째 인수(0)를 빼먹어요</h3>
+      <p>MATCH(찾을값, 범위)처럼 마지막 인수를 생략하면 기본값(근사 일치)으로 동작해 정확한 위치를 못 찾을 수 있습니다.</p>
+      <p class="fix">MATCH도 VLOOKUP처럼 정확히 일치하는 값을 찾을 땐 반드시 0을 씁니다.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·함수 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>함수/키</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>함수</td><td><code>VLOOKUP(찾을값, 범위, 열번호, 0)</code></td><td>범위 첫 열에서 찾아 오른쪽 열 값 반환</td><td>왼쪽 열만 검색 가능</td></tr>
+          <tr><td>함수</td><td><code>MATCH(찾을값, 범위, 0)</code></td><td>범위 내 찾을값의 상대 위치 번호 반환</td><td>0=정확히 일치</td></tr>
+          <tr><td>함수</td><td><code>INDEX(범위, 위치번호)</code></td><td>범위에서 위치번호에 해당하는 값 반환</td><td>MATCH와 중첩해서 사용</td></tr>
+          <tr><td>함수</td><td><code>INDEX(범위, MATCH(...))</code></td><td>방향 제약 없는 조회(역방향 포함)</td><td>VLOOKUP 대체·확장</td></tr>
+          <tr><td>참조</td><td><code>F4</code></td><td>범위를 절대참조($)로 고정</td><td>복사 시 범위 밀림 방지</td></tr>
+          <tr><td>오류</td><td><code>#N/A</code></td><td>찾는 값이 범위에 없음</td><td>스펠링·공백 확인</td></tr>
+          <tr><td>오류</td><td><code>#REF!</code></td><td>열번호가 범위 열 수 초과</td><td>범위 열 수 재확인</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제) — 테스트용</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>⚠️ 이 퀴즈는 하네스 테스트용 샘플입니다. 실제 채점 기록은 구글시트 "6차시(테스트)" 탭에 저장됩니다.<br>이름을 입력해주세요.</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요 (테스트)">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">VLOOKUP이 찾을값을 검색하는 열의 위치는?</p>
+      <button class="quiz-opt" data-correct="true">범위의 가장 왼쪽(첫 번째) 열</button>
+      <button class="quiz-opt" data-correct="false">범위의 가장 오른쪽(마지막) 열</button>
+      <button class="quiz-opt" data-correct="false">아무 열이나 상관없다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">참조표가 A~E열일 때, "위치"(C열)를 조회하려면 열번호는?</p>
+      <button class="quiz-opt" data-correct="false">1</button>
+      <button class="quiz-opt" data-correct="true">3</button>
+      <button class="quiz-opt" data-correct="false">5</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">VLOOKUP 마지막 인수를 1(TRUE)로 설정하면 어떻게 될까요?</p>
+      <button class="quiz-opt" data-correct="false">정확히 일치하는 값만 찾는다</button>
+      <button class="quiz-opt" data-correct="true">근사값을 찾아 엉뚱한 결과가 나올 수 있다</button>
+      <button class="quiz-opt" data-correct="false">항상 #N/A 오류가 발생한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">공정명(오른쪽 열)으로 공정코드(왼쪽 열)를 찾으려 할 때 적합한 방법은?</p>
+      <button class="quiz-opt" data-correct="false">VLOOKUP을 그대로 사용한다</button>
+      <button class="quiz-opt" data-correct="true">INDEX+MATCH를 사용한다</button>
+      <button class="quiz-opt" data-correct="false">정렬로만 해결한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">MATCH 함수가 반환하는 값은?</p>
+      <button class="quiz-opt" data-correct="false">찾을값 자체</button>
+      <button class="quiz-opt" data-correct="true">범위 내 찾을값의 상대 위치 번호</button>
+      <button class="quiz-opt" data-correct="false">범위의 총 개수</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">INDEX(범위, MATCH(...)) 구조에서 INDEX가 하는 역할은?</p>
+      <button class="quiz-opt" data-correct="false">위치 번호를 찾는다</button>
+      <button class="quiz-opt" data-correct="true">위치 번호에 해당하는 값을 꺼낸다</button>
+      <button class="quiz-opt" data-correct="false">범위를 정렬한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">열번호가 참조 범위의 총 열 수보다 클 때 발생하는 오류는?</p>
+      <button class="quiz-opt" data-correct="false">#N/A</button>
+      <button class="quiz-opt" data-correct="true">#REF!</button>
+      <button class="quiz-opt" data-correct="false">#VALUE!</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">VLOOKUP·MATCH의 범위 인수를 채우기 핸들로 복사할 때 올바른 처리는?</p>
+      <button class="quiz-opt" data-correct="false">상대참조로 그대로 둔다</button>
+      <button class="quiz-opt" data-correct="true">절대참조($)로 고정한다</button>
+      <button class="quiz-opt" data-correct="false">범위를 매번 새로 지정한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">INDEX+MATCH가 VLOOKUP보다 유리한 점이 아닌 것은?</p>
+      <button class="quiz-opt" data-correct="false">왼쪽 열도 검색 기준으로 쓸 수 있다</button>
+      <button class="quiz-opt" data-correct="false">표 중간에 열을 삽입해도 수식이 덜 깨진다</button>
+      <button class="quiz-opt" data-correct="true">함수 입력이 VLOOKUP보다 항상 더 짧다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">찾는 값이 참조 범위에 아예 없을 때 발생하는 오류는?</p>
+      <button class="quiz-opt" data-correct="true">#N/A</button>
+      <button class="quiz-opt" data-correct="false">#REF!</button>
+      <button class="quiz-opt" data-correct="false">#DIV/0!</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. (테스트용 — 자유롭게 여러 번 풀어보세요)</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">공정코드 참조표에서 VLOOKUP으로 공정명·위치·담당팀장 채워보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">VLOOKUP 마지막 인수를 0으로 쓰는 이유 설명해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">참조표 범위를 절대참조로 고정하고 아래로 복사해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">공정명으로 공정코드를 INDEX+MATCH로 역방향 조회해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">MATCH가 반환하는 값과 INDEX가 반환하는 값의 차이 구분하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">#N/A, #REF! 오류를 일부러 만들어보고 원인 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+    <div style="margin-top:8px;color:var(--red);font-weight:700;">⚠️ 테스트용 샘플 자료 — 실제 6차시 수업 내용이 아닙니다</div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '6차시(테스트)';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
