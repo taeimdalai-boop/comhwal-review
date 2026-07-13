@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>6차시 복습자료 [테스트용 샘플] | 컴활2급 - VLOOKUP·INDEX/MATCH</title>
+<title>6차시 복습자료 | 컴활2급 - 참조 복습·SUMIF/SUMIFS·데이터베이스 함수·ROUND·MOD</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -42,11 +42,6 @@ code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; whit
 a{ text-decoration:none; color:inherit; }
 ul{ list-style:none; }
 
-.test-banner{
-  background:var(--red); color:var(--white); text-align:center; font-weight:700;
-  font-size:13px; padding:8px 12px; position:relative; z-index:60;
-}
-
 /* ===== 모바일 상단바 ===== */
 .mobile-bar{
   display:none;
@@ -71,7 +66,7 @@ ul{ list-style:none; }
 
 /* ===== 사이드바 ===== */
 .sidebar{
-  position:fixed; top:36px; left:0; bottom:0; width:268px;
+  position:fixed; top:0; left:0; bottom:0; width:268px;
   background:var(--white); border-right:1px solid var(--border);
   padding:28px 20px; overflow-y:auto; z-index:45;
 }
@@ -80,7 +75,6 @@ ul{ list-style:none; }
   font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
   margin-bottom:14px;
 }
-.sidebar .badge.test{ background:var(--red-bg); color:var(--red); margin-left:6px; }
 .sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
 .sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
 .sidebar .meta b{ color:var(--text); }
@@ -108,7 +102,7 @@ ul{ list-style:none; }
 .sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
 
 /* ===== 메인 ===== */
-.main{ margin-left:268px; margin-top:36px; padding:48px 40px 60px; max-width:880px; }
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
 
 .hero{
   background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
@@ -275,14 +269,14 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 
 /* ===== 반응형 ===== */
 @media (max-width: 860px){
-  .mobile-bar{ display:flex; top:36px; }
+  .mobile-bar{ display:flex; }
   .sidebar{
-    top:90px; width:78%; max-width:300px; height:auto;
+    top:54px; width:78%; max-width:300px; height:auto;
     transform:translateX(-100%); transition:transform .25s ease;
     box-shadow:4px 0 24px rgba(0,0,0,.12);
   }
   .sidebar.open{ transform:translateX(0); }
-  .main{ margin-left:0; margin-top:36px; padding:70px 18px 50px; max-width:100%; }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
   .card-grid{ grid-template-columns:1fr; }
   .hero{ padding:28px 22px; }
   .hero h1{ font-size:19px; }
@@ -300,18 +294,16 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 </head>
 <body>
 
-<div class="test-banner">⚠️ 이 페이지는 하네스 동작 테스트용 가상 샘플입니다 (실제 6차시 수업 자료 아님)</div>
-
 <div class="mobile-bar">
   <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-  <div class="title">6차시 복습자료 [테스트]</div>
+  <div class="title">6차시 복습자료</div>
 </div>
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <aside class="sidebar" id="sidebar">
-  <span class="badge">컴활2급 · 엑셀</span><span class="badge test">테스트 샘플</span>
+  <span class="badge">컴활2급 · 엑셀</span>
   <h1>6차시 복습자료</h1>
-  <p class="meta"><b>2026-07-13 (가상 테스트)</b><br>VLOOKUP 실무 조회, INDEX+MATCH(왼쪽 조회·역방향 조회), 절대참조 실전 적용, VLOOKUP 4대 오류</p>
+  <p class="meta"><b>2026-07-13</b><br>참조 복습(상대·절대·혼합·F4), 조건부 합계 함수(SUMIF·SUMIFS), 데이터베이스 함수(DSUM·DAVERAGE·DCOUNT·DCOUNTA), 반올림 계열(ROUND·ROUNDUP·ROUNDDOWN), MOD 함수</p>
 
   <nav>
     <p class="nav-title">오늘의 목차</p>
@@ -336,16 +328,18 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 
   <section class="hero" id="hero">
     <div class="tag-row">
-      <span class="tag">VLOOKUP 실무 조회</span>
-      <span class="tag">INDEX+MATCH · 절대참조 실전</span>
+      <span class="tag">참조 복습(상대·절대·혼합)</span>
+      <span class="tag">SUMIF·SUMIFS·DSUM 계열 · ROUND·MOD</span>
     </div>
-    <h1>오늘의 핵심은 "VLOOKUP은 왼쪽 열만 찾을 수 있고, INDEX+MATCH는 방향 제약 없이 어디든 찾을 수 있다"는 것입니다.</h1>
-    <p class="sub">2026-07-13 (가상 테스트) · 6차시 · 공정코드 참조표로 VLOOKUP 실습, 공정명 → 코드 역방향 조회는 INDEX+MATCH로만 가능, 절대참조로 채우기 핸들 복사 시 범위 고정, VLOOKUP 4대 오류(#N/A·#REF!·근사값 오류·복사 오류) 정리</p>
+    <h1>오늘의 핵심은 "함수는 인수 순서를 정확히 외우고, 범위는 절대 참조로 고정하는 것"입니다.</h1>
+    <p class="sub">2026-07-13 · 6차시 · 참조(상대·절대·혼합·F4) 복습, SUMIF·SUMIFS 조건부 합계, 데이터베이스 함수(DSUM·DAVERAGE·DCOUNT·DCOUNTA)와 조건 목록, ROUND·ROUNDUP·ROUNDDOWN 자릿수 처리, MOD로 나머지 구하기·그룹 나누기, MID·MOD·IF 중첩 실전 문제</p>
     <div class="key-badges">
-      <span class="key-badge">🔎 VLOOKUP</span>
-      <span class="key-badge">🔁 INDEX+MATCH</span>
-      <span class="key-badge">📌 절대참조 $</span>
-      <span class="key-badge">🚨 4대 오류</span>
+      <span class="key-badge">📌 참조·F4</span>
+      <span class="key-badge">Σ SUMIF·SUMIFS</span>
+      <span class="key-badge">🗄️ DSUM·DAVERAGE·DCOUNT</span>
+      <span class="key-badge">🔢 ROUND 계열</span>
+      <span class="key-badge">➗ MOD</span>
+      <span class="key-badge">🧩 중첩 함수 실전</span>
     </div>
   </section>
 
@@ -354,51 +348,39 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
     <div class="card-grid">
 
       <div class="card">
-        <h3>VLOOKUP은 첫 번째 열만 검색 기준</h3>
-        <p>VLOOKUP(찾을값, 범위, 열번호, 0)에서 "찾을값"은 항상 범위의 맨 왼쪽 열에 있어야 합니다. 공정코드(왼쪽)로 공정명·위치·담당팀장(오른쪽 열들)을 찾는 구조입니다.</p>
-        <div class="use">암기: "왼쪽에서 찾아서 오른쪽으로 이동"</div>
+        <h3>함수 문제는 대부분 중첩으로 출제된다</h3>
+        <p>실기 함수 문제는 함수 하나만 쓰는 경우보다 여러 함수를 겹쳐서 쓰는 경우가 훨씬 많습니다. 그래서 개별 함수의 역할과 인수 순서를 정확히 외워두는 게 먼저입니다.</p>
+        <div class="use">지금 입력 중인 게 몇 번째 인수인지 항상 확인하는 습관</div>
       </div>
 
       <div class="card">
-        <h3>열번호는 범위 기준 상대 위치</h3>
-        <p>열번호는 시트 전체 열(A, B, C…)이 아니라 지정한 범위 안에서 몇 번째 열인지입니다. 참조표가 A~E열이면 공정명=2, 위치=3, 담당팀장=4, 특이사항=5입니다.</p>
-        <div class="use">범위 밖 열번호를 쓰면 #REF! 오류 발생</div>
+        <h3>참조 복습: 상대·절대·혼합, F4</h3>
+        <p>상대 참조는 채우기 핸들 방향에 따라 주소가 바뀌고, 절대 참조는 $로 행·열을 고정합니다. 혼합 참조는 수식을 가로·세로 양방향으로 채울 때 필요합니다.</p>
+        <div class="use">F4를 누르면 상대→절대→행고정→열고정 순으로 순환</div>
       </div>
 
       <div class="card">
-        <h3>마지막 인수는 반드시 0(정확히 일치)</h3>
-        <p>코드나 이름처럼 정확히 일치하는 값을 찾을 때는 마지막 인수를 0(또는 FALSE)로 씁니다. 1(TRUE)을 쓰면 근사값을 찾아 엉뚱한 결과가 나옵니다.</p>
-        <div class="use">시험 단골: 마지막 인수를 생략하거나 1로 잘못 쓰는 실수</div>
+        <h3>SUMIF·SUMIFS: 조건부 합계</h3>
+        <p>SUMIF는 조건 1개 기준 합계(조건범위, 조건, 합계범위), SUMIFS는 여러 조건 기준 합계이며 합계범위가 맨 앞에 옵니다. 순서가 다르다는 점이 헷갈리기 쉽습니다.</p>
+        <div class="use">SUMIF는 "찾고→합친다", SUMIFS는 "합칠 것부터"</div>
       </div>
 
       <div class="card">
-        <h3>VLOOKUP의 한계 = 왼쪽 조회 불가</h3>
-        <p>공정명으로 공정코드를 거꾸로 찾는 것처럼, 찾을값이 결과값보다 오른쪽에 있으면 VLOOKUP으로는 안 됩니다. 표 구조를 바꾸지 않고 해결하려면 INDEX+MATCH가 필요합니다.</p>
-        <div class="use">"VLOOKUP은 한쪽 방향(왼→오)만" 기억하기</div>
+        <h3>데이터베이스 함수: DSUM·DAVERAGE·DCOUNT·DCOUNTA</h3>
+        <p>데이터베이스, 필드, 조건 목록을 인수로 씁니다. 조건 목록은 고급 필터처럼 별도 범위로 만들고, 같은 줄은 AND, 다른 줄은 OR로 해석됩니다.</p>
+        <div class="use">필드는 선택한 범위 기준 몇 번째 열인지로 계산</div>
       </div>
 
       <div class="card">
-        <h3>INDEX+MATCH 구조</h3>
-        <p>MATCH(찾을값, 검색범위, 0)가 위치 번호를 찾고, INDEX(결과범위, 위치번호)가 그 위치의 값을 꺼냅니다. 검색범위와 결과범위가 서로 다른 열이어도 상관없습니다.</p>
-        <div class="use">암기: "MATCH가 몇 번째인지 찾으면, INDEX가 그 자리 값을 꺼낸다"</div>
+        <h3>ROUND 계열: 반올림·올림·내림</h3>
+        <p>ROUND(반올림), ROUNDUP(올림), ROUNDDOWN(내림)은 모두 자릿수 인수로 어느 자리까지 처리할지 정합니다. 자릿수가 양수/0/음수일 때 의미가 다릅니다.</p>
+        <div class="use">자릿수 양수=소수점 아래, 0=일의 자리, 음수=정수 자리</div>
       </div>
 
       <div class="card">
-        <h3>INDEX+MATCH 3가지 장점</h3>
-        <p>① 왼쪽 열도 검색 기준으로 쓸 수 있고(역방향 조회) ② 표 중간에 열을 삽입해도 수식이 깨지지 않으며 ③ 대용량 데이터에서 VLOOKUP보다 속도가 빠릅니다.</p>
-        <div class="use">실무에서는 VLOOKUP보다 INDEX+MATCH를 더 많이 씁니다</div>
-      </div>
-
-      <div class="card">
-        <h3>절대참조로 범위 고정 필수</h3>
-        <p>VLOOKUP·MATCH의 범위 인수는 채우기 핸들로 아래로 복사해도 항상 같은 곳을 봐야 하므로 $A$4:$E$9처럼 절대참조로 고정합니다. 찾을값(첫 셀)만 상대참조로 둡니다.</p>
-        <div class="use">범위 지정 직후 F4를 눌러 $ 붙이는 습관</div>
-      </div>
-
-      <div class="card">
-        <h3>VLOOKUP 오류 4가지 원인</h3>
-        <p>#N/A(찾는 값이 범위에 없음·스펠링 오류), #REF!(열번호가 범위 열 수보다 큼), 근사값 오류(마지막 인수 1로 설정), 복사 오류(범위가 상대참조라 밀림)로 나뉩니다.</p>
-        <div class="use">오류가 나면 이 4가지 순서로 원인을 점검</div>
+        <h3>MOD 함수로 나머지 계산·그룹 나누기</h3>
+        <p>MOD는 나눗셈의 나머지를 구하는 함수로, 번호를 일정 그룹으로 나누거나 짝수·홀수를 구분하는 문제, 주민등록번호에서 성별을 판별하는 중첩 문제에 자주 쓰입니다.</p>
+        <div class="use">MID로 문자 추출 → MOD로 판별 → IF로 결과 표시, 3단 흐름</div>
       </div>
 
     </div>
@@ -408,38 +390,48 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
     <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
 
     <div class="concept-box">
-      <h3>VLOOKUP — 공정코드로 정보 조회하기</h3>
-      <div class="step"><b>상황</b> 공정코드 참조표(A열 공정코드~E열 특이사항)가 있고, 날짜별 실적표에서 공정코드만 보고 공정명·위치·담당팀장을 채워 넣어야 합니다.</div>
-      <div class="step"><b>수식</b> =VLOOKUP(B2, 참조표!$A$4:$E$9, 2, 0) — B2(공정코드)를 참조표 범위에서 찾아 2번째 열(공정명)을 반환합니다.</div>
-      <div class="step"><b>범위 고정</b> 참조표 범위는 절대참조($A$4:$E$9)로 고정해야, 아래로 채우기 핸들 복사를 해도 범위가 함께 밀리지 않습니다.</div>
-      <div class="step"><b>열번호 확장</b> 위치는 열번호 3, 담당팀장은 열번호 4로 바꿔서 옆으로 복사하면 나머지 항목도 채워집니다.</div>
-      <div class="exam-ex">시험 예시: 참조표가 A~E열(5개 열)인데 열번호에 6을 쓰면 #REF! 오류가 발생합니다.</div>
+      <h3>참조 복습 — 상대·절대·혼합, F4로 순환</h3>
+      <div class="step"><b>상대 참조</b> C7처럼 그냥 쓰면 채우기 핸들로 복사할 때 주소가 따라 움직입니다. 아래로 내리면 행 번호가, 오른쪽으로 끌면 열 문자가 바뀝니다.</div>
+      <div class="step"><b>절대 참조</b> $C$7 — 열과 행 모두 고정. 어디로 복사해도 항상 같은 셀을 봅니다.</div>
+      <div class="step"><b>혼합 참조</b> $B8은 열만 고정(B는 안 변함), C$7은 행만 고정(7은 안 변함). 수식을 가로·세로 양방향으로 채울 때 필요합니다.</div>
+      <div class="step"><b>F4 키</b> 주소를 입력한 뒤 F4를 누르면 C7 → $C$7 → C$7 → $C7 순으로 순환됩니다.</div>
+      <div class="step"><b>실전 원칙</b> SUMIF·SUMIFS·DSUM처럼 "모든 행이 같은 범위를 봐야 하는 것"은 절대 참조로 고정하고, 조건처럼 행마다 달라져야 하는 것은 상대 참조로 둡니다.</div>
+      <div class="exam-ex">시험 예시: 채우기 핸들로 아래로 복사했더니 결과가 이상하다 → 범위가 절대 참조로 고정되지 않아 함께 밀려 내려간 경우가 대부분입니다.</div>
     </div>
 
     <div class="concept-box">
-      <h3>VLOOKUP의 한계 — 왼쪽 열은 못 찾는다</h3>
-      <div class="step"><b>문제 상황</b> 이번엔 반대로 "공정명"을 알고 있고 거기서 "공정코드"와 "월 목표량"을 찾아야 합니다. 그런데 참조표에서 공정명은 공정코드보다 오른쪽에 있습니다.</div>
-      <div class="step"><b>왜 안 되나</b> VLOOKUP은 항상 범위의 첫 번째(가장 왼쪽) 열에서만 찾을값을 검색합니다. 공정명이 왼쪽에 없으므로 VLOOKUP으로는 이 조회가 불가능합니다.</div>
-      <div class="step"><b>대안</b> 표의 열 순서를 바꾸지 않고 해결하려면 INDEX+MATCH를 씁니다.</div>
-      <div class="exam-ex">시험 예시: "찾을 값이 범위의 맨 왼쪽 열에 없어도 VLOOKUP으로 찾을 수 있다" — 틀린 설명입니다.</div>
+      <h3>SUMIF·SUMIFS — 인수 순서가 서로 다르다</h3>
+      <div class="step"><b>SUMIF 구조</b> SUMIF(조건범위, 조건, [합계범위]) — 조건 범위와 합계 범위가 같으면 합계 범위를 생략할 수 있습니다.</div>
+      <div class="step"><b>SUMIFS 구조</b> SUMIFS(합계범위, 조건범위1, 조건1, 조건범위2, 조건2, …) — SUMIF와 달리 합계 범위가 맨 앞에 옵니다.</div>
+      <div class="step"><b>비교 조건 작성</b> "40만원 이상"처럼 비교 연산자가 들어가는 조건은 반드시 따옴표로 묶어 <code>">=400000"</code> 형태로 씁니다.</div>
+      <div class="step"><b>범위 실수 방지</b> range·criteria처럼 범위를 뜻하는 인수 자리에는 실제 셀 범위를, 조건 자리에는 조건 값을 넣어야 합니다. 자리를 바꿔 넣는 실수가 잦습니다.</div>
+      <div class="exam-ex">시험 예시: "SUMIF의 세 번째 인수(합계 범위)를 생략할 수 있는 경우"와 "SUMIFS는 합계 범위가 가장 먼저 온다"는 점을 헷갈리지 않도록 구분해서 외우세요.</div>
     </div>
 
     <div class="concept-box">
-      <h3>INDEX+MATCH — 방향 제약 없는 조회</h3>
-      <div class="step"><b>MATCH 역할</b> =MATCH(B2, 참조표!$B$4:$B$9, 0) — 공정명(B2)이 공정명 열(B4:B9) 중 몇 번째에 있는지 위치 번호를 반환합니다.</div>
-      <div class="step"><b>INDEX 역할</b> =INDEX(참조표!$A$4:$A$9, 위치번호) — MATCH가 찾은 위치 번호를 이용해 공정코드 열(A4:A9)에서 같은 순번의 값을 꺼냅니다.</div>
-      <div class="step"><b>중첩 수식</b> 두 함수를 합쳐 =INDEX(참조표!$A$4:$A$9, MATCH(B2, 참조표!$B$4:$B$9, 0)) 한 줄로 씁니다.</div>
-      <div class="step"><b>범위 고정</b> INDEX의 결과범위, MATCH의 검색범위 모두 절대참조로 고정합니다.</div>
-      <div class="step"><b>응용</b> 결과범위만 다른 열(월 목표량 열)로 바꾸면 같은 MATCH 결과로 다른 항목도 조회할 수 있습니다.</div>
-      <div class="exam-ex">시험 예시: MATCH의 세 번째 인수를 빼먹으면 근사 일치로 동작해 엉뚱한 위치를 반환할 수 있습니다 — 항상 0을 씁니다.</div>
+      <h3>데이터베이스 함수 — DSUM·DAVERAGE·DCOUNT·DCOUNTA</h3>
+      <div class="step"><b>기본 구조</b> 함수명(database, field, criteria) — 데이터베이스 범위, 필드(몇 번째 열인지), 조건 목록 순서입니다.</div>
+      <div class="step"><b>조건 목록</b> 고급 필터처럼 필드명과 조건을 별도 셀 범위로 미리 만들어야 합니다. 조건을 같은 줄에 쓰면 AND, 다른 줄에 쓰면 OR입니다.</div>
+      <div class="step"><b>필드 번호 주의</b> 필드는 선택한 데이터베이스 범위를 기준으로 몇 번째 열인지 계산합니다. 전체 표를 선택했을 때와 일부 열만 선택했을 때 번호가 달라질 수 있습니다.</div>
+      <div class="step"><b>DCOUNT vs DCOUNTA</b> DCOUNT는 숫자가 들어 있는 필드의 개수만 세고, DCOUNTA는 문자든 숫자든 값이 있는 필드를 모두 셉니다.</div>
+      <div class="exam-ex">시험 예시: 조건 목록의 필드명이 원본 표와 한 글자라도 다르면 조건이 무시됩니다. 고급 필터와 같은 원리입니다.</div>
     </div>
 
     <div class="concept-box">
-      <h3>VLOOKUP vs INDEX+MATCH 비교</h3>
-      <div class="step"><b>검색 방향</b> VLOOKUP은 왼→오 한 방향만, INDEX+MATCH는 방향 제약이 없습니다.</div>
-      <div class="step"><b>열 삽입 안정성</b> VLOOKUP은 표 중간에 열이 삽입되면 열번호가 밀려 결과가 틀어질 수 있지만, INDEX+MATCH는 범위를 열 이름 기준으로 참조하므로 열 삽입에 영향을 덜 받습니다.</div>
-      <div class="step"><b>실무 선택 기준</b> 간단한 조회는 VLOOKUP이 빠르고, 역방향 조회나 대용량·복잡한 표는 INDEX+MATCH가 안전합니다.</div>
-      <div class="exam-ex">시험 예시: "INDEX+MATCH는 VLOOKUP과 달리 찾을값이 결과값보다 오른쪽에 있어도 사용할 수 있다" — 맞는 설명입니다.</div>
+      <h3>ROUND 계열 — 반올림·올림·내림</h3>
+      <div class="step"><b>ROUND</b> 지정한 자릿수에서 반올림합니다.</div>
+      <div class="step"><b>ROUNDUP</b> 지정한 자릿수에서 무조건 올림합니다.</div>
+      <div class="step"><b>ROUNDDOWN</b> 지정한 자릿수에서 무조건 내림(버림)합니다.</div>
+      <div class="step"><b>자릿수 인수 규칙</b> 양수면 소수점 아래 자리, 0이면 일의 자리(정수)까지, 음수면 십의 자리·백의 자리 등 정수 자리를 처리합니다.</div>
+      <div class="exam-ex">시험 예시: 자릿수에 음수를 넣는 문제(예: 백의 자리에서 반올림)가 종종 나오니 부호에 따른 의미를 정확히 기억하세요.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>MOD 함수와 중첩 함수 실전</h3>
+      <div class="step"><b>MOD란</b> 나눗셈을 했을 때 나머지를 구하는 함수입니다. 번호를 그룹으로 나누거나 짝수·홀수를 구분할 때 활용합니다.</div>
+      <div class="step"><b>MID + MOD + IF 조합</b> 주민등록번호 등 문자열에서 MID로 특정 위치 문자를 추출한 뒤, MOD로 홀짝을 판별하고, IF로 "남"/"여" 같은 결과를 표시하는 흐름으로 연결합니다.</div>
+      <div class="step"><b>고객 ID별 합계</b> 특정 고객의 전체 주문액처럼 열 전체 범위를 대상으로 합계를 구할 때는 SUMIF·SUMIFS 같은 조건부 합계 함수를 사용합니다.</div>
+      <div class="exam-ex">시험 예시: 중첩 함수는 안쪽 함수부터 순서대로 실행됩니다. 가장 안쪽 함수의 결과가 무엇인지부터 확인하고 바깥쪽 함수로 넘어가세요.</div>
     </div>
 
   </section>
@@ -449,37 +441,44 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 
     <div class="shock top-priority">
       <div class="shock-tag">⭐ 가장 많이 틀린 부분</div>
-      <h3>공정명으로 공정코드를 찾을 때 VLOOKUP을 그대로 써요</h3>
-      <p>참조표에서 공정명이 공정코드보다 오른쪽에 있는데도 VLOOKUP을 쓰면 #N/A 오류가 나거나 엉뚱한 값이 나옵니다.</p>
-      <p class="fix">찾을값이 결과값보다 오른쪽에 있으면 무조건 INDEX+MATCH로 바꿔서 풉니다.</p>
+      <h3>SUMIF·데이터베이스 함수에서 범위와 조건 자리를 바꿔 써요</h3>
+      <p>range·criteria·database처럼 범위를 뜻하는 인수 자리에 조건 값을, 조건 자리에 범위를 넣는 실수가 가장 많습니다.</p>
+      <p class="fix">인수 이름이 range·table_array·database면 무조건 "셀 범위"가 들어간다고 기억하세요.</p>
     </div>
 
     <div class="shock">
       <div class="shock-tag">자주 하는 실수</div>
-      <h3>VLOOKUP 마지막 인수를 생략하거나 1로 써요</h3>
-      <p>마지막 인수를 비워두거나 1(TRUE)로 쓰면 정확히 일치하는 값이 아니라 근사값을 찾아 전혀 다른 결과가 나옵니다.</p>
-      <p class="fix">코드·이름 조회는 항상 마지막 인수를 0(FALSE)으로 명시하세요.</p>
+      <h3>채우기 핸들 복사에서 범위를 절대 참조로 고정하지 않아요</h3>
+      <p>조건 범위나 합계 범위를 절대 참조($)로 고정하지 않으면 아래로 복사할 때 범위가 함께 밀려 내려가 결과가 틀어집니다.</p>
+      <p class="fix">범위를 지정한 직후 F4를 눌러 $를 붙이는 습관을 들이세요.</p>
     </div>
 
     <div class="shock">
       <div class="shock-tag">자주 하는 실수</div>
-      <h3>참조표 범위를 상대참조로 두고 복사해요</h3>
-      <p>범위를 절대참조($)로 고정하지 않으면 채우기 핸들로 아래 행에 복사할 때 범위가 같이 밀려 내려가 결과가 틀립니다.</p>
-      <p class="fix">범위 지정 직후 F4를 눌러 $A$4:$E$9 형태로 고정하세요.</p>
+      <h3>비교 조건에서 따옴표를 빠뜨려요</h3>
+      <p>"40만원 이상"처럼 비교 연산자가 들어간 조건은 <code>">=400000"</code>처럼 따옴표로 묶어야 하는데, 이를 빠뜨리면 조건이 제대로 해석되지 않을 수 있습니다.</p>
+      <p class="fix">비교 연산자가 들어가면 무조건 큰따옴표로 묶는다고 외우세요.</p>
     </div>
 
     <div class="shock">
       <div class="shock-tag">자주 하는 실수</div>
-      <h3>열번호를 시트 전체 열(A, B, C…) 기준으로 세요</h3>
-      <p>열번호는 시트 열 문자가 아니라 지정한 범위 안에서 몇 번째 열인지입니다. 범위가 C열부터 시작하면 C열이 1번입니다.</p>
-      <p class="fix">범위의 첫 열을 1로 놓고 다시 세어보세요.</p>
+      <h3>데이터베이스 함수의 필드 번호를 잘못 계산해요</h3>
+      <p>선택한 범위가 전체 표냐 일부 열이냐에 따라 같은 필드라도 몇 번째 열인지가 달라지는데, 이를 확인하지 않고 번호를 넣는 실수가 많습니다.</p>
+      <p class="fix">필드 번호를 넣기 전, 내가 선택한 database 범위의 첫 번째 열부터 순서대로 세어보세요.</p>
     </div>
 
     <div class="shock">
       <div class="shock-tag">자주 하는 실수</div>
-      <h3>MATCH의 세 번째 인수(0)를 빼먹어요</h3>
-      <p>MATCH(찾을값, 범위)처럼 마지막 인수를 생략하면 기본값(근사 일치)으로 동작해 정확한 위치를 못 찾을 수 있습니다.</p>
-      <p class="fix">MATCH도 VLOOKUP처럼 정확히 일치하는 값을 찾을 땐 반드시 0을 씁니다.</p>
+      <h3>DCOUNT와 DCOUNTA를 혼동해요</h3>
+      <p>DCOUNT는 숫자가 들어 있는 필드만 세고, DCOUNTA는 문자든 숫자든 값이 있는 필드를 모두 센다는 차이를 헷갈려 결과가 다르게 나옵니다.</p>
+      <p class="fix">필드가 숫자 데이터인지 문자 데이터인지 먼저 확인하고 함수를 고르세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>시험에서 지정한 함수를 안 쓰고 다른 방법으로 풀어요</h3>
+      <p>결과 값이 같아 보여도 문제에서 지정한 함수를 쓰지 않으면 채점에서 점수를 받기 어렵습니다.</p>
+      <p class="fix">문제 지문에서 "○○ 함수를 이용하여"라는 조건을 항상 먼저 확인하세요.</p>
     </div>
 
   </section>
@@ -489,27 +488,35 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>구분</th><th>함수/키</th><th>기능</th><th>비고</th></tr>
+          <tr><th>구분</th><th>단축키/함수</th><th>기능</th><th>비고</th></tr>
         </thead>
         <tbody>
-          <tr><td>함수</td><td><code>VLOOKUP(찾을값, 범위, 열번호, 0)</code></td><td>범위 첫 열에서 찾아 오른쪽 열 값 반환</td><td>왼쪽 열만 검색 가능</td></tr>
-          <tr><td>함수</td><td><code>MATCH(찾을값, 범위, 0)</code></td><td>범위 내 찾을값의 상대 위치 번호 반환</td><td>0=정확히 일치</td></tr>
-          <tr><td>함수</td><td><code>INDEX(범위, 위치번호)</code></td><td>범위에서 위치번호에 해당하는 값 반환</td><td>MATCH와 중첩해서 사용</td></tr>
-          <tr><td>함수</td><td><code>INDEX(범위, MATCH(...))</code></td><td>방향 제약 없는 조회(역방향 포함)</td><td>VLOOKUP 대체·확장</td></tr>
-          <tr><td>참조</td><td><code>F4</code></td><td>범위를 절대참조($)로 고정</td><td>복사 시 범위 밀림 방지</td></tr>
-          <tr><td>오류</td><td><code>#N/A</code></td><td>찾는 값이 범위에 없음</td><td>스펠링·공백 확인</td></tr>
-          <tr><td>오류</td><td><code>#REF!</code></td><td>열번호가 범위 열 수 초과</td><td>범위 열 수 재확인</td></tr>
+          <tr><td>참조</td><td><code>F4</code></td><td>상대→절대→행고정→열고정 순환</td><td>$C$7, C$7, $C7</td></tr>
+          <tr><td>편집</td><td><code>Ctrl+`</code></td><td>수식과 셀 주소를 화면에 표시/숨김</td><td>수식 점검용</td></tr>
+          <tr><td>편집</td><td><code>F2</code></td><td>선택한 셀의 수식 편집·참조 셀 확인</td><td></td></tr>
+          <tr><td>입력</td><td><code>Tab</code></td><td>함수 자동완성 선택 확정</td><td>Enter 아님</td></tr>
+          <tr><td>입력</td><td>채우기 핸들 더블 클릭</td><td>인접 데이터 범위 기준 수식 자동 채우기</td><td></td></tr>
+          <tr><td>함수</td><td><code>SUM</code></td><td>지정한 범위의 합계</td><td>기본</td></tr>
+          <tr><td>함수</td><td><code>SUMIF</code></td><td>조건 1개 기준 합계: <code>(조건범위, 조건, [합계범위])</code></td><td>합계범위 생략 가능</td></tr>
+          <tr><td>함수</td><td><code>SUMIFS</code></td><td>여러 조건 기준 합계: <code>(합계범위, 조건범위1, 조건1, ...)</code></td><td>합계범위가 맨 앞</td></tr>
+          <tr><td>함수</td><td><code>AVERAGEIF / COUNTIF</code></td><td>조건에 맞는 평균 / 개수</td><td>SUMIF와 구조 유사</td></tr>
+          <tr><td>함수</td><td><code>DSUM / DAVERAGE</code></td><td>조건 목록에 맞는 필드의 합계 / 평균</td><td>(database, field, criteria)</td></tr>
+          <tr><td>함수</td><td><code>DCOUNT / DCOUNTA</code></td><td>숫자 필드 개수 / 값 있는 필드 개수</td><td>★구분 시험 단골</td></tr>
+          <tr><td>함수</td><td><code>ROUND / ROUNDUP / ROUNDDOWN</code></td><td>반올림 / 올림 / 내림</td><td>자릿수 양수·0·음수 구분</td></tr>
+          <tr><td>함수</td><td><code>MOD</code></td><td>나눗셈의 나머지</td><td>그룹 나누기·홀짝 판별</td></tr>
+          <tr><td>함수</td><td><code>MID / IF</code></td><td>문자 일부 추출 / 조건별 값 표시</td><td>MID+MOD+IF 중첩 실전</td></tr>
+          <tr><td>고급 필터</td><td>조건 목록 작성</td><td>필드명 아래 조건, 같은 줄 AND / 다른 줄 OR</td><td>DB 함수 조건과 동일 원리</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section id="quiz">
-    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제) — 테스트용</h2>
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
 
     <div class="name-gate" id="nameGate">
-      <p>⚠️ 이 퀴즈는 하네스 테스트용 샘플입니다. 실제 채점 기록은 구글시트 "6차시(테스트)" 탭에 저장됩니다.<br>이름을 입력해주세요.</p>
-      <input type="text" id="studentName" placeholder="이름을 입력하세요 (테스트)">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
       <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
     </div>
 
@@ -517,106 +524,106 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 
     <div class="quiz-item" data-q="1">
       <span class="qnum">Q1</span>
-      <p class="qtext">VLOOKUP이 찾을값을 검색하는 열의 위치는?</p>
-      <button class="quiz-opt" data-correct="true">범위의 가장 왼쪽(첫 번째) 열</button>
-      <button class="quiz-opt" data-correct="false">범위의 가장 오른쪽(마지막) 열</button>
-      <button class="quiz-opt" data-correct="false">아무 열이나 상관없다</button>
+      <p class="qtext">상대 참조로 입력된 수식을 채우기 핸들로 아래로 끌 때 주로 바뀌는 것은?</p>
+      <button class="quiz-opt" data-correct="true">행 번호</button>
+      <button class="quiz-opt" data-correct="false">열 문자</button>
+      <button class="quiz-opt" data-correct="false">아무것도 바뀌지 않는다</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="2">
       <span class="qnum">Q2</span>
-      <p class="qtext">참조표가 A~E열일 때, "위치"(C열)를 조회하려면 열번호는?</p>
-      <button class="quiz-opt" data-correct="false">1</button>
-      <button class="quiz-opt" data-correct="true">3</button>
-      <button class="quiz-opt" data-correct="false">5</button>
+      <p class="qtext">$C$7과 같은 참조 형태를 무엇이라고 부르나요?</p>
+      <button class="quiz-opt" data-correct="false">상대 참조</button>
+      <button class="quiz-opt" data-correct="true">절대 참조</button>
+      <button class="quiz-opt" data-correct="false">혼합 참조</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="3">
       <span class="qnum">Q3</span>
-      <p class="qtext">VLOOKUP 마지막 인수를 1(TRUE)로 설정하면 어떻게 될까요?</p>
-      <button class="quiz-opt" data-correct="false">정확히 일치하는 값만 찾는다</button>
-      <button class="quiz-opt" data-correct="true">근사값을 찾아 엉뚱한 결과가 나올 수 있다</button>
-      <button class="quiz-opt" data-correct="false">항상 #N/A 오류가 발생한다</button>
+      <p class="qtext">SUMIF 함수의 올바른 인수 순서는?</p>
+      <button class="quiz-opt" data-correct="true">(조건범위, 조건, 합계범위)</button>
+      <button class="quiz-opt" data-correct="false">(합계범위, 조건범위, 조건)</button>
+      <button class="quiz-opt" data-correct="false">(조건, 조건범위, 합계범위)</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="4">
       <span class="qnum">Q4</span>
-      <p class="qtext">공정명(오른쪽 열)으로 공정코드(왼쪽 열)를 찾으려 할 때 적합한 방법은?</p>
-      <button class="quiz-opt" data-correct="false">VLOOKUP을 그대로 사용한다</button>
-      <button class="quiz-opt" data-correct="true">INDEX+MATCH를 사용한다</button>
-      <button class="quiz-opt" data-correct="false">정렬로만 해결한다</button>
+      <p class="qtext">SUMIFS 함수가 SUMIF와 다르게 가장 먼저 오는 인수는?</p>
+      <button class="quiz-opt" data-correct="false">조건범위1</button>
+      <button class="quiz-opt" data-correct="true">합계범위</button>
+      <button class="quiz-opt" data-correct="false">조건1</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="5">
       <span class="qnum">Q5</span>
-      <p class="qtext">MATCH 함수가 반환하는 값은?</p>
-      <button class="quiz-opt" data-correct="false">찾을값 자체</button>
-      <button class="quiz-opt" data-correct="true">범위 내 찾을값의 상대 위치 번호</button>
-      <button class="quiz-opt" data-correct="false">범위의 총 개수</button>
+      <p class="qtext">40만원 이상인 금액의 합계를 구할 때, 조건은 어떤 형태로 작성해야 하나요?</p>
+      <button class="quiz-opt" data-correct="false">=400000</button>
+      <button class="quiz-opt" data-correct="true">">=400000"</button>
+      <button class="quiz-opt" data-correct="false">400000 이상</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="6">
       <span class="qnum">Q6</span>
-      <p class="qtext">INDEX(범위, MATCH(...)) 구조에서 INDEX가 하는 역할은?</p>
-      <button class="quiz-opt" data-correct="false">위치 번호를 찾는다</button>
-      <button class="quiz-opt" data-correct="true">위치 번호에 해당하는 값을 꺼낸다</button>
-      <button class="quiz-opt" data-correct="false">범위를 정렬한다</button>
+      <p class="qtext">데이터베이스 함수(DSUM 등)의 조건 목록에서 두 조건을 같은 줄에 쓰면 어떤 의미인가요?</p>
+      <button class="quiz-opt" data-correct="true">AND (두 조건을 모두 만족)</button>
+      <button class="quiz-opt" data-correct="false">OR (둘 중 하나만 만족)</button>
+      <button class="quiz-opt" data-correct="false">첫 번째 조건만 적용</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="7">
       <span class="qnum">Q7</span>
-      <p class="qtext">열번호가 참조 범위의 총 열 수보다 클 때 발생하는 오류는?</p>
-      <button class="quiz-opt" data-correct="false">#N/A</button>
-      <button class="quiz-opt" data-correct="true">#REF!</button>
-      <button class="quiz-opt" data-correct="false">#VALUE!</button>
+      <p class="qtext">DCOUNT와 DCOUNTA의 차이로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="true">DCOUNT는 숫자 필드만, DCOUNTA는 값이 있는 모든 필드를 센다</button>
+      <button class="quiz-opt" data-correct="false">DCOUNT는 문자 필드만, DCOUNTA는 숫자 필드만 센다</button>
+      <button class="quiz-opt" data-correct="false">두 함수는 완전히 동일하다</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="8">
       <span class="qnum">Q8</span>
-      <p class="qtext">VLOOKUP·MATCH의 범위 인수를 채우기 핸들로 복사할 때 올바른 처리는?</p>
-      <button class="quiz-opt" data-correct="false">상대참조로 그대로 둔다</button>
-      <button class="quiz-opt" data-correct="true">절대참조($)로 고정한다</button>
-      <button class="quiz-opt" data-correct="false">범위를 매번 새로 지정한다</button>
+      <p class="qtext">ROUND 함수에서 자릿수 인수가 0이면 어떤 자리까지 표시하나요?</p>
+      <button class="quiz-opt" data-correct="false">소수점 첫째 자리까지</button>
+      <button class="quiz-opt" data-correct="true">일의 자리(정수)까지</button>
+      <button class="quiz-opt" data-correct="false">십의 자리까지</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="9">
       <span class="qnum">Q9</span>
-      <p class="qtext">INDEX+MATCH가 VLOOKUP보다 유리한 점이 아닌 것은?</p>
-      <button class="quiz-opt" data-correct="false">왼쪽 열도 검색 기준으로 쓸 수 있다</button>
-      <button class="quiz-opt" data-correct="false">표 중간에 열을 삽입해도 수식이 덜 깨진다</button>
-      <button class="quiz-opt" data-correct="true">함수 입력이 VLOOKUP보다 항상 더 짧다</button>
+      <p class="qtext">MOD 함수는 무엇을 구하는 함수인가요?</p>
+      <button class="quiz-opt" data-correct="false">나눗셈의 몫</button>
+      <button class="quiz-opt" data-correct="true">나눗셈의 나머지</button>
+      <button class="quiz-opt" data-correct="false">두 수의 최댓값</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-item" data-q="10">
       <span class="qnum">Q10</span>
-      <p class="qtext">찾는 값이 참조 범위에 아예 없을 때 발생하는 오류는?</p>
-      <button class="quiz-opt" data-correct="true">#N/A</button>
-      <button class="quiz-opt" data-correct="false">#REF!</button>
-      <button class="quiz-opt" data-correct="false">#DIV/0!</button>
+      <p class="qtext">주민등록번호에서 문자를 추출해 성별을 판별하는 문제는 어떤 함수 흐름으로 연결하나요?</p>
+      <button class="quiz-opt" data-correct="true">MID로 문자 추출 → MOD로 판별 → IF로 결과 표시</button>
+      <button class="quiz-opt" data-correct="false">SUM으로 합계 → AVERAGE로 평균 → COUNT로 개수</button>
+      <button class="quiz-opt" data-correct="false">ROUND로 반올림 → ROUNDUP으로 올림</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
     <div class="quiz-submit-box">
-      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. (테스트용 — 자유롭게 여러 번 풀어보세요)</p>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
       <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
       <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
       <div class="submit-status" id="submitStatus"></div>
@@ -629,20 +636,23 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
   <section id="checklist">
     <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
     <div class="checks">
-      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">공정코드 참조표에서 VLOOKUP으로 공정명·위치·담당팀장 채워보기</label></div>
-      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">VLOOKUP 마지막 인수를 0으로 쓰는 이유 설명해보기</label></div>
-      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">참조표 범위를 절대참조로 고정하고 아래로 복사해보기</label></div>
-      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">공정명으로 공정코드를 INDEX+MATCH로 역방향 조회해보기</label></div>
-      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">MATCH가 반환하는 값과 INDEX가 반환하는 값의 차이 구분하기</label></div>
-      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">#N/A, #REF! 오류를 일부러 만들어보고 원인 확인하기</label></div>
-      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">셀 주소에 F4를 반복해서 눌러 참조 4가지 형태 순환 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">SUMIF를 입력하고 채우기 핸들로 복사하며 F4로 범위 고정 연습하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">SUMIFS로 여러 조건 합계를 구하며 SUMIF와 인수 순서 비교해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">DSUM·DAVERAGE로 조건 목록을 직접 만들어 필드 번호 계산해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">DCOUNT와 DCOUNTA를 같은 범위에 써서 결과 차이 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">ROUND·ROUNDUP·ROUNDDOWN에 자릿수 양수/0/음수를 각각 넣어 결과 비교하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">MOD 함수로 짝수·홀수 구분해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">MID+MOD+IF를 중첩해서 성별 판별 수식 직접 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">비교 조건(">=400000")을 따옴표로 정확히 써서 SUMIF 연습하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">고급 필터 조건 목록의 AND/OR 배치 규칙을 데이터베이스 함수 조건에도 똑같이 적용해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
     </div>
   </section>
 
   <footer>
     <div class="school">우리컴퓨터학원</div>
     <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
-    <div style="margin-top:8px;color:var(--red);font-weight:700;">⚠️ 테스트용 샘플 자료 — 실제 6차시 수업 내용이 아닙니다</div>
   </footer>
 
 </main>
@@ -658,7 +668,7 @@ function closeSidebar(){
 }
 
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
-const SHEET_NAME = '6차시(테스트)';
+const SHEET_NAME = '6차시';
 let studentName = '';
 const quizAnswers = new Array(10).fill(null);
 
