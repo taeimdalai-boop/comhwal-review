@@ -410,7 +410,7 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
       <h3>MATCH — 위치(몇 번째)를 찾는다</h3>
       <div class="step"><b>구조</b> =MATCH(찾을값, 찾을범위, 일치유형). 예: <code>=MATCH("총무부",$F$1:$F$8,0)</code></div>
       <div class="step"><b>반환값</b> 실제 값이 아니라 그 범위에서 <b>몇 번째 위치</b>인지 번호입니다. 위 예가 3이면 "세 번째"라는 뜻.</div>
-      <div class="step"><b>세 번째 인수</b> 정확히 찾을 땐 <b>0</b>(FALSE와 같은 뜻). 1/-1은 유사 일치(정렬 필요)라 시험에선 보통 0.</div>
+      <div class="step"><b>세 번째 인수(일치 유형)</b> <b>0</b>=정확히 일치(FALSE와 같은 뜻). <b>1</b>=오름차순 정렬에서 "찾을값 이하 중 가장 큰 값"의 위치. <b>-1</b>=내림차순 정렬에서 "찾을값 이상 중 가장 작은 값"의 위치. 문자·코드는 0, 점수 구간처럼 이하 최댓값을 찾을 땐 정렬 방향에 맞춰 1(또는 -1).</div>
       <div class="exam-ex">시험 예시: 이름을 MATCH로 찾아 "몇 번째 사람인지" 위치를 구한 뒤 그 번호를 INDEX에 넘깁니다.</div>
     </div>
 
@@ -578,10 +578,10 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 
     <div class="quiz-item" data-q="7">
       <span class="qnum">Q7</span>
-      <p class="qtext">VLOOKUP·HLOOKUP에서 점수 구간(90 이상 A, 80 이상 B …)처럼 "이하 중 가장 큰 값"을 찾을 때 쓰는 일치 옵션은?</p>
-      <button class="quiz-opt" data-correct="false">FALSE (정확히 일치)</button>
-      <button class="quiz-opt" data-correct="true">TRUE (유사 일치, 오름차순 정렬)</button>
-      <button class="quiz-opt" data-correct="false">아무 값이나 상관없다</button>
+      <p class="qtext">MATCH 함수의 세 번째 인수(일치 유형)에서, 데이터가 <b>오름차순</b>으로 정렬돼 있고 찾을값 "이하 중 가장 큰 값"의 위치를 찾을 때 선택하는 값은?</p>
+      <button class="quiz-opt" data-correct="true">1 (오름차순 정렬, 이하 최댓값)</button>
+      <button class="quiz-opt" data-correct="false">0 (정확히 일치)</button>
+      <button class="quiz-opt" data-correct="false">-1 (내림차순 정렬, 이상 최솟값)</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
