@@ -721,6 +721,12 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
 
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
 
     </div>
 
