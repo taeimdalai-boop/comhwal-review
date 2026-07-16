@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9차시 복습자료 | 컴활2급 - CHOOSE·RANK·SMALL/LARGE·IF·중첩IF·AND/OR·날짜시간 함수</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">9차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>9차시 복습자료</h1>
+  <p class="meta"><b>2026-07-16</b><br>CHOOSE·SWITCH, RANK.EQ 순위, SMALL·LARGE·MEDIAN·MODE.SNGL 통계, IF와 중첩 IF, AND·OR 다중 조건, IFS·IFERROR, 그리고 날짜·시간 함수와 WEEKDAY까지 — 함수 20개를 몰아친 날</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">CHOOSE · RANK · 통계함수</span>
+      <span class="tag">IF · 중첩 IF · AND/OR · 날짜시간</span>
+    </div>
+    <h1>오늘의 핵심은 "IF의 조건식은 질문이고, 답은 참·거짓 둘뿐 — 결과 구간이 N개면 IF는 N-1개"입니다.</h1>
+    <p class="sub">2026-07-16 · 9차시 · 함수를 20개 넘게 몰아친 날입니다. CHOOSE·SWITCH로 번호에 맞는 값을 고르고, RANK.EQ로 순위를, SMALL·LARGE·MEDIAN·MODE.SNGL로 통계값을 구했습니다. 그리고 오늘의 주인공 IF — 기본형에서 중첩 IF(구간 나누기), AND·OR(동시 질문)까지 3단계로 올라갔고, 마지막에 날짜·시간 함수와 WEEKDAY로 마무리했습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">🔢 CHOOSE (숫자로 선택)</span>
+      <span class="key-badge">🏅 RANK.EQ (순위)</span>
+      <span class="key-badge">📊 SMALL·LARGE·MEDIAN·MODE</span>
+      <span class="key-badge">❓ IF (질문)</span>
+      <span class="key-badge">🪜 중첩 IF (구간)</span>
+      <span class="key-badge">🔗 AND·OR (동시 질문)</span>
+      <span class="key-badge">📅 날짜·WEEKDAY</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>CHOOSE — 숫자로 고른다</h3>
+        <p>=CHOOSE(숫자, 값1, 값2, …). 첫 인수에는 <b>반드시 숫자</b>가 들어가고 <b>1번부터</b> 시작합니다(0번 없음). 코드가 0부터면 +1로 맞춰줘야 해요.</p>
+        <div class="use">대화상자(fx)에서 Tab키 = 따옴표·콤마 자동</div>
+      </div>
+
+      <div class="card">
+        <h3>RANK.EQ — 순위 매기기</h3>
+        <p>=RANK.EQ(내 점수, 전체 범위, 옵션). <b>내 점수가 먼저</b>, 전체 범위는 <b>F4로 절대 고정</b>. 옵션 0=내림차순, 1=오름차순이고 <b>생략하면 내림차순</b>입니다.</p>
+        <div class="use">점수·금액=내림차순 / 기록·등급=오름차순(1)</div>
+      </div>
+
+      <div class="card">
+        <h3>SMALL·LARGE·MEDIAN·MODE</h3>
+        <p>SMALL(범위,k)=k번째로 작은 값, LARGE(범위,k)=k번째로 큰 값. MEDIAN=중앙값, MODE.SNGL=최빈값(없으면 #N/A).</p>
+        <div class="use">k=1이면 최저/최고 · 총점은 범위에서 빼기</div>
+      </div>
+
+      <div class="card">
+        <h3>IF — 조건식은 "질문"이다</h3>
+        <p>=IF(조건식, 참일때, 거짓일때). 조건식은 엑셀에게 던지는 <b>질문</b>이고, 답은 <b>TRUE/FALSE 둘뿐</b>. 답이 나오면 해당 값을 출력하고 <b>즉시 종료</b>합니다.</p>
+        <div class="use">IF 조건식엔 따옴표 없음 (SUMIF 조건과 반대)</div>
+      </div>
+
+      <div class="card prac-type">
+        <h3>중첩 IF — 구간 N개면 IF N-1개</h3>
+        <p>결과가 A·B·C·D·F 5개면 질문은 <b>4번</b>이면 됩니다(마지막은 자동으로 거짓 구간). 거짓 구간 안에 다음 질문을 쌓아 올리는 구조예요.</p>
+        <div class="use">먼저 구간 수를 세고 → IF 개수를 정하고 → 식을 쓴다</div>
+      </div>
+
+      <div class="card">
+        <h3>AND·OR — 질문을 동시에</h3>
+        <p>IF 조건식엔 질문을 <b>1개만</b> 넣을 수 있어요. 여러 질문이 동시에 필요하면 조건식 안에 <b>AND(모두 만족)</b> 또는 <b>OR(하나만)</b>를 씁니다.</p>
+        <div class="use">AND·OR의 괄호는 조건식 안에서 닫는다</div>
+      </div>
+
+      <div class="card">
+        <h3>날짜·시간 함수</h3>
+        <p>TODAY()·NOW()는 <b>인수가 없습니다</b>. YEAR/MONTH/DAY로 쪼개고 <b>DATE</b>로 합치고, HOUR/MINUTE/SECOND로 쪼개고 <b>TIME</b>으로 합칩니다.</p>
+        <div class="use">Ctrl+; = 오늘 날짜 / Ctrl+Shift+; = 현재 시간</div>
+      </div>
+
+      <div class="card">
+        <h3>WEEKDAY ★ 시험 단골</h3>
+        <p>=WEEKDAY(날짜, 옵션). <b>옵션 2를 쓰면 월요일이 1</b>이라 평일·주말 구분이 쉽습니다. CHOOSE와 겹쳐 한글 요일을, IF와 겹쳐 평일/주말을 판별해요.</p>
+        <div class="use">옵션 2에서 평일은 5 이하</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>CHOOSE — 숫자에 맞는 값을 고른다</h3>
+      <div class="step"><b>구조</b> =CHOOSE(숫자, 값1, 값2, …). 예: <code>=CHOOSE(D4,"사원","대리","과장","차장","부장")</code></div>
+      <div class="step"><b>첫 인수는 반드시 숫자</b> 문자를 넣으면 안 됩니다. 그리고 <b>1번부터 시작</b>하며 0번은 없습니다. 코드가 0,1,2…로 시작하면 <code>+1</code>을 해서 1번부터 되게 맞춰야 합니다.</div>
+      <div class="step"><b>대화상자(fx)를 쓰세요</b> 값 칸에서 <b>Tab키</b>를 누르면 따옴표와 콤마를 자동으로 붙여줍니다. 직접 <code>"사원",</code> 치는 것보다 훨씬 빠르고 실수가 적습니다. (Tab=다음 칸, Shift+Tab=이전 칸)</div>
+      <div class="step"><b>기준표를 셀로 참조할 때는 F4</b> 사원·대리·과장 목록을 따로 만들어 셀로 참조하면 나중에 직급 체계가 바뀌어도 그 표만 고치면 됩니다. 단 채우기 핸들을 쓰면 밀리므로 <b>범위가 아닌 단일 셀이라도 "기준값"이면 절대 참조</b>합니다.</div>
+      <div class="exam-ex">시험 예시: VLOOKUP으로도 되는 문제를 CHOOSE로 풀게 하는 유형이 나옵니다. 첫 인수 자리에 RANK 같은 함수를 끼워 넣는 중첩도 잘 나옵니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>SWITCH — CHOOSE와 닮았지만 문자도 된다</h3>
+      <div class="step"><b>차이</b> CHOOSE는 첫 인수가 반드시 숫자이고 1,2,3… 순서가 고정입니다. SWITCH는 <b>숫자든 문자든</b> 받을 수 있고, 어떤 값일 때 무엇을 낼지 <b>값을 직접 지정</b>합니다.</div>
+      <div class="step"><b>언제 쓰나</b> 과목 코드가 A·B·C처럼 문자면 CHOOSE는 숫자로 바꾸는 단계가 하나 더 필요합니다. SWITCH는 그 단계 없이 바로 씁니다.</div>
+      <div class="exam-ex">참고: SWITCH와 IFS는 최근 추가된 함수로 <b>아직 시험에 나온 적이 없습니다.</b> 급하면 CHOOSE에 집중하세요.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>RANK.EQ — 순위를 매긴다 (필기·실기 단골)</h3>
+      <div class="step"><b>구조</b> =RANK.EQ(내 점수, 전체 범위, 옵션). 예: <code>=RANK.EQ(D2,$D$2:$D$50,0)</code></div>
+      <div class="step"><b>순서</b> 내 점수(단일 셀)가 먼저 오고, 그다음 비교할 전체 범위입니다. 내 점수 자리에 범위를 넣으면 안 됩니다.</div>
+      <div class="step"><b>옵션</b> <b>0=내림차순</b>(큰 값이 1등), <b>1=오름차순</b>(작은 값이 1등). <b>생략하면 내림차순</b>으로 처리됩니다. 점수·금액은 큰 값이 1등이라 내림차순, <b>달리기 기록(초)·등급</b>은 작은 값이 1등이라 오름차순을 씁니다.</div>
+      <div class="step"><b>전체 범위는 F4 필수</b> 절대 참조를 안 하면 채우기 핸들로 복사할 때 범위가 밀려 <b>900만 원도 1등, 800만 원도 1등</b>처럼 순위가 전부 망가집니다.</div>
+      <div class="step"><b>EQ와 AVG</b> 동점 처리 방식 차이입니다. RANK.EQ는 같은 순위를 주고, RANK.AVG는 평균 순위를 줍니다. <b>컴활2급은 RANK.EQ만</b> 씁니다.</div>
+      <div class="exam-ex">시험 예시: 실기는 옵션 생략이 가능하지만, 필기 대비로 0을 명시하는 습관을 들이세요.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>SMALL · LARGE · MEDIAN · MODE.SNGL — 통계값 꺼내기</h3>
+      <div class="step"><b>SMALL / LARGE</b> =SMALL(범위, k)는 k번째로 <b>작은</b> 값, =LARGE(범위, k)는 k번째로 <b>큰</b> 값. k=1이면 최저/최고입니다.</div>
+      <div class="step"><b>범위를 무조건 F4 하지 마세요</b> 학생마다 자기 행의 국·영·수를 봐야 하면 절대 참조를 <b>하면 안 됩니다</b>. "범위=절대참조"로 외우지 말고 상황에 맞게 판단하세요.</div>
+      <div class="step"><b>총점은 빼기</b> "내 점수 중 제일 낮은 점수"를 구할 땐 총점을 범위에 넣지 않습니다. 총점은 응시한 개별 과목 점수가 아니니까요.</div>
+      <div class="step"><b>MEDIAN</b> 데이터를 일렬로 세웠을 때 <b>중앙값</b>. 범위만 넣으면 끝입니다.</div>
+      <div class="step"><b>MODE.SNGL</b> 가장 많이 등장한 값(<b>최빈값</b>). 범위만 넣으면 끝이고, <b>최빈값이 없으면 #N/A</b>가 나옵니다 — 이건 오류가 아니라 정상 결과입니다.</div>
+      <div class="exam-ex">시험 예시: SUMIF의 조건 자리에 LARGE·SMALL을 끼워 넣어 "상위 5위 이내 데이터의 합계" 같은 형태로 어렵게 냅니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>IF — 조건식은 "질문"이다 (오늘의 주인공)</h3>
+      <div class="step"><b>구조</b> =IF(조건식, 참일 때 값, 거짓일 때 값). 예: <code>=IF(C2&gt;=60,"합격","불합격")</code></div>
+      <div class="step"><b>조건식 = 질문</b> "너 60점 넘니?"를 엑셀이 알아듣게 코딩한 것이 <code>C2&gt;=60</code>입니다. <b>주어(비교할 셀)가 반드시 앞에</b> 옵니다.</div>
+      <div class="step"><b>답은 TRUE/FALSE 둘뿐</b> 질문에 대한 답은 참·거짓밖에 없습니다. TRUE면 두 번째 인수를, FALSE면 세 번째 인수를 출력하고 <b>즉시 종료</b>합니다.</div>
+      <div class="step"><b>따옴표가 없다</b> SUMIF의 조건은 <code>"&gt;=80"</code>처럼 따옴표가 필요합니다(비교 대상이 앞에 없고 조건 범위를 따로 주니까). 하지만 IF 조건식은 비교 대상이 바로 앞에 붙어 있어 <b>따옴표를 쓰지 않습니다</b>. 이 차이를 가장 헷갈려 합니다.</div>
+      <div class="step"><b>공백 출력</b> "불합격 대신 공백으로 나타내시오"가 자주 나옵니다. 따옴표 2개 <code>""</code>를 쓰면 됩니다.</div>
+      <div class="exam-ex">시험 예시: 컴활2급 필기 합격 기준(평균 60점)처럼 실제 기준을 그대로 조건식으로 옮겨 적는 연습을 하세요.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>중첩 IF — 구간이 N개면 IF는 N-1개</h3>
+      <div class="step"><b>먼저 구간을 센다</b> 평균 90↑=A, 80↑=B, 70↑=C, 60↑=D, 그 외 F → 결과가 <b>5개 구간</b>. 그러면 질문은 <b>4번</b>만 하면 됩니다. 마지막 F는 자동으로 거짓 구간에 배정되니까요.</div>
+      <div class="step"><b>구조</b> 90점 넘으면 A 출력 후 종료, 아니면 <b>거짓 구간</b>으로 가서 다시 "80점 넘니?" 질문. 거짓 구간 안에 다음 질문을 계속 쌓아 올리는 구조입니다.</div>
+      <div class="step"><b>재사용</b> 패턴이 반복되므로 <b>Ctrl+C → Ctrl+V</b>로 붙여 넣고 숫자만 바꾸면 훨씬 빠릅니다.</div>
+      <div class="step"><b>괄호</b> 몇 개를 닫아야 할지 세지 말고, <b>글자가 검정색이 될 때까지</b> 닫으면 됩니다.</div>
+      <div class="exam-ex">시험 예시: 근속 10년↑ 20%, 5년↑ 10%, 그 외 5% → 구간 3개이므로 IF는 2개. 문제에 "9년 이하" 같은 헷갈리는 멘트를 섞어 놓지만, <b>10년 이상 / 5년 이상 / 그 외</b>만 보면 됩니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>AND · OR — 질문을 동시에 여러 개 던질 때</h3>
+      <div class="step"><b>왜 필요한가</b> IF 조건식에는 질문을 <b>1개만</b> 넣을 수 있습니다. "평균 80↑ <b>이고</b> 각 과목 60↑"처럼 질문이 여러 개 동시에 필요하면 조건식 안에 AND·OR를 씁니다.</div>
+      <div class="step"><b>AND vs OR</b> 조건을 <b>모두</b> 만족해야 하면 AND, <b>하나만</b> 만족해도 되면 OR. 문제를 읽고 스스로 판별해야 합니다.</div>
+      <div class="step"><b>들어가는 자리</b> AND·OR은 <b>IF의 조건식 자리</b>에 들어갑니다. 예: <code>=IF(AND(E2&gt;=80,B2&gt;=60,C2&gt;=60),"합격","")</code></div>
+      <div class="step"><b>괄호 주의 ★</b> 가장 많이 틀리는 지점입니다. AND·OR의 괄호는 <b>조건식 안에서 닫아야</b> 합니다. 그 뒤에 참값·거짓값이 옵니다.</div>
+      <div class="step"><b>중첩 IF와 구분</b> <b>구간을 나누는</b> 문제면 중첩 IF, <b>질문을 동시에</b> 던지는 문제면 AND·OR입니다. 시험은 보통 어떤 함수를 쓰라고 알려줍니다.</div>
+      <div class="exam-ex">시험 예시: 재고 상태가 "부족"<b>이거나</b> 현재 재고가 최소 재고의 1.2배 이하면 발주 → 결과가 2개(필요·불필요)이므로 IF는 1개, 질문은 동시에 2개라 OR.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>IFS · IFERROR — IF의 형제들</h3>
+      <div class="step"><b>IFS</b> 조건식·참값 쌍을 반복하며 <b>거짓값 인수가 없습니다</b>. 위에서부터 훑다가 TRUE를 만나면 출력하고 종료합니다. 마지막 "나머지"는 조건식에 <b>TRUE(또는 1)</b>를 적어 무조건 걸리게 만듭니다.</div>
+      <div class="step"><b>IFERROR</b> =IFERROR(원래 수식, 오류일 때 값). 찾기·참조 함수에서 자주 나는 <b>#N/A</b>를 공백 <code>""</code>이나 "코드 오류" 같은 문구로 바꿔 보기 좋게 만듭니다.</div>
+      <div class="exam-ex">참고: IFS는 구버전(2016 등)에 없고 <b>시험 출제 이력이 없습니다.</b> IFERROR는 문제 풀면서 익혀도 충분합니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>날짜·시간 함수 — 쪼개고 합치기</h3>
+      <div class="step"><b>인수가 없는 함수</b> <code>TODAY()</code>(오늘 날짜), <code>NOW()</code>(현재 날짜+시간)는 <b>인수가 아예 없습니다</b>. 괄호만 열고 닫으면 끝.</div>
+      <div class="step"><b>단축키</b> <code>Ctrl+;</code>=오늘 날짜, <code>Ctrl+Shift+;</code>=현재 시간. "오늘 날짜를 넣는 방법으로 옳지 않은 것은?"이 필기에 나옵니다.</div>
+      <div class="step"><b>쪼개기 → 합치기 (날짜)</b> YEAR·MONTH·DAY로 연·월·일을 각각 추출하고, <b>DATE(년, 월, 일)</b>로 다시 날짜 형식으로 합칩니다.</div>
+      <div class="step"><b>쪼개기 → 합치기 (시간)</b> HOUR·MINUTE·SECOND로 시·분·초를 추출하고, <b>TIME(시, 분, 초)</b>으로 다시 시간 형식으로 합칩니다.</div>
+      <div class="exam-ex">시험 예시: 동작은 단순한데 문제를 어렵게 냅니다. DATE·TIME이 어렵다는 평이 많으니 인수 순서(연·월·일 / 시·분·초)를 확실히 해두세요.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>WEEKDAY — 요일을 숫자로 (★★ 아주 중요)</h3>
+      <div class="step"><b>구조</b> =WEEKDAY(날짜, 옵션번호). 인수는 2개입니다. 요일을 숫자로 돌려줍니다.</div>
+      <div class="step"><b>옵션 2를 가장 많이 쓴다</b> 옵션 <b>2 = 월요일이 1</b>, 화요일 2 … 일요일 7. 평일·주말 구분이 쉬워서입니다. (옵션 1은 일요일이 1) 옵션 번호는 시험에서 다 주니 외울 필요 없습니다.</div>
+      <div class="step"><b>활용 ① CHOOSE와 중첩 → 한글 요일</b> <code>=CHOOSE(WEEKDAY(날짜,2),"월","화","수","목","금","토","일")</code></div>
+      <div class="step"><b>활용 ② IF와 결합 → 평일/주말</b> 옵션 2에서 <b>평일은 5 이하</b>이므로 <code>=IF(WEEKDAY(날짜,2)&lt;=5,"평일","주말")</code></div>
+      <div class="exam-ex">강사 코멘트: "IF 문제 하나를 40분이나 붙잡고 푼 문제가 바로 이 WEEKDAY였다." 날짜·시간 함수 중 가장 주의 깊게 봐야 할 함수입니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 틀린 부분</div>
+      <h3>AND·OR의 괄호를 조건식 밖에서 닫아요</h3>
+      <p>IF 안에서 AND·OR를 쓸 때 괄호를 엉뚱한 데서 닫아 수식이 통째로 꼬입니다. AND·OR는 <b>조건식 안에서 끝나야</b> 하고, 그 뒤에 참값·거짓값이 옵니다.</p>
+      <p class="fix">AND·OR는 조건식 자리에서 닫는다 — <code>=IF(AND(조건1,조건2),"참","거짓")</code></p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>RANK.EQ 전체 범위에 F4를 안 걸어요</h3>
+      <p>절대 참조를 안 하면 채우기 핸들로 복사할 때 범위가 밀려 <b>900만 원도 1등, 800만 원도 1등</b>이 됩니다(수업 중 실제로 났던 오류).</p>
+      <p class="fix">내 점수는 상대 참조 그대로, 전체 범위만 F4로 <code>$D$2:$D$50</code> 고정.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>IF 조건식에 따옴표를 넣어요</h3>
+      <p>SUMIF의 조건은 <code>"&gt;=80"</code>처럼 따옴표가 필요하지만, IF 조건식은 비교 대상이 바로 앞에 붙어 있어 <b>따옴표가 없습니다</b>.</p>
+      <p class="fix">IF 조건식 = 따옴표 없음 / SUMIF류 조건 = 따옴표 있음.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>중첩 IF에서 구간을 안 세고 바로 식을 써요</h3>
+      <p>결과가 몇 개인지 세지 않고 무작정 쓰다가 IF 개수가 안 맞습니다. 결과 구간이 5개면 IF는 4개, 2개면 1개입니다.</p>
+      <p class="fix">① 결과 구간 수를 센다 → ② IF는 (구간-1)개 → ③ 그다음 식을 쓴다.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>"범위니까 무조건 절대 참조"라고 외워요</h3>
+      <p>SMALL·LARGE에서 학생마다 자기 행의 국·영·수를 봐야 하면 절대 참조를 <b>하면 안 됩니다</b>. 반대로 CHOOSE의 기준표 셀은 <b>단일 셀이라도</b> 기준값이면 절대 참조해야 합니다.</p>
+      <p class="fix">"범위=절대참조"가 아니라 "<b>기준이 되는 것</b>=절대참조"로 판단하세요.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>이상·이하·초과·미만의 등호(=)를 빠뜨려요</h3>
+      <p>"최소 재고 <b>이하</b>"인데 <code>&lt;</code>만 쓰면 틀립니다. 강사 표현으로 "떼먹으면 땡"입니다.</p>
+      <p class="fix">이상 <code>&gt;=</code> / 이하 <code>&lt;=</code> / 초과 <code>&gt;</code> / 미만 <code>&lt;</code> — 등호 유무를 항상 확인.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>CHOOSE 첫 인수에 숫자가 아닌 걸 넣어요</h3>
+      <p>CHOOSE의 첫 인수는 <b>반드시 숫자</b>이고 <b>1번부터</b> 시작합니다(0번 없음). 코드가 0부터 시작하면 +1로 맞춰야 합니다.</p>
+      <p class="fix">문자 코드(A·B·C)를 그대로 쓰고 싶다면 CHOOSE가 아니라 SWITCH.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>#N/A나 초록색 삼각형을 오류로 오해해요</h3>
+      <p>MODE.SNGL은 <b>최빈값이 없으면 정상적으로 #N/A</b>가 납니다. 셀 왼쪽 위 초록색 삼각형은 "인접 셀 숫자를 빠뜨린 것 아니냐"는 알림일 뿐입니다.</p>
+      <p class="fix">의도한 것이면 "오류 무시"로 표식 제거. 진짜 #N/A를 감추려면 IFERROR.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>긴 수식에서 지금 어느 인수인지 놓쳐요</h3>
+      <p>IF가 길어지면 콤마가 엉뚱한 데 들어가 꼬입니다. 게다가 <b>실수를 찾는 게 만드는 것보다 훨씬 힘듭니다</b>.</p>
+      <p class="fix">스크린팁으로 현재 위치를 확인하거나, 아예 <b>대화상자(fx)</b>를 쓰면 인수가 칸별로 나뉘어 안 꼬입니다.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>표시 형식이 텍스트라 결과가 안 나와요</h3>
+      <p>셀이 텍스트 형식이면 함수를 제대로 써도 결과가 글자로 그대로 보입니다.</p>
+      <p class="fix">표시 형식을 <b>일반</b>으로 바꾼 뒤 <b>F2 → Enter</b>로 다시 확정하세요.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·함수 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>단축키/함수</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>찾기·참조</td><td><code>CHOOSE</code></td><td>숫자에 맞는 값을 골라 반환</td><td>첫 인수 반드시 숫자 · 1번부터(0번 없음)</td></tr>
+          <tr><td>찾기·참조</td><td><code>SWITCH</code></td><td>값에 맞는 결과 반환 (문자도 가능)</td><td>값 직접 지정 · 시험 출제 이력 없음</td></tr>
+          <tr><td>통계</td><td><code>RANK.EQ</code></td><td>순위 계산 (동점은 같은 순위)</td><td>(내 점수, 전체범위, 0=내림/1=오름) · 생략=내림차순</td></tr>
+          <tr><td>통계</td><td><code>RANK.AVG</code></td><td>동점을 평균 순위로 처리</td><td>컴활2급에서는 사용하지 않음</td></tr>
+          <tr><td>통계</td><td><code>SMALL</code></td><td>범위에서 k번째로 작은 값</td><td>(범위, k) · k=1이면 최저</td></tr>
+          <tr><td>통계</td><td><code>LARGE</code></td><td>범위에서 k번째로 큰 값</td><td>(범위, k) · k=1이면 최고</td></tr>
+          <tr><td>통계</td><td><code>MEDIAN</code></td><td>중앙값 (일렬로 세웠을 때 가운데)</td><td>범위만 지정</td></tr>
+          <tr><td>통계</td><td><code>MODE.SNGL</code></td><td>최빈값 (가장 많이 나온 값)</td><td>없으면 #N/A (정상)</td></tr>
+          <tr><td>논리</td><td><code>IF</code></td><td>조건식(질문)의 참·거짓에 따라 값 반환</td><td>(조건식, 참일때, 거짓일때) · 조건식엔 따옴표 없음</td></tr>
+          <tr><td>논리</td><td><code>AND</code></td><td>여러 조건을 모두 만족해야 TRUE</td><td>IF의 조건식 자리에 넣음</td></tr>
+          <tr><td>논리</td><td><code>OR</code></td><td>여러 조건 중 하나만 만족해도 TRUE</td><td>IF의 조건식 자리에 넣음</td></tr>
+          <tr><td>논리</td><td><code>IFS</code></td><td>조건·참값 쌍 반복 (거짓값 없음)</td><td>나머지는 TRUE(또는 1) · 출제 이력 없음</td></tr>
+          <tr><td>논리</td><td><code>IFERROR</code></td><td>오류일 때 대체값 출력</td><td>#N/A를 공백("")으로 바꿀 때</td></tr>
+          <tr><td>날짜·시간</td><td><code>TODAY / NOW</code></td><td>오늘 날짜 / 현재 날짜+시간</td><td><b>인수 없음</b></td></tr>
+          <tr><td>날짜·시간</td><td><code>YEAR / MONTH / DAY</code></td><td>날짜에서 연 / 월 / 일 추출</td><td>DATE로 다시 합침</td></tr>
+          <tr><td>날짜·시간</td><td><code>DATE</code></td><td>연·월·일을 날짜 형식으로 결합</td><td>(년, 월, 일)</td></tr>
+          <tr><td>날짜·시간</td><td><code>HOUR / MINUTE / SECOND</code></td><td>시간에서 시 / 분 / 초 추출</td><td>TIME으로 다시 합침</td></tr>
+          <tr><td>날짜·시간</td><td><code>TIME</code></td><td>시·분·초를 시간 형식으로 결합</td><td>(시, 분, 초)</td></tr>
+          <tr><td>날짜·시간</td><td><code>WEEKDAY</code> ★</td><td>요일을 숫자로 반환</td><td>(날짜, 옵션) · <b>옵션 2 = 월요일이 1</b></td></tr>
+          <tr><td>단축키</td><td><code>Ctrl+;</code></td><td>오늘 날짜 입력</td><td>TODAY() 함수와 함께 출제</td></tr>
+          <tr><td>단축키</td><td><code>Ctrl+Shift+;</code></td><td>현재 시간 입력</td><td></td></tr>
+          <tr><td>참조</td><td><code>F4</code></td><td>상대→절대($)→행고정→열고정 순환</td><td>RANK 전체범위·CHOOSE 기준셀 고정</td></tr>
+          <tr><td>편집</td><td><code>F2</code></td><td>셀 수식 편집 · 표시형식 변경 후 재확정</td><td></td></tr>
+          <tr><td>입력</td><td><code>fx</code> 대화상자</td><td>긴 IF·CHOOSE를 인수별로 나눠 입력</td><td>콤마 꼬임 방지 · 위치 확인</td></tr>
+          <tr><td>입력</td><td>Tab / Shift+Tab</td><td>대화상자 칸 이동</td><td>CHOOSE에서 따옴표·콤마 자동</td></tr>
+          <tr><td>선택</td><td>Ctrl+Shift+방향키</td><td>연속 범위 한 번에 선택</td><td></td></tr>
+          <tr><td>복사</td><td>Ctrl+C / Ctrl+V</td><td>중첩 IF의 반복 패턴 재사용</td><td>숫자만 바꾸면 훨씬 빠름</td></tr>
+          <tr><td>복사</td><td>채우기 핸들 더블 클릭</td><td>아래 데이터 범위까지 자동 복사</td><td>복사 전 절대 참조 확인</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">CHOOSE 함수의 첫 번째 인수에 반드시 들어가야 하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">숫자 (1번부터 시작, 0번 없음)</button>
+      <button class="quiz-opt" data-correct="false">문자 (A, B, C 같은 코드)</button>
+      <button class="quiz-opt" data-correct="false">범위 (여러 셀)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">RANK.EQ 함수에서 세 번째 인수(옵션)를 생략하면 어떻게 처리되나요?</p>
+      <button class="quiz-opt" data-correct="true">내림차순(0) — 큰 값이 1등</button>
+      <button class="quiz-opt" data-correct="false">오름차순(1) — 작은 값이 1등</button>
+      <button class="quiz-opt" data-correct="false">오류(#N/A)가 난다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">SMALL(범위, 1)과 LARGE(범위, 1)이 각각 돌려주는 값은?</p>
+      <button class="quiz-opt" data-correct="true">가장 작은 값 / 가장 큰 값</button>
+      <button class="quiz-opt" data-correct="false">중앙값 / 최빈값</button>
+      <button class="quiz-opt" data-correct="false">첫 번째 셀 값 / 마지막 셀 값</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">MODE.SNGL 함수를 썼는데 범위 안에 최빈값이 없으면 어떤 결과가 나오나요?</p>
+      <button class="quiz-opt" data-correct="true">#N/A (오류가 아니라 정상 결과)</button>
+      <button class="quiz-opt" data-correct="false">0이 나온다</button>
+      <button class="quiz-opt" data-correct="false">범위의 평균이 나온다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">IF 함수의 조건식(질문)에 대한 답으로 나올 수 있는 것은?</p>
+      <button class="quiz-opt" data-correct="true">TRUE 또는 FALSE, 둘 뿐이다</button>
+      <button class="quiz-opt" data-correct="false">숫자면 무엇이든 나올 수 있다</button>
+      <button class="quiz-opt" data-correct="false">참·거짓·보류 세 가지가 나온다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">중첩 IF로 평균에 따라 A·B·C·D·F <b>5개 등급</b>을 매길 때, 필요한 IF의 개수는?</p>
+      <button class="quiz-opt" data-correct="true">4개 (구간 5개 - 1)</button>
+      <button class="quiz-opt" data-correct="false">5개 (구간 수와 같다)</button>
+      <button class="quiz-opt" data-correct="false">6개 (구간 5개 + 1)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">IF의 조건식 안에서 "평균 80점 이상 <b>이고</b> 각 과목도 60점 이상"처럼 여러 조건을 <b>모두</b> 만족해야 할 때 쓰는 함수는?</p>
+      <button class="quiz-opt" data-correct="true">AND</button>
+      <button class="quiz-opt" data-correct="false">OR</button>
+      <button class="quiz-opt" data-correct="false">IFERROR</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">오늘 날짜를 구하는 TODAY 함수의 인수는 몇 개인가요?</p>
+      <button class="quiz-opt" data-correct="true">없다 — 괄호만 열고 닫는다</button>
+      <button class="quiz-opt" data-correct="false">1개 — 기준 날짜를 넣는다</button>
+      <button class="quiz-opt" data-correct="false">2개 — 날짜와 옵션을 넣는다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">WEEKDAY 함수에서 옵션을 <b>2</b>로 지정하면 월요일은 몇으로 반환되나요?</p>
+      <button class="quiz-opt" data-correct="true">1 (그래서 평일은 5 이하)</button>
+      <button class="quiz-opt" data-correct="false">2 (일요일이 1이 된다)</button>
+      <button class="quiz-opt" data-correct="false">7 (일요일부터 거꾸로 센다)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">(복습) MATCH 함수가 돌려주는 결과는 무엇인가요?</p>
+      <button class="quiz-opt" data-correct="true">찾는 값이 범위에서 몇 번째인지 위치 번호</button>
+      <button class="quiz-opt" data-correct="false">찾는 값 자체</button>
+      <button class="quiz-opt" data-correct="false">범위 안의 최댓값</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">CHOOSE로 직급 코드 → 직급명 찾아보기 (첫 인수는 숫자, 1번부터)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">CHOOSE를 fx 대화상자 + Tab키로 입력해보기 (따옴표·콤마 자동)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">RANK.EQ로 순위 구하고 전체 범위에 F4 걸어보기 (0=내림차순)</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">기록·등급처럼 작은 값이 1등인 경우 오름차순(1)로 바꿔보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">SMALL·LARGE로 최저/최고 점수, MEDIAN·MODE.SNGL로 중앙값·최빈값 구해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">IF로 "60점 넘으면 합격, 아니면 공백("")" 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">중첩 IF로 A·B·C·D·F 등급 매기기 — 구간 5개면 IF 4개</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">중첩 IF를 Ctrl+C/V로 재사용하고 괄호를 검정색으로 끝내보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">AND·OR를 IF 조건식 안에 넣고 괄호를 조건식에서 닫아보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">TODAY·NOW(인수 없음) 쓰고 Ctrl+; / Ctrl+Shift+; 단축키 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">YEAR·MONTH·DAY로 쪼개고 DATE로 다시 합쳐보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">WEEKDAY(날짜,2)로 요일 번호 구하고 CHOOSE로 한글 요일 만들기</label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">IF+WEEKDAY로 평일(&lt;=5)/주말 판별해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c14"><label for="c14">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '9차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
