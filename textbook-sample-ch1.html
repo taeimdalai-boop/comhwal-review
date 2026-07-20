@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>컴활 2급 필기 — 샘플 미리보기 (1과목 ① 한글 Windows 10)</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', sans-serif; font-size: 10.5pt; line-height: 1.65; color: #222; margin: 0; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; page-break-after: always; }
+  .cover .badge { background:#1a56db; color:#fff; padding:6px 18px; border-radius:20px; font-size:11pt; letter-spacing:2px; }
+  .cover h1 { font-size: 30pt; margin: 24px 0 8px; color:#111; }
+  .cover h2 { font-size: 15pt; font-weight: normal; color:#555; margin:0 0 40px; }
+  .cover .meta { color:#777; font-size:10pt; margin-top:60px; line-height:2; }
+  .cover .stats { display:flex; gap:24px; margin-top:30px; }
+  .cover .stats div { border:1px solid #ddd; border-radius:8px; padding:14px 22px; }
+  .cover .stats b { display:block; font-size:16pt; color:#1a56db; }
+  h1.chapter { font-size: 19pt; color:#1a56db; border-bottom:3px solid #1a56db; padding-bottom:8px; margin: 0 0 20px; page-break-before: always; }
+  h2 { font-size: 13.5pt; color:#111; background:#eef3fd; padding:7px 12px; border-left:5px solid #1a56db; margin:26px 0 12px; page-break-after: avoid; }
+  h3 { font-size: 11.5pt; color:#1a56db; margin:18px 0 6px; page-break-after: avoid; }
+  table { border-collapse: collapse; width:100%; margin:8px 0 14px; font-size:9.8pt; page-break-inside: avoid; }
+  th, td { border:1px solid #c9d4ea; padding:5px 9px; text-align:left; vertical-align:top; }
+  th { background:#eef3fd; white-space:nowrap; }
+  ul { margin:6px 0 12px; padding-left:20px; }
+  li { margin-bottom:3px; }
+  .tip { background:#fff8e6; border:1px solid #f0d890; border-radius:6px; padding:9px 13px; margin:10px 0; font-size:9.8pt; page-break-inside: avoid; }
+  .tip::before { content:"⭐ 빈출 포인트  "; font-weight:bold; color:#b45309; }
+  .qa { border:1px solid #d5dded; border-radius:6px; padding:11px 14px; margin:12px 0; font-size:9.8pt; background:#fafbfe; page-break-inside: avoid; }
+  .qa .q { font-weight:bold; margin-bottom:6px; }
+  .qa .q::before { content:"기출 CHECK  "; color:#1a56db; font-size:8.5pt; letter-spacing:1px; }
+  .qa.rep { border-color:#f0b4b4; background:#fef6f6; }
+  .qa.rep .q::before { content:"2026·7월 제보 기출  "; color:#b91c1c; }
+  .rep-tag { background:#b91c1c; color:#fff; font-size:8pt; padding:2px 8px; border-radius:10px; vertical-align:middle; margin-left:6px; }
+  .qa .a { color:#166534; }
+  .qa .a b { color:#166534; }
+  .freq { font-size:9pt; color:#888; font-weight:normal; margin-left:8px; }
+  .toc li { margin-bottom:6px; }
+  .toc { font-size:11pt; }
+  em.k { font-style:normal; font-weight:bold; color:#1a56db; }
+  .note { color:#666; font-size:9.3pt; }
+
+  h1.chapter { page-break-before:avoid; }
+  .scover { min-height:240mm; display:flex; flex-direction:column; justify-content:center; text-align:center; page-break-after:always; padding:0 16mm; }
+  .scover .sc-badge { display:inline-block; width:fit-content; margin:0 auto 22px; background:#1a56db; color:#fff; padding:6px 20px; border-radius:20px; font-size:11pt; letter-spacing:1px; }
+  .scover h1 { font-size:27pt; color:#111; line-height:1.35; margin:0 0 18px; }
+  .scover .sc-sub { font-size:12pt; color:#444; line-height:1.9; margin:0 0 30px; }
+  .scover .sc-meta { color:#777; font-size:10.5pt; }
+  .sample-note { background:#eef3fd; border:1px solid #c9d4ea; border-radius:8px; padding:12px 16px; margin:0 0 18px; font-size:10pt; color:#1a3a7a; }
+  .drill-h { background:#1a56db; color:#fff; padding:8px 14px; border-radius:6px; font-size:12pt; margin:26px 0 12px; }
+  .drill { border:1px solid #c9d4ea; border-radius:8px; padding:12px 16px; margin:12px 0; page-break-inside:avoid; }
+  .drill .dnum { background:#1a56db; color:#fff; padding:2px 10px; border-radius:4px; font-size:9pt; }
+  .drill .dyr { color:#888; font-size:8.5pt; margin-left:6px; }
+  .drill .dq { font-weight:bold; margin-bottom:8px; line-height:1.55; }
+  .drill ol.dch { list-style:none; padding-left:6px; margin:6px 0; }
+  .drill ol.dch li { margin-bottom:3px; font-size:10pt; }
+  .drill .cno { color:#1a56db; font-weight:bold; margin-right:4px; }
+  .anskey { margin:16px 0; }
+  .anskey-h { font-weight:bold; color:#166534; font-size:11.5pt; border:2px solid #166534; border-radius:8px 8px 0 0; padding:8px 14px 6px; background:none; page-break-after:avoid; }
+  .akitem { padding:6px 14px; font-size:9.5pt; line-height:1.5; border:2px solid #166534; border-top:0; background:none; page-break-inside:avoid; }
+  .akitem > b { color:#166534; }
+  .akitem .dcomm { color:#333; margin-top:3px; }
+  .endnote { margin:26px 0 10px; padding:16px; border:2px dashed #1a56db; border-radius:10px; text-align:center; background:#f7f9ff; page-break-inside:avoid; }
+  .endnote b { color:#1a56db; font-size:12.5pt; }
+  .endnote p { margin:8px 0 0; font-size:10.5pt; color:#444; line-height:1.7; }
+</style>
+</head>
+<body>
+
+<div class="scover">
+  <div class="sc-badge">WORKFLOWLAB · 미리보기 샘플</div>
+  <h1>컴퓨터활용능력 2급 필기<br>이론 + 기출 마스터</h1>
+  <p class="sc-sub">본 파일은 <b>1과목 ① 한글 Windows 10 사용법</b> 한 단원의 <b>미리보기 샘플</b>입니다.<br>실제 교재는 1·2과목 14개 단원 · 대표 기출 203제 · 상세 해설로 구성됩니다.</p>
+  <div class="sc-meta">태희쌤 (WorkflowLab) · 2026년 7월</div>
+</div><div class="sample-note">📘 <b>미리보기 샘플</b> — 아래는 실제 판매 교재의 <b>1과목 ① 한글 Windows 10 사용법</b> 단원 전체입니다. 이론 정리 → 대표 기출 → 상세 해설의 실제 구성을 그대로 보여드립니다.</div><h1 class="chapter" style="page-break-before:avoid;">1과목 ① 한글 Windows 10 사용법 <span class="freq">162문항 · 비중 1위</span></h1>
+
+<h2>바로 가기 키 (단축키)</h2>
+<table>
+  <tr><th>키</th><th>기능</th></tr>
+  <tr><td>■(Windows)+D</td><td>바탕 화면 표시/숨기기</td></tr>
+  <tr><td>■+E</td><td>파일 탐색기 열기</td></tr>
+  <tr><td>■+L</td><td>화면 잠금(사용자 전환)</td></tr>
+  <tr><td>■+I</td><td>설정 열기</td></tr>
+  <tr><td>■+Tab</td><td>작업 보기(타임라인·가상 데스크톱)</td></tr>
+  <tr><td>Alt+Tab</td><td>실행 중인 앱 전환</td></tr>
+  <tr><td>Alt+F4</td><td>현재 앱 종료 / 바탕화면에서 Windows 종료 대화상자</td></tr>
+  <tr><td>Ctrl+Shift+Esc</td><td>작업 관리자 바로 열기</td></tr>
+  <tr><td>F2 / F3 / F5</td><td>이름 바꾸기 / 검색 / 새로 고침</td></tr>
+  <tr><td>Shift+Delete</td><td>휴지통 거치지 않고 완전 삭제</td></tr>
+  <tr><td>PrintScreen / Alt+PrintScreen</td><td>전체 화면 / 활성 창만 클립보드 복사</td></tr>
+</table>
+
+<h2>파일·폴더 관리</h2>
+<ul>
+  <li><em class="k">같은 드라이브</em>에서 드래그 = 이동, <em class="k">다른 드라이브</em>로 드래그 = 복사. (Ctrl 누르면 항상 복사, Shift 누르면 항상 이동)</li>
+  <li>파일 이름에 사용할 수 없는 문자: <b>\ / : * ? " &lt; &gt; |</b></li>
+  <li>휴지통에 <em class="k">보관되지 않는 경우</em>: USB·네트워크 드라이브에서 삭제, Shift+Delete, 휴지통 크기 0%, 휴지통보다 큰 파일 → 즉시 완전 삭제되어 복원 불가</li>
+  <li>바로 가기 아이콘(.lnk): 원본을 가리키는 포인터. 삭제해도 원본은 안 지워짐. 하나의 원본에 여러 개 생성 가능, 아이콘 왼쪽 아래 화살표 표시. <em class="k">Ctrl+Shift 누른 채 드래그</em>로 생성. 원본 삭제 시 실행 불가</li>
+  <li>파일·폴더 이름: 255자 이내, 공백 포함 가능. 같은 폴더 안에 같은 이름 불가</li>
+  <li>작업 표시줄: 크기는 화면의 <em class="k">1/2까지</em> 조절 가능, '잠금' 상태에서는 크기·위치 변경 불가. 도구 모음: 링크·바탕 화면·새 도구 모음</li>
+  <li>검색: 파일 탐색기 검색(F3, 위치 지정·필터 가능) vs 작업 표시줄 검색(■+S, 컴퓨터 전체와 웹 검색, 필터 불가)</li>
+</ul>
+
+<h2>프린터와 스풀</h2>
+<ul>
+  <li><b>기본 프린터</b>: 한 대만 지정 가능. 네트워크 프린터·공유 프린터도 기본 프린터로 지정 가능</li>
+  <li>인쇄 대기 중 문서: <em class="k">삭제·인쇄 순서 변경·일시 중지는 가능</em>, 문서 내용·용지 방향·매수 변경은 불가</li>
+  <li><b>스풀(SPOOL)</b>: 저속의 프린터와 고속의 CPU를 병행 처리 — 인쇄하는 동안 다른 작업 가능(처리 효율↑, 인쇄 속도 자체가 빨라지는 건 아님)</li>
+  <li>인쇄 속도 단위: CPS(도트 프린터) · LPM(라인) · <em class="k">PPM(잉크젯/레이저)</em> · <em class="k">IPM(ISO 표준 — 잉크젯 일반 모드 측정)</em> · DPI는 속도가 아니라 <em class="k">해상도</em></li>
+</ul>
+
+<h2>한글 깨짐·언어 설정 <span class="rep-tag">7월 제보</span></h2>
+<ul>
+  <li><em class="k">유니코드를 지원하지 않는 프로그램</em>에서 한글이 깨질 때: [설정] → <b>[시간 및 언어]</b> → 관련 설정의 <b>국가/지역(관리자 언어 설정 — 유니코드를 사용하지 않는 프로그램용 언어)</b>에서 한국어로 변경</li>
+</ul>
+
+<div class="qa rep">
+  <div class="q">유니코드를 지원하지 않는 프로그램에서 한글이 깨질 때 Windows에서 해결하는 곳은?</div>
+  <div class="a">정답: <b>[설정]→[시간 및 언어]에서 국가/지역(유니코드를 사용하지 않는 프로그램용 언어) 변경</b>.</div>
+</div>
+
+<h2>제어판·설정 핵심</h2>
+<ul>
+  <li><b>작업 표시줄</b>: 자동 숨기기, 위치(상하좌우) 변경, 단추 그룹화 설정 가능. 파일 정렬 방식은 작업 표시줄이 아니라 <em class="k">폴더 옵션</em>의 영역</li>
+  <li><b>접근성</b>: 돋보기, 내레이터, 화상 키보드, 고대비 등. <em class="k">다중 디스플레이 설정은 접근성이 아니라 [시스템]-[디스플레이]</em></li>
+  <li><b>디스크 정리</b>: 불필요한 파일 삭제로 공간 확보. <b>드라이브 조각 모음(최적화)</b>: 단편화 해소로 <em class="k">접근 속도 향상</em>(용량이 늘어나는 것이 아님)</li>
+  <li><b>작업 관리자</b>: 실행 앱 강제 종료, 프로세스·성능(CPU/메모리) 확인, 시작프로그램 관리. <em class="k">프로그램 설치/제거는 불가</em></li>
+  <li><b>레지스트리</b>: 시스템·앱 구성 정보 저장 데이터베이스. regedit로 편집, 잘못 수정하면 시스템 오류 위험</li>
+</ul>
+
+<div class="tip">"~에서 설정할 수 <u>없는</u> 것은?" 유형이 압도적으로 많습니다. 각 설정 화면(작업 표시줄/접근성/디스플레이/폴더 옵션)의 <b>경계</b>를 묻는 문제 — 기능이 '어느 메뉴 소속인지'를 정확히 구분해 두세요.</div>
+
+<div class="qa">
+  <div class="q">한글 Windows 10에서 [설정]→[접근성]에서 구성할 수 없는 항목은?</div>
+  <div class="a">정답: <b>다중 디스플레이 구성</b> — [시스템]→[디스플레이]에서 관리. 돋보기·내레이터·화상 키보드는 접근성 소속.</div>
+</div>
+
+<h2>연결 프로그램·클립보드</h2>
+<ul>
+  <li><b>연결 프로그램</b>: 파일 <em class="k">확장자별</em>로 "이 파일을 열 앱"을 연결해 두는 것. 더블클릭하면 연결된 앱이 파일을 열어줌. 쉽게 말하면 <em class="k">.txt는 메모장, .hwp는 한글</em>처럼 짝을 정해두는 것</li>
+  <li>연결 프로그램을 <em class="k">바꿔도 파일 내용은 변하지 않음</em>. 하나의 확장자에 연결 프로그램은 하나(다른 앱으로 바꾸기는 가능)</li>
+  <li>연결 프로그램이 지정되지 않은 파일을 더블클릭하면 → <em class="k">앱 선택 대화상자</em>가 나타남(자동 삭제되거나 오류로 종료되지 않음)</li>
+  <li><b>클립보드</b>: 복사(Ctrl+C)·잘라내기(Ctrl+X)한 내용이 임시 보관되는 메모리 공간. <em class="k">모든 앱이 공유</em>하며, 시스템 재시작 시 내용이 사라짐</li>
+  <li>Windows 10은 <em class="k">■+V(클립보드 기록)</em>로 여러 항목 보관·선택 붙여넣기 가능. 가장 최근 복사본이 기본 붙여넣기 대상</li>
+</ul>
+
+<h2>파일 탐색기 — 선택·속성 창</h2>
+<ul>
+  <li>연속 선택 = <em class="k">Shift+클릭</em>, 떨어져 있는 파일 개별 선택 = <em class="k">Ctrl+클릭</em>, 전체 선택 = Ctrl+A</li>
+  <li>파일·폴더 선택 후 <em class="k">Alt+Enter</em> = [속성] 창 열기</li>
+  <li>폴더 [속성] 창: 종류·위치·크기·<em class="k">포함된 파일/폴더 수</em>·만든 날짜 확인, 특성(읽기 전용·숨김) 설정, [공유]·[보안]·[이전 버전] 탭 제공. <em class="k">이름 바꾸기는 속성 창에서 못 함</em>(F2로)</li>
+  <li><b>점프 목록</b>: 작업 표시줄 아이콘을 <em class="k">우클릭</em>하면 그 앱에서 최근 사용한 파일·자주 가는 목록이 뜨는 기능. 항목을 목록에 <em class="k">고정</em>할 수도 있음</li>
+  <li><b>에어로 피크(Aero Peek)</b>: 작업 표시줄 <em class="k">오른쪽 끝(바탕 화면 보기)</em>에 마우스를 올리면 열린 창이 투명해져 바탕 화면을 미리 보고, 클릭하면 모든 창 최소화</li>
+</ul>
+
+<h2>[설정] 범주별 경계 — "여기서 못 하는 것" 단골</h2>
+<ul>
+  <li><b>[앱]</b>: 앱 제거·기본 앱 지정·선택적 기능·시작 프로그램. <em class="k">하드웨어 장치 추가·제거는 [앱]이 아님</em>(장치 관리자)</li>
+  <li><b>[개인 설정]</b>: 배경, 색, <em class="k">잠금 화면(화면 보호기 포함)</em>, 테마, 글꼴, 시작 메뉴, 작업 표시줄. <em class="k">해상도 변경은 개인 설정이 아니라 [시스템]→[디스플레이]</em></li>
+  <li><b>[시스템]→[정보]</b>: Windows 사양·장치 사양 확인, <em class="k">PC 이름 바꾸기</em>. / <b>[시스템]→[소리]</b>: 출력·입력 장치 선택, 볼륨(마스터·앱별) 조정</li>
+  <li><b>사용자 계정</b>: 관리자 계정 vs 표준 계정. 계정 유형 변경·이름 변경 가능. <em class="k">■+L로 로그아웃 없이 사용자 전환</em> — 앞 사용자의 작업은 유지됨</li>
+  <li><b>키보드 속성</b>: 재입력 시간·반복 속도·커서 깜박임 속도 조정(키보드 종류 자체를 바꾸는 곳 아님). <b>마우스 설정</b>: 기본 단추 왼/오 전환, 커서 속도, 휠 스크롤 줄 수</li>
+</ul>
+
+<h2>드라이브·저장 공간 관리</h2>
+<ul>
+  <li><b>NTFS</b>: FAT32보다 <em class="k">보안(권한)·안정성·대용량 지원이 우수</em>한 Windows 기본 파일 시스템. 압축·암호화 지원</li>
+  <li>[포맷] 대화상자에서 지정: <em class="k">용량·파일 시스템·할당 단위 크기·볼륨 레이블·빠른 포맷</em>. <em class="k">파티션 나누기·불량 섹터 복구는 못 함</em></li>
+  <li>디스크 공간 부족 해결: 디스크 정리, 사용 안 하는 앱 제거, 휴지통 비우기, 파일 압축. <em class="k">조각 모음은 속도 개선이지 공간 확보가 아님</em> — 단골 함정</li>
+  <li><b>백업(파일 히스토리)</b>: 원본 손상에 대비해 <em class="k">다른 드라이브에 복사본</em>을 주기적으로 저장. 백업은 별도 드라이브에 하는 것이 원칙</li>
+</ul>
+
+<h2>명령 프롬프트·기본 앱·장치 관리</h2>
+<ul>
+  <li><em class="k">■+R(실행) → cmd</em> 입력 = <b>명령 프롬프트</b> 창. 텍스트 명령으로 시스템을 다루는 창(그래픽 설정 화면이 아님)</li>
+  <li><b>PING</b>: 상대 컴퓨터까지 <em class="k">네트워크가 연결되는지 응답 시간으로 점검</em>하는 명령</li>
+  <li><b>메모장</b>: 서식 없는 텍스트(.txt) 전용 — <em class="k">그림·표 삽입 불가</em>, OLE 개체 연결 불가. F5 = 시간/날짜 삽입, 첫 줄에 <em class="k">.LOG</em> 입력 시 열 때마다 시간 자동 기록</li>
+  <li><b>유틸리티</b>: 압축·백신·디스크 관리처럼 컴퓨터 사용을 돕는 보조 프로그램. 압축의 목적은 <em class="k">공간 절약·전송 시간 단축</em>(보안 강화가 아님)</li>
+  <li><b>장치 관리자</b>: 하드웨어가 <em class="k">정상 동작하는지 확인</em>, 드라이버 업데이트·제거. <b>PnP(플러그 앤 플레이)</b>: 장치를 연결하면 <em class="k">자동 감지 + 드라이버 자동 설치</em>까지 해주는 규격</li>
+  <li>프린터 설치: [설정]→[장치]→[프린터 및 스캐너]에서 추가. <em class="k">네트워크 프린터도 로컬처럼 설치·기본 지정 가능</em>. 레이저 프린터 = 토너·드럼 방식, 인쇄 속도 빠르고 소음 적음</li>
+</ul>
+
+<div class="tip">쉽게 말하면 [설정] 문제는 "이 메뉴 소속이 맞나?"를 묻는 <b>자리 찾기 게임</b>입니다. 화면 보호기=잠금 화면(개인 설정), 해상도=디스플레이, PC 이름=정보, 시작 프로그램=앱·작업 관리자 — 소속만 정확히 외우면 점수가 됩니다.</div>
+<h2 class="drill-h">대표 기출 18제 — 풀고 넘어가기</h2>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 1</span> <span class="dyr">2021년 기출</span><br>다음 중 파일을 삭제했을 때 [휴지통]에 임시로 저장되어 원래대로 되돌릴 수 있는 상황은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 바탕 화면에 있는 파일을 [휴지통]으로 드래그 앤 드롭하여 삭제한 경우</li>
+<li><span class="cno">②</span> USB 메모리에 저장되어 있는 파일을 [Delete]로 삭제한 경우</li>
+<li><span class="cno">③</span> 네트워크 드라이브의 파일을 바로 가기 메뉴의 [삭제]를 클릭 하여 삭제한 경우</li>
+<li><span class="cno">④</span> [휴지통]의 크기를 0%로 설정한 후 파일 탐색기 안의 파일을 삭제한 경우</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 2</span> <span class="dyr">2022년 기출</span><br>다음 중 레지스트리(Registry)에 대한 설명 중 옳지 않은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 레지스트리를 잘못 편집하면 운영체제를 완전하게 다시 설치해야 하는 심각한 문제가 발생할 수 있으나 데이터의 손실은 방지해 준다.</li>
+<li><span class="cno">②</span> Windows 운영체제에서 사용되는 설정값과 여러 시스템 관련 정보가 보관되어 있는 계층적 구조의 데이터베이스이다.</li>
+<li><span class="cno">③</span> [시작] 단추에서 마우스 우클릭을 한 후 [실행]을 선택하고, 나타나는 창에 regedit를 입력한 다음 확인을 눌러서 열 수 있다.</li>
+<li><span class="cno">④</span> 작업 표시줄에 있는 검색 입력란에 regedit를 검색하면 결과 목록에서 레지스트리 편집기를 선택하여 실행할 수 있다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 3</span> <span class="dyr">2022년 기출</span><br>한글 Windows 10 운영체제에서 하드 디스크에 보관된 파일들을 재정렬하는 단편화 해소 절차를 실행하여 디스크의 파일 접근 및 저장 속도를 개선하는 유틸리티는 무엇인가?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 디스크 검사</li>
+<li><span class="cno">②</span> 디스크 정리</li>
+<li><span class="cno">③</span> 디스크 포맷</li>
+<li><span class="cno">④</span> 드라이브 조각 모음 및 최적화</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 4</span> <span class="dyr">2022년 기출</span><br>한글 Windows 10 환경에서 하드디스크를 포맷할 때 나타나는 [포맷] 대화상자에서 조정 불가능한 항목을 고르세요.</div>
+<ol class="dch">
+<li><span class="cno">①</span> 볼륨 레이블 입력</li>
+<li><span class="cno">②</span> 파티션 제거</li>
+<li><span class="cno">③</span> 파일 시스템 선택</li>
+<li><span class="cno">④</span> 빠른 포맷 선택</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 5</span> <span class="dyr">2022년 기출</span><br>다음 중 한글 Windows 10의 인쇄 기능에 관한 설명 중 옳지 않은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 기본 프린터는 인쇄할 때 별도로 프린터를 선택하지 않으면 자동으로 지정되어 사용되는 프린터를 의미한다.</li>
+<li><span class="cno">②</span> 프린터 속성 대화상자에서는 용지 종류, 공유 여부, 포트 설정 등 다양한 항목을 조정할 수 있다.</li>
+<li><span class="cno">③</span> 인쇄 대기 목록에 있는 작업들은 언제든지 제거하여 취소할 수 있다.</li>
+<li><span class="cno">④</span> 현재 진행 중인 인쇄 작업은 취소가 불가능하며 일시 중지만 가능하다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 6</span> <span class="dyr">2022년 기출</span><br>다음 중 연결 프로그램에 관한 설명 중 옳지 않은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 연결 프로그램을 제거하면 그에 연결된 데이터 파일도 함께 제거된다.</li>
+<li><span class="cno">②</span> 서로 다른 확장명을 가진 파일들이 동일한 연결 프로그램으로 지정될 수 있으며, 필요시 연결 프로그램을 변경할 수 있다.</li>
+<li><span class="cno">③</span> 파일의 확장명을 기반으로 연결 프로그램이 자동으로 결정된다.</li>
+<li><span class="cno">④</span> 연결 프로그램은 특정 파일을 실행하여 화면에 표시해주는 응용 프로그램을 말한다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 7</span> <span class="dyr">2022년 기출</span><br>다음 중 한글 Windows 10의 [설정] → [시스템] → [디스플레이]에서 해상도 조정에 관한 설명 중 옳지 않은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 해상도가 높을수록 화면의 텍스트와 이미지가 더욱 선명해지지만 화면에 표시되는 크기는 더욱 작아진다.</li>
+<li><span class="cno">②</span> 해상도를 수정하면 해당 컴퓨터에 접속한 모든 사용자가 변경된 설정을 적용받는다.</li>
+<li><span class="cno">③</span> 여러 디스플레이 옵션은 Windows에서 둘 이상의 모니터가 PC에 연결되어 있음을 인식할 때만 나타난다.</li>
+<li><span class="cno">④</span> 복수의 모니터를 연결했을 때 주 모니터가 반드시 왼쪽에 위치해야 하므로, 해상도가 우수한 모니터를 무조건 좌측에 설치해야 한다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 8</span> <span class="dyr">2022년 기출</span><br>다음 중 파일 및 폴더의 특성에 관한 설명 중 올바른 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 파일과 폴더에 대한 바로 가기 아이콘을 바탕 화면을 비롯한 어디든 생성할 수 있다.</li>
+<li><span class="cno">②</span> 동일한 폴더 내에 같은 이름의 파일이나 폴더가 동시에 존재할 수 있다.</li>
+<li><span class="cno">③</span> 하위 폴더를 포함하고 있는 폴더는 삭제할 수 없다.</li>
+<li><span class="cno">④</span> 파일과 폴더의 이름에는 * / ? ￦ : &lt; &gt; &quot; | 등의 특수 문자와 공백을 전혀 사용할 수 없다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 9</span> <span class="dyr">2022년 기출</span><br>다음 중 Windows 환경을 효율적으로 관리하고 성능을 높이기 위한 방법으로서 옳지 않은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 바탕 화면의 불필요한 아이콘 수를 최소한으로 유지한다.</li>
+<li><span class="cno">②</span> 쓸모없는 프로그램과 파일을 제거하며, 하드웨어에 적합한 드라이버를 설치한다.</li>
+<li><span class="cno">③</span> 레지스트리를 크게 설정하고 IP 주소가 충돌하지 않도록 신경을 쓴다.</li>
+<li><span class="cno">④</span> 디스크 점검을 수행하고 조각난 파일을 정렬하는 유지보수 작업을 진행한다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 10</span> <span class="dyr">2023년 기출</span><br>다음 중 한글 Windows의 스풀(SPOOL) 기능에 관한 설명 중 옳지 않은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 스풀 기능을 활성화하면 인쇄 속도가 향상되며 여러 작업을 동시에 처리할 수 있다.</li>
+<li><span class="cno">②</span> 인쇄 대상 내용을 하드디스크에 일시적으로 보관한 후 인쇄 처리를 진행하는 방식이다.</li>
+<li><span class="cno">③</span> 컴퓨터 내부 처리 속도에 비해 상대적으로 느린 속도의 프린터 작업을 효율적으로 관리하기 위해 사용된다.</li>
+<li><span class="cno">④</span> 스풀 기능을 선택할 경우 문서 전체 또는 일부를 선택하여 스풀한 후 인쇄를 시작할 수 있는 옵션을 제공한다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 11</span> <span class="dyr">2023년 기출</span><br>한글 Windows 환경에서 제공하는 기능 단축키 중에서 잘못된 설명을 고르시오.</div>
+<ol class="dch">
+<li><span class="cno">①</span> [F2] : 이름 바꾸기</li>
+<li><span class="cno">②</span> [F3] : 파일이나 폴더 검색</li>
+<li><span class="cno">③</span> [F4] : 주소 표시줄 목록 표시</li>
+<li><span class="cno">④</span> [F5] : 창이나 바탕 화면의 화면 요소들을 순환</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 12</span> <span class="dyr">2023년 기출</span><br>Windows의 [명령 프롬프트] 창에서 활용되는 PING 서비스에 대한 설명 중 정확한 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 원격지의 컴퓨터를 제어할 수 있는 서비스이다.</li>
+<li><span class="cno">②</span> 네트워크 연결 상태가 정상인지 확인하는 서비스이다.</li>
+<li><span class="cno">③</span> 인터넷 서버로의 경로를 추적 확인하는 서비스이다.</li>
+<li><span class="cno">④</span> 현재 시스템에 접속한 사용자의 정보를 파악하는 서비스이다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 13</span> <span class="dyr">2024년 기출</span><br>다음 중 한글 Windows 10의 파일 탐색기에서 파일이나 폴더를 선택하는 방법으로 올바른 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 폴더 내의 모든 항목을 선택하려면 Alt + A를 누른다.</li>
+<li><span class="cno">②</span> 이미 선택된 항목들 중에서 특정 항목을 빼고자 할 때는 Ctrl을 누르고 있으면서 해당 항목을 클릭하면 된다.</li>
+<li><span class="cno">③</span> 인접하지 않은 파일이나 폴더들을 한 번에 선택하려면 Shift를 누르고 있으면서 각각의 항목들을 클릭한다.</li>
+<li><span class="cno">④</span> 연달아 있는 여러 파일이나 폴더를 모두 선택하려면 맨 처음 항목을 클릭한 후 Ctrl을 누르면서 마지막 항목을 클릭한다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 14</span> <span class="dyr">2024년 기출</span><br>다음 중 한글 Windows 10 [메모장]의 기능으로 옳은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 메모장에서는 그림이나 표 같은 OLE 개체를 문서에 삽입할 수 있다.</li>
+<li><span class="cno">②</span> 메모장은 [F5] 키를 눌러 현재 시각과 날짜를 삽입할 수 있다.</li>
+<li><span class="cno">③</span> 메모장은 문단별로 가운데 맞춤·오른쪽 맞춤 등 정렬 방식을 지정할 수 있다.</li>
+<li><span class="cno">④</span> 메모장으로 작성한 문서는 기본적으로 확장자 .doc로 저장된다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 15</span> <span class="dyr">2024년 기출</span><br>다음 중 한글 Windows 10의 단축키에 관한 설명 중 옳지 않은 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> [Alt]+[Spacebar] : [시작] 메뉴를 나타낸다.</li>
+<li><span class="cno">②</span> [Alt]+[PrintScreen] : 현재 활성화된 창을 갈무리(Capture)하여 클립보드에 저장한다.</li>
+<li><span class="cno">③</span> [Alt]+[Tab] : 실행 중인 앱들 간에 전환이 이루어진다. [Alt]를 누르고 있으면서 [Tab]을 계속 누르면 화면 중앙에 현재 실행 중인 앱들의 목록이 표시되며 목록 내에서 선택 전환이 가능하다.</li>
+<li><span class="cno">④</span> [Alt]+[Esc] : 실행 중인 앱들 간에 전환이 이루어진다. [Alt]를 누른 채로 [Esc]를 계속 누르면 현재 실행되고 있는 앱들 간의 전환이 순차적으로 수행된다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 16</span> <span class="dyr">2025년 기출</span><br>다음 중 한글 Windows의 [설정]-[개인 설정] 메뉴에서 지원되지 않는 기능을 고르시오.</div>
+<ol class="dch">
+<li><span class="cno">①</span> 사용자 정의 테마를 생성하여 배경, 색상, 소리, 마우스 포인터 등의 설정을 저장할 수 있다.</li>
+<li><span class="cno">②</span> 디스플레이 해상도와 화면 방향(가로, 세로, 가로(반전), 세로(반전) 등)을 조정할 수 있다.</li>
+<li><span class="cno">③</span> 바탕화면의 배경 이미지를 변경할 수 있다.</li>
+<li><span class="cno">④</span> [화면 보호기 설정]을 통해 화면 보호기 구성 및 전원 옵션 변경 작업을 수행할 수 있다.</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 17</span> <span class="dyr">2025년 기출</span><br>다음 중 아래의 설명에 맞는 것은?<br>• ISO(국제 표준화 기구)에서 정의<br>• 잉크젯 프린터의 일반(보통) 모드에 대한 출력 속도 측정 방식<br>• 1분 내에 출력 가능한 흑백 및 컬러 인쇄물의 최대 장수를 가리킴</div>
+<ol class="dch">
+<li><span class="cno">①</span> CPS</li>
+<li><span class="cno">②</span> PPM</li>
+<li><span class="cno">③</span> LPM</li>
+<li><span class="cno">④</span> IPM</li>
+</ol></div>
+<div class="drill">
+<div class="dq"><span class="dnum">문제 18</span> <span class="dyr">2025년 기출</span><br>한글 Windows 10 운영체제에서 하드웨어 기기를 연결할 때 사용자가 별도의 조작을 하지 않고 컴퓨터가 스스로 구성하는 기능으로 올바른 것은?</div>
+<ol class="dch">
+<li><span class="cno">①</span> 파일 탐색기</li>
+<li><span class="cno">②</span> 마법사(Wizard)</li>
+<li><span class="cno">③</span> 플러그 앤 플레이(Plug and Play)</li>
+<li><span class="cno">④</span> 드래그 앤 드롭(Drag and Drop)</li>
+</ol></div>
+<div class="anskey"><div class="anskey-h">정답 및 해설</div>
+<div class="akitem"><b>문제 1 — 정답 ①</b><div class="dcomm">휴지통은 내부 하드디스크에서 표준 방법으로 삭제할 때만 거칩니다. USB 등 이동식 매체·네트워크 드라이브에서 삭제하거나 휴지통 용량이 0%면 즉시 삭제되어 복구할 수 없습니다.</div></div>
+<div class="akitem"><b>문제 2 — 정답 ①</b><div class="dcomm">레지스트리는 시스템 설정 정보를 담는 데이터베이스일 뿐, 데이터 손실을 막아 주지는 않습니다. 오히려 잘못 수정하면 부팅 실패 등 심각한 장애가 생길 수 있습니다.</div></div>
+<div class="akitem"><b>문제 3 — 정답 ④</b><div class="dcomm">단편화된 파일을 연속 공간으로 재배열해 접근 속도를 높이는 도구는 &#x27;드라이브 조각 모음 및 최적화&#x27;입니다. 디스크 검사는 손상 진단, 디스크 정리는 공간 확보, 포맷은 초기화입니다.</div></div>
+<div class="akitem"><b>문제 4 — 정답 ②</b><div class="dcomm">[포맷] 대화상자에서는 볼륨 레이블·파일 시스템·빠른 포맷을 지정할 수 있지만, 파티션 제거는 &#x27;디스크 관리&#x27;에서 하는 별도 작업입니다.</div></div>
+<div class="akitem"><b>문제 5 — 정답 ④</b><div class="dcomm">인쇄 중인 작업도 프린터 큐에서 선택해 취소(삭제)할 수 있습니다. &#x27;취소 불가능&#x27;이 오류입니다.</div></div>
+<div class="akitem"><b>문제 6 — 정답 ①</b><div class="dcomm">연결 프로그램을 제거해도 데이터 파일 자체는 삭제되지 않습니다. 연결 프로그램은 파일을 여는 앱일 뿐 파일과 별개입니다.</div></div>
+<div class="akitem"><b>문제 7 — 정답 ④</b><div class="dcomm">주 디스플레이 지정은 모니터의 물리적 위치·해상도와 무관하게 설정에서 자유롭게 바꿀 수 있습니다.</div></div>
+<div class="akitem"><b>문제 8 — 정답 ①</b><div class="dcomm">바로 가기 아이콘은 원본을 가리키는 링크라 바탕 화면 등 어디에나 만들 수 있습니다(①). 같은 폴더에 같은 이름 불가(②), 하위 폴더가 있어도 삭제 가능(③), 이름에 공백 사용 가능·* / ? 등만 불가(④).</div></div>
+<div class="akitem"><b>문제 9 — 정답 ③</b><div class="dcomm">레지스트리를 &#x27;크게 설정&#x27;하는 것은 최적화가 아닙니다. 불필요한 항목을 정리하는 것이 올바른 관리이며, IP 충돌 방지도 최적화와는 무관합니다.</div></div>
+<div class="akitem"><b>문제 10 — 정답 ①</b><div class="dcomm">스풀은 인쇄 데이터를 하드디스크에 임시 저장해 CPU가 다른 일을 하게 할 뿐, 실제 인쇄 속도를 높이지는 않습니다.</div></div>
+<div class="akitem"><b>문제 11 — 정답 ④</b><div class="dcomm">F5는 &#x27;새로 고침&#x27;입니다. 화면 요소를 차례로 이동하는 키는 Tab입니다. (F2 이름 바꾸기, F3 검색, F4 주소 목록)</div></div>
+<div class="akitem"><b>문제 12 — 정답 ②</b><div class="dcomm">PING은 대상 호스트에 패킷을 보내 응답 시간·연결 상태를 점검하는 진단 명령입니다. 원격 접속·경로 추적(Tracert)·사용자 조회와 구별하세요.</div></div>
+<div class="akitem"><b>문제 13 — 정답 ②</b><div class="dcomm">Ctrl+클릭은 비연속(개별) 추가 선택·해제, Shift+클릭은 연속 선택입니다. 전체 선택은 Ctrl+A입니다.</div></div>
+<div class="akitem"><b>문제 14 — 정답 ②</b><div class="dcomm">메모장은 F5로 시간·날짜를 삽입할 수 있습니다. OLE 개체 삽입·문단 정렬은 지원하지 않고, 기본 확장자는 .txt입니다.</div></div>
+<div class="akitem"><b>문제 15 — 정답 ①</b><div class="dcomm">Alt+Spacebar는 시작 메뉴가 아니라 활성 창의 시스템(창 조절) 메뉴를 엽니다. Alt+PrintScreen은 활성 창만 캡처합니다.</div></div>
+<div class="akitem"><b>문제 16 — 정답 ②</b><div class="dcomm">[개인 설정]은 배경·색·테마·잠금 화면 등 꾸미기 기능입니다. 디스플레이 방향(회전)은 [시스템]-[디스플레이]에서 설정합니다.</div></div>
+<div class="akitem"><b>문제 17 — 정답 ④</b><div class="dcomm">&#x27;1분 동안 출력 가능한 최대 매수(ISO 표준)&#x27;는 IPM입니다. PPM은 분당 페이지, CPS는 초당 문자, LPM은 분당 라인 수입니다.</div></div>
+<div class="akitem"><b>문제 18 — 정답 ③</b><div class="dcomm">장치를 연결하면 OS가 드라이버 설치·설정을 자동으로 처리하는 기능은 플러그 앤 플레이(PnP)입니다.</div></div>
+</div>
+<div class="endnote">
+  <b>여기까지가 미리보기 샘플입니다 🙂</b>
+  <p>실제 교재는 이 구성으로 <b>1과목 7단원 + 2과목 7단원</b>, 대표 기출 <b>203제</b>와 상세 해설, 마지막에 <b>찾아보기 색인</b>까지 담겨 있습니다.<br>도움이 되겠다 싶으시면 아래 설문에 의견을 남겨 주세요. 여러분 피드백으로 교재를 완성합니다.</p>
+</div>
+</body></html>
