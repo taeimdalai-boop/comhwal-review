@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10차시 복습자료 | 컴활2급 - 시간계산·조건부서식·필기(컴퓨터일반)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">10차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>10차시 복습자료</h1>
+  <p class="meta"><b>2026-07-20</b><br>시간·날짜 계산의 함정(주차 요금), WEEKDAY 중첩, 논리함수 종합 복습, 그리고 신규로 조건부 서식(수식·열 절대참조)과 필기 컴퓨터 일반 첫날(Windows 10)</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">시간계산 함정 · 조건부 서식</span>
+      <span class="tag">필기 컴퓨터 일반 첫날</span>
+    </div>
+    <h1>오늘의 핵심은 "시간 계산은 <b>연산 먼저 HOUR</b>, 조건부 서식으로 행 전체를 칠하려면 <b>열 절대참조($A5)</b>"입니다.</h1>
+    <p class="sub">2026-07-20 · 10차시 · 함수 마무리 + 필기 첫날입니다. 주차 요금에서 <b>시간은 빼고 나서 HOUR/MINUTE로 감싸야</b> 맞고, 날짜는 반대로 YEAR로 따로 뽑아 뺍니다. 조건부 서식은 IF의 조건식과 같고, 행 전체 강조는 <b>열만 고정</b>합니다. 필기 컴퓨터 일반(GUI/CLI/NUI, PnP, OLE, 파일 시스템)도 시작했습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">⏱ 시간=연산 후 HOUR</span>
+      <span class="key-badge">📅 날짜=YEAR 따로</span>
+      <span class="key-badge">🎨 조건부 서식(수식)</span>
+      <span class="key-badge">🔒 행 전체=열 절대($A5)</span>
+      <span class="key-badge">🔤 문자 vs 숫자 맞추기</span>
+      <span class="key-badge">🖥 필기: Windows 10</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+      <div class="card prac-type">
+        <h3>⏱ 시간 계산 = 연산 먼저</h3>
+        <p>주차·이용 요금은 <b>셀을 먼저 빼고</b> 그 결과를 HOUR·MINUTE로 감쌉니다. <code>=HOUR(출차-입차)</code>. 시·분을 각각 따로 빼면 50분도 1시간으로 잘못 계산돼요.</p>
+        <div class="use">시간=연산 후 감싸기 / 결과 안 보이면 표시형식 일반</div>
+      </div>
+      <div class="card">
+        <h3>📅 날짜 계산 = 따로 뽑기</h3>
+        <p>나이 등은 반대로 <b>YEAR/MONTH/DAY로 각각 추출해서</b> 뺍니다. <code>=YEAR(오늘)-YEAR(생일)</code>. 시간과 정반대라 헷갈리기 쉬워요.</p>
+        <div class="use">시간=연산 후 / 날짜=따로 추출</div>
+      </div>
+      <div class="card">
+        <h3>🚗 주차 요금 완성식</h3>
+        <p>분으로 환산 후 10분당 200원: <code>=(HOUR(C2-B2)*60+MINUTE(C2-B2))/10*200</code>. 시간×60+분 → ÷10 → ×200.</p>
+        <div class="use">전체를 괄호로 감싸고 ÷10 ×200</div>
+      </div>
+      <div class="card">
+        <h3>🎨 조건부 서식 = IF 조건식</h3>
+        <p>새 규칙 → <b>"수식을 사용하여 서식 지정"</b>. 여기 넣는 건 IF의 <b>조건식(질문)</b>과 똑같아요. 참(TRUE)인 셀에만 서식이 적용됩니다.</p>
+        <div class="use">조건부 = 이프(IF) · 참일 때만 색칠</div>
+      </div>
+      <div class="card prac-type">
+        <h3>🔒 행 전체 강조 = 열 절대</h3>
+        <p>조건인 <b>행 전체</b>를 칠하려면 조건 열만 고정합니다(열 절대참조). <code>=LEFT($A5,4)="2024"</code> — A만 $로 묶고 행 번호는 안 묶어요.</p>
+        <div class="use">행 전체 서식 → 열 절대($A5) (공식 암기)</div>
+      </div>
+      <div class="card">
+        <h3>🔤 문자 vs 숫자 맞추기</h3>
+        <p>LEFT·MID·RIGHT 결과는 <b>문자</b>라 숫자와 그냥 비교하면 안 맞아요. <code>="2024"</code>(문자로) 또는 <code>LEFT(...)*1</code>(숫자로) — 둘 다 알아두기.</p>
+        <div class="use">문자=따옴표 / 숫자=곱하기 1</div>
+      </div>
+      <div class="card">
+        <h3>🧩 ROW·COLUMN 함수</h3>
+        <p>ROW=행 번호, ROWS(범위)=<b>행 개수</b>, COLUMN=열 번호, COLUMNS(범위)=열 개수. 조건부 서식 줄무늬·체스판(MOD)에 씁니다.</p>
+        <div class="use">번호(ROW/COLUMN) vs 개수(ROWS/COLUMNS)</div>
+      </div>
+      <div class="card">
+        <h3>🖥 필기: Windows 10 첫날</h3>
+        <p>인터페이스 <b>GUI/CLI/NUI</b>, <b>선점형 멀티태스킹</b>, <b>PnP</b>(연결하면 동작), <b>OLE</b>(엑셀→PPT 삽입), 파일 시스템(FAT·NTFS·<b>exFAT</b>).</p>
+        <div class="use">필기 컴퓨터 일반 시작 — 용어 암기</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box prac-type">
+      <h3>⏱ 시간 계산 — 연산 먼저, HOUR/MINUTE 나중 (오늘 최고 강조)</h3>
+      <div class="step"><b>규칙</b> 주차·이용 요금처럼 "몇 시간·몇 분 썼나"를 구할 땐 <b>셀을 먼저 빼고</b> 그 결과를 감쌉니다. <code>=HOUR(출차-입차)</code>, <code>=MINUTE(출차-입차)</code>.</div>
+      <div class="step"><b>왜</b> 시·분을 <b>각각 따로 추출</b>해서 빼면(11시-10시=1시간) 실제 10:30~11:20(=50분)인데 1시간으로 계산돼 <b>틀립니다</b>. 시간 데이터가 0~1 소수 형식이라 생기는 함정.</div>
+      <div class="step"><b>완성식</b> 10분당 200원: <code>=(HOUR(C2-B2)*60 + MINUTE(C2-B2)) / 10 * 200</code>. 분으로 환산 → ÷10 → ×200.</div>
+      <div class="step"><b>표시 형식</b> 결과가 시간처럼 이상하게 보이면 <b>표시 형식을 일반</b>으로 바꾸고 F2 → Enter.</div>
+      <div class="exam-ex">시험 예시: 주차 요금·이용 요금 문제는 결과가 나와도 방법이 틀리면 값이 어긋납니다. "시간=연산 후 감싸기"를 꼭 외우세요.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📅 날짜 계산 — 따로 추출해서 빼기 (시간과 반대)</h3>
+      <div class="step"><b>규칙</b> 나이·근속처럼 날짜 차이는 <b>YEAR/MONTH/DAY로 각각 뽑아</b> 계산합니다. <code>=YEAR(오늘)-YEAR(생일)</code>.</div>
+      <div class="step"><b>대비</b> 시간은 "연산 후 감싸기", 날짜는 "따로 추출해 빼기" — 정반대입니다. 이 둘을 세트로 외우세요.</div>
+      <div class="exam-ex">시험 예시: 날짜를 시간처럼 먼저 빼고 YEAR로 감싸면 틀립니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔎 WEEKDAY 중첩 — 찾기 함수의 검색값 자리에</h3>
+      <div class="step"><b>구조</b> VLOOKUP/HLOOKUP의 <b>검색값 자리에 WEEKDAY를 끼웁니다</b>. <code>=VLOOKUP(WEEKDAY(날짜,2), 기준표, 2, FALSE)</code>.</div>
+      <div class="step"><b>일치 옵션</b> 요일 번호는 코드처럼 딱 떨어지므로 마지막 인수는 <b>FALSE(정확히 일치)</b>. 기준표는 채우기 대비 <b>F4 절대참조</b>.</div>
+      <div class="exam-ex">시험 예시: 찾기 함수는 검색값 자리에 다른 함수(WEEKDAY·LEFT·MID 등)를 중첩하는 유형이 잘 나옵니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🎨 조건부 서식 — "수식을 사용하여 서식 지정" = IF의 조건식</h3>
+      <div class="step"><b>1단계 영역 선택(실기)</b> 새 규칙을 만들기 전에 <b>머리글(필드명)은 빼고</b> 레코드 범위만 선택합니다. 실무는 상관없지만 시험은 지정 영역이 정해져 있어요.</div>
+      <div class="step"><b>2단계 규칙</b> 조건부 서식 → 새 규칙 → <b>"수식을 사용하여 서식을 지정할 셀 결정"</b>을 고릅니다(실기 단골).</div>
+      <div class="step"><b>3단계 조건식</b> 여기 넣는 건 <b>IF의 조건식(질문)</b>과 같습니다. 예: 2024학번이면 <code>=LEFT($A5,4)="2024"</code>. 참(TRUE)인 셀에만 서식이 적용됩니다.</div>
+      <div class="step"><b>서식</b> 글꼴/채우기에서 색을 지정. "글꼴색"인지 "채우기색"인지 문제를 잘 보세요. 스크린팁이 안 뜨면 무늬(3번 탭)에서 색 위치를 참고합니다.</div>
+      <div class="exam-ex">시험 예시: 5·6월 기수는 이 문제가 전원 0점이 나올 만큼 어렵습니다(강사 경고). 꼭 연습하세요.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🔒 행 전체 강조 = 열 절대참조 / 문자 vs 숫자 맞추기</h3>
+      <div class="step"><b>열 절대</b> 조건에 맞는 <b>행 전체</b>를 칠하려면 조건이 되는 <b>열만 고정</b>합니다. <code>$A5</code> — A(열)만 $로 묶고 행 번호는 안 묶어요(아래로 내려가며 검사해야 하니까). "행 전체 서식 → 열 절대"는 공식으로 외웁니다.</div>
+      <div class="step"><b>왜 전부 고정하면 안 되나</b> <code>$A$5</code>로 다 묶으면 A5 한 칸만 계속 보게 돼 다른 행을 검사하지 못합니다.</div>
+      <div class="step"><b>문자 vs 숫자</b> LEFT/MID/RIGHT는 텍스트 추출 함수라 결과가 <b>문자</b>. 숫자 2024와 비교하면 안 맞습니다. <b>문자로 맞추기 <code>="2024"</code></b> 또는 <b>숫자로 맞추기 <code>LEFT(...)*1</code></b>(×1로 숫자화). 둘 다 알아야 합니다.</div>
+      <div class="exam-ex">시험 예시: LEFT로 앞 4자리를 뽑아 "2024"와 비교하는 조건부 서식. 열 절대 + 문자 맞추기 둘 다 걸립니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🧩 ROW / ROWS / COLUMN / COLUMNS + 조건부 서식 도구</h3>
+      <div class="step"><b>ROW / COLUMN</b> 행 번호 / 열 번호를 반환. 인수를 생략하면 현재 셀 기준. (셀 하나만 참조)</div>
+      <div class="step"><b>ROWS / COLUMNS</b> <b>범위</b>를 넣으면 그 범위의 <b>행 개수 / 열 개수</b>를 반환. 레코드 개수를 셀 때 COUNT 대신 쓸 수 있어요.</div>
+      <div class="step"><b>줄무늬·체스판</b> ROW와 MOD를 조합하면 짝수/홀수 행만 색칠(줄무늬), 행+열 조합으로 체스판을 만들 수 있습니다(응용).</div>
+      <div class="step"><b>대화상자 함수명 안 뜰 때</b> 조건부 서식 수식 칸은 자동완성이 안 됩니다. <b>셀에 미리 수식을 적어 검증 → Ctrl+X로 잘라 → 규칙 수식 칸에 붙여넣기</b>.</div>
+      <div class="step"><b>상위/하위·아이콘</b> 홈 → 조건부 서식 → 상위/하위 규칙(상위 10%만 강조 등), 데이터 막대·색조·아이콘 집합. 정렬에서도 조건부 서식 아이콘 기준으로 정렬됩니다.</div>
+      <div class="exam-ex">시험 예시: ROW·MOD로 줄무늬 만들기, 상위 N%/N개 강조가 필기·실기에 나옵니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🖥 필기 컴퓨터 일반 — Windows 10 (첫날)</h3>
+      <div class="step"><b>사용자 인터페이스</b> <b>GUI</b>(그래픽·아이콘·마우스), <b>CLI</b>(명령어 입력 — 요즘 바이브 코딩으로 다시 많이 씀), <b>NUI</b>(터치·음성 등 자연스러운 방식).</div>
+      <div class="step"><b>선점형 멀티태스킹</b> 운영체제가 각 작업의 <b>CPU 사용 시간을 강제로 배분·통제</b>합니다. 한 프로그램이 CPU를 독점하지 못하게 OS가 뺏어 옵니다.</div>
+      <div class="step"><b>플러그 앤 플레이(PnP)</b> 주변장치를 <b>연결하면 자동으로 인식·동작</b>하도록 설정. "연결한다 → 동작한다".</div>
+      <div class="step"><b>OLE(개체 연결 및 삽입)</b> 엑셀에서 만든 <b>문서·차트를 파워포인트·워드에 넣는</b> 것처럼 다른 앱의 개체를 연결·삽입.</div>
+      <div class="step"><b>파일 시스템</b> 옛 <b>FAT16/FAT32</b>, <b>NTFS</b>(윈도우 전용), 요즘 쓰는 <b>exFAT</b>(FAT의 용량 한계 개선, USB·SD 등 이동식에 적합, 윈도우·맥 호환).</div>
+      <div class="step"><b>단축키</b> Win+D(바탕화면), Win+E(탐색기), Win+L(잠금), Alt+Tab(창 전환), Alt+F4(닫기), Win+Tab(작업 보기), F2(이름 바꾸기), F5(새로 고침).</div>
+      <div class="exam-ex">시험 예시: 용어 정의(선점형·PnP·OLE)와 파일 시스템 특징을 묻는 문제가 필기 단골입니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 틀린 부분</div>
+      <h3>시간 요금에서 시·분을 각각 따로 빼서 계산해요</h3>
+      <p>11시-10시=1시간처럼 나와, 실제 10:30~11:20(50분)인데 1시간으로 잘못 계산됩니다. 결과가 나오니 맞은 줄 알고 넘어가 버려요.</p>
+      <p class="fix">반드시 <code>=HOUR(출차-입차)</code>처럼 <b>먼저 빼고 HOUR/MINUTE로 감싸기</b>.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>조건부 서식에서 행 전체를 열 절대($A5)로 안 묶어요</h3>
+      <p>전부 고정($A$5)하면 A5 한 칸만 보고, 안 묶으면 열이 밀립니다. 그러면 색칠이 엉뚱하게 돼요.</p>
+      <p class="fix">행 전체 강조는 <b>조건 열만 고정</b> — <code>$A5</code> (A만 $).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>LEFT 결과(문자)를 숫자와 그냥 비교해요</h3>
+      <p>LEFT·MID·RIGHT는 텍스트 추출 함수라 결과가 문자입니다. 숫자 2024와 비교하면 안 맞아요.</p>
+      <p class="fix"><code>="2024"</code>(문자로 맞추기) 또는 <code>LEFT(...)*1</code>(숫자로 맞추기).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>날짜를 시간처럼, 시간을 날짜처럼 계산해요</h3>
+      <p>날짜를 먼저 빼고 YEAR로 감싸거나, 시간을 따로 추출해서 빼면 틀립니다.</p>
+      <p class="fix"><b>시간=연산 후 감싸기 / 날짜=따로 추출해 빼기</b>. 정반대로 외우기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>조건부 서식 범위에 머리글(필드명)을 넣어요</h3>
+      <p>실무는 상관없지만 실기 시험은 지정 영역이 정해져 있어 감점됩니다.</p>
+      <p class="fix">머리글 빼고 <b>레코드 범위만</b> 선택.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>IF 조건식 안에 여러 셀을 배열로 넣어요</h3>
+      <p>"셋 중 하나라도 80 이상"을 IF 조건에 배열로 넣으면 IF 단독으로는 안 됩니다.</p>
+      <p class="fix">여러 조건 동시엔 <b>OR(하나만)·AND(모두)</b> 함수를 조건식 안에.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>주차 요금 결과가 시간 형식으로 보여요</h3>
+      <p>계산은 맞는데 표시가 시간(0.xx)으로 나옵니다.</p>
+      <p class="fix">표시 형식을 <b>일반</b>으로 바꾸고 F2 → Enter로 재확정.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>ROW와 ROWS, COLUMN과 COLUMNS를 헷갈려요</h3>
+      <p>ROW/COLUMN은 번호(셀 하나), ROWS/COLUMNS는 개수(범위)입니다.</p>
+      <p class="fix">"번호 vs 개수" — 복수형(S)이 붙으면 개수.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기 용어를 대충 암기해요</h3>
+      <p>선점형↔비선점형, PnP·OLE·파일 시스템 특징을 헷갈립니다.</p>
+      <p class="fix">PnP=연결하면 동작 / OLE=문서·차트 삽입 / exFAT=이동식·대용량으로 딱 붙여 외우기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>대화상자에서 함수명이 안 떠서 못 써요</h3>
+      <p>조건부 서식 수식 칸은 자동완성이 안 됩니다.</p>
+      <p class="fix">셀에 미리 수식을 적어 검증 → <b>Ctrl+X로 잘라 규칙 칸에 붙여넣기</b>.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·함수 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>단축키/함수</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>날짜·시간</td><td><code>HOUR / MINUTE</code></td><td>시·분 추출</td><td><b>시간 계산은 연산 후 감싸기</b> =HOUR(C2-B2)</td></tr>
+          <tr><td>날짜·시간</td><td><code>YEAR / MONTH / DAY</code></td><td>연·월·일 추출</td><td><b>날짜 계산은 따로 추출해 빼기</b> =YEAR(A)-YEAR(B)</td></tr>
+          <tr><td>날짜·시간</td><td><code>WEEKDAY</code></td><td>요일 번호</td><td>VLOOKUP 검색값에 중첩, 옵션 2=월요일 1</td></tr>
+          <tr><td>찾기·참조</td><td><code>VLOOKUP</code></td><td>기준표에서 값 찾기</td><td>검색값에 WEEKDAY 중첩, 마지막 FALSE, 기준표 F4</td></tr>
+          <tr><td>논리</td><td><code>IF / AND / OR</code></td><td>조건식·다중 조건</td><td>중첩 IF: 구간 N개 → IF N-1개</td></tr>
+          <tr><td>통계</td><td><code>MEDIAN / RANK.EQ</code></td><td>중앙값 / 순위</td><td>범위 F4, RANK 옵션 0=내림</td></tr>
+          <tr><td>찾기·참조</td><td><code>CHOOSE</code></td><td>순위→등급</td><td>첫 인수 숫자, 5위 이하는 IFERROR로 공백</td></tr>
+          <tr><td>논리</td><td><code>IFERROR</code></td><td>오류를 공백으로</td><td>#VALUE!·#N/A → ""</td></tr>
+          <tr><td>텍스트</td><td><code>LEFT / MID / RIGHT</code></td><td>텍스트 추출(결과=문자)</td><td>숫자 비교 시 ="2024" 또는 *1</td></tr>
+          <tr><td>정보</td><td><code>ROW / ROWS</code></td><td>행 번호 / 행 개수</td><td>ROWS(범위)=레코드 개수</td></tr>
+          <tr><td>정보</td><td><code>COLUMN / COLUMNS</code></td><td>열 번호 / 열 개수</td><td>복수형(S)=개수</td></tr>
+          <tr><td>수학</td><td><code>MOD</code></td><td>나머지</td><td>ROW와 조합→줄무늬·체스판 서식</td></tr>
+          <tr><td>서식</td><td>조건부 서식(수식)</td><td>"수식을 사용하여 서식 지정"</td><td>= IF의 조건식 · 참일 때만 색칠</td></tr>
+          <tr><td>참조</td><td><code>$A5</code> (열 절대)</td><td>행 전체 강조용</td><td>열만 $ · 행 번호 안 묶음</td></tr>
+          <tr><td>편집</td><td><code>Ctrl+X</code></td><td>수식 잘라 규칙 칸에 붙이기</td><td>대화상자 자동완성 안 될 때</td></tr>
+          <tr><td>편집</td><td><code>F4 / F2</code></td><td>참조 전환 / 셀 편집</td><td>표시형식 일반 후 재확정</td></tr>
+          <tr><td>필기</td><td>GUI / CLI / NUI</td><td>그래픽 / 명령어 / 자연(터치·음성)</td><td>CLI=바이브 코딩으로 재부상</td></tr>
+          <tr><td>필기</td><td>선점형 멀티태스킹</td><td>OS가 CPU 시간 강제 배분</td><td>한 프로그램 독점 방지</td></tr>
+          <tr><td>필기</td><td>PnP / OLE</td><td>연결하면 동작 / 개체 삽입</td><td>OLE=엑셀→PPT 문서·차트</td></tr>
+          <tr><td>필기</td><td>FAT · NTFS · exFAT</td><td>파일 시스템</td><td>NTFS=윈도우전용, exFAT=이동식·대용량</td></tr>
+          <tr><td>단축키</td><td>Win+D / Win+E / Win+L</td><td>바탕화면 / 탐색기 / 잠금</td><td>Alt+Tab 창전환, Alt+F4 닫기</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">주차 요금처럼 "몇 분 이용했는지"를 구할 때, 시간 데이터는 어떻게 계산해야 하나요?</p>
+      <button class="quiz-opt" data-correct="true">셀을 먼저 빼고 그 결과를 HOUR·MINUTE로 감싼다 (예: HOUR(출차-입차))</button>
+      <button class="quiz-opt" data-correct="false">시·분을 각각 따로 추출해서 뺀다</button>
+      <button class="quiz-opt" data-correct="false">아무렇게나 해도 결과는 같다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">나이처럼 날짜 차이를 구할 때 올바른 방법은? (시간 계산과 반대예요)</p>
+      <button class="quiz-opt" data-correct="false">날짜를 먼저 빼고 YEAR로 감싼다</button>
+      <button class="quiz-opt" data-correct="true">YEAR(오늘)-YEAR(생일)처럼 각각 추출해서 뺀다</button>
+      <button class="quiz-opt" data-correct="false">MINUTE로 감싼다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">조건부 서식으로 조건에 맞는 "행 전체"에 색을 칠할 때, 조건식의 참조는 어떻게 하나요?</p>
+      <button class="quiz-opt" data-correct="true">조건이 되는 열만 고정하는 열 절대참조 (예: $A5)</button>
+      <button class="quiz-opt" data-correct="false">전부 고정하는 절대참조 ($A$5)</button>
+      <button class="quiz-opt" data-correct="false">아무것도 고정하지 않는 상대참조 (A5)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">조건부 서식에서 LEFT($A5,4)로 뽑은 학번을 숫자 2024와 비교했더니 안 될 때, 올바른 처리는?</p>
+      <button class="quiz-opt" data-correct="false">그냥 2024 숫자로 두면 저절로 된다</button>
+      <button class="quiz-opt" data-correct="false">비교는 원래 안 되니 포기한다</button>
+      <button class="quiz-opt" data-correct="true">="2024"처럼 따옴표로 문자를 맞추거나 LEFT(...)*1로 숫자로 맞춘다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">ROWS(범위) 함수가 돌려주는 값은 무엇인가요?</p>
+      <button class="quiz-opt" data-correct="false">현재 셀의 행 번호</button>
+      <button class="quiz-opt" data-correct="true">범위에 포함된 행의 개수</button>
+      <button class="quiz-opt" data-correct="false">범위 값들의 합계</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">(필기) 명령어를 직접 입력해 컴퓨터를 다루는 방식으로, 요즘 코딩 때문에 다시 많이 쓰이는 인터페이스는?</p>
+      <button class="quiz-opt" data-correct="true">CLI (명령어 입력 방식)</button>
+      <button class="quiz-opt" data-correct="false">GUI (그래픽·아이콘·마우스 방식)</button>
+      <button class="quiz-opt" data-correct="false">NUI (터치·음성 등 자연스러운 방식)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">(필기) 주변장치를 연결하면 자동으로 인식하고 동작하도록 해 주는 기능은?</p>
+      <button class="quiz-opt" data-correct="false">OLE (개체 연결 및 삽입)</button>
+      <button class="quiz-opt" data-correct="false">선점형 멀티태스킹</button>
+      <button class="quiz-opt" data-correct="true">플러그 앤 플레이(PnP)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">(필기) 엑셀에서 만든 문서나 차트를 파워포인트에 넣을 수 있게 하는 기능은?</p>
+      <button class="quiz-opt" data-correct="false">플러그 앤 플레이(PnP)</button>
+      <button class="quiz-opt" data-correct="true">OLE (개체 연결 및 삽입)</button>
+      <button class="quiz-opt" data-correct="false">파일 시스템</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">(필기) FAT의 용량 한계를 개선해 USB·SD 같은 이동식 저장장치에 요즘 많이 쓰는 파일 시스템은?</p>
+      <button class="quiz-opt" data-correct="false">FAT16</button>
+      <button class="quiz-opt" data-correct="false">NTFS (윈도우 전용)</button>
+      <button class="quiz-opt" data-correct="true">exFAT</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">(복습) 결과가 A·B·C·D·F 5개 구간인 중첩 IF에서 필요한 IF의 개수는?</p>
+      <button class="quiz-opt" data-correct="true">4개 (구간 5개 - 1)</button>
+      <button class="quiz-opt" data-correct="false">5개 (구간 수와 같다)</button>
+      <button class="quiz-opt" data-correct="false">6개 (구간 5개 + 1)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">주차 요금: HOUR(출차-입차)로 시간을 "연산 후 감싸기"로 구해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">(HOUR*60+MINUTE)/10*200으로 완성식 만들고 표시형식 일반으로</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">날짜는 YEAR(오늘)-YEAR(생일)로 "따로 추출해 빼기"로 구해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">VLOOKUP 검색값에 WEEKDAY 중첩해 요일로 값 찾아보기(FALSE)</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">조건부 서식 "수식을 사용하여 서식 지정"으로 2024학번 행 전체 파랑</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">행 전체 강조는 열 절대($A5), LEFT 결과는 ="2024"/*1로 형 맞추기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">조건부 서식 상위/하위(상위 10%)·아이콘 집합 눌러보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">ROW·ROWS·COLUMN·COLUMNS 차이(번호 vs 개수) 써보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">필기: GUI/CLI/NUI, 선점형 멀티태스킹, PnP, OLE 정의 외우기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">필기: 파일 시스템 FAT16/FAT32/NTFS(윈도우전용)/exFAT 정리</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">필기: Windows 단축키(Win+D/E/L, Alt+Tab/F4) 눌러보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '10차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
