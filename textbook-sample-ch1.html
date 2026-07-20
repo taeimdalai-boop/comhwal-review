@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>컴활 2급 필기 — 샘플 미리보기 (1과목 ① 한글 Windows 10)</title>
 <style>
   @page { size: A4; margin: 18mm 16mm; }
@@ -39,6 +40,16 @@
   em.k { font-style:normal; font-weight:bold; color:#1a56db; }
   .note { color:#666; font-size:9.3pt; }
 
+  /* 화면(브라우저/모바일) 좌우 여백 — @page는 인쇄에만 적용되므로 별도 지정 */
+  @media screen {
+    html { background:#eceff4; }
+    body { max-width:880px; margin:28px auto; padding:0 clamp(16px,5vw,48px) 60px; background:#fff; box-shadow:0 2px 20px rgba(15,47,122,.10); border-radius:6px; overflow-x:hidden; overflow-wrap:break-word; word-break:keep-all; }
+    .scover { min-height:auto; padding:56px 4px 44px; }
+    .scover h1 { font-size:clamp(17pt,4.8vw,27pt); }
+    .scover .sc-sub { font-size:clamp(10.5pt,3vw,12pt); }
+    h1.chapter { font-size:clamp(16pt,4.6vw,19pt); }
+    table { display:block; overflow-x:auto; }
+  }
   h1.chapter { page-break-before:avoid; }
   .scover { min-height:240mm; display:flex; flex-direction:column; justify-content:center; text-align:center; page-break-after:always; padding:0 16mm; }
   .scover .sc-badge { display:inline-block; width:fit-content; margin:0 auto 22px; background:#1a56db; color:#fff; padding:6px 20px; border-radius:20px; font-size:11pt; letter-spacing:1px; }
