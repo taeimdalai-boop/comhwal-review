@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11차시 복습자료 | 컴활2급 - 반납일(WEEKDAY+IF)·TIME·DMAX·부분합·피벗·필기(컴퓨터일반)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+kbd{
+  display:inline-block; font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:700;
+  background:var(--navy); color:#fff; border-radius:7px; padding:5px 10px; box-shadow:0 2px 0 rgba(0,0,0,.28);
+  line-height:1;
+}
+.key-row{ display:flex; flex-wrap:wrap; gap:8px 10px; align-items:center; margin-bottom:12px; text-align:left; }
+.key-row .lbl{ font-size:11.5px; font-weight:700; color:var(--muted); min-width:78px; letter-spacing:.02em; }
+.key-row .desc{ font-size:12px; color:var(--muted); }
+
+.flow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; margin:6px 0; }
+.flow .node{ background:var(--blue-bg); color:var(--blue); border-radius:10px; padding:11px 15px; font-size:13px; font-weight:700; }
+.flow .node.g{ background:var(--green-bg); color:var(--green); }
+.flow .node.n{ background:var(--bg2); color:var(--text); }
+.flow .arrow{ color:var(--muted); font-weight:800; font-size:16px; }
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:left; }
+.col-box{ border-radius:12px; padding:14px 16px; }
+.col-box.ok{ background:var(--green-bg); border:1px solid #A7E0CD; }
+.col-box.no{ background:var(--red-bg); border:1px solid #F1B0A5; }
+.col-box h4{ font-size:13.5px; font-weight:800; margin-bottom:8px; }
+.col-box.ok h4{ color:var(--green); }
+.col-box.no h4{ color:var(--red); }
+.col-box li{ font-size:12.5px; margin-bottom:5px; padding-left:16px; position:relative; }
+.col-box.ok li::before{ content:'○'; position:absolute; left:0; color:var(--green); }
+.col-box.no li::before{ content:'✕'; position:absolute; left:0; color:var(--red); }
+
+.trash-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; text-align:center; }
+.trash-grid .ti{ background:var(--red-bg); color:var(--red); border:1px solid #F1B0A5; border-radius:10px; padding:11px 8px; font-size:12.5px; font-weight:700; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+  .two-col{ grid-template-columns:1fr; }
+  .trash-grid{ grid-template-columns:1fr 1fr; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">11차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>11차시 복습자료</h1>
+  <p class="meta"><b>2026-07-21</b><br>도서 반납일 계산(WEEKDAY+IF), 시간에 분 더하기(TIME), 조건 최고값의 항목(DMAX+INDEX+MATCH), 데이터 분석(부분합·피벗), 그리고 필기 컴퓨터 일반(파일 시스템·단축키·휴지통)</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#pilgi" onclick="closeSidebar()"><span class="num">4</span>필기 그림으로 이해</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">5</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">6</span>단축키·함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">7</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">8</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">반납일 · 시간 · 분석(부분합·피벗)</span>
+      <span class="tag">필기 컴퓨터 일반</span>
+    </div>
+    <h1>오늘의 핵심은 "요일은 <b>대출일이 아니라 반납일</b>로 따지고(WEEKDAY+IF), 분석은 <b>피벗 테이블</b>이 끝판왕"입니다.</h1>
+    <p class="sub">2026-07-21 · 11차시 · 킬링 함수 + 데이터 분석 + 필기 첫 주차입니다. 도서 반납일은 <b>반납일(대출일+대여기간)</b>을 WEEKDAY로 감싸 토·일이면 월요일에 오게 IF로 처리합니다. 시간에 5분을 더할 땐 <b>TIME(,5,)</b>. 분석(부분합)은 <b>정렬이 먼저</b>, 그리고 <b>피벗 테이블</b>이면 클릭 몇 번에 끝납니다. 필기 컴퓨터 일반(파일 시스템·휴지통·단축키)은 그림으로 정리했어요.</p>
+    <div class="key-badges">
+      <span class="key-badge">📚 반납일=WEEKDAY+IF</span>
+      <span class="key-badge">⏱ 5분 더하기=TIME</span>
+      <span class="key-badge">🏆 DMAX+INDEX+MATCH</span>
+      <span class="key-badge">📊 부분합=정렬 먼저</span>
+      <span class="key-badge">👑 피벗=분석 끝판왕</span>
+      <span class="key-badge">🖥 필기: 파일시스템·휴지통</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>📚 반납일 계산 = WEEKDAY + IF</h3>
+        <p>요일은 <b>대출일이 아니라 반납일(대출일+대여기간)</b>을 WEEKDAY로 감쌉니다. 토요일(6)이면 +2일, 일요일(7)이면 +1일 해서 월요일에 오게, 평일이면 그냥.</p>
+        <div class="use">가장 많은 실수 = 대출일로 요일 구하기</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>⏱ 시간에 5분 더하기 = TIME</h3>
+        <p>주행기록(도착-출발)에 5분을 더할 땐 <code>+TIME(,5,)</code>. 5분은 0.00347…이라 손으로 못 쓰니 TIME으로 시간값을 만들어 더합니다.</p>
+        <div class="use">시=비움·0 / TIME(,5,)=5분, TIME(1,,)=1시간</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>🏆 조건 최고값의 항목 = DMAX+INDEX+MATCH</h3>
+        <p>"재무팀 중 상여금 최고인 사람의 직위" → <b>DMAX</b>(최고값)→<b>MATCH</b>(몇 번째 행)→<b>INDEX</b>(그 행의 직위).</p>
+        <div class="use">DMAX가 제일 먼저 · DB함수는 머리글 포함</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>🔤 RIGHT 코드는 문자 → ×1</h3>
+        <p>HLOOKUP에 RIGHT로 뽑은 코드를 넣었는데 빈 값이면, RIGHT 결과가 <b>문자</b>라 숫자 기준표와 안 맞는 것. <code>RIGHT(...)*1</code>로 숫자화.</p>
+        <div class="use">원본은 못 바꾸니 수식 쪽을 ×1로</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>📊 부분합 = 정렬 먼저 + 새 값 대치 해제</h3>
+        <p>그룹할 항목으로 <b>정렬이 먼저</b>(자동 정렬 안 됨). 합계 위에 평균을 함께 남기려면 2번째에 <b>"새로운 값으로 대치" 해제</b>.</p>
+        <div class="use">윤곽단추 1·2·3 / 틀리면 "모두 제거"</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>👑 피벗 테이블 = 분석 끝판왕</h3>
+        <p>데이터를 회전. 행/열/값에 끌어넣기, <b>값 필드 설정</b>으로 합계↔평균. 삽입 탭에 있어요(분석 중 유일). 함수 100개를 대체.</p>
+        <div class="use">AVERAGEIFS가 클릭 몇 번으로 끝</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>🖥 필기: 파일 시스템·휴지통·단축키</h3>
+        <p><b>exFAT</b>(이동식·호환), <b>NTFS</b>(윈도우 전용). USB·<b>Shift+Del</b>·덮어쓰기는 휴지통 안 감(복구 불가). PnP·OLE·선점형 용어.</p>
+        <div class="use">아래 "필기 그림으로 이해" 참고</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>🎨 조건부 서식 = 삭제 말고 수정</h3>
+        <p>규칙이 꼬이면 새 규칙 자꾸 만들지 말고 <b>규칙 관리에서 수정</b>. 잘못 잡은 범위는 <b>적용 대상</b>을 다시 잡아 레코드만.</p>
+        <div class="use">규칙은 하나만 · 대화상자로 편집</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box prac-type">
+      <h3>📚 도서 반납일 계산 — WEEKDAY + IF (오늘 최고 강조)</h3>
+      <div class="step"><b>무엇을 감싸나</b> 요일은 <b>반납일</b>로 따집니다. 반납일 = <b>대출일 + 대여기간</b>. 이 반납일을 <code>WEEKDAY(대출일+기간, 2)</code>로 감싸요. 대출일로 요일을 구하는 게 가장 많은 실수예요.</div>
+      <div class="step"><b>요일 번호</b> WEEKDAY 옵션 <b>2</b>번이면 월요일=1 … <b>토요일=6, 일요일=7</b>.</div>
+      <div class="step"><b>구간 3개 · IF 2개</b> ①토요일(6)이면 주말을 건너뛰어 월요일 → 기간에 <b>+2일</b> ②일요일(7)이면 → <b>+1일</b> ③평일이면 그냥 대여기간만. <code>=IF(WEEKDAY(대출+기간,2)=6, 대출+기간+2, IF(WEEKDAY(대출+기간,2)=7, 대출+기간+1, 대출+기간))</code></div>
+      <div class="step"><b>패턴은 동일</b> 도서·장난감·장비 대여 전부 같은 패턴. 대여기간(10일·5일·3일)만 바뀝니다. 채우기 핸들로 나머지 채우기.</div>
+      <div class="exam-ex">시험 예시: "대출일 이용해 반납일 계산, 토·일이면 다음 월요일" — 정말 많이 나오고 다들 여기서 막힙니다. 안 되면 넘어갔다 오세요.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>⏱ 시간에 분 더하기 — TIME 함수</h3>
+      <div class="step"><b>왜 TIME</b> 5분은 시간값으로 <b>0.00347…</b>이라 손으로 못 씁니다. <code>TIME(시,분,초)</code>가 이 값을 만들어줘요. 5분이면 <code>TIME(,5,)</code>(시·초는 비움), 1시간이면 <code>TIME(1,,)</code>.</div>
+      <div class="step"><b>주행기록 + 5분</b> "마스터로 끝나는 선수는 기록에 5분 추가" → 기록 = 도착-출발(시간 데이터는 그냥 빼기). 여기에 <code>+TIME(,5,)</code>. <code>=IF(RIGHT(소속,3)="마스터", (도착-출발)+TIME(,5,), 도착-출발)</code></div>
+      <div class="step"><b>함수 추가 금지</b> 시험이 "TIME 이용"이라 하면 반드시 TIME을 쓰고, 지정 함수 외에는 추가하지 않습니다.</div>
+      <div class="exam-ex">시험 예시: TIME이 "시간 형식으로 되돌리는" 원래 역할과 다르게 "일정 시간을 더하는" 용도로 나와 어렵게 느껴집니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🏆 조건 최고값의 항목 — DMAX → MATCH → INDEX</h3>
+      <div class="step"><b>1단계 DMAX</b> "재무팀 중 상여금이 가장 높은 값"을 먼저 구합니다. <code>DMAX(전체표, "상여금", 조건목록)</code>. DB함수라 <b>머리글 포함 전체 테이블</b>과 조건 목록(소속팀=재무팀)을 씁니다.</div>
+      <div class="step"><b>2단계 MATCH</b> 그 최고값이 <b>몇 번째 행</b>인지 찾습니다. <code>MATCH(DMAX값, 상여금 레코드 범위, 0)</code> — 검색범위는 <b>머리글 빼고 레코드만</b>(포함하면 행이 밀려 엉뚱한 값).</div>
+      <div class="step"><b>3단계 INDEX</b> 그 행의 <b>직위</b>를 꺼냅니다. <code>INDEX(직위 범위, 행번호)</code> — 결과 열만 범위로 주면 열 번호는 생략.</div>
+      <div class="exam-ex">시험 예시: "분류가 패션인 것 중 증감률 최고 항목" 등과 같은 패턴 — DMAX/MATCH/INDEX 세트로 반복됩니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🔤 HLOOKUP + RIGHT + 문자 vs 숫자(×1)</h3>
+      <div class="step"><b>구조</b> 상품코드 오른쪽 숫자(<code>RIGHT(코드,1)</code>)로 기준표에서 포장방법을 찾습니다. <code>HLOOKUP(RIGHT(코드,1), 기준표, 2, FALSE)</code> — 첫 행 매칭, 머리글 제외, F4 절대, 정확히 일치.</div>
+      <div class="step"><b>빈 값이 나오면</b> RIGHT·LEFT·MID 결과는 <b>문자</b>. 기준표의 코드가 숫자면 안 맞아 결과가 안 나옵니다. <b>원본은 못 바꾸니</b> 수식 쪽을 <code>RIGHT(코드,1)*1</code>로 숫자화(×1은 연산하면서 따옴표를 없앰).</div>
+      <div class="step"><b>점검</b> 수식이 맞는데 값이 안 나오면 대화상자(fx)를 열어 <b>실제로 들어간 값</b>을 봅니다.</div>
+      <div class="exam-ex">시험 예시: 코드 매칭 문제에서 문자/숫자 형 불일치는 단골 함정. ="0" 또는 ×1 둘 다 알아둡니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🏅 RANK + CHOOSE + IF/IFERROR (등급 표시)</h3>
+      <div class="step"><b>순위</b> 총결제액으로 <code>RANK.EQ(값, 전체 F4, 0)</code> — 0=내림차순(큰 값이 1등).</div>
+      <div class="step"><b>등급</b> <code>CHOOSE(등수, "VIP","VIP","골드","골드","실버","실버")</code> — 1·2등 VIP, 3·4 골드, 5·6 실버. 대문자·따옴표는 fx 대화상자로 편하게.</div>
+      <div class="step"><b>7등 이하 오류 처리</b> CHOOSE는 지정 밖이면 #VALUE! → <b>IFERROR로 공백</b>: <code>IFERROR(CHOOSE(...),"")</code>. 또는 <b>IF로</b>: <code>IF(RANK&lt;=6, CHOOSE(...), "")</code>.</div>
+      <div class="exam-ex">시험 예시: 등수→등급 매핑 + 나머지 공백. 두 방식(IFERROR / IF) 다 나옵니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>📊 부분합 — 정렬 먼저, "새 값 대치" 해제, 윤곽 단추</h3>
+      <div class="step"><b>1단계 정렬</b> 그룹할 항목(진료 과목 등) 필드로 <b>정렬을 먼저</b> 합니다. 부분합은 <b>자동 정렬을 하지 않아요</b>(필기 단골 함정).</div>
+      <div class="step"><b>2단계 부분합</b> 셀 포인터를 데이터 안에 두고 데이터 탭 → 개요 → 부분합. 그룹할 항목·사용 함수(합계/평균/최대/최소)·계산 항목 체크.</div>
+      <div class="step"><b>합계 위에 평균 함께</b> 두 번째 부분합에서 <b>"새로운 값으로 대치" 체크를 해제</b>해야 앞의 합계가 유지됩니다(안 빼면 덮어써 사라짐). 순서 = <b>나중에 한 게 위</b>. 합계는 "요약"으로 표시.</div>
+      <div class="step"><b>윤곽 단추</b> 왼쪽 <b>1</b>=총합계만, <b>2</b>=그룹 요약, <b>3</b>=전체 펼침. 잘못 만들면 "<b>모두 제거</b>" 후 다시.</div>
+      <div class="exam-ex">시험 예시: "몇 번 윤곽 단추를 눌렀나", "그룹할 항목 지정 시 자동 정렬되나(→아니오)"가 필기 단골.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>👑 피벗 테이블 — 행·열·값, 값 필드 설정, 총합계</h3>
+      <div class="step"><b>넣기</b> 셀 포인터 데이터 안 → 삽입 탭 → 피벗 테이블(분석 도구 중 유일하게 데이터 탭이 아님). 행/열/값 영역에 끌어넣기(예: 부서=행, 직위=열, 실수령액=값).</div>
+      <div class="step"><b>합계↔평균</b> 값은 기본 "합계". <b>값 필드 설정</b>에서 평균·최대·최소 등으로 바꿉니다.</div>
+      <div class="step"><b>빈 셀·총합계</b> 옵션에서 <b>빈 셀 표시</b>(하이픈 등). <b>열 총합계 / 행 총합계</b>는 디자인 탭 → 총합계에서 남기거나 제거(무엇을 남겼는지 필기에 나옴). 값 2개↑면 Σ값을 행으로 옮겨 세로로.</div>
+      <div class="exam-ex">시험 예시: 피벗은 시키는 게 많아 통째로 10점 — 부분 점수 없음. 차근차근 클릭.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🎨 조건부 서식 규칙 관리 + 홀짝 줄무늬(MOD·ROW)</h3>
+      <div class="step"><b>수정 vs 삭제</b> 규칙이 꼬이면 새 규칙을 자꾸 만들지 말고 <b>규칙 관리에서 수정</b>. 범위를 잘못 잡았으면 <b>적용 대상</b>을 다시 잡아 레코드만(삭제 후 재작성 금지).</div>
+      <div class="step"><b>홀짝 줄무늬</b> 짝수 행만 색칠: 행 번호(<code>ROW()</code>)를 2로 나눈 나머지가 0인지. <code>=MOD(ROW(),2)=0</code>. 참(TRUE)인 행만 채우기. 행 번호는 모든 열이 같아 <b>열 절대 불필요</b>.</div>
+      <div class="exam-ex">시험 예시: 홀수/짝수 행 강조는 필기·실기 모두 출제. MOD·ROW 조합을 외웁니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔁 (복습) AVERAGEIFS — 계산 범위가 맨 앞, 혼합참조</h3>
+      <div class="step"><b>인수 순서</b> 조건이 여러 개면 <code>AVERAGEIFS(계산범위, 범위1, 조건1, 범위2, 조건2)</code> — <b>S가 붙으면 계산 범위가 맨 앞</b>으로 옵니다.</div>
+      <div class="step"><b>혼합참조</b> 부서×직위 표를 채우기 핸들 <b>양방향</b>으로 쓰면 혼합참조: 부서는 <b>열 절대($부서)</b>, 직위는 <b>행 절대(직위$)</b>. 계산범위는 F4 절대.</div>
+      <div class="step"><b>오류</b> 해당 조합 데이터가 없으면 #DIV/0! → <b>IFERROR로 공백</b>. → 이 복잡한 걸 <b>피벗</b>이면 클릭 몇 번에 끝냅니다.</div>
+      <div class="exam-ex">시험 예시: AVERAGEIFS·SUMIFS·COUNTIFS는 혼합참조가 핵심. 시험 아니면 안 쓰고 피벗으로 대체.</div>
+    </div>
+
+  </section>
+
+  <section id="pilgi">
+    <h2 class="section-title"><span class="si">🖥</span>필기 그림으로 이해하기 (컴퓨터 일반)</h2>
+
+    <div class="vis-box exam-type">
+      <h3>① 파일 시스템 비교</h3>
+      <p class="lead">"옛날 FAT → 윈도우 전용 NTFS → 요즘 이동식용 exFAT" 순서로 외우면 쉬워요.</p>
+      <figure>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>파일 시스템</th><th>용량</th><th>호환성</th><th>특징 · 한 줄 요약</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>FAT16</b></td><td>작음(~2GB)</td><td>넓음(옛 표준)</td><td>용량이 너무 작아 지금은 잘 안 씀</td></tr>
+              <tr><td><b>FAT32</b></td><td>파일 1개 4GB 한계</td><td>넓음</td><td>USB에 흔하지만 큰 파일 저장 불가</td></tr>
+              <tr><td><b>NTFS</b></td><td>대용량 OK</td><td>❗ <b>윈도우 전용</b></td><td>보안·복구 좋지만 맥/안드로이드와 호환 ✕</td></tr>
+              <tr><td><b>exFAT</b></td><td>대용량 OK</td><td>✅ 윈도우+타 OS</td><td><b>FAT의 용량 한계 개선</b> · USB·SD 등 이동식에 딱</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption><span class="figno">그림 1</span> · NTFS = 윈도우 전용 / exFAT = 이동식·호환. 이 둘의 차이가 시험 단골</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>② 드래그로 이동 vs 복사</h3>
+      <p class="lead">드래그만으로는 드라이브에 따라 결과가 달라지고, 키를 누르면 항상 고정됩니다.</p>
+      <figure>
+        <div class="flow">
+          <span class="node n">같은 드라이브 드래그</span><span class="arrow">→</span><span class="node g">이동</span>
+        </div>
+        <div class="flow">
+          <span class="node n">다른 드라이브 드래그<br>(예: C → USB)</span><span class="arrow">→</span><span class="node">복사</span>
+        </div>
+        <div class="flow" style="margin-top:12px;">
+          <span class="node n"><kbd>Shift</kbd>+드래그</span><span class="arrow">→</span><span class="node g">항상 이동</span>
+          <span class="arrow" style="margin:0 4px;">|</span>
+          <span class="node n"><kbd>Ctrl</kbd>+드래그</span><span class="arrow">→</span><span class="node">항상 복사</span>
+        </div>
+        <div class="flow">
+          <span class="node n"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+드래그</span><span class="arrow">→</span><span class="node" style="background:var(--gold-bg);color:var(--gold);">바로 가기 만들기</span>
+        </div>
+        <figcaption><span class="figno">그림 2</span> · 드래그는 드라이브 따라 다르고, 키를 누르면 결과가 고정된다</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>③ 휴지통을 거치지 않고 완전 삭제 (복구 불가)</h3>
+      <p class="lead">아래는 Delete해도 휴지통에 안 남아 <b>복구가 안 되는</b> 경우예요. 실무 사고와 직결됩니다.</p>
+      <figure>
+        <div class="trash-grid">
+          <div class="ti">USB·이동식 디스크</div>
+          <div class="ti">네트워크 드라이브</div>
+          <div class="ti"><kbd>Shift</kbd>+<kbd>Del</kbd></div>
+          <div class="ti">휴지통 최대 크기 0</div>
+          <div class="ti">휴지통보다 큰 파일</div>
+          <div class="ti">덮어쓰기한 경우</div>
+        </div>
+        <figcaption><span class="figno">그림 3</span> · 이 6가지는 휴지통을 거치지 않아 되돌릴 수 없다(강사 강조)</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>④ 폴더 속성 창(Alt+Enter)에서 되는 것 vs 안 되는 것</h3>
+      <p class="lead">파일 탐색기에서는 되지만 <b>속성 창</b>에서는 안 되는 게 시험 포인트예요.</p>
+      <figure>
+        <div class="two-col">
+          <div class="col-box ok">
+            <h4>속성 창에서 가능</h4>
+            <ul>
+              <li>종류·위치·크기 확인</li>
+              <li>안에 든 파일·폴더 개수, 만든 날짜 확인</li>
+              <li>이름 변경 (현재 버전은 가능)</li>
+            </ul>
+          </div>
+          <div class="col-box no">
+            <h4>속성 창에서 불가</h4>
+            <ul>
+              <li>폴더 <b>위치 이동</b> (탐색기에선 됨)</li>
+              <li>"만든이" 항목은 아예 없음</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption><span class="figno">그림 4</span> · 속성 창에서 "위치 이동"은 불가 — 자주 묻는 함정</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>⑤ Windows 단축키 한눈에 (자동으로 그림이 안 그려지는 부분을 키 모양으로 정리)</h3>
+      <p class="lead">기능키 · Alt · Ctrl · Win 4묶음으로 외우면 편해요. 굵은 것이 자주 나옵니다.</p>
+      <figure>
+        <div style="text-align:left;">
+          <div class="key-row"><span class="lbl">기능키</span>
+            <kbd>F2</kbd><span class="desc">이름 바꾸기</span>
+            <kbd>F5</kbd><span class="desc">새로 고침</span>
+            <kbd>F3</kbd><span class="desc">찾기(범위 좁음)</span>
+          </div>
+          <div class="key-row"><span class="lbl">Alt 계열</span>
+            <kbd>Alt+Tab</kbd><span class="desc">창 전환</span>
+            <kbd>Alt+F4</kbd><span class="desc">닫기/강제 종료</span>
+            <kbd>Alt+Enter</kbd><span class="desc">속성</span>
+            <kbd>Alt+PrtSc</kbd><span class="desc">현재 창 캡처</span>
+          </div>
+          <div class="key-row"><span class="lbl">Ctrl 계열</span>
+            <kbd>Ctrl+A</kbd><span class="desc">전체 선택</span>
+            <kbd>Ctrl+Esc</kbd><span class="desc">= Win 키</span>
+            <kbd>Ctrl+F</kbd><span class="desc">찾기</span>
+            <kbd>Shift+Del</kbd><span class="desc">휴지통 안 거치고 삭제</span>
+          </div>
+          <div class="key-row"><span class="lbl">Win 계열</span>
+            <kbd>Win+E</kbd><span class="desc">탐색기</span>
+            <kbd>Win+L</kbd><span class="desc">잠금</span>
+            <kbd>Win+D</kbd><span class="desc">바탕화면</span>
+            <kbd>Win+R</kbd><span class="desc">실행</span>
+            <kbd>Win+S</kbd><span class="desc">검색(컴퓨터+웹, 넓음)</span>
+          </div>
+          <div class="key-row"><span class="lbl">Win 계열</span>
+            <kbd>Win+I</kbd><span class="desc">설정</span>
+            <kbd>Win+V</kbd><span class="desc">클립보드 기록</span>
+            <kbd>Win+방향키</kbd><span class="desc">에어로 스냅(창 정렬)</span>
+            <kbd>Win+,</kbd><span class="desc">에어로 피크(미리 보기)</span>
+          </div>
+        </div>
+        <figcaption><span class="figno">그림 5</span> · Win+S(검색)는 컴퓨터+웹까지, F3는 현재 폴더만 — 범위 차이가 포인트</figcaption>
+      </figure>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 틀린 부분</div>
+      <h3>반납일 요일을 "대출일"로 구해요</h3>
+      <p>요일은 반드시 <b>반납일(대출일+대여기간)</b>로 따져야 하는데, 대출일로 WEEKDAY를 해서 엉뚱한 요일이 나옵니다. 대출일은 재료일 뿐이에요.</p>
+      <p class="fix"><code>WEEKDAY(대출일+대여기간, 2)</code> — <b>반납일</b>을 감싸기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>시간에 5분을 그냥 +5 하거나 0.00347을 손으로 써요</h3>
+      <p>5분은 시간값 0.00347…이라 직접 입력이 불가능하고, +5는 5일을 더하는 셈이 돼요.</p>
+      <p class="fix"><code>+TIME(,5,)</code>로 5분을 시간값으로 만들어 더하기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>HLOOKUP에 RIGHT 코드를 넣었는데 빈 값이 나와요</h3>
+      <p>RIGHT·LEFT·MID 결과는 문자라, 기준표의 코드가 숫자면 매칭이 안 됩니다.</p>
+      <p class="fix"><code>RIGHT(코드,1)*1</code>로 숫자화(원본은 못 바꾸니 수식 쪽을 맞춤).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>부분합 전에 정렬을 안 해요</h3>
+      <p>부분합은 그룹할 항목을 지정해도 <b>자동으로 정렬하지 않습니다</b>. 정렬 안 하면 그룹이 흩어져요.</p>
+      <p class="fix">그룹할 항목 필드로 <b>정렬을 먼저</b> 한 뒤 부분합.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>2번째 부분합에서 "새로운 값으로 대치"를 안 빼요</h3>
+      <p>합계 위에 평균을 함께 남기려는데, 이 체크를 두면 앞의 합계가 덮어써져 사라집니다.</p>
+      <p class="fix">2번째부터는 <b>"새로운 값으로 대치" 체크 해제</b>.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>DMAX+MATCH에서 검색범위에 머리글을 넣어요</h3>
+      <p>MATCH 검색범위에 필드명을 포함하면 행 번호가 한 칸씩 밀려 엉뚱한 값이 나옵니다.</p>
+      <p class="fix">검색범위는 <b>머리글 빼고 레코드만</b>, 위치를 맞추기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>CHOOSE에서 7등 이하 #VALUE!를 방치해요</h3>
+      <p>CHOOSE 지정 범위(1~6) 밖은 오류가 납니다.</p>
+      <p class="fix"><code>IFERROR(CHOOSE(...),"")</code> 또는 <code>IF(RANK&lt;=6, CHOOSE(...), "")</code>로 공백.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기: exFAT를 윈도우 전용으로 착각해요</h3>
+      <p>윈도우 전용은 <b>NTFS</b>입니다. exFAT는 오히려 이동식·호환용이에요.</p>
+      <p class="fix">NTFS=윈도우 전용 / exFAT=이동식·타 OS 호환으로 딱 붙여 외우기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기: USB 파일 삭제가 복구된다고 생각해요</h3>
+      <p>USB·이동식, Shift+Delete, 덮어쓰기는 휴지통에 안 가 복구가 안 됩니다.</p>
+      <p class="fix">이동식·<b>Shift+Del</b>·덮어쓰기 = 즉시 완전 삭제(그림 3).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>조건부 서식 규칙을 자꾸 새로 만들거나 지워요</h3>
+      <p>규칙이 여러 개 쌓여 서로 꼬이고, 지웠다 다시 만들다 시간을 버립니다.</p>
+      <p class="fix"><b>규칙 관리에서 수정</b>, 범위는 <b>적용 대상</b>으로 다시 잡기(규칙은 하나만).</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·함수 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>단축키/함수</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>날짜·시간</td><td><code>WEEKDAY</code></td><td>요일 번호</td><td><b>반납일</b>을 감싼다 · 옵션 2=월요일 1, 토=6·일=7</td></tr>
+          <tr><td>논리</td><td><code>IF</code> (중첩)</td><td>토·일·평일 구간 분기</td><td>구간 3개 → IF 2개 · 토+2일, 일+1일</td></tr>
+          <tr><td>날짜·시간</td><td><code>TIME</code></td><td>시·분·초를 시간값으로</td><td>기록에 5분 더하기 <code>+TIME(,5,)</code></td></tr>
+          <tr><td>데이터베이스</td><td><code>DMAX</code></td><td>조건 만족 중 최대값</td><td>머리글 포함 전체표+조건목록</td></tr>
+          <tr><td>찾기·참조</td><td><code>MATCH / INDEX</code></td><td>몇 번째 행 / 그 행의 값</td><td>MATCH 범위는 머리글 빼고 레코드만</td></tr>
+          <tr><td>찾기·참조</td><td><code>HLOOKUP</code></td><td>첫 행에서 값 찾기</td><td>머리글 제외·F4·정확히 일치</td></tr>
+          <tr><td>텍스트</td><td><code>RIGHT / LEFT / MID</code></td><td>텍스트 추출(결과=문자)</td><td>숫자 비교 안 되면 <code>*1</code>로 숫자화</td></tr>
+          <tr><td>통계</td><td><code>RANK.EQ</code></td><td>순위</td><td>0=내림차순, 전체 F4</td></tr>
+          <tr><td>찾기·참조</td><td><code>CHOOSE</code></td><td>등수→등급</td><td>7등↓ #VALUE! → IFERROR/IF로 공백</td></tr>
+          <tr><td>통계</td><td><code>AVERAGEIFS</code></td><td>다중 조건 평균</td><td>계산범위 맨 앞·혼합참조($열/행$)</td></tr>
+          <tr><td>분석</td><td>부분합</td><td>그룹별 요약</td><td><b>정렬 먼저</b> · 2번째 "새 값 대치" 해제</td></tr>
+          <tr><td>분석</td><td>피벗 테이블</td><td>데이터 회전 요약</td><td>삽입 탭 · 값 필드 설정(합계↔평균)</td></tr>
+          <tr><td>서식</td><td><code>MOD / ROW</code></td><td>홀짝 줄무늬 조건부 서식</td><td><code>=MOD(ROW(),2)=0</code> 짝수 행</td></tr>
+          <tr><td>필기</td><td>FAT · NTFS · exFAT</td><td>파일 시스템</td><td>NTFS=윈도우 전용, exFAT=이동식·호환</td></tr>
+          <tr><td>필기</td><td>PnP / OLE / 선점형</td><td>연결하면 동작 / 개체 삽입 / CPU 시간 배분</td><td>메모장은 OLE 미지원</td></tr>
+          <tr><td>단축키</td><td><code>Shift+Del</code></td><td>휴지통 안 거치고 삭제</td><td>USB·덮어쓰기와 함께 복구 불가</td></tr>
+          <tr><td>단축키</td><td><code>Alt+Enter</code></td><td>속성 창</td><td>위치 이동은 불가</td></tr>
+          <tr><td>단축키</td><td><code>Win+S</code> vs <code>F3</code></td><td>검색</td><td>Win+S=컴퓨터+웹(넓음), F3=현재 폴더(좁음)</td></tr>
+          <tr><td>단축키</td><td>Ctrl+Shift+드래그</td><td>바로 가기 만들기</td><td>Shift=이동, Ctrl=복사</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">도서 반납일 문제에서 요일을 판단할 때, WEEKDAY로 감싸야 하는 것은 무엇인가요?</p>
+      <button class="quiz-opt" data-correct="true">반납일(대출일 + 대여기간)</button>
+      <button class="quiz-opt" data-correct="false">대출일 그 자체</button>
+      <button class="quiz-opt" data-correct="false">아무 날짜나 상관없다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">WEEKDAY(,2) 기준으로 반납일이 토요일(6)일 때, 월요일에 오게 하려면 대여기간에 며칠을 더해야 하나요?</p>
+      <button class="quiz-opt" data-correct="false">5일</button>
+      <button class="quiz-opt" data-correct="true">2일 (주말을 건너뛰어 월요일)</button>
+      <button class="quiz-opt" data-correct="false">더하지 않는다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">주행기록(도착-출발)에 정확히 5분을 더하려고 합니다. 올바른 방법은?</p>
+      <button class="quiz-opt" data-correct="false">그냥 +5 를 더한다</button>
+      <button class="quiz-opt" data-correct="false">+0.05 를 더한다</button>
+      <button class="quiz-opt" data-correct="true">+TIME(,5,) 로 5분을 시간값으로 만들어 더한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">"재무팀 중 상여금이 가장 높은 사람의 직위"를 구할 때, 가장 먼저 최고 상여금을 구하는 함수는?</p>
+      <button class="quiz-opt" data-correct="false">RANK로 순위를 먼저 구한다</button>
+      <button class="quiz-opt" data-correct="true">DMAX로 조건에 맞는 최고 상여금을 먼저 구한다</button>
+      <button class="quiz-opt" data-correct="false">INDEX로 값을 먼저 꺼낸다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">RIGHT로 뽑은 코드로 HLOOKUP을 했더니 결과가 빈 값입니다. 원인과 해결로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">함수를 더 추가하면 된다</button>
+      <button class="quiz-opt" data-correct="false">기준표를 지우고 다시 만든다</button>
+      <button class="quiz-opt" data-correct="true">RIGHT 결과는 문자라 숫자 기준표와 안 맞음 → RIGHT(...)*1 로 숫자화</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">부분합 기능을 실행하기 전에 반드시 먼저 해야 하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">그룹할 항목을 기준으로 정렬을 먼저 한다</button>
+      <button class="quiz-opt" data-correct="false">표 서식을 먼저 지정한다</button>
+      <button class="quiz-opt" data-correct="false">아무것도 필요 없다 — 부분합이 자동 정렬한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">합계 부분합 위에 평균 부분합을 함께 남기려면, 두 번째 부분합 대화상자에서 어떤 옵션을 해제해야 하나요?</p>
+      <button class="quiz-opt" data-correct="false">"그룹 사이에서 페이지 나눔"</button>
+      <button class="quiz-opt" data-correct="true">"새로운 값으로 대치"</button>
+      <button class="quiz-opt" data-correct="false">"데이터 아래에 요약 표시"</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">피벗 테이블에서 값이 기본 "합계"로 나올 때, 이것을 "평균"으로 바꾸는 방법은?</p>
+      <button class="quiz-opt" data-correct="false">바꿀 수 없다</button>
+      <button class="quiz-opt" data-correct="false">셀에 함수를 새로 입력한다</button>
+      <button class="quiz-opt" data-correct="true">값 필드 설정에서 계산 유형을 평균으로 바꾼다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">(필기) 파일을 삭제했을 때 휴지통을 거치지 않고 바로 완전 삭제되어 복구가 안 되는 경우는?</p>
+      <button class="quiz-opt" data-correct="true">USB(이동식 디스크)의 파일을 Delete로 지운다</button>
+      <button class="quiz-opt" data-correct="false">C드라이브 문서를 Delete로 지운다</button>
+      <button class="quiz-opt" data-correct="false">바탕화면 파일을 Delete로 지운다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">(필기) FAT의 용량 한계를 개선해 USB·SD 같은 이동식 저장장치에 쓰고, 윈도우 외 다른 OS와도 호환되는 파일 시스템은?</p>
+      <button class="quiz-opt" data-correct="false">FAT16</button>
+      <button class="quiz-opt" data-correct="true">exFAT</button>
+      <button class="quiz-opt" data-correct="false">NTFS (윈도우 전용)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">반납일 = 대출일+대여기간을 WEEKDAY로 감싸 IF로 토(+2)·일(+1)·평일 처리해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">기록(도착-출발)에 +TIME(,5,)로 5분 더하는 문제 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">DMAX→MATCH→INDEX로 "조건 최고값의 항목" 구해보기(머리글 주의)</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">HLOOKUP+RIGHT에서 빈 값 나오면 *1로 숫자화해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">RANK+CHOOSE로 등급 만들고 7등↓는 IFERROR/IF로 공백 처리</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">부분합: 정렬 먼저 → 합계 → 평균(새 값 대치 해제), 윤곽단추 1·2·3 눌러보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">피벗 테이블: 행/열/값 끌어넣고 값 필드 설정으로 합계↔평균 바꾸기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">(복습) AVERAGEIFS 혼합참조(열/행 절대)로 부서×직위 평균 구해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">필기: 파일 시스템 FAT/NTFS(윈도우전용)/exFAT(이동식) 구분(그림 1)</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">필기: 휴지통 안 가는 6가지(USB·Shift+Del·덮어쓰기 등) 외우기(그림 3)</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">필기: 단축키 Win+S(넓음) vs F3(좁음), Alt+Enter 속성창 위치이동 불가</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '11차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
