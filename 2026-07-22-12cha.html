@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12차시 복습자료 | 컴활2급 - 가상분석(데이터표·시나리오·목표값)·피벗·부분합 + 필기(디스크·프린터·메모장)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box.prac-type{ border-left:4px solid var(--green); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+kbd{
+  display:inline-block; font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:700;
+  background:var(--navy); color:#fff; border-radius:7px; padding:5px 10px; box-shadow:0 2px 0 rgba(0,0,0,.28);
+  line-height:1;
+}
+.key-row{ display:flex; flex-wrap:wrap; gap:8px 10px; align-items:center; margin-bottom:12px; text-align:left; }
+.key-row .lbl{ font-size:11.5px; font-weight:700; color:var(--muted); min-width:78px; letter-spacing:.02em; }
+.key-row .desc{ font-size:12px; color:var(--muted); }
+
+.flow{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; margin:6px 0; }
+.flow .node{ background:var(--blue-bg); color:var(--blue); border-radius:10px; padding:11px 15px; font-size:13px; font-weight:700; }
+.flow .node.g{ background:var(--green-bg); color:var(--green); }
+.flow .node.n{ background:var(--bg2); color:var(--text); }
+.flow .node.r{ background:var(--red-bg); color:var(--red); }
+.flow .arrow{ color:var(--muted); font-weight:800; font-size:16px; }
+
+.frag{ display:flex; gap:5px; flex-wrap:wrap; justify-content:center; margin:4px 0; }
+.frag .blk{ width:26px; height:26px; border-radius:6px; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; color:#fff; }
+.frag .a{ background:var(--blue); }
+.frag .b{ background:var(--green); }
+.frag .c{ background:var(--gold); }
+.frag .e{ background:var(--bg2); color:var(--muted); box-shadow:inset 0 0 0 1px var(--border); }
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:left; }
+.col-box{ border-radius:12px; padding:14px 16px; }
+.col-box.ok{ background:var(--green-bg); border:1px solid #A7E0CD; }
+.col-box.no{ background:var(--red-bg); border:1px solid #F1B0A5; }
+.col-box h4{ font-size:13.5px; font-weight:800; margin-bottom:8px; }
+.col-box.ok h4{ color:var(--green); }
+.col-box.no h4{ color:var(--red); }
+.col-box li{ font-size:12.5px; margin-bottom:5px; padding-left:16px; position:relative; }
+.col-box.ok li::before{ content:'○'; position:absolute; left:0; color:var(--green); }
+.col-box.no li::before{ content:'✕'; position:absolute; left:0; color:var(--red); }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+  .two-col{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">12차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>12차시 복습자료</h1>
+  <p class="meta"><b>2026-07-22</b><br>데이터 분석 완성(가상 분석 3형제: 데이터 표·시나리오·목표값 찾기 + 부분합·피벗), 그리고 필기 컴퓨터 일반(디스크·포맷·프린터·스풀·메모장)</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#pilgi" onclick="closeSidebar()"><span class="num">4</span>필기 그림으로 이해</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">5</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">6</span>단축키·함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">7</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">8</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">가상 분석 3형제 · 부분합 · 피벗</span>
+      <span class="tag">필기 컴퓨터 일반</span>
+    </div>
+    <h1>오늘의 핵심은 "분석 작업은 <b>시키는 대로 클릭</b>(가상 분석 3형제), 필기는 <b>조각 모음=속도</b>·<b>스풀=효율</b>"입니다.</h1>
+    <p class="sub">2026-07-22 · 12차시 · 3장 데이터 분석을 마무리했어요. <b>가상 분석 3형제</b>(데이터 표=여러 변수, 시나리오=몇 가지 상황, 목표값 찾기=한 가지 결과 역산)와 부분합·피벗은 함수처럼 머리 아프지 않고 <b>차근차근 클릭</b>이면 됩니다. 필기 컴퓨터 일반은 <b>디스크 정리(글꼴 제외)·조각 모음(속도 개선)·포맷·프린터/스풀·메모장</b>을 그림으로 정리했어요.</p>
+    <div class="key-badges">
+      <span class="key-badge">🔮 가상 분석 3형제</span>
+      <span class="key-badge">📐 데이터 표=행/열 입력 셀</span>
+      <span class="key-badge">📊 부분합=정렬 먼저</span>
+      <span class="key-badge">👑 피벗=새로고침 수동</span>
+      <span class="key-badge">🧹 조각 모음=속도(용량 X)</span>
+      <span class="key-badge">🖨 스풀=효율 · 메모장=OLE 불가</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>🔮 가상 분석 3형제 (예측 도구)</h3>
+        <p><b>데이터 표</b>=여러 변수를 표로 예측 / <b>시나리오</b>=몇 가지 상황 가정 / <b>목표값 찾기</b>=한 가지 결과가 되려면 입력값이 얼마?(역산). 모두 <b>데이터 탭 → 가상 분석</b>에 묶여 있어요.</p>
+        <div class="use">예측할 개수: 데이터 표(많음) &gt; 시나리오(2~3) &gt; 목표값(1)</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>📐 데이터 표 = 행 입력 셀 / 열 입력 셀</h3>
+        <p>제일 헷갈리는 건 <b>행/열 입력 셀</b> 구분. 원래 수식에서 <b>국어(행 데이터)는 행 입력 셀</b>, <b>수학(열 데이터)은 열 입력 셀</b>에 지정. 나머진 범위 잡고 확인이면 끝.</p>
+        <div class="use">"몇 번째 행에 있나 / 몇 번째 열에 있나"로 구분</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>🎯 목표값 찾기 = 결과 역산</h3>
+        <p>"월 상환액이 <b>2만원이 되려면</b> 상환 기간은?" 처럼 <b>결과를 정해놓고 입력값을 거꾸로</b> 찾습니다. 수식 셀 / 찾는 값 / <b>값을 바꿀 셀</b> 3개만.</p>
+        <div class="use">한 개 셀만 바뀌는, 딱 한 가지 상황</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>📊 부분합 = 정렬 먼저 + "새 값 대치" 해제</h3>
+        <p>그룹할 항목으로 <b>정렬이 먼저</b>(자동 정렬 안 됨). 합계 위에 평균을 함께 남기려면 2번째에 <b>"새로운 값으로 대치" 해제</b>.</p>
+        <div class="use">그룹 사이 페이지 나누기는 인쇄 구분(필기)</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>👑 피벗 = 값 필드 설정·그룹·새로고침</h3>
+        <p>값은 <b>값 필드 설정</b>으로 합계↔평균/최대/최소. 날짜는 <b>그룹 필드(월 단위)</b>. <b>원본을 바꾸면 자동 반영 안 되고 "새로 고침"</b> 필요.</p>
+        <div class="use">그룹 필드는 그 열에 셀 포인터 둬야 활성화</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>🧹 조각 모음 = 속도 개선(용량 X)</h3>
+        <p>흩어진 조각을 한데 모아 <b>읽기 속도를 개선</b>. <b>용량이 늘어나는 게 아니에요.</b> 하드 디스크만 하고, <b>SSD는 조각 모음 대신 TRIM</b>.</p>
+        <div class="use">디스크 정리 대상이 아닌 것 = 글꼴</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>🖨 스풀 = 효율(인쇄 속도 X) · 인쇄 단위</h3>
+        <p>느린 프린터와 빠른 CPU를 <b>병행 처리</b>하려 하드 디스크에 임시 저장. <b>효율↑이지 인쇄 속도↑ 아님.</b> 속도 단위 <b>IPM=ISO 표준</b>, <b>DPI=해상도</b>.</p>
+        <div class="use">스풀하면 오히려 인쇄가 느려질 수도</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>📝 메모장 = 서식 없는 텍스트</h3>
+        <p><b>그림·표(OLE 개체) 삽입 불가</b>, 색상 없음. 되는 건 페이지 설정·찾기바꾸기·<b>F5(날짜/시간)</b>·첫 줄 <b>.LOG</b>. 그림·문단 정렬은 <b>워드패드</b>.</p>
+        <div class="use">확장자 .txt / 실행: Win+R → notepad</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box prac-type">
+      <h3>🔮 가상 분석 3형제 — 데이터 표 · 시나리오 · 목표값 찾기 (오늘 신규)</h3>
+      <div class="step"><b>공통</b> 셋 다 "가상으로 미리 예측"하는 도구예요. 모두 <b>데이터 탭 → 가상 분석</b> 안에 묶여 있어 잘 못 찾습니다(리본에 안 펼쳐져 있음).</div>
+      <div class="step"><b>데이터 표</b> 여러 변수를 <b>표로 한꺼번에</b> 예측(예: 국어·수학 점수가 바뀌면 합계가 어떻게?). 예측 개수가 가장 많아요.</div>
+      <div class="step"><b>시나리오</b> <b>몇 가지 상황</b>(2~3개)만 가정(예: 반품 수량이 줄면 vs 늘면 매출액 합계는?).</div>
+      <div class="step"><b>목표값 찾기</b> <b>한 가지</b> 결과를 정해놓고 입력값을 <b>거꾸로</b> 찾음(예: 월 상환액이 2만원이 되려면 상환 기간은?).</div>
+      <div class="exam-ex">필기 예시: "몇 가지 상황을 가상으로 예측하는 기능은?" → 데이터 표 또는 시나리오. 둘 중 하나만 보기에 주어져요. "한 가지 결과의 역산"은 목표값 찾기.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>📐 데이터 표 — 행 입력 셀 / 열 입력 셀 (가장 헷갈림)</h3>
+      <div class="step"><b>준비</b> 원본 수식(합계)값을 표 모서리로 당겨옵니다. 이때 <b>그냥 붙여넣기 하면 채우기 핸들처럼 밀려요</b>(상대 참조라 따라 내려옴). → F2로 수정 상태에서 <b>드래그 복사</b>하거나, 아예 <b>셀 참조(=B5)</b>로 당겨오기(제일 쉬움).</div>
+      <div class="step"><b>구분법</b> 원래 수식에서 <b>국어 점수가 10행에 있으면 "행 데이터" → 행 입력 셀</b>, <b>수학 점수가 B열에 있으면 "열 데이터" → 열 입력 셀</b>.</div>
+      <div class="step"><b>실행</b> 표 범위 선택 → 가상 분석 → 데이터 표 → 행 입력 셀·열 입력 셀만 지정하면 5초면 끝. 확인 버튼이면 완료.</div>
+      <div class="exam-ex">시험 예시: 행/열 입력 셀 구분만 정확하면 아주 쉬운 문제. 범위 선택 후 대화상자를 여는 순서를 헷갈려 어려워합니다.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🎬 시나리오 — 이름 정의 · 변경 셀 · 결과 셀 · 요약</h3>
+      <div class="step"><b>이름 정의 먼저</b> 요약 결과가 셀 주소(예: $B$4) 대신 <b>이름</b>으로 나오게, 변경 셀·결과 셀에 이름 지정(이름 상자에 입력). 오타는 <b>수식 탭 → 이름 관리자</b>에서 편집.</div>
+      <div class="step"><b>시나리오 관리자</b> 데이터 탭 → 가상 분석 → 시나리오 관리자 → <b>추가</b>로 극본 만들기(예: "수익률 증가"=반품 수량 줄임, "수익률 감소"=늘림). 변경 셀에 상황별 숫자 입력.</div>
+      <div class="step"><b>요약</b> 제대로 만들면 <b>추가·요약</b> 두 개만 쓰면 끝. <b>결과 셀</b>=변동을 보고 싶은 값(매출액 합계). 시나리오 요약 시트 <b>위치</b>까지 문제에 나옵니다.</div>
+      <div class="exam-ex">시험 예시: "변경 셀 / 결과 셀"을 헷갈려요. 바꾸는 게 변경 셀, 결과로 보는 게 결과 셀(매출액 합계).</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🎯 목표값 찾기 — 수식 셀 · 찾는 값 · 값을 바꿀 셀</h3>
+      <div class="step"><b>수식 셀</b> 내가 특정 값이 되길 바라는 셀(예: 월 상환액).</div>
+      <div class="step"><b>찾는 값</b> 그 셀이 되어야 할 값(예: 20000).</div>
+      <div class="step"><b>값을 바꿀 셀</b> 엑셀이 거꾸로 계산해 바꿔 줄 셀(예: 상환 기간). 내가 못 구하니 엑셀에게 맡기는 거예요. 확인이면 끝.</div>
+      <div class="exam-ex">시험 예시: "합계가 270점이 되려면 국어 점수는?" 같은 한 가지 상황의 역산이 목표값 찾기.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>📊 부분합 — 정렬 먼저, "새 값 대치" 해제, 그룹 사이 페이지 나누기</h3>
+      <div class="step"><b>1단계 정렬</b> 그룹할 항목(진료 과목 등)으로 <b>정렬을 먼저</b>. 부분합은 <b>자동 정렬을 하지 않습니다</b>(필기 단골).</div>
+      <div class="step"><b>2단계 부분합</b> 데이터 탭 → 개요 → 부분합. 그룹할 항목·사용 함수(합계/평균)·계산 항목 체크.</div>
+      <div class="step"><b>합계 위에 평균 함께</b> 두 번째 부분합에서 <b>"새로운 값으로 대치" 해제</b>(안 빼면 앞 합계가 사라짐). 나중에 한 게 위로 올라옵니다.</div>
+      <div class="step"><b>그룹 사이 페이지 나누기(필기)</b> 체크하면 그룹마다 <b>인쇄 페이지가 나뉘도록 선</b>이 들어갑니다. 실기엔 안 나오고 <b>필기</b>에 나와요.</div>
+      <div class="exam-ex">시험 예시: "그룹할 항목 지정 시 자동 정렬되나?(→아니오)", "그룹 사이 페이지 나누기의 효과"가 필기 포인트.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>👑 피벗 테이블 — 값 필드 설정 · 그룹 · 새로 고침 · 레이아웃</h3>
+      <div class="step"><b>넣기</b> 셀 포인터 데이터 안 → <b>삽입 탭</b> → 피벗 테이블(분석 도구 중 유일하게 삽입 탭). 기존 워크시트에 위치 지정(예: I3). 필드를 행/열/값/필터로 끌어넣기.</div>
+      <div class="step"><b>값 필드 설정</b> 기본 "합계" → 평균·최대·최소로. 표시 형식(천 단위 구분)은 <b>값 필드 설정 → 셀 서식</b>에서 값마다 따로.</div>
+      <div class="step"><b>그룹 · 새로 고침</b> 날짜를 월 단위로 묶으려면 <b>그룹 필드</b>(그 열에 셀 포인터 둬야 활성화). <b>원본 데이터를 바꾸면 자동 반영 안 됨 → "새로 고침"</b>(필기 단골). 정렬은 필터 단추로.</div>
+      <div class="step"><b>레이아웃</b> 디자인 탭 → 보고서 레이아웃(개요/테이블 형식), 행/열 총합계 표시·해제, 피벗 스타일. 값 2개↑면 Σ값을 행으로 옮겨 세로로.</div>
+      <div class="exam-ex">시험 예시: "원본을 고치면 피벗이 자동 갱신되나?(→아니오, 새로 고침)", "피벗 시작 위치는 I1?(→아니오, 지정한 I3)".</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔁 (복습) 1교시 함수보충2 — 오늘의 실기 복습</h3>
+      <div class="step"><b>SUM 누적</b> 누적 판매량은 <code>=SUM($B$41:B41)</code> — 앞 셀만 절대 참조, 뒤는 상대로 두고 채우기 핸들. 한 칸씩 늘어나며 누적됩니다.</div>
+      <div class="step"><b>SMALL + 시·분·초</b> 가장 빠른 기록은 <code>SMALL(범위,1)</code>로 최소를 찾고, <code>HOUR/MINUTE/SECOND</code>로 각각 분해(반복은 Ctrl+C/V).</div>
+      <div class="step"><b>다시 복습</b> TIME(+2분)·WEEKDAY 중첩 IF(반납일)·DMAX→MATCH→INDEX·RIGHT×1 숫자화는 11차시에서 배운 패턴 그대로예요.</div>
+      <div class="exam-ex">1교시는 대부분 어제(11차시) 패턴의 응용 문제. 안 되는 패턴만 적어두고 반복 연습하세요.</div>
+    </div>
+
+  </section>
+
+  <section id="pilgi">
+    <h2 class="section-title"><span class="si">🖥</span>필기 그림으로 이해하기 (컴퓨터 일반)</h2>
+
+    <div class="vis-box prac-type">
+      <h3>① 가상 분석 3형제 한눈에 (실기)</h3>
+      <p class="lead">"많이 예측 → 몇 개 → 딱 하나" 순서로 데이터 표 · 시나리오 · 목표값 찾기를 외우면 쉬워요.</p>
+      <figure>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>도구</th><th>예측 개수</th><th>무엇을</th><th>핵심 지정 항목</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>데이터 표</b></td><td>많음</td><td>여러 변수를 표로</td><td><b>행 입력 셀 / 열 입력 셀</b></td></tr>
+              <tr><td><b>시나리오</b></td><td>몇 가지(2~3)</td><td>상황을 가정</td><td>변경 셀 / <b>결과 셀</b></td></tr>
+              <tr><td><b>목표값 찾기</b></td><td>딱 하나</td><td>결과를 역산</td><td>수식 셀 / 찾는 값 / <b>값을 바꿀 셀</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption><span class="figno">그림 1</span> · 셋 다 데이터 탭 → 가상 분석에 묶여 있다 (예측 개수로 구분)</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>② 드라이브 조각 모음 원리 (속도 개선 = 용량 아님)</h3>
+      <p class="lead">하드 디스크는 흩어진 조각을 이리저리 읽어 느려져요. 한데 모으면 회전하며 <b>순서대로</b> 읽어 빨라집니다.</p>
+      <figure>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">조각 모음 전 (흩어짐 → 읽기 느림)</div>
+        <div class="frag">
+          <span class="blk a">A</span><span class="blk e"></span><span class="blk b">B</span><span class="blk a">A</span><span class="blk e"></span><span class="blk c">C</span><span class="blk b">B</span><span class="blk e"></span><span class="blk c">C</span>
+        </div>
+        <div class="flow" style="margin:12px 0;"><span class="arrow">▼ 조각 모음(최적화)</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">조각 모음 후 (한데 모음 → 읽기 빠름)</div>
+        <div class="frag">
+          <span class="blk a">A</span><span class="blk a">A</span><span class="blk b">B</span><span class="blk b">B</span><span class="blk c">C</span><span class="blk c">C</span><span class="blk e"></span><span class="blk e"></span><span class="blk e"></span>
+        </div>
+        <figcaption><span class="figno">그림 2</span> · 조각 모음은 <b>읽기 속도 개선</b> — 저장 용량이 늘어나는 게 아니다. SSD는 조각 모음 대신 <b>TRIM</b></figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>③ 디스크 정리 대상 O / X</h3>
+      <p class="lead">디스크 정리는 불필요한 파일을 지워 저장 공간을 늘려요. 그런데 <b>글꼴은 지우지 않습니다</b>.</p>
+      <figure>
+        <div class="two-col">
+          <div class="col-box ok">
+            <h4>정리(삭제) 대상</h4>
+            <ul>
+              <li>휴지통에 있는 파일</li>
+              <li>임시 파일 · 인터넷 캐시</li>
+              <li>다운로드한 프로그램 파일</li>
+            </ul>
+          </div>
+          <div class="col-box no">
+            <h4>정리 대상 아님</h4>
+            <ul>
+              <li><b>글꼴(폰트)</b> — 안 써도 삭제 대상 아님</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption><span class="figno">그림 3</span> · 디스크 정리 대상이 아닌 것 = 글꼴 (시험 단골)</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>④ 프린터 스풀(SPOOL) 개념</h3>
+      <p class="lead">빠른 CPU가 느린 프린터를 붙잡고 있으면 비효율. 인쇄 내용을 <b>하드 디스크에 잠깐 저장</b>하고 CPU는 다른 일을 합니다.</p>
+      <figure>
+        <div class="flow">
+          <span class="node">빠른 CPU</span>
+          <span class="arrow">→</span>
+          <span class="node n">하드 디스크에<br>임시 저장(스풀)</span>
+          <span class="arrow">→</span>
+          <span class="node r">느린 프린터</span>
+        </div>
+        <div class="flow" style="margin-top:10px;">
+          <span class="node g">CPU는 그 사이 다른 작업 수행 → 효율 ↑</span>
+        </div>
+        <figcaption><span class="figno">그림 4</span> · 스풀은 <b>효율을 높이는 것</b> — 인쇄 속도를 높이는 게 아니다(오히려 느려질 수 있음)</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>⑤ 인쇄 속도·해상도 단위</h3>
+      <p class="lead">"무엇을 1분(초)에 몇 개?"로 외우면 쉬워요. <b>IPM은 ISO 국제표준</b>, <b>DPI는 해상도</b>입니다.</p>
+      <figure>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>단위</th><th>풀이</th><th>뜻</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>CPS</code></td><td>Character Per Second</td><td>1초당 문자 수</td></tr>
+              <tr><td><code>LPM</code></td><td>Line Per Minute</td><td>1분당 줄 수</td></tr>
+              <tr><td><code>PPM</code></td><td>Page Per Minute</td><td>1분당 페이지 수</td></tr>
+              <tr><td><b><code>IPM</code></b></td><td>Image Per Minute</td><td>1분당 이미지 수 · <b>ISO 국제표준</b></td></tr>
+              <tr><td><b><code>DPI</code></b></td><td>Dot Per Inch</td><td>1인치당 점 수 · <b>해상도</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption><span class="figno">그림 5</span> · 인쇄 속도는 CPS·LPM·PPM·IPM(ISO), 선명도(해상도)는 DPI</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>⑥ 메모장 vs 워드패드</h3>
+      <p class="lead">둘 다 윈도우 기본 유틸리티지만, <b>그림·표(OLE)·문단 정렬</b>에서 갈립니다.</p>
+      <figure>
+        <div class="two-col">
+          <div class="col-box no">
+            <h4>메모장 (.txt, 서식 없음)</h4>
+            <ul>
+              <li>그림·표(OLE 개체) 삽입 <b>불가</b></li>
+              <li>문단 정렬·글자 색 없음</li>
+              <li>되는 것: 페이지 설정·찾기바꾸기·글꼴·<b>F5 날짜</b>·첫 줄 <b>.LOG</b></li>
+            </ul>
+          </div>
+          <div class="col-box ok">
+            <h4>워드패드</h4>
+            <ul>
+              <li>문단 정렬 가능</li>
+              <li>OLE 개체(그림 등) 삽입 가능</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption><span class="figno">그림 6</span> · 그림·표를 넣어야 하면 메모장이 아니라 워드패드</figcaption>
+      </figure>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 헷갈림</div>
+      <h3>데이터 표에서 행 입력 셀 / 열 입력 셀을 바꿔 넣어요</h3>
+      <p>원래 수식에서 국어가 몇 번째 <b>행</b>에 있으면 <b>행 입력 셀</b>, 수학이 몇 번째 <b>열</b>에 있으면 <b>열 입력 셀</b>. 이걸 반대로 넣으면 값이 다 틀립니다.</p>
+      <p class="fix">"국어=행 데이터 → 행 입력 셀 / 수학=열 데이터 → 열 입력 셀"로 딱 붙여 외우기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>데이터 표 값을 그냥 붙여넣기 해요</h3>
+      <p>원본 수식값을 통째로 복사·붙여넣기 하면 상대 참조라 <b>채우기 핸들처럼 밀려서</b> 들어옵니다.</p>
+      <p class="fix">F2로 수정 상태에서 <b>드래그 복사</b>하거나, 아예 <b>셀 참조(=B5)</b>로 당겨오기(제일 쉬움).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>부분합 전에 정렬을 안 해요</h3>
+      <p>부분합은 그룹할 항목을 지정해도 <b>자동으로 정렬하지 않습니다</b>. 정렬 안 하면 그룹이 흩어져요.</p>
+      <p class="fix">그룹할 항목 필드로 <b>정렬을 먼저</b> 한 뒤 부분합.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>피벗 원본을 고치고 "새로 고침"을 안 해요</h3>
+      <p>원본 데이터를 바꿔도 피벗은 <b>자동으로 갱신되지 않습니다</b>. 옛날 값 그대로예요.</p>
+      <p class="fix">피벗 안에 셀 포인터 → <b>새로 고침</b>(데이터 탭). 원본 변경은 수동 업데이트.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>피벗 그룹 필드가 회색(비활성)이라 못 눌러요</h3>
+      <p>월 단위로 묶으려는데 "그룹 필드"가 활성화 안 되는 건, <b>셀 포인터가 그룹할 필드에 없기</b> 때문이에요.</p>
+      <p class="fix">묶을 필드(날짜 열)에 <b>셀 포인터를 두고</b> 그룹 필드를 누르기.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기: 조각 모음이 "용량"을 늘린다고 착각해요</h3>
+      <p>조각 모음(최적화)은 흩어진 조각을 모아 <b>읽기 속도</b>를 높이는 것이지, 저장 <b>용량</b>이 늘어나는 게 아닙니다.</p>
+      <p class="fix">조각 모음 = 속도 개선 / 공간 확보는 디스크 정리·휴지통 비우기·압축.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기: 글꼴을 디스크 정리 대상이라고 생각해요</h3>
+      <p>디스크 정리는 휴지통·임시·캐시·다운로드 파일을 지우지만, <b>글꼴(폰트)은 대상이 아니에요</b>.</p>
+      <p class="fix">정리 대상이 아닌 것 = <b>글꼴</b>(그림 3).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기: "빠른 포맷"이면 완전히 지워진다고 생각해요</h3>
+      <p>빠른 포맷은 <b>링크만 끊어</b> 데이터가 남아 복원될 수 있어요(중고로 팔면 위험).</p>
+      <p class="fix">완전히 지우려면 <b>빠른 포맷 체크 해제</b> 후 일반 포맷(속도는 느리지만 안전).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기: 스풀이 "인쇄 속도"를 높인다고 생각해요</h3>
+      <p>스풀은 CPU와 프린터를 병행 처리해 <b>효율</b>을 높이는 것. <b>인쇄 속도가 빨라지는 건 아니며</b> 오히려 느려질 수도 있어요.</p>
+      <p class="fix">스풀 = 효율↑(병행 처리) / 인쇄 속도↑ 아님(그림 4).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>필기: 메모장에 그림·표를 넣을 수 있다고 생각해요</h3>
+      <p>메모장은 서식 없는 텍스트라 <b>그림·표(OLE 개체) 삽입이 안 됩니다</b>.</p>
+      <p class="fix">그림·문단 정렬이 필요하면 <b>워드패드</b>(그림 6). 메모장은 F5 날짜·.LOG는 됨.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·기능 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>기능/단축키</th><th>핵심</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>분석(실기)</td><td>데이터 표</td><td>여러 변수 표로 예측</td><td><b>행 입력 셀 / 열 입력 셀</b> 구분</td></tr>
+          <tr><td>분석(실기)</td><td>시나리오</td><td>몇 가지 상황 가정</td><td>이름 정의·변경 셀·<b>결과 셀</b>·요약</td></tr>
+          <tr><td>분석(실기)</td><td>목표값 찾기</td><td>한 가지 결과 역산</td><td>수식 셀·찾는 값·<b>값을 바꿀 셀</b></td></tr>
+          <tr><td>분석(실기)</td><td>부분합</td><td>그룹별 요약</td><td><b>정렬 먼저</b>·2번째 "새 값 대치" 해제</td></tr>
+          <tr><td>분석(실기)</td><td>피벗 테이블</td><td>데이터 회전 요약</td><td>삽입 탭·값 필드 설정·<b>새로 고침 수동</b>·그룹(월)</td></tr>
+          <tr><td>함수(실기)</td><td><code>SUM($B$41:B41)</code></td><td>누적 합계</td><td>앞 셀만 절대 참조 + 채우기 핸들</td></tr>
+          <tr><td>함수(실기)</td><td><code>SMALL+HOUR/MINUTE/SECOND</code></td><td>가장 빠른 기록 분해</td><td>MIN 대체·시·분·초 반복(Ctrl+C/V)</td></tr>
+          <tr><td>필기</td><td>디스크 정리</td><td>불필요 파일 삭제→공간↑</td><td>대상 아님 = <b>글꼴</b></td></tr>
+          <tr><td>필기</td><td>드라이브 조각 모음</td><td>흩어진 조각 한데 모음</td><td><b>속도 개선(용량 X)</b> · 하드만</td></tr>
+          <tr><td>필기</td><td>SSD 최적화</td><td>메모리 비우기</td><td>조각 모음 대신 <b>TRIM</b></td></tr>
+          <tr><td>필기</td><td>포맷 / exFAT</td><td>초기화 / 이동식·큰 파일</td><td><b>빠른 포맷</b>=링크만 끊음(복원 가능)</td></tr>
+          <tr><td>필기</td><td>기본 프린터</td><td>자동 선택 프린터</td><td><b>한 대만</b> 지정 / 로컬(COM·LPT)·네트워크(IP)</td></tr>
+          <tr><td>필기</td><td>스풀(SPOOL)</td><td>CPU·프린터 병행</td><td>하드에 임시 저장 · <b>효율↑(속도↑ 아님)</b></td></tr>
+          <tr><td>필기</td><td><code>IPM</code> / <code>DPI</code></td><td>이미지/분 / 해상도</td><td><b>IPM=ISO 표준</b>, DPI=Dot Per Inch</td></tr>
+          <tr><td>필기</td><td><code>ipconfig</code> / <code>ping</code></td><td>내 IP 확인 / 연결 점검</td><td>CMD(CLI)·ping=응답시간으로 연결 확인</td></tr>
+          <tr><td>필기</td><td>메모장 <code>F5</code> / <code>.LOG</code></td><td>날짜 삽입 / 열 때마다 로그</td><td>OLE·그림·표 <b>불가</b> · 확장자 .txt</td></tr>
+          <tr><td>필기</td><td>워드패드 / PnP</td><td>문단·OLE 가능 / 자동 인식</td><td>PnP=꽂으면 바로 사용</td></tr>
+          <tr><td>단축키</td><td><code>Win+R</code> → notepad</td><td>실행 → 메모장 빠르게</td><td>CMD는 실행에 <code>cmd</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1 · 실기</span>
+      <p class="qtext">"월 상환액이 2만원이 되려면 상환 기간이 몇 년이어야 하는지"처럼, 결과값을 정해놓고 입력값을 거꾸로 찾는 가상 분석 기능은?</p>
+      <button class="quiz-opt" data-correct="true">목표값 찾기</button>
+      <button class="quiz-opt" data-correct="false">시나리오</button>
+      <button class="quiz-opt" data-correct="false">데이터 표</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2 · 실기</span>
+      <p class="qtext">데이터 표에서 원래 수식의 국어 점수가 "행(가로 줄)"에 있습니다. 대화상자에서 이 국어 점수는 어디에 지정하나요?</p>
+      <button class="quiz-opt" data-correct="false">열 입력 셀</button>
+      <button class="quiz-opt" data-correct="true">행 입력 셀</button>
+      <button class="quiz-opt" data-correct="false">아무 곳이나 상관없다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3 · 실기</span>
+      <p class="qtext">부분합 기능을 실행하기 전에 반드시 먼저 해야 하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">그룹할 항목을 기준으로 정렬을 먼저 한다</button>
+      <button class="quiz-opt" data-correct="false">표 서식을 먼저 지정한다</button>
+      <button class="quiz-opt" data-correct="false">아무것도 필요 없다 — 부분합이 자동 정렬한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4 · 실기</span>
+      <p class="qtext">피벗 테이블을 만든 뒤 원본 데이터의 값을 수정했습니다. 피벗에 반영하려면?</p>
+      <button class="quiz-opt" data-correct="false">아무것도 안 해도 자동으로 반영된다</button>
+      <button class="quiz-opt" data-correct="true">피벗에서 "새로 고침"을 해야 반영된다(수동 업데이트)</button>
+      <button class="quiz-opt" data-correct="false">피벗을 지우고 처음부터 다시 만들어야 한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5 · 실기</span>
+      <p class="qtext">시나리오 요약에서, 상황에 따라 값이 어떻게 변하는지 "결과로 확인하고 싶은 셀"(예: 매출액 합계)을 무엇이라고 하나요?</p>
+      <button class="quiz-opt" data-correct="false">변경 셀</button>
+      <button class="quiz-opt" data-correct="false">이름 상자</button>
+      <button class="quiz-opt" data-correct="true">결과 셀</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6 · 필기</span>
+      <p class="qtext">(필기) 드라이브 조각 모음(최적화)을 실행하면 얻는 효과로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">저장 용량이 늘어난다</button>
+      <button class="quiz-opt" data-correct="true">흩어진 조각을 모아 읽기 속도가 개선된다</button>
+      <button class="quiz-opt" data-correct="false">파일이 완전히 삭제된다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7 · 필기</span>
+      <p class="qtext">(필기) 디스크 정리로 삭제되는 대상이 <b>아닌</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">휴지통에 있는 파일</button>
+      <button class="quiz-opt" data-correct="false">임시 파일·인터넷 캐시</button>
+      <button class="quiz-opt" data-correct="true">글꼴(폰트)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8 · 필기</span>
+      <p class="qtext">(필기) 프린터 스풀(SPOOL) 기능에 관한 설명으로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">스풀을 켜면 인쇄 속도 자체가 빨라진다</button>
+      <button class="quiz-opt" data-correct="true">느린 프린터와 빠른 CPU를 병행 처리해 작업 효율을 높인다</button>
+      <button class="quiz-opt" data-correct="false">기본 프린터를 여러 대 동시에 지정하는 기능이다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9 · 필기</span>
+      <p class="qtext">(필기) 윈도우 기본 메모장으로 할 수 <b>없는</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">찾기·바꾸기</button>
+      <button class="quiz-opt" data-correct="false">F5로 날짜·시간 삽입</button>
+      <button class="quiz-opt" data-correct="true">그림·표(OLE 개체) 삽입</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10 · 필기</span>
+      <p class="qtext">(필기) 1분 동안 출력할 수 있는 이미지 수를 나타내며, ISO 국제표준으로 쓰이는 인쇄 속도 단위는?</p>
+      <button class="quiz-opt" data-correct="true">IPM (Image Per Minute)</button>
+      <button class="quiz-opt" data-correct="false">DPI (Dot Per Inch)</button>
+      <button class="quiz-opt" data-correct="false">CPS (Character Per Second)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">가상 분석 3형제 구분: 데이터 표(여러 변수)·시나리오(몇 가지 상황)·목표값 찾기(한 가지 역산)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">데이터 표: 행 입력 셀/열 입력 셀 구분해서 풀어보기(붙여넣기는 =셀참조로)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">시나리오: 이름 정의 → 변경 셀·결과 셀 지정 → 추가·요약 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">목표값 찾기: 수식 셀·찾는 값·값을 바꿀 셀로 결과 역산해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">부분합: 정렬 먼저 → 합계 → 평균(새 값 대치 해제) / 그룹 사이 페이지 나누기 확인</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">피벗: 값 필드 설정(합계↔평균), 그룹 필드(월), 원본 바꾸고 새로 고침 해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">(복습) SUM 누적($B$41:B41)·SMALL+시·분·초 다시 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">필기: 조각 모음=속도(용량 X, SSD는 TRIM), 디스크 정리 대상 아님=글꼴(그림 2·3)</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">필기: 빠른 포맷=링크만 끊음(복원 가능), 스풀=효율(속도 X)(그림 4)</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">필기: 인쇄 단위 IPM(ISO)·DPI(해상도), 메모장 OLE 불가·F5 날짜·.LOG(그림 5·6)</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">필기: CMD에서 ipconfig(내 IP)·ping(연결 점검), Win+R→notepad</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '12차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
