@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13차시 복습자료 | 컴활2급 - 고급필터(수식)·통합·매크로 + 필기(자료단위·문자코드·컴퓨터분류·CPU·기억장치)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box.prac-type{ border-left:4px solid var(--green); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.flow{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:center; margin:6px 0; }
+.flow .node{ background:var(--blue-bg); color:var(--blue); border-radius:10px; padding:10px 13px; font-size:12.5px; font-weight:700; }
+.flow .node.g{ background:var(--green-bg); color:var(--green); }
+.flow .node.n{ background:var(--bg2); color:var(--text); }
+.flow .node.r{ background:var(--red-bg); color:var(--red); }
+.flow .node small{ display:block; font-size:10.5px; font-weight:500; opacity:.85; }
+.flow .arrow{ color:var(--muted); font-weight:800; font-size:15px; }
+
+.pyr{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.pyr .lvl{ border-radius:8px; padding:9px 12px; font-size:12.5px; font-weight:700; text-align:center; color:#fff; }
+.pyr .l1{ width:40%; background:var(--red); }
+.pyr .l2{ width:55%; background:var(--gold); }
+.pyr .l3{ width:70%; background:var(--blue); }
+.pyr .l4{ width:85%; background:var(--green); }
+.pyr .lvl small{ display:block; font-size:10.5px; font-weight:500; opacity:.9; }
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:left; }
+.col-box{ border-radius:12px; padding:14px 16px; }
+.col-box.a{ background:var(--blue-bg); border:1px solid #B7D2F7; }
+.col-box.b{ background:var(--gold-bg); border:1px solid #F0DDA0; }
+.col-box.ok{ background:var(--green-bg); border:1px solid #A7E0CD; }
+.col-box.no{ background:var(--red-bg); border:1px solid #F1B0A5; }
+.col-box h4{ font-size:13.5px; font-weight:800; margin-bottom:8px; }
+.col-box.a h4{ color:var(--blue); }
+.col-box.b h4{ color:var(--gold); }
+.col-box.ok h4{ color:var(--green); }
+.col-box.no h4{ color:var(--red); }
+.col-box li{ font-size:12.5px; margin-bottom:5px; padding-left:14px; position:relative; }
+.col-box li::before{ content:'·'; position:absolute; left:2px; font-weight:800; }
+
+.cpu-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:left; }
+.cpu-box{ border-radius:12px; padding:14px 16px; background:var(--bg2); border:1px solid var(--border); }
+.cpu-box h4{ font-size:13.5px; font-weight:800; margin-bottom:8px; color:var(--navy); }
+.cpu-box .it{ font-size:12.5px; margin-bottom:6px; }
+.cpu-box .it b{ color:var(--blue); }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+  .two-col, .cpu-wrap{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">13차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>13차시 복습자료</h1>
+  <p class="meta"><b>2026-07-23</b><br>고급 필터(수식 이용)·통합·매크로, 그리고 필기 3장 컴퓨터 시스템(자료 표현 단위·진법·문자 코드·컴퓨터 분류·CPU·기억장치)</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#pilgi" onclick="closeSidebar()"><span class="num">4</span>필기 그림으로 이해</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">5</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">6</span>단축키·정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">7</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">8</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">고급 필터(수식) · 통합 · 매크로</span>
+      <span class="tag">필기 3장 컴퓨터 시스템</span>
+    </div>
+    <h1>오늘부터 <b>필기는 "외울 게 많은" 3장</b>이 시작됐어요. 실기는 <b>고급 필터(수식)·통합·매크로</b>로 분석·자동화를 마무리합니다.</h1>
+    <p class="sub">2026-07-23 · 13차시 · 실기는 <b>고급 필터(수식 이용)</b>·<b>통합</b>·<b>매크로</b>. 필기는 3장 컴퓨터 시스템이 시작돼 <b>자료 표현 단위(bit·byte·워드)</b>, <b>진법·문자 코드</b>, <b>디지털/아날로그</b>, <b>CPU 구조</b>, <b>기억장치</b>까지 나갔어요. 강사님이 "빨간 별표 하고 외우라"고 한 것들을 그림으로 정리했습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">🔍 고급필터=필드명 대신 다른 이름</span>
+      <span class="key-badge">🧩 통합=첫 행+왼쪽 열</span>
+      <span class="key-badge">⚙️ 매크로=xlsm·검증</span>
+      <span class="key-badge">🔢 워드=CPU 명령어 단위</span>
+      <span class="key-badge">🔤 유니코드=16bit·2byte</span>
+      <span class="key-badge">🧠 CPU=제어+연산 / 캐시=SRAM</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>🔍 고급 필터 — 수식(함수) 이용</h3>
+        <p>두 필드를 비교하거나 평균 이상 같은 조건은 조건 맨 위에 <b>필드명이 아닌 다른 이름</b>(예 "조건")을 쓰고, 아래에 <b>비교 수식(TRUE/FALSE)</b>을 넣어요. 범위는 <b>절대 참조</b>.</p>
+        <div class="use">예: 공공&gt;전문, AVERAGE(전문범위) 이상</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>🧩 통합 — 첫 행 + 왼쪽 열</h3>
+        <p>떨어진 여러 표를 합계/평균/최대로 합칩니다. 결과 범위를 <b>머리글+왼쪽 열 포함</b> 선택 → 통합 → 참조마다 <b>추가</b> → <b>"첫 행"·"왼쪽 열" 둘 다 체크</b>.</p>
+        <div class="use">패턴만 맞추면 5초 문제</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>⚙️ 매크로 — 기록·중지·지정·검증</h3>
+        <p>반복 작업 자동화. 확장자 <b>xlsm(매크로 사용 통합 문서)</b>. <b>셀 포인터 바깥 이동 → 기록 → 동작 → 중지 → 도형/단추에 지정 → 검증</b>.</p>
+        <div class="use">전제: 개발 도구 탭 + 매크로 보안</div>
+      </div>
+      <div class="card prac-type">
+        <span class="ctag">실기</span>
+        <h3>⌨ 매크로 바로가기 키 = 매크로 우선</h3>
+        <p>바로가기 키는 <code>Ctrl+영문자</code>(대문자면 <code>Ctrl+Shift</code>), <b>Alt는 안 됨</b>. 엑셀 기본 단축키와 <b>겹치면 매크로가 우선</b> 실행.</p>
+        <div class="use">셀 포인터 위치 무관하게 실행돼야 정답</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>🔢 자료 표현 단위</h3>
+        <p><b>bit</b>(0·1 최소)→<b>니블</b>(4bit·16진수)→<b>byte</b>(8bit·문자 1개·256가지)→<b>워드</b>(CPU 명령어 처리 단위)→필드→레코드→파일→DB.</p>
+        <div class="use">byte로 256가지(0~255) 표현 = RGB</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>🔤 문자 코드 6·7·8·16</h3>
+        <p><b>BCD</b>(6bit·소문자 X)→<b>아스키</b>(7bit·통신/개인)→<b>EBCDIC</b>(8bit·대형)→<b>유니코드</b>(16bit=2byte·전 세계 65536자).</p>
+        <div class="use">유니코드=한글 완성형+조합형 모두</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>🖥 디지털 vs 아날로그</h3>
+        <p><b>디지털</b>=0·1·산술논리연산·정밀·범용 / <b>아날로그</b>=연속 물리량(전압·온도)·미적분연산·빠름·특수목적. 둘을 섞은 게 <b>하이브리드</b>.</p>
+        <div class="use">아날로그시계 vs 디지털시계로 기억</div>
+      </div>
+      <div class="card exam-type">
+        <span class="ctag">필기</span>
+        <h3>🧠 CPU 구조 · 기억장치 속도</h3>
+        <p>CPU = <b>제어장치</b>(PC·IR)+<b>연산장치</b>(누산기·가산기·보수기). 속도 <b>레지스터&gt;캐시(SRAM)&gt;주기억(DRAM)&gt;보조</b>. 가상 메모리=보조를 주기억처럼.</p>
+        <div class="use">보수기=뺄셈 / PC=다음 명령어 주소</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box prac-type">
+      <h3>🔍 고급 필터 — 조건 목록 & 수식(함수) 이용 (오늘 신규 포인트)</h3>
+      <div class="step"><b>조건 목록</b> 맨 위에 필드명, 아래에 조건. <b>같은 행에 나란히 = AND</b>, <b>다른 행에 = OR</b>.</div>
+      <div class="step"><b>특정 필드만 추출</b> 결과로 낼 필드명을 미리 아래쪽에 붙여넣고, 고급 → "다른 장소에 복사"에 <b>그 필드 범위</b>를 지정.</div>
+      <div class="step"><b>★ 수식(함수) 이용</b> 두 필드 비교(공공&gt;전문)나 평균 이상 같은 조건은 조건 목록 방식이 안 통해요. 조건 맨 위 칸에 <b>필드명이 아닌 다른 이름</b>(예 "조건")을 쓰고, 아래에 <b>비교 수식</b>을 넣어 TRUE/FALSE를 만듭니다. <code>=B4&gt;=AVERAGE($D$4:$D$20)</code>처럼 <b>범위는 절대 참조</b>.</div>
+      <div class="exam-ex">시험 예시: "공공 도서관이 전문 도서관 평균 이상" → 수식 이용 고급 필터. 필드명을 그대로 쓰면 안 되는 게 핵심.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>🧩 통합 — 떨어진 표를 합치기</h3>
+      <div class="step"><b>언제</b> 서울·부산처럼 <b>따로 떨어진 표</b>를 하나로 합계/평균/최대/최소로 모을 때. 피벗으로는 안 돼요.</div>
+      <div class="step"><b>순서</b> 결과 범위를 <b>머리글+왼쪽 열 포함</b> 전체 선택 → 데이터 탭 → 통합 → 함수 선택 → 참조 영역 지정하고 <b>[추가]</b>(표마다 반복) → <b>"첫 행"·"왼쪽 열" 둘 다 체크</b> → 확인.</div>
+      <div class="step"><b>패턴</b> 참조 영역은 항상 "머리글 + 왼쪽 열" 패턴으로 맞추면, 순서가 달라도 엑셀이 레이블에 맞춰 자동 정리해줍니다.</div>
+      <div class="exam-ex">시험 예시: 분석 작업 6기능 중 하나. 문제는 길어도 패턴만 맞추면 5초. 분석에서 20점 확보 목표.</div>
+    </div>
+
+    <div class="concept-box prac-type">
+      <h3>⚙️ 매크로 — 기록 · 중지 · 지정 · 검증 (신규)</h3>
+      <div class="step"><b>무엇</b> 반복 작업을 자동으로 실행. 저장 확장자는 <b>xlsm(매크로 사용 통합 문서)</b>여야 코드가 함께 저장됩니다.</div>
+      <div class="step"><b>전제 조건</b> ① 리본에 <b>개발 도구</b> 탭 표시(옵션→리본 사용자 지정) ② <b>매크로 보안</b> 설정 변경.</div>
+      <div class="step"><b>순서</b> ⓪ <b>셀 포인터를 데이터 바깥으로 이동</b>(선택 코드까지 기록되게) → ① 매크로 기록(이름 지정, 바로가기 키는 <code>Ctrl+영문자</code>) → ② 동작 수행(SUM·채우기 등) → ③ <b>기록 중지</b>(꼭 첫 줄에서!) → ④ 도형/양식 단추에 <b>매크로 지정</b> → ⑤ <b>검증</b>(지우고 다시 실행).</div>
+      <div class="step"><b>주의</b> 바로가기 키가 엑셀 기본(예 Ctrl+G)과 겹치면 <b>매크로가 우선</b>. 도형은 우클릭 → 매크로 지정, 양식 단추는 그리면 바로 대화상자. <b>Alt+드래그</b>로 셀에 꼭 맞게. <b>셀 포인터 위치와 무관하게</b> 실행돼야 정답.</div>
+      <div class="exam-ex">시험 예시: 수식 매크로 5점 + 서식 매크로 5점 = 10점. 중지를 안 하면 도형이 계속 생기는 사고가 단골.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>🔢 자료 표현·저장 단위, 진법 (필기)</h3>
+      <div class="step"><b>표현 단위</b> <b>bit</b>(0·1, 정보 최소 단위) → <b>니블</b>(4bit, 16진수 표현) → <b>byte</b>(8bit, 문자 1개, 256가지=0~255) → <b>워드</b>(CPU가 한 번에 처리하는 명령어 단위, 기본 2byte, 32/64bit) → 필드 → 레코드 → 파일 → 데이터베이스.</div>
+      <div class="step"><b>저장 용량</b> KB &lt; MB &lt; GB &lt; TB … 2¹⁰=1024배씩 커집니다.</div>
+      <div class="step"><b>진법</b> 10↔2진은 2로 나눈 나머지를 거꾸로(=MOD). 2진→8진은 <b>3bit씩</b>(가중치 1·2·4), 2진→16진은 <b>4bit씩</b>(가중치 1·2·4·8). 자리값 <b>1·2·4·8</b>을 외우고, 16진수 10~15는 <b>A~F</b>.</div>
+      <div class="exam-ex">시험 예시: "1byte로 표현 가능한 정보 수 = 256(2⁸)", "워드=CPU 명령어 처리 단위" 단골.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>🔤 문자 코드 & 에러 검출 (빨간 별표 암기)</h3>
+      <div class="step"><b>BCD</b> 6bit — 영문 소문자 표현 불가.</div>
+      <div class="step"><b>아스키(ASCII)</b> 7bit(확장형 8bit) — 데이터 <b>통신·개인용</b> PC.</div>
+      <div class="step"><b>EBCDIC</b> 8bit — <b>대형(메인프레임)</b> 컴퓨터.</div>
+      <div class="step"><b>유니코드</b> 16bit=2byte — 전 세계 문자 65536자, 한글 <b>완성형+조합형 모두</b> 표현.</div>
+      <div class="step"><b>에러 검출</b> 패리티 비트=오류 <b>검출만</b> / 해밍 코드=오류 <b>검출+교정</b>. ⚠️ 패리티 비트는 "문자 표현 코드"가 아님(함정).</div>
+      <div class="exam-ex">시험 예시: 순서 6·7·8·16으로 외우면 bit 수 문제를 바로 풉니다.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>🖥 컴퓨터 분류 & 자료 처리 방식 (필기)</h3>
+      <div class="step"><b>데이터별</b> 디지털(0·1·산술논리·정밀·범용) / 아날로그(연속 물리량·미적분·빠름·특수목적) / 하이브리드(둘의 장점 결합).</div>
+      <div class="step"><b>처리 능력별</b> 슈퍼 &gt; 메인프레임 &gt; 미니 &gt; 워크스테이션 &gt; 마이크로(우리가 쓰는 것, <b>웨어러블</b> 포함).</div>
+      <div class="step"><b>자료 처리</b> 일괄(온·오프라인 둘 다)·실시간(예약·은행)·<b>시분할</b>(1대를 여럿이 시간 쪼개 사용)·분산(떨어진 컴퓨터 연결).</div>
+      <div class="step"><b>이중화</b> <b>듀얼</b>=2대 동시 가동 / <b>듀플렉스</b>=1대만 가동, 나머지는 고장 대비 대기. <b>클라이언트/서버</b> vs <b>P2P</b>(서버·클라이언트 동시, 바이러스 취약).</div>
+      <div class="exam-ex">시험 예시: 자료(raw)를 가공하면 <b>정보</b>. 듀얼/듀플렉스 구분, P2P의 보안 취약점이 단골.</div>
+    </div>
+
+    <div class="concept-box exam-type">
+      <h3>🧠 CPU 구조 & 기억장치 (필기 — 오늘 꼭 외우기)</h3>
+      <div class="step"><b>CPU 구성</b> 제어장치 + 연산장치(ALU) + 레지스터.</div>
+      <div class="step"><b>제어장치</b> <b>PC(프로그램 카운터)</b>=다음에 실행할 명령어의 <b>주소</b> 기억 / <b>IR(명령 레지스터)</b>=현재 실행 중인 명령어 기억 / 디코더·인코더=해독·부호화.</div>
+      <div class="step"><b>연산장치(ALU)</b> <b>AC(누산기)</b>=연산 중간 결과 임시 저장 / <b>상태 레지스터</b>=오버/언더플로우·캐리 / <b>가산기</b>=덧셈 / <b>보수기</b>=뺄셈(보수를 취해 덧셈으로 처리).</div>
+      <div class="step"><b>기억장치 속도</b> <b>레지스터 &gt; 캐시(SRAM) &gt; 주기억(DRAM=램) &gt; 보조(하드)</b>. 캐시 메모리=CPU·주기억 속도 차를 줄이는 고속 완충(SRAM). <b>가상 메모리</b>=보조기억 일부를 주기억처럼 사용(큰 프로그램 실행 O, 속도 느려짐 단점). 플래시=EEPROM. <b>ROM</b>=비휘발성(POST) / <b>RAM</b>=휘발성.</div>
+      <div class="exam-ex">시험 예시: PC/IR/누산기/보수기 역할, 캐시=SRAM, 가상 메모리 정의가 계속 나옵니다.</div>
+    </div>
+
+  </section>
+
+  <section id="pilgi">
+    <h2 class="section-title"><span class="si">🖥</span>필기 그림으로 이해하기 (컴퓨터 시스템)</h2>
+
+    <div class="vis-box exam-type">
+      <h3>① 자료 표현 단위 계층</h3>
+      <p class="lead">작은 것부터 커지는 순서로 외우면 쉬워요. "비트 → 니블 → 바이트 → 워드"가 핵심입니다.</p>
+      <figure>
+        <div class="flow">
+          <span class="node n">bit<small>0·1, 최소</small></span><span class="arrow">→</span>
+          <span class="node">니블<small>4bit·16진수</small></span><span class="arrow">→</span>
+          <span class="node g">byte<small>8bit·문자1개·256</small></span><span class="arrow">→</span>
+          <span class="node" style="background:var(--gold-bg);color:var(--gold);">워드<small>CPU 명령어 단위</small></span>
+        </div>
+        <div class="flow" style="margin-top:8px;">
+          <span class="node n">필드</span><span class="arrow">→</span>
+          <span class="node n">레코드</span><span class="arrow">→</span>
+          <span class="node n">파일</span><span class="arrow">→</span>
+          <span class="node r">데이터베이스</span>
+        </div>
+        <figcaption><span class="figno">그림 1</span> · byte=8bit로 256가지(0~255) 표현, 워드=CPU가 한 번에 처리하는 명령어 단위</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>② 문자 코드 비교 (6·7·8·16)</h3>
+      <p class="lead">bit 수를 6·7·8·16 순서로 외우면 어떤 코드 문제든 바로 풀려요.</p>
+      <figure>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>코드</th><th>bit</th><th>특징 · 용도</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>BCD</b></td><td>6bit</td><td>영문 <b>소문자 표현 불가</b></td></tr>
+              <tr><td><b>ASCII(아스키)</b></td><td>7bit (확장 8bit)</td><td>데이터 <b>통신·개인용</b> PC</td></tr>
+              <tr><td><b>EBCDIC</b></td><td>8bit</td><td><b>대형(메인프레임)</b> 컴퓨터</td></tr>
+              <tr><td><b>유니코드</b></td><td>16bit = <b>2byte</b></td><td>전 세계 65536자 · 한글 <b>완성형+조합형</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption><span class="figno">그림 2</span> · 패리티 비트·해밍 코드는 "문자 표현 코드"가 아니라 오류 검출/교정 코드</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>③ 디지털 vs 아날로그 컴퓨터</h3>
+      <p class="lead">디지털시계와 아날로그시계를 떠올리면 구분이 쉬워요.</p>
+      <figure>
+        <div class="two-col">
+          <div class="col-box a">
+            <h4>디지털 컴퓨터</h4>
+            <ul>
+              <li>이산적 신호(0·1), 숫자 데이터</li>
+              <li><b>산술·논리 연산</b></li>
+              <li>정밀도 높음 · <b>범용</b></li>
+              <li>프로그램·메모리 필요 · 비쌈</li>
+            </ul>
+          </div>
+          <div class="col-box b">
+            <h4>아날로그 컴퓨터</h4>
+            <ul>
+              <li>연속적 물리량(전압·온도·속도)</li>
+              <li><b>미적분 연산</b></li>
+              <li>속도 빠름 · <b>특수 목적</b></li>
+              <li>정밀도 낮음</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption><span class="figno">그림 3</span> · 둘의 장점을 결합한 것이 하이브리드 컴퓨터</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>④ CPU 구조 (제어장치 + 연산장치)</h3>
+      <p class="lead">CPU는 명령을 지휘하는 제어장치와 계산하는 연산장치로 나뉘어요.</p>
+      <figure>
+        <div class="cpu-wrap">
+          <div class="cpu-box">
+            <h4>제어장치 (Control Unit)</h4>
+            <div class="it"><b>PC</b> 프로그램 카운터 = 다음 명령어의 <b>주소</b> 기억</div>
+            <div class="it"><b>IR</b> 명령 레지스터 = 현재 명령어 기억</div>
+            <div class="it"><b>디코더·인코더</b> 명령 해독·부호화</div>
+          </div>
+          <div class="cpu-box">
+            <h4>연산장치 (ALU)</h4>
+            <div class="it"><b>AC</b> 누산기 = 연산 중간 결과 임시 저장</div>
+            <div class="it"><b>상태 레지스터</b> 오버/언더플로우·캐리</div>
+            <div class="it"><b>가산기</b>=덧셈 · <b>보수기</b>=뺄셈</div>
+          </div>
+        </div>
+        <figcaption><span class="figno">그림 4</span> · 명령 사이클: 인출 → 해독 → 실행 → 저장을 반복. 보수기는 보수를 취해 덧셈으로 뺄셈을 처리</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>⑤ 기억장치 속도 (빠른 순서)</h3>
+      <p class="lead">CPU 안의 레지스터가 가장 빠르고, 아래로 갈수록 느려지지만 용량은 커져요.</p>
+      <figure>
+        <div class="pyr">
+          <div class="lvl l1">레지스터<small>가장 빠름 (CPU 안)</small></div>
+          <div class="lvl l2">캐시 메모리<small>SRAM · CPU↔주기억 완충</small></div>
+          <div class="lvl l3">주기억장치<small>DRAM(램) · 휘발성</small></div>
+          <div class="lvl l4">보조기억장치<small>하드디스크·SSD</small></div>
+        </div>
+        <figcaption><span class="figno">그림 5</span> · 가상 메모리 = 보조기억장치 일부를 주기억처럼 사용(큰 프로그램 실행 O, 속도는 느려짐)</figcaption>
+      </figure>
+    </div>
+
+    <div class="vis-box exam-type">
+      <h3>⑥ 진법 변환 가중치</h3>
+      <p class="lead">2진수를 몇 개씩 묶느냐로 8진수·16진수가 갈려요. 자리값 1·2·4·8을 외웁니다.</p>
+      <figure>
+        <div class="two-col">
+          <div class="col-box ok">
+            <h4>2진 → 8진</h4>
+            <ul>
+              <li><b>3bit</b>씩 묶기</li>
+              <li>가중치 <b>1 · 2 · 4</b></li>
+              <li>0~7 표현</li>
+            </ul>
+          </div>
+          <div class="col-box a">
+            <h4>2진 → 16진</h4>
+            <ul>
+              <li><b>4bit</b>씩 묶기</li>
+              <li>가중치 <b>1 · 2 · 4 · 8</b></li>
+              <li>0~15 → 10~15는 <b>A~F</b></li>
+            </ul>
+          </div>
+        </div>
+        <figcaption><span class="figno">그림 6</span> · 10↔2진 변환은 2로 나눈 나머지를 거꾸로 읽기(=MOD 연산)</figcaption>
+      </figure>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 가장 많이 틀림</div>
+      <h3>수식 이용 고급 필터에서 조건 위에 "필드명"을 써요</h3>
+      <p>두 필드 비교·평균 이상 같은 <b>수식 조건</b>은 조건 맨 위 칸에 <b>필드명을 쓰면 안 됩니다</b>. 필드명이 아닌 다른 이름(예 "조건")을 써야 동작해요.</p>
+      <p class="fix">맨 위엔 "조건" 같은 <b>아무 이름</b>, 아래엔 <code>=B4&gt;=AVERAGE($D$4:$D$20)</code>처럼 수식(범위는 절대 참조).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>통합에서 "첫 행·왼쪽 열"을 체크 안 해요</h3>
+      <p>둘 다 체크해야 엑셀이 레이블(항목명)에 맞춰 값을 자동 정리합니다. 안 하면 엉뚱하게 합쳐져요.</p>
+      <p class="fix">참조 영역마다 <b>[추가]</b> 누르고, <b>"첫 행"·"왼쪽 열" 둘 다 체크</b>.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>매크로 기록 후 "중지"를 안 눌러요</h3>
+      <p>기록 중지를 안 하면 이후 도형 그리기까지 기록돼, 매크로 실행 때마다 도형이 계속 생깁니다.</p>
+      <p class="fix">동작(첫 줄)이 끝나면 <b>바로 기록 중지</b>. 도형 그리기 전에 반드시 중지.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>매크로를 xlsx로 저장해서 코드가 사라져요</h3>
+      <p>기본 xlsx로 저장하면 매크로 코드가 저장되지 않아요.</p>
+      <p class="fix"><b>xlsm(매크로 사용 통합 문서)</b>로 저장.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>매크로 기록 전 셀 위치를 신경 안 써요</h3>
+      <p>셀 포인터를 데이터 안에 두고 시작하면 "그 셀 선택" 코드가 빠져, 실행 위치에 따라 결과가 틀립니다.</p>
+      <p class="fix">기록 전 <b>셀 포인터를 데이터 바깥</b>으로 옮겨, 셀 선택까지 기록되게.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">필기 · 자주 틀림</div>
+      <h3>워드(word)와 바이트(byte)를 헷갈려요</h3>
+      <p>문자 1개는 byte(8bit), <b>CPU가 한 번에 처리하는 명령어 단위</b>는 워드입니다.</p>
+      <p class="fix">byte=문자 1개, <b>워드=CPU 명령어 처리 단위</b>(32/64bit).</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">필기 · 자주 틀림</div>
+      <h3>유니코드의 bit 수를 잘못 알아요</h3>
+      <p>BCD 6 / 아스키 7 / EBCDIC 8 / <b>유니코드 16bit=2byte</b>. 유니코드가 전 세계 문자를 표현합니다.</p>
+      <p class="fix">순서 <b>6·7·8·16</b>으로 외우기. 유니코드=2byte.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">필기 · 자주 틀림</div>
+      <h3>디지털과 아날로그 특징을 반대로 골라요</h3>
+      <p>미적분 연산·연속 물리량은 아날로그, 산술논리 연산·0·1은 디지털이에요.</p>
+      <p class="fix">아날로그=연속·미적분·특수목적 / 디지털=이산·산술논리·범용.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">필기 · 자주 틀림</div>
+      <h3>보수기를 "지수 표현"이라고 착각해요</h3>
+      <p>보수기는 보수를 취해 덧셈으로 처리하는 <b>뺄셈</b> 장치입니다.</p>
+      <p class="fix">가산기=덧셈, <b>보수기=뺄셈</b>. 누산기=중간 결과 임시 저장.</p>
+    </div>
+
+    <div class="shock">
+      <div class="shock-tag">필기 · 자주 틀림</div>
+      <h3>캐시 메모리와 가상 메모리를 헷갈려요</h3>
+      <p>캐시=CPU와 주기억 속도차를 줄이는 고속 완충(SRAM), 가상 메모리=보조기억을 주기억처럼 빌려 쓰는 것.</p>
+      <p class="fix">캐시=SRAM·속도 완충 / 가상 메모리=보조기억 일부를 주기억처럼.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 기능·용어 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>기능/용어</th><th>핵심</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>실기</td><td>고급 필터(조건 목록)</td><td>AND=같은 행 / OR=다른 행</td><td>특정 필드만 추출=결과 필드 미리 붙여넣기</td></tr>
+          <tr><td>실기</td><td>고급 필터(수식 이용)</td><td>필드명 대신 다른 이름 + 비교 수식</td><td>범위는 <b>절대 참조</b> · TRUE만 추출</td></tr>
+          <tr><td>실기</td><td>통합</td><td>떨어진 표 합계/평균/최대</td><td><b>첫 행·왼쪽 열</b> 체크 · 참조마다 [추가]</td></tr>
+          <tr><td>실기</td><td>매크로</td><td>반복 작업 자동화</td><td>확장자 <b>xlsm</b> · 기록→중지→지정→검증</td></tr>
+          <tr><td>실기</td><td>매크로 바로가기 키</td><td><code>Ctrl+영문자</code>(대문자=Ctrl+Shift)</td><td>Alt 불가 · 기본 단축키와 겹치면 <b>매크로 우선</b></td></tr>
+          <tr><td>필기</td><td>자료 표현 단위</td><td>bit→니블→byte→워드→…→DB</td><td>byte=문자1개·256 / 워드=CPU 명령어 단위</td></tr>
+          <tr><td>필기</td><td>진법 변환</td><td>2진→8진(3bit)/16진(4bit)</td><td>가중치 1·2·4·8 · 16진 A~F</td></tr>
+          <tr><td>필기</td><td>문자 코드</td><td>BCD6·ASCII7·EBCDIC8·유니16</td><td>아스키=통신 / EBCDIC=대형 / 유니=2byte</td></tr>
+          <tr><td>필기</td><td>에러 검출</td><td>패리티=검출 / 해밍=검출+교정</td><td>패리티는 문자 코드 아님(함정)</td></tr>
+          <tr><td>필기</td><td>컴퓨터 분류</td><td>디지털/아날로그/하이브리드</td><td>아날로그=연속·미적분·특수목적</td></tr>
+          <tr><td>필기</td><td>자료 처리 방식</td><td>일괄·실시간·시분할·분산</td><td>듀얼(동시) vs 듀플렉스(1대 대기)</td></tr>
+          <tr><td>필기</td><td>분산 처리</td><td>클라이언트/서버 · P2P</td><td>P2P=서버·클라이언트 동시·바이러스 취약</td></tr>
+          <tr><td>필기</td><td>CPU 제어장치</td><td>PC=다음 명령어 주소 / IR=현재 명령어</td><td>디코더=해독</td></tr>
+          <tr><td>필기</td><td>CPU 연산장치</td><td>누산기(AC)·가산기·보수기</td><td>가산기=덧셈 / 보수기=뺄셈</td></tr>
+          <tr><td>필기</td><td>기억장치 속도</td><td>레지스터&gt;캐시&gt;주기억&gt;보조</td><td>캐시=SRAM / 주기억=DRAM</td></tr>
+          <tr><td>필기</td><td>가상 메모리 · 플래시</td><td>보조를 주기억처럼 / 플래시=EEPROM</td><td>ROM=비휘발성 / RAM=휘발성</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1 · 실기</span>
+      <p class="qtext">고급 필터에서 "공공 도서관이 전문 도서관 평균 이상"처럼 수식(함수)을 조건으로 쓸 때, 조건 맨 위 칸에 써야 하는 것은?</p>
+      <button class="quiz-opt" data-correct="false">해당 필드명을 그대로 쓴다</button>
+      <button class="quiz-opt" data-correct="true">필드명이 아닌 다른 이름(예: 조건)을 쓴다</button>
+      <button class="quiz-opt" data-correct="false">아무것도 쓰지 않고 비워둔다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2 · 실기</span>
+      <p class="qtext">여러 지역의 떨어진 표를 하나로 합칠 때(통합), 대화상자에서 반드시 체크해야 하는 두 가지는?</p>
+      <button class="quiz-opt" data-correct="true">첫 행, 왼쪽 열</button>
+      <button class="quiz-opt" data-correct="false">첫 열, 오른쪽 행</button>
+      <button class="quiz-opt" data-correct="false">아무것도 체크하지 않는다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3 · 실기</span>
+      <p class="qtext">매크로 코드가 함께 저장되려면 통합 문서를 어떤 형식으로 저장해야 하나요?</p>
+      <button class="quiz-opt" data-correct="true">xlsm (매크로 사용 통합 문서)</button>
+      <button class="quiz-opt" data-correct="false">xlsx (기본 통합 문서)</button>
+      <button class="quiz-opt" data-correct="false">xls (예전 형식)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4 · 실기</span>
+      <p class="qtext">매크로 바로가기 키(Ctrl+영문자)가 엑셀 기본 단축키(예: Ctrl+G)와 겹치면 어떻게 되나요?</p>
+      <button class="quiz-opt" data-correct="false">엑셀 기본 단축키가 우선한다</button>
+      <button class="quiz-opt" data-correct="false">오류가 나서 실행되지 않는다</button>
+      <button class="quiz-opt" data-correct="true">매크로가 우선 실행된다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5 · 필기</span>
+      <p class="qtext">(필기) CPU가 한 번에 처리할 수 있는 명령어의 단위를 무엇이라고 하나요?</p>
+      <button class="quiz-opt" data-correct="false">비트(bit)</button>
+      <button class="quiz-opt" data-correct="false">니블(nibble)</button>
+      <button class="quiz-opt" data-correct="true">워드(word)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6 · 필기</span>
+      <p class="qtext">(필기) 전 세계 모든 문자를 표현하기 위해 16bit(2byte)를 사용하는 문자 코드는?</p>
+      <button class="quiz-opt" data-correct="false">아스키(ASCII) 코드</button>
+      <button class="quiz-opt" data-correct="true">유니코드(Unicode)</button>
+      <button class="quiz-opt" data-correct="false">BCD 코드</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7 · 필기</span>
+      <p class="qtext">(필기) 전압·온도 같은 연속적인 물리량을 처리하고 미적분 연산을 수행하는 컴퓨터는?</p>
+      <button class="quiz-opt" data-correct="false">디지털 컴퓨터</button>
+      <button class="quiz-opt" data-correct="false">하이브리드 컴퓨터</button>
+      <button class="quiz-opt" data-correct="true">아날로그 컴퓨터</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8 · 필기</span>
+      <p class="qtext">(필기) 제어장치 중, 다음에 실행할 명령어의 주소를 기억하는 레지스터는?</p>
+      <button class="quiz-opt" data-correct="true">프로그램 카운터(PC)</button>
+      <button class="quiz-opt" data-correct="false">명령 레지스터(IR)</button>
+      <button class="quiz-opt" data-correct="false">누산기(AC)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9 · 필기</span>
+      <p class="qtext">(필기) CPU와 주기억장치의 속도 차이를 줄이기 위해 사용하는, SRAM으로 만든 고속 완충 메모리는?</p>
+      <button class="quiz-opt" data-correct="false">가상 메모리</button>
+      <button class="quiz-opt" data-correct="true">캐시 메모리</button>
+      <button class="quiz-opt" data-correct="false">플래시 메모리</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10 · 필기</span>
+      <p class="qtext">(필기) 컴퓨터 2대 중 한 대만 가동하고, 나머지 한 대는 고장에 대비해 대기시키는 시스템은?</p>
+      <button class="quiz-opt" data-correct="false">듀얼 시스템</button>
+      <button class="quiz-opt" data-correct="true">듀플렉스 시스템</button>
+      <button class="quiz-opt" data-correct="false">시분할 시스템</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">고급 필터(수식): 조건 위엔 다른 이름, 아래엔 비교 수식(범위 절대 참조)으로 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">통합: 결과 범위(머리글+왼쪽 열) 선택 → 함수·참조 추가 → 첫 행·왼쪽 열 체크</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">매크로: 셀 바깥 이동→기록→동작→중지→도형/단추 지정→검증, xlsm 저장</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">매크로 바로가기 키(Ctrl+영문자)·매크로 우선, 셀 위치 무관 실행 확인</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">필기: 자료 단위 bit→니블→byte→워드→…→DB, byte=256, 워드=CPU 명령어(그림 1)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">필기: 문자 코드 6·7·8·16(BCD·아스키·EBCDIC·유니코드 2byte)(그림 2)</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">필기: 디지털 vs 아날로그(연속·미적분·특수목적) 구분(그림 3)</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">필기: CPU 제어장치(PC·IR)/연산장치(누산기·가산기·보수기=뺄셈)(그림 4)</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">필기: 기억장치 속도 레지스터>캐시(SRAM)>주기억(DRAM)>보조, 가상 메모리(그림 5)</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">필기: 진법 변환 8진(3bit)/16진(4bit) 가중치 1·2·4·8(그림 6), 듀얼 vs 듀플렉스</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">필기: 자료 처리(일괄·실시간·시분할·분산), P2P 바이러스 취약</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '13차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 이번 기수 수강생 명단 (수강취소 제외)
+const ALLOWED_NAMES = [
+  '권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화',
+  '우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영',
+  '홍혜림','김성겸','김예원','김태희'
+];
+function normName(s){ return s.replace(/\s/g, ''); }
+
+function startQuiz(){
+  const val = document.getElementById('studentName').value.trim();
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
+  if(!match){
+    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
+    return;
+  }
+  studentName = match;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
