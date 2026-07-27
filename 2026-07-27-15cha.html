@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15차시 복습자료 | 컴활2급 필기 - 소프트웨어·인터넷 활용·멀티미디어(동영상 압축 표준)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+:root{--bg:#F8FAFC;--bg2:#EFF2F7;--border:#D1D9E0;--text:#1A202C;--muted:#5A6A7E;--blue:#1D6FE8;--blue-bg:#EBF2FF;--green:#0A8A68;--green-bg:#E6F7F1;--gold:#92680A;--gold-bg:#FFF8E1;--red:#C0392B;--red-bg:#FDEDEC;--navy:#0F172A;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:hidden;scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;width:100%;word-break:break-word;overflow-wrap:break-word;line-height:1.6;}
+code,.mono{font-family:'JetBrains Mono',monospace;word-break:break-all;white-space:normal;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.mobile-bar{display:none;position:fixed;top:0;left:0;right:0;height:54px;background:var(--white);border-bottom:1px solid var(--border);align-items:center;padding:0 16px;z-index:50;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.mobile-bar .hamburger{width:38px;height:38px;border:none;background:var(--bg2);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;cursor:pointer;}
+.mobile-bar .hamburger span{width:18px;height:2px;background:var(--text);border-radius:2px;}
+.mobile-bar .title{margin-left:12px;font-weight:700;font-size:14px;color:var(--blue);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;}
+.overlay.show{display:block;}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:268px;background:var(--white);border-right:1px solid var(--border);padding:28px 20px;overflow-y:auto;z-index:45;}
+.sidebar .badge{display:inline-block;background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:14px;}
+.sidebar h1{font-size:18px;font-weight:900;margin-bottom:4px;}
+.sidebar .meta{font-size:12.5px;color:var(--muted);margin-bottom:22px;}
+.sidebar .meta b{color:var(--text);}
+.sidebar nav .nav-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:10px;text-transform:uppercase;}
+.sidebar nav li{margin-bottom:4px;}
+.sidebar nav a{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--muted);transition:.15s;}
+.sidebar nav a:hover{background:var(--bg2);color:var(--text);}
+.sidebar nav a .num{width:20px;height:20px;border-radius:6px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0;}
+.sidebar .teacher-box{margin-top:28px;padding:14px;background:var(--bg2);border-radius:12px;font-size:12.5px;color:var(--muted);}
+.sidebar .teacher-box b{display:block;color:var(--text);font-size:13.5px;margin-bottom:2px;}
+.main{margin-left:268px;padding:48px 40px 60px;max-width:880px;}
+.hero{background:linear-gradient(135deg,#EBF2FF 0%,#F0F5FF 50%,#EBF2FF 100%);border-radius:24px;padding:40px 36px;position:relative;overflow:hidden;margin-bottom:36px;}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(29,111,232,.12),transparent 70%);border-radius:50%;}
+.hero .tag-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.hero .tag{font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;background:var(--white);}
+.hero h1{font-size:24px;font-weight:900;line-height:1.45;margin-bottom:14px;position:relative;}
+.hero p.sub{font-size:14.5px;color:var(--muted);margin-bottom:20px;position:relative;}
+.hero .key-badges{display:flex;gap:8px;flex-wrap:wrap;position:relative;}
+.hero .key-badge{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12.5px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+h2.section-title{font-size:19px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+h2.section-title .si{font-size:18px;}
+section{margin-bottom:44px;}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:.18s;}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08);}
+.card.exam-type{border-left:4px solid var(--blue);}
+.card.prac-type{border-left:4px solid var(--green);}
+.card .ctag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-bottom:8px;display:inline-block;}
+.card.exam-type .ctag{background:var(--blue-bg);color:var(--blue);}
+.card.prac-type .ctag{background:var(--green-bg);color:var(--green);}
+.card h3{font-size:15px;font-weight:700;margin-bottom:6px;}
+.card p{font-size:13.5px;color:var(--muted);margin-bottom:6px;}
+.card .use{font-size:12.5px;color:var(--text);background:var(--bg2);padding:8px 10px;border-radius:8px;}
+.concept-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.concept-box.exam-type{border-left:4px solid var(--blue);}
+.concept-box.prac-type{border-left:4px solid var(--green);}
+.concept-box h3{font-size:15.5px;font-weight:700;margin-bottom:10px;}
+.concept-box .step{margin-bottom:8px;font-size:13.5px;}
+.concept-box .step b{color:var(--blue);margin-right:4px;}
+.concept-box.prac-type .step b{color:var(--green);}
+.concept-box .exam-ex{margin-top:10px;background:var(--bg2);border-radius:8px;padding:10px 12px;font-size:12.5px;color:var(--muted);}
+.shock{background:var(--gold-bg);border:1px solid #F0DDA0;border-radius:14px;padding:18px 20px;margin-bottom:14px;}
+.shock.top-priority{background:var(--red-bg);border:1.5px solid #F1B0A5;}
+.shock-tag{display:inline-block;background:var(--red);color:var(--white);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+.shock h3{font-size:15px;font-weight:700;margin-bottom:8px;}
+.shock p{font-size:13.5px;color:var(--text);margin-bottom:6px;}
+.shock .fix{font-size:13px;color:var(--green);font-weight:600;}
+.shock .fix::before{content:'✓ ';}
+.table-wrap{overflow-x:auto;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;min-width:520px;}
+table th{background:var(--bg2);text-align:left;padding:11px 14px;font-weight:700;font-size:12.5px;border-bottom:1px solid var(--border);white-space:nowrap;}
+table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+table td code{background:var(--bg2);padding:2px 6px;border-radius:6px;font-size:12px;}
+table tr:last-child td{border-bottom:none;}
+.vis-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.vis-box.exam-type{border-left:4px solid var(--blue);}
+.vis-box.prac-type{border-left:4px solid var(--green);}
+.vis-box h3{font-size:15.5px;font-weight:700;margin-bottom:6px;}
+.vis-box .lead{font-size:13px;color:var(--muted);margin-bottom:16px;}
+figure{margin:0;text-align:center;}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:10px;text-align:center;}
+.figno{background:none;border:none;font-weight:700;color:var(--blue);}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0;}
+.flow .node{background:var(--blue-bg);color:var(--blue);border-radius:10px;padding:10px 13px;font-size:12.5px;font-weight:700;}
+.flow .node.g{background:var(--green-bg);color:var(--green);}
+.flow .node.n{background:var(--bg2);color:var(--text);}
+.flow .node.r{background:var(--red-bg);color:var(--red);}
+.flow .node small{display:block;font-size:10.5px;font-weight:500;opacity:.85;}
+.flow .arrow{color:var(--muted);font-weight:800;font-size:15px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;}
+.col-box{border-radius:12px;padding:14px 16px;}
+.col-box.a{background:var(--blue-bg);border:1px solid #B7D2F7;}
+.col-box.b{background:var(--gold-bg);border:1px solid #F0DDA0;}
+.col-box.ok{background:var(--green-bg);border:1px solid #A7E0CD;}
+.col-box.no{background:var(--red-bg);border:1px solid #F1B0A5;}
+.col-box h4{font-size:13.5px;font-weight:800;margin-bottom:8px;}
+.col-box.a h4{color:var(--blue);}.col-box.b h4{color:var(--gold);}.col-box.ok h4{color:var(--green);}.col-box.no h4{color:var(--red);}
+.col-box li{font-size:12.5px;margin-bottom:5px;padding-left:14px;position:relative;}
+.col-box li::before{content:'·';position:absolute;left:2px;font-weight:800;}
+.quiz-item{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.quiz-item .qnum{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--blue);background:var(--blue-bg);padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+.quiz-item .qtext{font-size:14.5px;font-weight:700;margin-bottom:14px;}
+.quiz-opt{display:block;width:100%;text-align:left;padding:11px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);font-size:13.5px;cursor:pointer;transition:.15s;font-family:inherit;color:var(--text);}
+.quiz-opt:hover{background:var(--bg2);}
+.quiz-opt.selected{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);font-weight:700;}
+.quiz-opt.correct{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:700;}
+.quiz-opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);font-weight:700;}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{margin-top:10px;padding:11px 14px;border-radius:10px;font-size:13px;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-bg);color:var(--green);}
+.quiz-feedback.no{background:var(--red-bg);color:var(--red);}
+.retry-btn{margin-top:10px;display:none;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer;font-family:inherit;}
+.retry-btn.show{display:inline-block;}
+.retry-btn:hover{background:var(--border);}
+.name-gate{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:center;}
+.name-gate p{font-size:14px;color:var(--muted);margin-bottom:14px;}
+.name-gate input{width:100%;max-width:280px;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;margin-bottom:12px;text-align:center;}
+.name-gate button{background:var(--blue);color:var(--white);border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+.name-gate button:hover{opacity:.9;}
+.quiz-submit-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:22px;margin-top:8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.submit-btn{background:var(--green);color:var(--white);border:none;border-radius:10px;padding:13px 28px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+.submit-btn:hover{opacity:.9;}
+.submit-btn:disabled{background:var(--border);cursor:default;}
+.retry-all-btn{background:var(--white);color:var(--text);border:1.5px solid var(--border);border-radius:10px;padding:13px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-left:8px;}
+.retry-all-btn:hover{background:var(--bg2);}
+.submit-status{margin-top:12px;font-size:13.5px;color:var(--green);font-weight:600;min-height:18px;}
+.checks{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.check-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:10px;transition:.15s;}
+.check-item:hover{background:var(--bg2);}
+.check-item input[type="checkbox"]{width:19px;height:19px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
+.check-item label{font-size:14px;cursor:pointer;}
+footer{margin-top:50px;padding:24px;text-align:center;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);}
+footer b{color:var(--text);}
+footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;}
+@media (max-width:860px){.mobile-bar{display:flex;}.sidebar{top:54px;width:78%;max-width:300px;height:auto;transform:translateX(-100%);transition:transform .25s ease;box-shadow:4px 0 24px rgba(0,0,0,.12);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;padding:70px 18px 50px;max-width:100%;}.card-grid{grid-template-columns:1fr;}.hero{padding:28px 22px;}.hero h1{font-size:19px;}table{font-size:12.5px;min-width:420px;}.two-col{grid-template-columns:1fr;}}
+@media (max-width:480px){.hero h1{font-size:17px;line-height:1.5;}h2.section-title{font-size:17px;}table{font-size:11.5px;min-width:380px;}.main{padding:66px 14px 40px;}.quiz-item{padding:16px;}}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">15차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 필기</span>
+  <h1>15차시 복습자료</h1>
+  <p class="meta"><b>2026-07-27</b><br>필기 집중일 — 4장 컴퓨터 소프트웨어, 5장 인터넷 활용, 6장 멀티미디어 활용(동영상·압축 표준까지)</p>
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#pilgi" onclick="closeSidebar()"><span class="num">4</span>그림으로 이해</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">5</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">6</span>용어 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">7</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">8</span>체크리스트</a></li>
+    </ul>
+  </nav>
+  <div class="teacher-box"><b>김태희 강사</b>우리컴퓨터학원<br>052)258-3388</div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">필기 4장 소프트웨어</span>
+      <span class="tag">필기 5장 인터넷 활용</span>
+      <span class="tag">필기 6장 멀티미디어</span>
+    </div>
+    <h1>오늘은 <b>필기 집중일</b> — 소프트웨어, 인터넷 활용, 멀티미디어(동영상·압축 표준)까지 한 번에 정리했어요.</h1>
+    <p class="sub">2026-07-27 · 15차시 · <b>4장 컴퓨터 소프트웨어</b>(사용권 분류·컴파일러vs인터프리터·번역 절차), <b>5장 인터넷 활용</b>(통신망·토폴로지·장비·IP/프로토콜·이메일·신기술), <b>6장 멀티미디어 활용</b>(비트맵vs벡터·그래픽 처리 기법·동영상 압축 표준)을 다뤘어요. 필기는 <b>용어를 정확히 구분</b>하는 게 전부입니다. 헷갈리는 짝만 확실히 잡고 가요!</p>
+    <div class="key-badges">
+      <span class="key-badge">💿 셰어웨어=체험 후 구매</span>
+      <span class="key-badge">🔁 인터프리터=목적 프로그램 없음</span>
+      <span class="key-badge">📶 LAN &lt; MAN &lt; WAN</span>
+      <span class="key-badge">📮 SMTP=발송 / POP3=수신</span>
+      <span class="key-badge">🎨 비트맵=계단 / 벡터=유지</span>
+      <span class="key-badge">🎬 스트리밍=받으며 재생</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+      <div class="card exam-type"><span class="ctag">4장 필기</span><h3>💿 소프트웨어 사용권 분류 — 단골</h3>
+        <p><b>프리웨어</b>=무료로 계속 / <b>셰어웨어</b>=기능·기간 제한 후 구매 유도 / <b>트라이얼</b>=상용을 기간만 체험 / <b>번들</b>=기기 구매 시 끼워주기.</p>
+        <div class="use">이름만 바꿔치기하는 함정 → 핵심 한 마디로 기억</div></div>
+      <div class="card exam-type"><span class="ctag">4장 필기</span><h3>🔁 컴파일러 vs 인터프리터</h3>
+        <p><b>컴파일러</b>=전체를 한 번에 번역, <b>목적 프로그램 생성</b>, 실행 빠름. <b>인터프리터</b>=한 줄씩 번역·즉시 실행, <b>목적 프로그램 없음</b>, 실행 느림.</p>
+        <div class="use">"목적 프로그램을 만드는가"가 갈림길</div></div>
+      <div class="card exam-type"><span class="ctag">5장 필기</span><h3>📶 통신망 · 전송 방향</h3>
+        <p>범위: <b>LAN &lt; MAN &lt; WAN</b>. VAN=회선 임차·부가서비스. 전송 방향=단방향(라디오)·<b>반이중(무전기)</b>·<b>전이중(전화)</b>.</p>
+        <div class="use">MAN이 WAN보다 넓다=함정</div></div>
+      <div class="card exam-type"><span class="ctag">5장 필기</span><h3>🔧 네트워크 장비 — 반드시 구분</h3>
+        <p><b>리피터</b>=신호 증폭·재생 / <b>브리지</b>=LAN 연결(MAC) / <b>라우터</b>=최적 경로(IP) / <b>게이트웨이</b>=서로 다른 프로토콜 연결.</p>
+        <div class="use">토폴로지: 스타=중앙, 메쉬=신뢰성 최고</div></div>
+      <div class="card exam-type"><span class="ctag">5장 필기</span><h3>🌐 IP 주소 · 프로토콜 · 포트</h3>
+        <p><b>IPv4</b>=32비트·10진수 / <b>IPv6</b>=128비트·16진수·보안 강화. DNS(도메인↔IP)·<b>ARP</b>(IP→MAC)·DHCP(자동 할당). 포트: HTTP 80·<b>SMTP 25·POP3 110</b>.</p>
+        <div class="use">IPv6는 느리다=함정(오히려 효율↑)</div></div>
+      <div class="card exam-type"><span class="ctag">5장 필기</span><h3>📮 전자우편 · 신기술 용어</h3>
+        <p><b>SMTP</b>=발송 / <b>POP3</b>=수신(내려받기) / IMAP=서버 동기화 / MIME=멀티미디어 첨부. RFID(전자태그)·IoT(사물인터넷)·VR/AR/MR 구분.</p>
+        <div class="use">POP3가 멀티미디어 재생?=함정(무관)</div></div>
+      <div class="card exam-type"><span class="ctag">6장 필기</span><h3>🎨 그래픽 — 비트맵 vs 벡터 · 처리 기법</h3>
+        <p><b>비트맵</b>=픽셀 집합·확대 시 계단(JPG·GIF·PNG·BMP) / <b>벡터</b>=수식·확대해도 유지(AI·SVG). <b>렌더링</b>=빛·질감, <b>모델링</b>=형태, <b>모핑</b>=변형.</p>
+        <div class="use">렌더링↔모델링↔디더링 용어 매칭 단골</div></div>
+      <div class="card exam-type"><span class="ctag">6장 필기</span><h3>🎬 동영상 · 압축 표준</h3>
+        <p><b>스트리밍</b>=받으며 동시 재생(ram·wmv·asf). <b>BMP</b>=무압축·용량 큼. <b>MIDI</b>=연주 정보만·용량 작음(실제 음 저장 X). <b>MP3</b>=손실 압축. MPEG-7=검색.</p>
+        <div class="use">MIDI가 크다·스트리밍이 쌍방향=함정</div></div>
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box exam-type"><h3>💿 4장 ① 소프트웨어 분류 · 사용권 (단골)</h3>
+      <div class="step"><b>분류</b> 시스템 SW=운영체제(Windows·Linux)·언어 번역·유틸리티 / 응용 SW=워드·엑셀 등. 기기가 동작하려면 <b>가장 핵심적인 시스템 SW = 운영체제(OS)</b>.</div>
+      <div class="step"><b>운영체제 목적</b> 처리 능력(Throughput)↑ · 응답 시간↓ · 신뢰도↑ · 사용 가능도↑.</div>
+      <div class="step"><b>사용권 분류</b> 프리웨어(무료 계속) · <b>셰어웨어</b>(기능·기간 제한 후 구매 유도) · 트라이얼(상용을 기간만 체험) · 애드웨어(광고 대가 무료) · 공개 SW(오픈소스, 소스 공개) · 데모(홍보 맛보기) · 알파/베타(내부/공개 테스트) · <b>패치</b>(오류 수정) · <b>번들</b>(기기 구매 시 끼워주기).</div>
+      <div class="exam-ex">시험: "정식 구매 유도 위해 기능·기간 제한 배포 = 셰어웨어". 번들·패치·프리웨어와 설명을 바꿔치기하는 보기가 정답.</div></div>
+
+    <div class="concept-box exam-type"><h3>🔁 4장 ② 언어 번역 · 번역 절차 · 객체 지향</h3>
+      <div class="step"><b>컴파일러 vs 인터프리터</b> 컴파일러=전체 일괄 번역·<b>목적 프로그램 생성</b>·실행 빠름(C·Java·COBOL). 인터프리터=한 줄씩 번역·즉시 실행·<b>목적 프로그램 없음</b>·실행 느림(BASIC·LISP·Python).</div>
+      <div class="step"><b>번역 절차(순서 그대로 출제)</b> 원시 프로그램 → <b>컴파일러</b>(번역) → 목적 프로그램 → <b>링커</b>(연결) → 실행 모듈 → <b>로더</b>(적재) → 실행. "링커=연결, 로더=적재" 역할이 함정.</div>
+      <div class="step"><b>객체 지향(OOP)</b> 4대 특성=추상화·캡슐화·상속성·<b>다형성</b>("그룹화·구조화"는 특성 아님). Java=JVM 위에서 실행돼 <b>운영체제에 독립적</b>.</div>
+      <div class="exam-ex">시험: "목적 프로그램을 생성하지 않는 번역기 = 인터프리터". OOP 특성에 "구조화"를 끼워 넣는 함정.</div></div>
+
+    <div class="concept-box exam-type"><h3>📶 5장 ① 통신망 · 토폴로지 · 네트워크 장비</h3>
+      <div class="step"><b>통신망 범위</b> LAN(근거리·빠름) &lt; MAN &lt; WAN(광역). <b>VAN</b>=통신사 회선을 임차해 부가 서비스 제공·재판매. 무선랜 3요소=랜카드+AP+안테나.</div>
+      <div class="step"><b>전송 방향</b> 단방향(라디오·TV) · <b>반이중</b>(무전기 — 번갈아) · <b>전이중</b>(전화 — 동시).</div>
+      <div class="step"><b>토폴로지</b> 스타형=중앙 허브(고장 시 전체 마비) · 버스형=한 회선 공유 · 링형=원형 · <b>메쉬형</b>=모두 연결(신뢰성 최고·비용 최대) · 트리(계층)형=분산 처리에 적합.</div>
+      <div class="step"><b>장비</b> <b>리피터</b>=약해진 신호 증폭·재생 / 허브=집선 / 브리지=LAN 연결(MAC) / <b>라우터</b>=최적 경로(IP) / <b>게이트웨이</b>=프로토콜 다른 망 연결 / 모뎀=디지털↔아날로그.</div>
+      <div class="exam-ex">시험: "신호 복원·증폭 = 리피터", "범위는 LAN&lt;MAN&lt;WAN"(MAN이 WAN보다 넓다=오답).</div></div>
+
+    <div class="concept-box exam-type"><h3>🌐 5장 ② IP · 프로토콜 · 도메인 · WWW</h3>
+      <div class="step"><b>IPv4 vs IPv6</b> IPv4=32비트·8비트씩 4부분·점(.)·10진수 / IPv6=128비트·16비트씩 8부분·콜론(:)·16진수, 주소 부족 해결·보안 강화·유니/멀티/애니캐스트.</div>
+      <div class="step"><b>프로토콜</b> TCP=신뢰성(순서·오류 제어)·전송 계층 / IP=주소·경로 지정 / DNS=도메인↔IP / DHCP=IP 자동 할당 / <b>ARP=IP→MAC 변환</b>.</div>
+      <div class="step"><b>도메인</b> 호스트.기관.국가(www.snu.ac.kr). co(회사)·go(정부)·or(비영리)·ac(대학)·re(연구). 개인이 임의 설정 불가(KISA·ICANN 등록).</div>
+      <div class="step"><b>WWW·웹 언어</b> 하이퍼텍스트/하이퍼링크로 문서 연결. URL=프로토콜://호스트[:포트]/경로. <b>HTML5</b>=추가 프로그램 없이 브라우저에서 멀티미디어 재생.</div>
+      <div class="exam-ex">시험: "IP→MAC=ARP", "플러그인 없이 멀티미디어=HTML5", "IPv6가 느리다"는 오답.</div></div>
+
+    <div class="concept-box exam-type"><h3>📮 5장 ③ 전자우편 · 인터넷 서비스 · 신기술</h3>
+      <div class="step"><b>이메일</b> 기본 7비트 ASCII → 멀티미디어는 <b>MIME</b>로 인코딩 첨부. <b>SMTP</b>=발송(25) / <b>POP3</b>=수신·내려받기(110) / IMAP=서버 동기화(143). 주소="ID@호스트". CC=참조 공개, BCC=숨은 참조.</div>
+      <div class="step"><b>인터넷 서비스</b> 쿠키=방문 정보 저장 / 포털=검색+메일+쇼핑 / 그룹웨어=협업 SW / 인트라넷=사내망(TCP/IP)·엑스트라넷=협력사 확장 / VOD·스트리밍.</div>
+      <div class="step"><b>신기술</b> <b>RFID</b>=전자 태그 무선 인식 / <b>IoT</b>=사물인터넷 / 클라우드·빅데이터·블록체인·NFT·메타버스. <b>VR</b>=완전 가상 / <b>AR</b>=현실+가상 덧입힘 / <b>MR</b>=상호작용 / XR=셋 포괄.</div>
+      <div class="exam-ex">시험: "발송=SMTP·수신=POP3"(뒤바꾸면 오답), "전자 태그 무선 인식=RFID", AR·MR 설명 맞바꾸기 함정.</div></div>
+
+    <div class="concept-box exam-type"><h3>🎨 6장 ① 그래픽 데이터 · 처리 기법</h3>
+      <div class="step"><b>비트맵 vs 벡터</b> 비트맵(래스터)=픽셀 집합·<b>확대 시 계단 현상</b>·용량 큼(BMP·JPG·GIF·PNG) / 벡터=점·선의 수학 계산·<b>확대해도 품질 유지</b>·용량 작음(AI·WMF·SVG).</div>
+      <div class="step"><b>처리 기법(용어 매칭 단골)</b> <b>렌더링</b>=3D에 빛·명암·색·질감 부여 / <b>모델링</b>=형태 제작(렌더링 전) / <b>안티앨리어싱</b>=계단(앨리어싱) 완화 / <b>디더링</b>=적은 색 섞어 새 색 / <b>모핑</b>=한 이미지→다른 이미지 변형 / 인터레이싱=점진 표시.</div>
+      <div class="exam-ex">시험: "3D에 질감·현실감=렌더링"(모델링·디더링과 구분), "계단 현상=앨리어싱".</div></div>
+
+    <div class="concept-box exam-type"><h3>🎬 6장 ② 동영상 · 압축 표준</h3>
+      <div class="step"><b>이미지 형식</b> JPEG=정지 영상 손실 압축 / GIF=256색·무손실·애니메이션 / PNG=무손실·<b>투명도</b>(GIF 대체) / <b>BMP=무압축·용량 큼</b>.</div>
+      <div class="step"><b>사운드</b> WAV=원음·대용량 / MP3=손실 압축 / <b>MIDI</b>=연주 정보(음높이·길이·세기)만·<b>용량 작음</b>·실제 음/효과음 저장 불가.</div>
+      <div class="step"><b>스트리밍·코덱</b> 스트리밍=다운로드하며 동시 재생(ram·wmv·asf)·<b>서버→클라이언트 단방향</b>. 코덱=압축(Coder)·복원(Decoder) 방식(DivX·H.264).</div>
+      <div class="step"><b>MPEG 규격</b> MPEG-1=비디오CD / MPEG-2=디지털 방송·DVD / MPEG-4=인터넷·모바일 / <b>MPEG-7=멀티미디어 검색</b> / MPEG-21=제작~유통 통합.</div>
+      <div class="exam-ex">시험: "받으며 동시 재생=스트리밍", "BMP는 압축 안 해 크다", "MIDI는 작다·실제 음 저장 불가"가 자주 나옵니다.</div></div>
+
+  </section>
+
+  <section id="pilgi">
+    <h2 class="section-title"><span class="si">🖼</span>그림으로 이해하기</h2>
+
+    <div class="vis-box exam-type"><h3>① 소프트웨어 사용권 분류</h3>
+      <p class="lead">"무료로 계속(프리웨어)·체험 후 구매(셰어웨어)·끼워주기(번들)"처럼 핵심 한 마디로 구분하세요.</p>
+      <figure><div class="table-wrap"><table>
+        <thead><tr><th>유형</th><th>핵심 한 마디</th></tr></thead>
+        <tbody>
+          <tr><td><b>프리웨어</b></td><td>무료로 계속 사용·배포(저작권은 있음)</td></tr>
+          <tr><td><b>셰어웨어</b></td><td>기능·기간 제한 배포 → 계속 쓰려면 구매</td></tr>
+          <tr><td>트라이얼</td><td>상용 SW를 일정 기간만 체험</td></tr>
+          <tr><td>공개 SW(오픈소스)</td><td>소스 코드까지 공개, 수정·재배포 가능</td></tr>
+          <tr><td>데모 / 알파 / 베타</td><td>홍보 맛보기 / 내부 테스트 / 공개 테스트</td></tr>
+          <tr><td><b>패치</b> / <b>번들</b></td><td>오류 수정용 / 기기 구매 시 끼워주기</td></tr>
+        </tbody>
+      </table></div>
+      <figcaption><span class="figno">그림 1</span> · 이름을 바꿔치기한 보기가 정답 — 핵심 한 마디로 대조</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>② 고급 언어 번역·실행 절차</h3>
+      <p class="lead">순서와 각 도구의 역할(번역·연결·적재)을 그대로 외워요.</p>
+      <figure><div class="flow">
+        <span class="node n">원시<br>프로그램</span><span class="arrow">›</span>
+        <span class="node">컴파일러<small>번역</small></span><span class="arrow">›</span>
+        <span class="node n">목적<br>프로그램</span><span class="arrow">›</span>
+        <span class="node g">링커<small>연결</small></span><span class="arrow">›</span>
+        <span class="node n">실행<br>모듈</span><span class="arrow">›</span>
+        <span class="node g">로더<small>적재</small></span><span class="arrow">›</span>
+        <span class="node" style="background:var(--red-bg);color:var(--red);">실행</span>
+      </div>
+      <figcaption><span class="figno">그림 2</span> · <b>인터프리터</b>는 목적 프로그램을 안 만들어 링커·로더 단계도 없음</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>③ 네트워크 토폴로지 5종</h3>
+      <p class="lead">특징을 서로 바꿔 놓은 보기가 정답입니다.</p>
+      <figure><div class="table-wrap"><table>
+        <thead><tr><th>형태</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td><b>스타(성)형</b></td><td>중앙 허브에 모두 연결. 관리 쉬움, <b>중앙 고장 시 전체 마비</b></td></tr>
+          <tr><td>버스형</td><td>한 회선 공유. 설치 쉽고 저렴, 회선 고장 시 전체 중단</td></tr>
+          <tr><td>링형</td><td>인접 노드 원형 연결. 한 노드 고장이 전체 영향</td></tr>
+          <tr><td><b>메쉬(망)형</b></td><td>모두 서로 연결. <b>신뢰성 최고</b>·우회 가능, 비용 최대(WAN)</td></tr>
+          <tr><td>트리(계층)형</td><td>버스+스타 확장. 분산 처리에 적합</td></tr>
+        </tbody>
+      </table></div>
+      <figcaption><span class="figno">그림 3</span> · 스타=중앙 집중, 메쉬=신뢰성·비용 최대</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>④ OSI 7계층과 프로토콜</h3>
+      <p class="lead">위(응용)에서 아래(물리)로. 계층별 대표 프로토콜만 기억해요.</p>
+      <figure><div class="table-wrap"><table>
+        <thead><tr><th>계층</th><th>이름</th><th>대표 프로토콜 / 장비</th></tr></thead>
+        <tbody>
+          <tr><td>7</td><td>응용</td><td>HTTP · FTP · SMTP · DNS</td></tr>
+          <tr><td>6</td><td>표현</td><td>JPEG · MPEG · ASCII(압축·암호화)</td></tr>
+          <tr><td>5</td><td>세션</td><td>대화 연결 관리</td></tr>
+          <tr><td>4</td><td>전송</td><td><b>TCP · UDP</b> / 게이트웨이</td></tr>
+          <tr><td>3</td><td>네트워크</td><td><b>IP · ICMP</b> / 라우터</td></tr>
+          <tr><td>2</td><td>데이터링크</td><td>브리지 · 스위치</td></tr>
+          <tr><td>1</td><td>물리</td><td>리피터 · 허브</td></tr>
+        </tbody>
+      </table></div>
+      <figcaption><span class="figno">그림 4</span> · TCP=전송 계층, IP=네트워크 계층</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>⑤ IPv4 vs IPv6</h3>
+      <p class="lead">32비트냐 128비트냐, 10진수냐 16진수냐로 구분해요.</p>
+      <figure><div class="two-col">
+        <div class="col-box a"><h4>IPv4</h4><ul>
+          <li>32비트</li><li>8비트씩 4부분 · <b>점(.)</b></li><li><b>10진수</b> (예: 192.168.0.10)</li><li>A~E 클래스</li></ul></div>
+        <div class="col-box ok"><h4>IPv6</h4><ul>
+          <li>128비트 (주소 부족 해결)</li><li>16비트씩 8부분 · <b>콜론(:)</b></li><li><b>16진수</b> · 보안 기능 강화</li><li>유니/멀티/<b>애니캐스트</b></li></ul></div>
+      </div>
+      <figcaption><span class="figno">그림 5</span> · IPv6는 헤더 간소화로 오히려 효율적("느리다"는 오답)</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>⑥ 비트맵 vs 벡터 · MPEG 규격</h3>
+      <p class="lead">확대했을 때 계단이 생기면 비트맵, 그대로면 벡터예요.</p>
+      <figure><div class="two-col">
+        <div class="col-box b"><h4>비트맵(래스터)</h4><ul>
+          <li>픽셀(점)의 집합</li><li><b>확대 시 계단 현상</b></li><li>용량 큼</li><li>BMP · JPG · GIF · PNG</li></ul></div>
+        <div class="col-box a"><h4>벡터</h4><ul>
+          <li>점·선의 수학적 계산</li><li><b>확대해도 품질 유지</b></li><li>용량 작음</li><li>AI · WMF · SVG</li></ul></div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px;"><table>
+        <thead><tr><th>MPEG 규격</th><th>용도</th></tr></thead>
+        <tbody>
+          <tr><td>MPEG-1 / MPEG-2</td><td>비디오 CD / 디지털 방송·DVD</td></tr>
+          <tr><td>MPEG-4</td><td>인터넷·모바일 동영상(저대역폭)</td></tr>
+          <tr><td><b>MPEG-7</b> / MPEG-21</td><td><b>멀티미디어 검색</b> / 제작~유통 통합</td></tr>
+        </tbody>
+      </table></div>
+      <figcaption><span class="figno">그림 6</span> · 로고·아이콘은 벡터, 사진은 비트맵. 검색용 표준=MPEG-7</figcaption></figure></div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수 (필기 함정)</h2>
+    <div class="shock top-priority"><div class="shock-tag">⭐ 단골 함정</div>
+      <h3>셰어웨어·프리웨어·번들을 헷갈려요</h3>
+      <p>이름을 바꿔치기한 보기가 정답으로 자주 나와요.</p>
+      <p class="fix">셰어웨어=<b>기능·기간 제한 후 구매</b> / 프리웨어=무료 계속 / 번들=기기 구매 시 끼워주기 / 패치=오류 수정.</p></div>
+    <div class="shock"><div class="shock-tag">4장 · 자주 틀림</div>
+      <h3>인터프리터가 목적 프로그램을 만든다고 생각해요</h3>
+      <p>인터프리터는 한 줄씩 번역·즉시 실행하며 <b>목적 프로그램을 만들지 않아요</b>(그래서 링커·로더 단계도 없음).</p>
+      <p class="fix">목적 프로그램 생성=<b>컴파일러</b> / 미생성=인터프리터. "전체 일괄 번역 후 실행"은 컴파일러.</p></div>
+    <div class="shock"><div class="shock-tag">5장 · 자주 틀림</div>
+      <h3>MAN이 WAN보다 넓다고 생각해요</h3>
+      <p>범위 순서는 <b>LAN &lt; MAN &lt; WAN</b>이에요. MAN이 WAN보다 넓다는 설명은 오답.</p>
+      <p class="fix">LAN(근거리) → MAN(도시) → WAN(국가·대륙 광역).</p></div>
+    <div class="shock"><div class="shock-tag">5장 · 자주 틀림</div>
+      <h3>IPv6가 IPv4보다 느리다고 골라요</h3>
+      <p>IPv6는 128비트로 주소 부족을 해결하고 헤더를 간소화해 <b>오히려 효율적</b>이에요.</p>
+      <p class="fix">"IPv6=속도 느리다"는 틀린 보기. 보안 기능 내장·주소 확장성이 장점.</p></div>
+    <div class="shock"><div class="shock-tag">5장 · 자주 틀림</div>
+      <h3>SMTP와 POP3의 방향을 바꿔 써요</h3>
+      <p><b>SMTP=발송(보내기), POP3=수신(받기)</b>인데 서로 바꿔 놓은 보기가 정답으로 나와요.</p>
+      <p class="fix">보내기=SMTP(25) / 받기=POP3(110)·IMAP(143). MIME=멀티미디어 첨부.</p></div>
+    <div class="shock"><div class="shock-tag">5장 · 자주 틀림</div>
+      <h3>POP3가 멀티미디어를 재생한다고 생각해요</h3>
+      <p>POP3는 서버의 메일을 <b>내려받는 수신용 프로토콜</b>일 뿐, 멀티미디어 재생과는 무관해요.</p>
+      <p class="fix">재생은 메일 클라이언트의 몫. POP3=수신 전용.</p></div>
+    <div class="shock"><div class="shock-tag">6장 · 자주 틀림</div>
+      <h3>BMP가 압축돼서 용량이 작다고 생각해요</h3>
+      <p>BMP는 <b>압축하지 않는</b> 형식이라 같은 이미지라도 GIF·JPG·PNG보다 용량이 커요.</p>
+      <p class="fix">BMP=무압축·용량 큼 / JPEG=손실 압축 / PNG=무손실·투명 지원.</p></div>
+    <div class="shock"><div class="shock-tag">6장 · 자주 틀림</div>
+      <h3>MIDI가 실제 음을 저장해 파일이 크다고 생각해요</h3>
+      <p>MIDI는 <b>연주 정보(음높이·길이·세기)만</b> 기록해 용량이 작고, 음성·효과음은 저장하지 못해요.</p>
+      <p class="fix">MIDI=연주 정보·작음 / WAV=원음·대용량 / MP3=손실 압축.</p></div>
+    <div class="shock"><div class="shock-tag">6장 · 자주 틀림</div>
+      <h3>스트리밍을 쌍방향 통신이라고 생각해요</h3>
+      <p>스트리밍은 <b>서버 → 클라이언트 단방향</b> 전송이라 "양방향 실시간 소통이 목적"은 오답이에요.</p>
+      <p class="fix">스트리밍=받으며 동시 재생(ram·wmv·asf), 단방향.</p></div>
+    <div class="shock"><div class="shock-tag">6장 · 자주 틀림</div>
+      <h3>렌더링과 모델링·디더링을 바꿔 써요</h3>
+      <p>3D에 빛·질감을 입혀 현실감을 주는 건 <b>렌더링</b>이에요. 모델링은 형태 제작, 디더링은 색 표현 보완.</p>
+      <p class="fix">렌더링=질감·현실감 / 모델링=형태 / 디더링=적은 색 혼합 / 모핑=변형.</p></div>
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 용어 정리표</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>장</th><th>용어</th><th>핵심</th></tr></thead>
+      <tbody>
+        <tr><td>4장</td><td>시스템 SW / 응용 SW</td><td>OS·언어번역·유틸리티 / 워드·엑셀. 핵심 시스템 SW=운영체제</td></tr>
+        <tr><td>4장</td><td>셰어웨어 / 프리웨어 / 번들</td><td>기능·기간 제한 후 구매 / 무료 계속 / 기기 구매 시 끼워주기</td></tr>
+        <tr><td>4장</td><td>컴파일러 / 인터프리터</td><td>일괄 번역·<b>목적 프로그램 O</b> / 한 줄씩·<b>목적 프로그램 X</b></td></tr>
+        <tr><td>4장</td><td>번역 절차</td><td>원시→컴파일러→목적→<b>링커</b>→실행 모듈→<b>로더</b>→실행</td></tr>
+        <tr><td>5장</td><td>통신망 범위</td><td>LAN &lt; MAN &lt; WAN / VAN=회선 임차·부가서비스</td></tr>
+        <tr><td>5장</td><td>전송 방향</td><td>단방향(라디오)·<b>반이중</b>(무전기)·<b>전이중</b>(전화)</td></tr>
+        <tr><td>5장</td><td>장비</td><td>리피터(증폭)·브리지(MAC)·라우터(IP 경로)·게이트웨이(프로토콜)</td></tr>
+        <tr><td>5장</td><td>IPv4 / IPv6</td><td>32비트·10진수 / 128비트·16진수·보안 강화</td></tr>
+        <tr><td>5장</td><td>DNS / ARP / DHCP</td><td>도메인↔IP / IP→MAC / IP 자동 할당</td></tr>
+        <tr><td>5장</td><td>포트 번호</td><td>HTTP 80·<b>SMTP 25</b>·<b>POP3 110</b>·FTP 21·DNS 53</td></tr>
+        <tr><td>5장</td><td>이메일</td><td>SMTP=발송 / POP3=수신 / MIME=멀티미디어 첨부 / BCC=숨은 참조</td></tr>
+        <tr><td>5장</td><td>신기술</td><td>RFID(전자태그)·IoT(사물인터넷)·VR/AR/MR/XR</td></tr>
+        <tr><td>6장</td><td>비트맵 / 벡터</td><td>픽셀·계단·큼(JPG·GIF·PNG) / 수식·유지·작음(AI·SVG)</td></tr>
+        <tr><td>6장</td><td>그래픽 처리</td><td>렌더링(질감)·모델링(형태)·디더링(색)·모핑(변형)·안티앨리어싱</td></tr>
+        <tr><td>6장</td><td>이미지·사운드</td><td>BMP=무압축·큼 / MIDI=연주정보·작음 / MP3=손실 / PNG=투명</td></tr>
+        <tr><td>6장</td><td>스트리밍 / MPEG-7</td><td>받으며 재생·단방향(ram·wmv·asf) / 멀티미디어 검색 표준</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1"><span class="qnum">Q1 · 4장 필기</span>
+      <p class="qtext">컴퓨터·스마트폰이 동작하려면 반드시 있어야 하는, 가장 핵심적인 시스템 소프트웨어는?</p>
+      <button class="quiz-opt" data-correct="true">운영체제(OS)</button>
+      <button class="quiz-opt" data-correct="false">유틸리티</button>
+      <button class="quiz-opt" data-correct="false">컴파일러</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="2"><span class="qnum">Q2 · 4장 필기</span>
+      <p class="qtext">정식 구매를 유도하려고 기능이나 사용 기간을 제한한 상태로 무료 배포하는 소프트웨어는?</p>
+      <button class="quiz-opt" data-correct="false">프리웨어(Freeware)</button>
+      <button class="quiz-opt" data-correct="true">셰어웨어(Shareware)</button>
+      <button class="quiz-opt" data-correct="false">번들(Bundle)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="3"><span class="qnum">Q3 · 4장 필기</span>
+      <p class="qtext">고급 언어를 한 줄씩 번역하면서 즉시 실행하고, 별도의 목적 프로그램을 만들지 않는 언어 번역기는?</p>
+      <button class="quiz-opt" data-correct="false">컴파일러</button>
+      <button class="quiz-opt" data-correct="false">어셈블러</button>
+      <button class="quiz-opt" data-correct="true">인터프리터</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="4"><span class="qnum">Q4 · 4장 필기</span>
+      <p class="qtext">고급 언어 실행 절차(원시→컴파일러→목적→?→실행 모듈)에서, 목적 프로그램과 라이브러리를 묶어 실행 모듈을 만드는 것은?</p>
+      <button class="quiz-opt" data-correct="true">링커(Linker) — 연결</button>
+      <button class="quiz-opt" data-correct="false">로더(Loader) — 적재</button>
+      <button class="quiz-opt" data-correct="false">인터프리터 — 통역</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="5"><span class="qnum">Q5 · 5장 필기</span>
+      <p class="qtext">통신사업자의 회선을 임차해 여러 저속 회선으로 나누고, 부가 서비스를 얹어 재판매하는 통신망은?</p>
+      <button class="quiz-opt" data-correct="false">WAN(광대역 통신망)</button>
+      <button class="quiz-opt" data-correct="true">VAN(부가가치 통신망)</button>
+      <button class="quiz-opt" data-correct="false">LAN(근거리 통신망)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="6"><span class="qnum">Q6 · 5장 필기</span>
+      <p class="qtext">디지털 신호가 멀리 갈수록 약해지는데, 받은 신호를 복원·증폭해 다시 먼 거리로 보내는 네트워크 장비는?</p>
+      <button class="quiz-opt" data-correct="false">라우터(Router)</button>
+      <button class="quiz-opt" data-correct="false">게이트웨이(Gateway)</button>
+      <button class="quiz-opt" data-correct="true">리피터(Repeater)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="7"><span class="qnum">Q7 · 5장 필기</span>
+      <p class="qtext">IP 주소를 네트워크 카드의 물리 주소(MAC 주소)로 변환해 주는 프로토콜은?</p>
+      <button class="quiz-opt" data-correct="true">ARP</button>
+      <button class="quiz-opt" data-correct="false">DHCP</button>
+      <button class="quiz-opt" data-correct="false">DNS</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="8"><span class="qnum">Q8 · 5장 필기</span>
+      <p class="qtext">전자우편에서 작성한 메일을 수신자 서버로 보내는(발송) 데 사용하는 프로토콜은?</p>
+      <button class="quiz-opt" data-correct="false">POP3</button>
+      <button class="quiz-opt" data-correct="true">SMTP</button>
+      <button class="quiz-opt" data-correct="false">IMAP</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="9"><span class="qnum">Q9 · 6장 필기</span>
+      <p class="qtext">3차원 모델에 빛·명암·색·질감을 입혀 현실감 있는 최종 화면을 만드는 그래픽 처리 기법은?</p>
+      <button class="quiz-opt" data-correct="false">모델링(Modeling)</button>
+      <button class="quiz-opt" data-correct="false">디더링(Dithering)</button>
+      <button class="quiz-opt" data-correct="true">렌더링(Rendering)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="10"><span class="qnum">Q10 · 6장 필기</span>
+      <p class="qtext">동영상·오디오 파일을 전부 내려받기 전에, 받으면서 동시에 재생하는 기술은?</p>
+      <button class="quiz-opt" data-correct="true">스트리밍(Streaming)</button>
+      <button class="quiz-opt" data-correct="false">코덱(Codec)</button>
+      <button class="quiz-opt" data-correct="false">모핑(Morphing)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">4장: 사용권 분류 — 셰어웨어(구매 유도)·프리웨어(무료)·트라이얼·번들 구분(그림 1)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">4장: 컴파일러(목적 프로그램 O)vs인터프리터(X), 번역 절차 원시→컴파일러→목적→링커→로더(그림 2)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">4장: OOP 4대 특성=추상화·캡슐화·상속성·다형성("구조화"는 아님), Java=JVM·OS 독립</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">5장: 통신망 LAN&lt;MAN&lt;WAN, 전송 방향 반이중(무전기)·전이중(전화)</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">5장: 토폴로지 5종 — 스타(중앙)·메쉬(신뢰성 최고), 장비 리피터·브리지·라우터·게이트웨이(그림 3)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">5장: IPv4(32비트·10진수)vsIPv6(128비트·16진수), DNS·ARP(IP→MAC)·DHCP(그림 5)</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">5장: OSI 7계층 대표 프로토콜(그림 4), 포트 SMTP 25·POP3 110·HTTP 80</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">5장: 이메일 SMTP(발송)·POP3(수신)·MIME, 신기술 RFID·IoT·VR/AR/MR</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">6장: 비트맵(계단)vs벡터(유지), 처리 기법 렌더링·모델링·디더링·모핑(그림 6)</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">6장: BMP=무압축·큼, MIDI=연주정보·작음, 스트리밍=받으며 재생·단방향, MPEG-7=검색</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">필기 마무리 전략: 헷갈리는 "용어 짝"만 반복 대조(위 정리표), 기출로 확인</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+</main>
+
+<script>
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '15차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+const ALLOWED_NAMES = ['권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화','우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영','홍혜림','김성겸','김예원','김태희'];
+function normName(s){return s.replace(/\s/g,'');}
+function startQuiz(){
+  const val=document.getElementById('studentName').value.trim();
+  if(!val){alert('이름을 입력해주세요.');return;}
+  const match=ALLOWED_NAMES.find(n=>normName(n)===normName(val));
+  if(!match){alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');return;}
+  studentName=match;
+  document.getElementById('nameGate').style.display='none';
+  document.getElementById('quizBody').style.display='block';
+}
+const quizItems=document.querySelectorAll('.quiz-item');
+let attemptCount=0;
+quizItems.forEach(item=>{
+  const opts=item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt=>{opt.addEventListener('click',()=>{if(item.dataset.graded==='true')return;opts.forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');});});
+});
+function gradeQuiz(){
+  if(!studentName){alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.');return;}
+  let answered=0;
+  quizItems.forEach(item=>{if(item.querySelector('.quiz-opt.selected'))answered++;});
+  if(answered<quizItems.length){if(!confirm('아직 안 고른 문제가 '+(quizItems.length-answered)+'개 있어요. 그래도 채점할까요?'))return;}
+  let score=0;const answers=[];
+  quizItems.forEach(item=>{
+    const opts=item.querySelectorAll('.quiz-opt');
+    const selected=item.querySelector('.quiz-opt.selected');
+    const feedback=item.querySelector('.quiz-feedback');
+    let correctText='';
+    opts.forEach(o=>{o.disabled=true;o.classList.remove('selected');if(o.dataset.correct==='true'){o.classList.add('correct');correctText=o.textContent;}});
+    if(selected){
+      const isCorrect=selected.dataset.correct==='true';
+      if(!isCorrect)selected.classList.add('wrong');
+      feedback.textContent=isCorrect?'정답입니다! 🎉':"오답입니다. 정답은 '"+correctText+"' 입니다.";
+      feedback.classList.add('show',isCorrect?'ok':'no');
+      answers.push(isCorrect?1:0);if(isCorrect)score++;
+    }else{feedback.textContent="미응답입니다. 정답은 '"+correctText+"' 입니다.";feedback.classList.add('show','no');answers.push('');}
+    item.dataset.graded='true';
+  });
+  attemptCount++;
+  const payload={sheetName:SHEET_NAME,name:studentName,score:score,answers:answers};
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>{});
+  document.getElementById('submitStatus').textContent=studentName+'님, '+attemptCount+'회차 채점 완료! 10문제 중 '+score+'문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display='inline-block';
+}
+function retryQuiz(){
+  quizItems.forEach(item=>{
+    item.dataset.graded='';
+    const opts=item.querySelectorAll('.quiz-opt');
+    opts.forEach(o=>{o.disabled=false;o.classList.remove('selected','correct','wrong');});
+    const feedback=item.querySelector('.quiz-feedback');feedback.classList.remove('show','ok','no');feedback.textContent='';
+  });
+  document.getElementById('submitStatus').textContent='';
+  document.getElementById('retryAllBtn').style.display='none';
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
