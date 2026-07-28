@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>16차시 복습자료 | 컴활2급 필기 - 컴퓨터 시스템 보호(보안 위협·바이러스·암호화) + 멀티미디어 마무리</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+:root{--bg:#F8FAFC;--bg2:#EFF2F7;--border:#D1D9E0;--text:#1A202C;--muted:#5A6A7E;--blue:#1D6FE8;--blue-bg:#EBF2FF;--green:#0A8A68;--green-bg:#E6F7F1;--gold:#92680A;--gold-bg:#FFF8E1;--red:#C0392B;--red-bg:#FDEDEC;--navy:#0F172A;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:hidden;scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;width:100%;word-break:break-word;overflow-wrap:break-word;line-height:1.6;}
+code,.mono{font-family:'JetBrains Mono',monospace;word-break:break-all;white-space:normal;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.mobile-bar{display:none;position:fixed;top:0;left:0;right:0;height:54px;background:var(--white);border-bottom:1px solid var(--border);align-items:center;padding:0 16px;z-index:50;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.mobile-bar .hamburger{width:38px;height:38px;border:none;background:var(--bg2);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;cursor:pointer;}
+.mobile-bar .hamburger span{width:18px;height:2px;background:var(--text);border-radius:2px;}
+.mobile-bar .title{margin-left:12px;font-weight:700;font-size:14px;color:var(--blue);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;}
+.overlay.show{display:block;}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:268px;background:var(--white);border-right:1px solid var(--border);padding:28px 20px;overflow-y:auto;z-index:45;}
+.sidebar .badge{display:inline-block;background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:14px;}
+.sidebar h1{font-size:18px;font-weight:900;margin-bottom:4px;}
+.sidebar .meta{font-size:12.5px;color:var(--muted);margin-bottom:22px;}
+.sidebar .meta b{color:var(--text);}
+.sidebar nav .nav-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:10px;text-transform:uppercase;}
+.sidebar nav li{margin-bottom:4px;}
+.sidebar nav a{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--muted);transition:.15s;}
+.sidebar nav a:hover{background:var(--bg2);color:var(--text);}
+.sidebar nav a .num{width:20px;height:20px;border-radius:6px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0;}
+.sidebar .teacher-box{margin-top:28px;padding:14px;background:var(--bg2);border-radius:12px;font-size:12.5px;color:var(--muted);}
+.sidebar .teacher-box b{display:block;color:var(--text);font-size:13.5px;margin-bottom:2px;}
+.main{margin-left:268px;padding:48px 40px 60px;max-width:880px;}
+.hero{background:linear-gradient(135deg,#EBF2FF 0%,#F0F5FF 50%,#EBF2FF 100%);border-radius:24px;padding:40px 36px;position:relative;overflow:hidden;margin-bottom:36px;}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(29,111,232,.12),transparent 70%);border-radius:50%;}
+.hero .tag-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.hero .tag{font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;background:var(--white);}
+.hero h1{font-size:24px;font-weight:900;line-height:1.45;margin-bottom:14px;position:relative;}
+.hero p.sub{font-size:14.5px;color:var(--muted);margin-bottom:20px;position:relative;}
+.hero .key-badges{display:flex;gap:8px;flex-wrap:wrap;position:relative;}
+.hero .key-badge{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12.5px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+h2.section-title{font-size:19px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+h2.section-title .si{font-size:18px;}
+section{margin-bottom:44px;}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:.18s;}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08);}
+.card.exam-type{border-left:4px solid var(--blue);}
+.card.prac-type{border-left:4px solid var(--green);}
+.card .ctag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-bottom:8px;display:inline-block;}
+.card.exam-type .ctag{background:var(--blue-bg);color:var(--blue);}
+.card.prac-type .ctag{background:var(--green-bg);color:var(--green);}
+.card h3{font-size:15px;font-weight:700;margin-bottom:6px;}
+.card p{font-size:13.5px;color:var(--muted);margin-bottom:6px;}
+.card .use{font-size:12.5px;color:var(--text);background:var(--bg2);padding:8px 10px;border-radius:8px;}
+.concept-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.concept-box.exam-type{border-left:4px solid var(--blue);}
+.concept-box.prac-type{border-left:4px solid var(--green);}
+.concept-box h3{font-size:15.5px;font-weight:700;margin-bottom:10px;}
+.concept-box .step{margin-bottom:8px;font-size:13.5px;}
+.concept-box .step b{color:var(--blue);margin-right:4px;}
+.concept-box.prac-type .step b{color:var(--green);}
+.concept-box .exam-ex{margin-top:10px;background:var(--bg2);border-radius:8px;padding:10px 12px;font-size:12.5px;color:var(--muted);}
+.shock{background:var(--gold-bg);border:1px solid #F0DDA0;border-radius:14px;padding:18px 20px;margin-bottom:14px;}
+.shock.top-priority{background:var(--red-bg);border:1.5px solid #F1B0A5;}
+.shock-tag{display:inline-block;background:var(--red);color:var(--white);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+.shock h3{font-size:15px;font-weight:700;margin-bottom:8px;}
+.shock p{font-size:13.5px;color:var(--text);margin-bottom:6px;}
+.shock .fix{font-size:13px;color:var(--green);font-weight:600;}
+.shock .fix::before{content:'✓ ';}
+.table-wrap{overflow-x:auto;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13.5px;min-width:520px;}
+table th{background:var(--bg2);text-align:left;padding:11px 14px;font-weight:700;font-size:12.5px;border-bottom:1px solid var(--border);white-space:nowrap;}
+table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+table td code{background:var(--bg2);padding:2px 6px;border-radius:6px;font-size:12px;}
+table tr:last-child td{border-bottom:none;}
+.vis-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.vis-box.exam-type{border-left:4px solid var(--blue);}
+.vis-box.prac-type{border-left:4px solid var(--green);}
+.vis-box h3{font-size:15.5px;font-weight:700;margin-bottom:6px;}
+.vis-box .lead{font-size:13px;color:var(--muted);margin-bottom:16px;}
+figure{margin:0;text-align:center;}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:10px;text-align:center;}
+.figno{background:none;border:none;font-weight:700;color:var(--blue);}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0;}
+.flow .node{background:var(--blue-bg);color:var(--blue);border-radius:10px;padding:10px 13px;font-size:12.5px;font-weight:700;}
+.flow .node.g{background:var(--green-bg);color:var(--green);}
+.flow .node.n{background:var(--bg2);color:var(--text);}
+.flow .node.r{background:var(--red-bg);color:var(--red);}
+.flow .node small{display:block;font-size:10.5px;font-weight:500;opacity:.85;}
+.flow .arrow{color:var(--muted);font-weight:800;font-size:15px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;}
+.col-box{border-radius:12px;padding:14px 16px;}
+.col-box.a{background:var(--blue-bg);border:1px solid #B7D2F7;}
+.col-box.b{background:var(--gold-bg);border:1px solid #F0DDA0;}
+.col-box.ok{background:var(--green-bg);border:1px solid #A7E0CD;}
+.col-box.no{background:var(--red-bg);border:1px solid #F1B0A5;}
+.col-box h4{font-size:13.5px;font-weight:800;margin-bottom:8px;}
+.col-box.a h4{color:var(--blue);}.col-box.b h4{color:var(--gold);}.col-box.ok h4{color:var(--green);}.col-box.no h4{color:var(--red);}
+.col-box li{font-size:12.5px;margin-bottom:5px;padding-left:14px;position:relative;}
+.col-box li::before{content:'·';position:absolute;left:2px;font-weight:800;}
+.quiz-item{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.quiz-item .qnum{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--blue);background:var(--blue-bg);padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+.quiz-item .qtext{font-size:14.5px;font-weight:700;margin-bottom:14px;}
+.quiz-opt{display:block;width:100%;text-align:left;padding:11px 14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);font-size:13.5px;cursor:pointer;transition:.15s;font-family:inherit;color:var(--text);}
+.quiz-opt:hover{background:var(--bg2);}
+.quiz-opt.selected{background:var(--blue-bg);border-color:var(--blue);color:var(--blue);font-weight:700;}
+.quiz-opt.correct{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:700;}
+.quiz-opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);font-weight:700;}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{margin-top:10px;padding:11px 14px;border-radius:10px;font-size:13px;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-bg);color:var(--green);}
+.quiz-feedback.no{background:var(--red-bg);color:var(--red);}
+.retry-btn{margin-top:10px;display:none;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer;font-family:inherit;}
+.retry-btn.show{display:inline-block;}
+.retry-btn:hover{background:var(--border);}
+.name-gate{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:center;}
+.name-gate p{font-size:14px;color:var(--muted);margin-bottom:14px;}
+.name-gate input{width:100%;max-width:280px;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;margin-bottom:12px;text-align:center;}
+.name-gate button{background:var(--blue);color:var(--white);border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+.name-gate button:hover{opacity:.9;}
+.quiz-submit-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:22px;margin-top:8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.submit-btn{background:var(--green);color:var(--white);border:none;border-radius:10px;padding:13px 28px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+.submit-btn:hover{opacity:.9;}
+.submit-btn:disabled{background:var(--border);cursor:default;}
+.retry-all-btn{background:var(--white);color:var(--text);border:1.5px solid var(--border);border-radius:10px;padding:13px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-left:8px;}
+.retry-all-btn:hover{background:var(--bg2);}
+.submit-status{margin-top:12px;font-size:13.5px;color:var(--green);font-weight:600;min-height:18px;}
+.checks{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.check-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:10px;transition:.15s;}
+.check-item:hover{background:var(--bg2);}
+.check-item input[type="checkbox"]{width:19px;height:19px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
+.check-item label{font-size:14px;cursor:pointer;}
+footer{margin-top:50px;padding:24px;text-align:center;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);}
+footer b{color:var(--text);}
+footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;}
+@media (max-width:860px){.mobile-bar{display:flex;}.sidebar{top:54px;width:78%;max-width:300px;height:auto;transform:translateX(-100%);transition:transform .25s ease;box-shadow:4px 0 24px rgba(0,0,0,.12);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;padding:70px 18px 50px;max-width:100%;}.card-grid{grid-template-columns:1fr;}.hero{padding:28px 22px;}.hero h1{font-size:19px;}table{font-size:12.5px;min-width:420px;}.two-col{grid-template-columns:1fr;}}
+@media (max-width:480px){.hero h1{font-size:17px;line-height:1.5;}h2.section-title{font-size:17px;}table{font-size:11.5px;min-width:380px;}.main{padding:66px 14px 40px;}.quiz-item{padding:16px;}}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">16차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 필기</span>
+  <h1>16차시 복습자료</h1>
+  <p class="meta"><b>2026-07-28</b><br>필기 마지막 단원 — 7장 컴퓨터 시스템 보호(보안 위협·바이러스·암호화) + 6장 멀티미디어 마무리</p>
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기</a></li>
+      <li><a href="#pilgi" onclick="closeSidebar()"><span class="num">4</span>그림으로 이해</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">5</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">6</span>용어 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">7</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">8</span>체크리스트</a></li>
+    </ul>
+  </nav>
+  <div class="teacher-box"><b>김태희 강사</b>우리컴퓨터학원<br>052)258-3388</div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">필기 7장 컴퓨터 시스템 보호</span>
+      <span class="tag">필기 6장 멀티미디어 마무리</span>
+    </div>
+    <h1>드디어 <b>필기 마지막 단원</b> — 보안(위협·바이러스·암호화)까지 끝냈어요. 이제 필기 진도는 완료!</h1>
+    <p class="sub">2026-07-28 · 16차시 · <b>7장 컴퓨터 시스템 보호</b>(정보 보안 3요건, 보안 위협 4형태, 스니핑·피싱·DDoS·허니팟, 바이러스·웜·방화벽, <b>대칭키 vs 공개키</b>)와 <b>6장 멀티미디어 마무리</b>(스트리밍·샘플링/PCM·멀티미디어 서비스 용어·이미지 용량 계산)를 정리했어요. 헷갈리는 "짝"만 확실히 외우면 필기는 끝입니다!</p>
+    <div class="key-badges">
+      <span class="key-badge">🔐 기밀·무결·가용</span>
+      <span class="key-badge">🕵️ 가로채기=기밀성 / 가로막기=가용성</span>
+      <span class="key-badge">🦠 웜=숙주 불필요</span>
+      <span class="key-badge">🧱 방화벽=바이러스는 못 막음</span>
+      <span class="key-badge">🔑 대칭키=같은 키 / 공개키=RSA</span>
+      <span class="key-badge">🎵 MOD=주문형 음악</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+      <div class="card exam-type"><span class="ctag">7장 필기</span><h3>🔐 정보 보안 3요건</h3>
+        <p><b>기밀성</b>=인가된 사람만 열람 / <b>무결성</b>=인가된 사람만 수정(원본 보존) / <b>가용성</b>=필요할 때 언제든 사용. + 인증·부인 방지.</p>
+        <div class="use">한자 뜻으로 기억: 기밀=비밀, 무결=변경 X, 가용=쓸 수 있음</div></div>
+      <div class="card exam-type"><span class="ctag">7장 필기</span><h3>🕵️ 보안 위협 4형태 — 단골</h3>
+        <p><b>가로막기</b>=가용성 / <b>가로채기</b>=기밀성 / <b>수정·변조</b>=무결성 / <b>위조</b>=무결성. 한 쌍으로 외우기.</p>
+        <div class="use">가로채기(비밀 새감)와 가로막기(못 가게 막음)를 자주 바꿔 냄</div></div>
+      <div class="card exam-type"><span class="ctag">7장 필기</span><h3>💣 공격 유형 — 용어 매칭</h3>
+        <p><b>스니핑</b>=패킷 도청 / <b>스푸핑</b>=주소 위장 / <b>피싱·파밍</b>=가짜 사이트 / <b>DDoS</b>=대량 트래픽 마비 / <b>허니팟</b>=공격자 유인 / 키로거·랜섬·백도어.</p>
+        <div class="use">파밍=정상 URL인데 가짜로 유도(DNS 변조)</div></div>
+      <div class="card exam-type"><span class="ctag">7장 필기</span><h3>🦠 바이러스 · 방화벽</h3>
+        <p><b>웜</b>=숙주 없이 자기 복제·네트워크 전파 / <b>트로이 목마</b>=위장·복제 안 함 / <b>매크로</b>=문서 감염(멜리사). <b>방화벽</b>=외부 침입 차단(바이러스·내부 위협은 못 막음).</p>
+        <div class="use">바이러스 예방=백신 최신·출처불명 열지 않기·정기 백업</div></div>
+      <div class="card exam-type"><span class="ctag">7장 필기</span><h3>🔑 암호화 — 대칭키 vs 공개키</h3>
+        <p><b>대칭키</b>(=비밀키=단일키)=같은 키 1개·빠름(DES·AES) / <b>공개키</b>(=비대칭키)=공개키+개인키 2개·느림(RSA). 전자 서명=개인키로 서명→공개키로 확인.</p>
+        <div class="use">비밀키·단일키·대칭키는 전부 같은 방식</div></div>
+      <div class="card exam-type"><span class="ctag">7장 필기</span><h3>⛓ 블록체인 · 컴퓨터 범죄</h3>
+        <p><b>블록체인</b>=거래 기록을 블록으로 연결·분산 저장(위·변조 어려움, 비트코인 기반). 범죄=불법 복사·개인정보 유출·해킹·위변조.</p>
+        <div class="use">공개 가격 정보로 비교표 만들기=범죄 아님(함정)</div></div>
+      <div class="card exam-type"><span class="ctag">6장 필기</span><h3>🎬 멀티미디어 마무리 · 서비스 용어</h3>
+        <p><b>스트리밍</b>=받으며 재생 / 샘플링=아날로그→디지털 / <b>PCM</b>=샘플값을 디지털 부호화. <b>VCS</b>=화상회의·키오스크·스마트TV·<b>MOD</b>(주문형 음악)·<b>MHEG</b>(멀티미디어 표준).</p>
+        <div class="use">DHTML=동적 웹 / VRML=웹 3D / 웹 호스팅=서버 대여</div></div>
+      <div class="card exam-type"><span class="ctag">6장 필기</span><h3>🖼 이미지 용량 계산</h3>
+        <p>용량 = <b>가로픽셀 × 세로픽셀 × 픽셀당 바이트 ÷ 압축률</b>. 256색=8비트=1바이트. 해상도=픽셀 수가 결정.</p>
+        <div class="use">예: 300×200×1B÷10 = 6,000B ≒ 약 5.9KB</div></div>
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box exam-type"><h3>🔐 7장 ① 정보 보안 요건 · 보안 위협 4형태</h3>
+      <div class="step"><b>3요건</b> 기밀성(인가된 사용자만 접근·열람) · 무결성(인가된 사용자만 수정, 원본 보존) · 가용성(필요할 때 언제든 사용). 여기에 인증·부인 방지가 더해집니다.</div>
+      <div class="step"><b>가로막기</b> 데이터 흐름을 차단해 못 쓰게 함 → <b>가용성</b> 위협.</div>
+      <div class="step"><b>가로채기</b> 전송 데이터를 몰래 도청·탈취(비밀 누설) → <b>기밀성</b> 위협.</div>
+      <div class="step"><b>수정·변조 / 위조</b> 데이터를 바꾸거나 없던 것을 거짓 생성 → <b>무결성</b> 위협.</div>
+      <div class="exam-ex">시험: "가로채기=회선을 끊는 것"은 오답(그건 가로막기). 가로채기는 도청·탈취입니다.</div></div>
+
+    <div class="concept-box exam-type"><h3>💣 7장 ② 공격 유형 · 침해 기법</h3>
+      <div class="step"><b>스니핑</b> 네트워크 패킷을 몰래 엿봐 아이디·비밀번호 탈취(도청). <b>스푸핑</b>=신뢰 주소로 위장해 접근.</div>
+      <div class="step"><b>피싱·파밍</b> 가짜 사이트로 개인정보 낚기. 파밍은 정상 URL을 입력해도 가짜로 유도(DNS 변조). <b>키로거</b>=키 입력 가로채기.</div>
+      <div class="step"><b>DDoS</b> 여러 컴퓨터로 대량 트래픽을 한 서버에 몰아 마비시키는 분산 서비스 거부. <b>랜섬웨어</b>=파일 암호화 후 금전 요구. <b>백도어</b>=인증 우회 통로.</div>
+      <div class="step"><b>허니팟</b> 일부러 허술한 서버를 만들어 공격자를 유인, 공격 기법을 수집·분석. <b>디지털 워터마킹</b>=저작권 정보 삽입(불법 복제 방지).</div>
+      <div class="exam-ex">시험: "패킷 도청=스니핑", "대량 트래픽 마비=DDoS", "공격자 유인=허니팟"이 단골.</div></div>
+
+    <div class="concept-box exam-type"><h3>🦠 7장 ③ 악성코드 · 방화벽</h3>
+      <div class="step"><b>웜(Worm)</b> 숙주 파일 없이 스스로 복제하며 네트워크로 퍼지는 독립형 악성코드. <b>트로이 목마</b>=정상 프로그램으로 위장, 자기 복제 능력 없음.</div>
+      <div class="step"><b>매크로 바이러스</b> 엑셀·워드 <b>문서 파일</b>의 매크로 기능을 타고 감염(대표: 멜리사). "실행 파일만 감염"은 오답. 님다=메일 본문(HTML)만 읽어도 감염.</div>
+      <div class="step"><b>방화벽</b> 외부→내부 불법 침입·해킹 차단. <b>바이러스 감염·내부 위협은 막지 못함</b>. Windows Defender 방화벽(침입 방어)·BitLocker(드라이브 암호화)·Windows Update(보안 패치).</div>
+      <div class="step"><b>예방</b> 백신 최신 업데이트, 출처 불명 첨부·메일 열지 않기, 중요 자료 정기 백업, OS 보안 패치. "백신 있으니 백업 불필요"는 함정.</div>
+      <div class="exam-ex">시험: "방화벽이 바이러스까지 막는다"는 오답. "의심 메일은 열어보고 삭제"도 오답(열지 말고 삭제).</div></div>
+
+    <div class="concept-box exam-type"><h3>🔑 7장 ④ 암호화 — 대칭키 vs 공개키</h3>
+      <div class="step"><b>대칭키</b>(=비밀키=단일키) 암호화·복호화에 <b>같은 키 1개</b>. 빠르지만 사람이 많으면 키 관리가 어려움(DES·AES·SEED).</div>
+      <div class="step"><b>공개키</b>(=비대칭키) 공개키·개인키 <b>2개(쌍)</b>. 암호화는 공개키, 복호화는 개인키. 키 관리 쉬움·느림(RSA).</div>
+      <div class="step"><b>전자 서명(디지털 서명)</b> 공개키 방식을 거꾸로 — 보내는 사람이 <b>개인키로 서명</b>, 받는 사람이 공개키로 확인. 인증·무결성·부인 방지.</div>
+      <div class="step"><b>전자 봉투</b> 빠른 대칭키로 본문을 암호화하고, 그 대칭키를 다시 공개키로 감싸 보냄(두 방식의 장점 결합). <b>DNS 설정 변경은 보안 대책이 아님</b>(방화벽·암호화·접근 통제가 보안 수단).</div>
+      <div class="exam-ex">시험: "송·수신이 같은 키=대칭키", "키가 서로 다르고 RSA=공개키". 비밀키·단일키·대칭키가 같은 방식임을 함정으로 냄.</div></div>
+
+    <div class="concept-box exam-type"><h3>🎬 6장 마무리 — 멀티미디어 서비스 · 용량 계산</h3>
+      <div class="step"><b>스트리밍</b> 다운로드하며 동시 재생. <b>샘플링</b>=아날로그 소리를 일정 시간마다 잘라 측정(디지털 변환). <b>PCM</b>=샘플한 값을 디지털 부호로 표현.</div>
+      <div class="step"><b>멀티미디어 특징</b> 디지털화·쌍방향성·비선형성·통합성.</div>
+      <div class="step"><b>서비스 용어</b> VCS(화상회의)·<b>MOD</b>(주문형 음악)·VOD(주문형 비디오)·키오스크(무인 안내기)·스마트TV·<b>MHEG</b>(멀티미디어 배열·출력 국제 표준)·웹 호스팅(서버 대여). DHTML=동적 웹·VRML=웹 3D.</div>
+      <div class="step"><b>이미지 용량</b> 가로픽셀×세로픽셀×픽셀당 바이트÷압축률. 256색=8비트=1바이트. 예: 300×200×1÷10=6,000B≒약 5.9KB. 해상도=픽셀 수가 결정.</div>
+      <div class="exam-ex">시험: "음악을 실시간 스트리밍 요청=MOD", "멀티미디어 배열·출력 국제 표준=MHEG".</div></div>
+
+  </section>
+
+  <section id="pilgi">
+    <h2 class="section-title"><span class="si">🖼</span>그림으로 이해하기</h2>
+
+    <div class="vis-box exam-type"><h3>① 보안 위협 4형태 — 무엇을 위협하나</h3>
+      <p class="lead">가로채기(기밀성)와 가로막기(가용성)를 자주 바꿔 냅니다.</p>
+      <figure><div class="table-wrap"><table>
+        <thead><tr><th>형태</th><th>무엇</th><th>위협 요소</th></tr></thead>
+        <tbody>
+          <tr><td><b>가로막기</b></td><td>데이터 흐름을 차단·방해</td><td><b>가용성</b></td></tr>
+          <tr><td><b>가로채기</b></td><td>전송 데이터를 몰래 도청·탈취</td><td><b>기밀성</b></td></tr>
+          <tr><td>수정·변조</td><td>데이터 내용을 바꿈</td><td><b>무결성</b></td></tr>
+          <tr><td>위조</td><td>없던 데이터를 거짓 생성</td><td><b>무결성</b></td></tr>
+        </tbody>
+      </table></div>
+      <figcaption><span class="figno">그림 1</span> · 못 쓰게 막으면 가용성, 몰래 훔쳐보면 기밀성, 바꾸면 무결성</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>② 공격 유형 매칭표</h3>
+      <p class="lead">이름과 핵심 동작을 한 줄로 붙여서 외워요.</p>
+      <figure><div class="table-wrap"><table>
+        <thead><tr><th>용어</th><th>핵심 동작</th></tr></thead>
+        <tbody>
+          <tr><td><b>스니핑</b></td><td>네트워크 패킷을 엿봄(도청)</td></tr>
+          <tr><td>스푸핑</td><td>신뢰 주소·시스템으로 위장</td></tr>
+          <tr><td>피싱 / 파밍</td><td>가짜 사이트로 낚기 / 정상 URL도 가짜 유도(DNS 변조)</td></tr>
+          <tr><td><b>DDoS</b></td><td>대량 트래픽으로 서버 마비</td></tr>
+          <tr><td>키로거 / 랜섬웨어</td><td>키 입력 탈취 / 파일 암호화 후 금전 요구</td></tr>
+          <tr><td><b>허니팟</b></td><td>허술한 서버로 공격자 유인·분석</td></tr>
+        </tbody>
+      </table></div>
+      <figcaption><span class="figno">그림 2</span> · 백도어=인증 우회 통로, 해킹=이 기법들의 총칭</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>③ 웜 · 트로이 목마 · 바이러스</h3>
+      <p class="lead">자기 복제하는지, 숙주가 필요한지로 구분해요.</p>
+      <figure><div class="two-col">
+        <div class="col-box ok"><h4>웜(Worm)</h4><ul>
+          <li>숙주 파일 <b>불필요</b></li><li>스스로 복제</li><li>네트워크로 스스로 전파</li></ul></div>
+        <div class="col-box no"><h4>트로이 목마</h4><ul>
+          <li>정상 프로그램으로 위장</li><li>자기 복제 <b>안 함</b></li><li>숨어서 피해 유발</li></ul></div>
+      </div>
+      <figcaption><span class="figno">그림 3</span> · 매크로 바이러스=문서(엑셀·워드) 감염, 대표 멜리사</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>④ 방화벽이 막는 것 · 못 막는 것</h3>
+      <p class="lead">방화벽은 "외부 침입"만 막습니다. 바이러스는 백신의 몫이에요.</p>
+      <figure><div class="two-col">
+        <div class="col-box ok"><h4>방화벽이 막음</h4><ul>
+          <li>외부 → 내부 <b>불법 침입·해킹</b></li><li>IP·포트·인증으로 출입 통제</li><li>로그로 침입 추적</li></ul></div>
+        <div class="col-box no"><h4>방화벽이 못 막음</h4><ul>
+          <li><b>바이러스 감염</b>(백신 역할)</li><li>내부에서 발생한 위협</li><li>외부로 나가는 정보 유출</li></ul></div>
+      </div>
+      <figcaption><span class="figno">그림 4</span> · Windows Defender 방화벽=침입 방어 / BitLocker=드라이브 암호화</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>⑤ 대칭키 vs 공개키 암호화</h3>
+      <p class="lead">열쇠가 1개면 대칭키, 2개(쌍)면 공개키예요.</p>
+      <figure><div class="two-col">
+        <div class="col-box a"><h4>대칭키 (=비밀키=단일키)</h4><ul>
+          <li>같은 키 <b>1개</b>로 암·복호화</li><li>빠름</li><li>사람 많으면 키 관리 어려움</li><li>DES · AES · SEED</li></ul></div>
+        <div class="col-box b"><h4>공개키 (=비대칭키)</h4><ul>
+          <li>공개키+개인키 <b>2개(쌍)</b></li><li>느림</li><li>키 관리 쉬움</li><li><b>RSA</b></li></ul></div>
+      </div>
+      <figcaption><span class="figno">그림 5</span> · 전자 서명=개인키로 서명→공개키로 확인(인증·무결성·부인 방지)</figcaption></figure></div>
+
+    <div class="vis-box exam-type"><h3>⑥ 이미지 용량 계산</h3>
+      <p class="lead">점(픽셀) 개수 × 점 하나의 용량 ÷ 압축률로 계산해요.</p>
+      <figure><div class="flow">
+        <span class="node n">가로 300</span><span class="arrow">×</span>
+        <span class="node n">세로 200</span><span class="arrow">×</span>
+        <span class="node">1B<small>256색=8비트</small></span><span class="arrow">÷</span>
+        <span class="node g">압축 10</span><span class="arrow">=</span>
+        <span class="node" style="background:var(--red-bg);color:var(--red);">6,000B<small>≒ 약 5.9KB</small></span>
+      </div>
+      <figcaption><span class="figno">그림 6</span> · 256색=2⁸=8비트=1바이트. 해상도는 픽셀 수가 결정</figcaption></figure></div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수 (필기 함정)</h2>
+    <div class="shock top-priority"><div class="shock-tag">⭐ 단골 함정</div>
+      <h3>가로채기와 가로막기를 바꿔서 골라요</h3>
+      <p>가로채기는 <b>몰래 도청(기밀성)</b>, 가로막기는 <b>흐름 차단(가용성)</b>이에요. "가로채기=회선을 끊는 것"은 오답.</p>
+      <p class="fix">가로채기=기밀성(비밀 새감) / 가로막기=가용성(못 쓰게) / 수정·위조=무결성.</p></div>
+    <div class="shock"><div class="shock-tag">7장 · 자주 틀림</div>
+      <h3>방화벽이 바이러스까지 막아준다고 생각해요</h3>
+      <p>방화벽은 외부의 불법 침입·해킹을 차단할 뿐, <b>바이러스 감염이나 내부 위협은 막지 못해요</b>.</p>
+      <p class="fix">바이러스는 백신의 몫. 방화벽=외부 침입 차단 전용.</p></div>
+    <div class="shock"><div class="shock-tag">7장 · 자주 틀림</div>
+      <h3>웜이 숙주 파일에 기생해야 퍼진다고 생각해요</h3>
+      <p>웜은 <b>숙주 파일 없이 스스로 복제</b>하며 네트워크로 퍼지는 독립형이에요. 트로이 목마는 복제를 못 해요.</p>
+      <p class="fix">웜=숙주 불필요·자기 복제 / 트로이 목마=위장·복제 안 함.</p></div>
+    <div class="shock"><div class="shock-tag">7장 · 자주 틀림</div>
+      <h3>매크로 바이러스가 실행 파일만 감염한다고 생각해요</h3>
+      <p>매크로 바이러스는 엑셀·워드 <b>문서 파일</b>의 매크로를 타고 퍼져요(대표: 멜리사).</p>
+      <p class="fix">매크로 바이러스=문서 감염 / 예루살렘·CIH=실행 파일 감염형.</p></div>
+    <div class="shock"><div class="shock-tag">7장 · 자주 틀림</div>
+      <h3>대칭키와 공개키의 키 개수를 헷갈려요</h3>
+      <p>대칭키는 <b>같은 키 1개</b>, 공개키는 <b>공개키·개인키 2개(쌍)</b>예요. 비밀키·단일키·대칭키는 전부 같은 방식.</p>
+      <p class="fix">대칭키=1개·빠름(DES·AES) / 공개키=2개·느림(RSA).</p></div>
+    <div class="shock"><div class="shock-tag">7장 · 자주 틀림</div>
+      <h3>의심스러운 이메일을 열어보고 삭제해요</h3>
+      <p>의심 메일은 <b>열지 말고 바로 삭제</b>해야 해요. "열어서 확인 후 삭제"는 오답이에요.</p>
+      <p class="fix">출처 불명 메일·첨부는 열지 않기. 님다는 본문만 읽어도 감염.</p></div>
+    <div class="shock"><div class="shock-tag">7장 · 자주 틀림</div>
+      <h3>DNS 설정 변경을 보안 대책으로 골라요</h3>
+      <p>DNS 설정 변경은 도메인 변환 방식 조정일 뿐 <b>보안 대책이 아니에요</b>.</p>
+      <p class="fix">직접적 보안 수단=방화벽·암호화·접근 통제.</p></div>
+    <div class="shock"><div class="shock-tag">6장 · 자주 틀림</div>
+      <h3>공개 가격 정보로 비교표 만들기를 범죄로 봐요</h3>
+      <p>공개된 정보를 정상 이용하는 건 컴퓨터 범죄가 아니에요. 불법 복사·개인정보 유출·해킹·위변조가 범죄입니다.</p>
+      <p class="fix">정상 활동을 범죄로 끼워 넣은 보기가 함정.</p></div>
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 용어 정리표</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>장</th><th>용어</th><th>핵심</th></tr></thead>
+      <tbody>
+        <tr><td>7장</td><td>보안 3요건</td><td>기밀성(열람)·무결성(수정)·가용성(사용)</td></tr>
+        <tr><td>7장</td><td>보안 위협 4형태</td><td>가로막기=가용성 / 가로채기=기밀성 / 수정·위조=무결성</td></tr>
+        <tr><td>7장</td><td>스니핑 / 스푸핑</td><td>패킷 도청 / 주소 위장</td></tr>
+        <tr><td>7장</td><td>피싱 / 파밍</td><td>가짜 사이트 낚기 / 정상 URL도 가짜 유도(DNS 변조)</td></tr>
+        <tr><td>7장</td><td>DDoS / 허니팟</td><td>대량 트래픽 마비 / 공격자 유인·분석</td></tr>
+        <tr><td>7장</td><td>랜섬웨어 / 백도어 / 키로거</td><td>파일 암호화 후 금전 / 인증 우회 / 키 입력 탈취</td></tr>
+        <tr><td>7장</td><td>웜 / 트로이 목마</td><td>숙주 없이 자기 복제 / 위장·복제 안 함</td></tr>
+        <tr><td>7장</td><td>매크로 바이러스</td><td>문서(엑셀·워드) 감염, 대표 멜리사</td></tr>
+        <tr><td>7장</td><td>방화벽</td><td>외부 침입 차단(바이러스·내부 위협은 못 막음)</td></tr>
+        <tr><td>7장</td><td>대칭키 / 공개키</td><td>같은 키 1개·DES·AES / 2개(쌍)·RSA</td></tr>
+        <tr><td>7장</td><td>전자 서명 / 전자 봉투</td><td>개인키 서명→공개키 확인 / 대칭키를 공개키로 감싸기</td></tr>
+        <tr><td>7장</td><td>블록체인</td><td>거래를 블록으로 연결·분산 저장(위변조 어려움)</td></tr>
+        <tr><td>6장</td><td>샘플링 / PCM</td><td>아날로그→디지털 측정 / 샘플값을 디지털 부호화</td></tr>
+        <tr><td>6장</td><td>MOD / VCS / MHEG</td><td>주문형 음악 / 화상회의 / 멀티미디어 배열·출력 표준</td></tr>
+        <tr><td>6장</td><td>이미지 용량</td><td>가로×세로×픽셀당 바이트÷압축률 (256색=1B)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 7월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1"><span class="qnum">Q1 · 7장 필기</span>
+      <p class="qtext">전송 중인 데이터를 몰래 도청·탈취하는 '가로채기'는 정보 보안의 어떤 요소를 위협하나요?</p>
+      <button class="quiz-opt" data-correct="true">기밀성</button>
+      <button class="quiz-opt" data-correct="false">가용성</button>
+      <button class="quiz-opt" data-correct="false">무결성</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="2"><span class="qnum">Q2 · 7장 필기</span>
+      <p class="qtext">네트워크를 오가는 패킷을 몰래 엿봐 아이디·비밀번호를 탈취하는 공격은?</p>
+      <button class="quiz-opt" data-correct="false">스푸핑(Spoofing)</button>
+      <button class="quiz-opt" data-correct="true">스니핑(Sniffing)</button>
+      <button class="quiz-opt" data-correct="false">백도어(Back Door)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="3"><span class="qnum">Q3 · 7장 필기</span>
+      <p class="qtext">다수의 컴퓨터로 대량의 데이터를 한 서버에 집중시켜 정상 운영을 방해하는 공격은?</p>
+      <button class="quiz-opt" data-correct="false">스니핑(Sniffing)</button>
+      <button class="quiz-opt" data-correct="false">피싱(Phishing)</button>
+      <button class="quiz-opt" data-correct="true">분산 서비스 거부(DDoS)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="4"><span class="qnum">Q4 · 7장 필기</span>
+      <p class="qtext">일부러 허술한 서버를 만들어 공격자를 유인하고, 침투 방식·공격 기법을 수집·분석하는 시스템은?</p>
+      <button class="quiz-opt" data-correct="true">허니팟(Honeypot)</button>
+      <button class="quiz-opt" data-correct="false">방화벽(Firewall)</button>
+      <button class="quiz-opt" data-correct="false">VPN(가상 사설망)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="5"><span class="qnum">Q5 · 7장 필기</span>
+      <p class="qtext">방화벽(Firewall)에 대한 설명으로 <u>옳지 않은</u> 것은?</p>
+      <button class="quiz-opt" data-correct="false">외부의 불법 침입·해킹을 차단한다</button>
+      <button class="quiz-opt" data-correct="true">바이러스 감염과 내부 위협까지 모두 막아 준다</button>
+      <button class="quiz-opt" data-correct="false">IP·포트·사용자 인증으로 출입 경로를 통제한다</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="6"><span class="qnum">Q6 · 7장 필기</span>
+      <p class="qtext">다른 프로그램에 기생하지 않고 스스로 복제하며 네트워크를 통해 퍼지는 독립형 악성코드는?</p>
+      <button class="quiz-opt" data-correct="false">트로이 목마</button>
+      <button class="quiz-opt" data-correct="false">매크로 바이러스</button>
+      <button class="quiz-opt" data-correct="true">웜(Worm)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="7"><span class="qnum">Q7 · 7장 필기</span>
+      <p class="qtext">엑셀·워드 문서 파일의 매크로 기능에 기생해 퍼지는 매크로 바이러스의 대표 사례는?</p>
+      <button class="quiz-opt" data-correct="true">멜리사(Melissa)</button>
+      <button class="quiz-opt" data-correct="false">CIH</button>
+      <button class="quiz-opt" data-correct="false">예루살렘</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="8"><span class="qnum">Q8 · 7장 필기</span>
+      <p class="qtext">암호화와 복호화에 같은 키 1개를 사용하며 DES·AES가 대표인 암호화 방식은?</p>
+      <button class="quiz-opt" data-correct="false">공개키(비대칭키) 암호화</button>
+      <button class="quiz-opt" data-correct="true">대칭키(비밀키) 암호화</button>
+      <button class="quiz-opt" data-correct="false">전자 봉투</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="9"><span class="qnum">Q9 · 7장 필기</span>
+      <p class="qtext">암호화 키와 복호화 키가 서로 다르고, RSA가 대표 알고리즘인 암호화 방식은?</p>
+      <button class="quiz-opt" data-correct="false">대칭키(비밀키) 암호화</button>
+      <button class="quiz-opt" data-correct="false">단일키 암호화</button>
+      <button class="quiz-opt" data-correct="true">공개키(비대칭키) 암호화</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-item" data-q="10"><span class="qnum">Q10 · 6장 필기</span>
+      <p class="qtext">원하는 음악을 내려받지 않고 실시간 스트리밍으로 요청·청취하는 주문형 서비스는?</p>
+      <button class="quiz-opt" data-correct="true">MOD (주문형 음악)</button>
+      <button class="quiz-opt" data-correct="false">VOD (주문형 비디오)</button>
+      <button class="quiz-opt" data-correct="false">VCS (화상회의)</button>
+      <div class="quiz-feedback"></div><button class="retry-btn">🔄 다시 풀기</button></div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">7장: 보안 3요건 — 기밀성(열람)·무결성(수정)·가용성(사용)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">7장: 보안 위협 4형태 — 가로막기=가용성 / 가로채기=기밀성 / 수정·위조=무결성(그림 1)</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">7장: 공격 유형 — 스니핑(도청)·스푸핑(위장)·피싱/파밍·DDoS·허니팟(그림 2)</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">7장: 웜(숙주 불필요·자기복제)vs트로이 목마, 매크로 바이러스=문서 감염(멜리사)(그림 3)</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">7장: 방화벽=외부 침입만 차단, 바이러스·내부 위협은 못 막음(그림 4)</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">7장: 대칭키(같은 키 1개·DES·AES)vs공개키(2개·RSA), 전자 서명=개인키 서명(그림 5)</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">7장: 블록체인=분산 저장·위변조 어려움, DNS 설정 변경은 보안 대책 아님</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">7장: 예방 — 백신 최신·의심 메일 열지 않기·정기 백업 / 공개 정보 이용은 범죄 아님</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">6장: 스트리밍·샘플링/PCM, 서비스 용어 MOD·VCS·MHEG·웹 호스팅</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">6장: 이미지 용량 = 가로×세로×픽셀당 바이트÷압축률(256색=1B)(그림 6)</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">필기 완료! 헷갈리는 "용어 짝"만 정리표로 반복 대조 후 기출로 확인</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+</main>
+
+<script>
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7D0ZbkZR8uwRCxU6DZknf6N3yPcDpNBJl3WL2-nB6cuExSVWdGf8a3T4PbTTY0Ivs/exec';
+const SHEET_NAME = '16차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+const ALLOWED_NAMES = ['권나경','김소윤','남상희','배은비','백선영','백희영','염혜경','오명화','우찬영','유영남','윤동선','이민옥','이영미','장가일','조다희','최현영','홍혜림','김성겸','김예원','김태희'];
+function normName(s){return s.replace(/\s/g,'');}
+function startQuiz(){
+  const val=document.getElementById('studentName').value.trim();
+  if(!val){alert('이름을 입력해주세요.');return;}
+  const match=ALLOWED_NAMES.find(n=>normName(n)===normName(val));
+  if(!match){alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');return;}
+  studentName=match;
+  document.getElementById('nameGate').style.display='none';
+  document.getElementById('quizBody').style.display='block';
+}
+const quizItems=document.querySelectorAll('.quiz-item');
+let attemptCount=0;
+quizItems.forEach(item=>{
+  const opts=item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt=>{opt.addEventListener('click',()=>{if(item.dataset.graded==='true')return;opts.forEach(o=>o.classList.remove('selected'));opt.classList.add('selected');});});
+});
+function gradeQuiz(){
+  if(!studentName){alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.');return;}
+  let answered=0;
+  quizItems.forEach(item=>{if(item.querySelector('.quiz-opt.selected'))answered++;});
+  if(answered<quizItems.length){if(!confirm('아직 안 고른 문제가 '+(quizItems.length-answered)+'개 있어요. 그래도 채점할까요?'))return;}
+  let score=0;const answers=[];
+  quizItems.forEach(item=>{
+    const opts=item.querySelectorAll('.quiz-opt');
+    const selected=item.querySelector('.quiz-opt.selected');
+    const feedback=item.querySelector('.quiz-feedback');
+    let correctText='';
+    opts.forEach(o=>{o.disabled=true;o.classList.remove('selected');if(o.dataset.correct==='true'){o.classList.add('correct');correctText=o.textContent;}});
+    if(selected){
+      const isCorrect=selected.dataset.correct==='true';
+      if(!isCorrect)selected.classList.add('wrong');
+      feedback.textContent=isCorrect?'정답입니다! 🎉':"오답입니다. 정답은 '"+correctText+"' 입니다.";
+      feedback.classList.add('show',isCorrect?'ok':'no');
+      answers.push(isCorrect?1:0);if(isCorrect)score++;
+    }else{feedback.textContent="미응답입니다. 정답은 '"+correctText+"' 입니다.";feedback.classList.add('show','no');answers.push('');}
+    item.dataset.graded='true';
+  });
+  attemptCount++;
+  const payload={sheetName:SHEET_NAME,name:studentName,score:score,answers:answers};
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>{});
+  document.getElementById('submitStatus').textContent=studentName+'님, '+attemptCount+'회차 채점 완료! 10문제 중 '+score+'문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display='inline-block';
+}
+function retryQuiz(){
+  quizItems.forEach(item=>{
+    item.dataset.graded='';
+    const opts=item.querySelectorAll('.quiz-opt');
+    opts.forEach(o=>{o.disabled=false;o.classList.remove('selected','correct','wrong');});
+    const feedback=item.querySelector('.quiz-feedback');feedback.classList.remove('show','ok','no');feedback.textContent='';
+  });
+  document.getElementById('submitStatus').textContent='';
+  document.getElementById('retryAllBtn').style.display='none';
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
