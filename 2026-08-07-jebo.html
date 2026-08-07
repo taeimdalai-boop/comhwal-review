@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>필기 실전 제보 문제 21선 | 컴활2급 - 먼저 보고 가세요 (2026-08-07)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+:root{--bg:#F8FAFC;--bg2:#EFF2F7;--border:#D1D9E0;--text:#1A202C;--muted:#5A6A7E;--blue:#1D6FE8;--blue-bg:#EBF2FF;--green:#0A8A68;--green-bg:#E6F7F1;--gold:#92680A;--gold-bg:#FFF8E1;--red:#C0392B;--red-bg:#FDEDEC;--navy:#0F172A;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:hidden;scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;width:100%;word-break:break-word;overflow-wrap:break-word;line-height:1.6;}
+code,.mono{font-family:'JetBrains Mono',monospace;word-break:break-all;white-space:normal;background:var(--bg2);padding:2px 6px;border-radius:6px;font-size:12.5px;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.mobile-bar{display:none;position:fixed;top:0;left:0;right:0;height:54px;background:var(--white);border-bottom:1px solid var(--border);align-items:center;padding:0 16px;z-index:50;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.mobile-bar .hamburger{width:38px;height:38px;border:none;background:var(--bg2);border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;cursor:pointer;}
+.mobile-bar .hamburger span{width:18px;height:2px;background:var(--text);border-radius:2px;}
+.mobile-bar .title{margin-left:12px;font-weight:700;font-size:14px;color:var(--red);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;}
+.overlay.show{display:block;}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:268px;background:var(--white);border-right:1px solid var(--border);padding:28px 20px;overflow-y:auto;z-index:45;}
+.sidebar .badge{display:inline-block;background:var(--red-bg);color:var(--red);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:14px;}
+.sidebar h1{font-size:18px;font-weight:900;margin-bottom:4px;}
+.sidebar .meta{font-size:12.5px;color:var(--muted);margin-bottom:22px;}
+.sidebar .meta b{color:var(--text);}
+.sidebar nav .nav-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin:16px 0 10px;text-transform:uppercase;}
+.sidebar nav li{margin-bottom:3px;}
+.sidebar nav a{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--muted);transition:.15s;}
+.sidebar nav a:hover{background:var(--bg2);color:var(--text);}
+.sidebar nav a .num{width:22px;height:20px;border-radius:6px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0;}
+.sidebar .teacher-box{margin-top:28px;padding:14px;background:var(--bg2);border-radius:12px;font-size:12.5px;color:var(--muted);}
+.sidebar .teacher-box b{display:block;color:var(--text);font-size:13.5px;margin-bottom:2px;}
+.main{margin-left:268px;padding:48px 40px 60px;max-width:880px;}
+.hero{background:linear-gradient(135deg,#FDEDEC 0%,#FFF5F4 50%,#FDEDEC 100%);border:2px solid #F1B0A5;border-radius:24px;padding:40px 36px;position:relative;overflow:hidden;margin-bottom:28px;}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(192,57,43,.10),transparent 70%);border-radius:50%;}
+.hero .tag-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.hero .tag{font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;background:var(--white);}
+.hero h1{font-size:24px;font-weight:900;line-height:1.45;margin-bottom:14px;position:relative;}
+.hero p.sub{font-size:14.5px;color:var(--muted);margin-bottom:20px;position:relative;}
+.hero .key-badges{display:flex;gap:8px;flex-wrap:wrap;position:relative;}
+.hero .key-badge{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12.5px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+.notice{background:var(--gold-bg);border:1px solid #F0DDA0;border-radius:14px;padding:18px 20px;margin-bottom:36px;font-size:13.5px;}
+.notice b{color:var(--gold);}
+h2.section-title{font-size:19px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+h2.section-title .si{font-size:18px;}
+section{margin-bottom:44px;}
+.raw-box{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:14px;padding:20px 22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.raw-box ol{padding-left:20px;}
+.raw-box li{font-size:13.5px;margin-bottom:9px;color:var(--text);}
+.raw-box li span{color:var(--muted);}
+.item{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.item.pilgi{border-left:4px solid var(--blue);}
+.item.silgi{border-left:4px solid var(--green);}
+.item .itag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block;margin-bottom:8px;margin-right:5px;}
+.item.pilgi .itag{background:var(--blue-bg);color:var(--blue);}
+.item.silgi .itag{background:var(--green-bg);color:var(--green);}
+.item .itag.new{background:var(--red-bg);color:var(--red);}
+.item .itag.old{background:var(--gold-bg);color:var(--gold);}
+.item h3{font-size:16px;font-weight:800;margin-bottom:10px;}
+.concept{font-size:13.5px;margin-bottom:6px;}
+.concept b{color:var(--blue);}
+.item.silgi .concept b{color:var(--green);}
+.keypoint{margin-top:10px;background:var(--bg2);border-radius:8px;padding:10px 12px;font-size:12.5px;}
+.keypoint b{color:var(--red);}
+.qbox{margin-top:16px;border-top:1px dashed var(--border);padding-top:16px;}
+.qsrc{font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:8px;}
+.qtext{font-size:14px;font-weight:700;margin-bottom:12px;}
+.qopt{font-size:13.5px;padding:9px 13px;margin-bottom:7px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);}
+.qopt.hit{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:700;}
+.ansbtn{margin-top:6px;background:var(--blue);color:var(--white);border:none;border-radius:10px;padding:10px 20px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+.ansbtn:hover{opacity:.9;}
+.item.silgi .ansbtn{background:var(--green);}
+.ansbox{display:none;margin-top:12px;background:var(--green-bg);border:1px solid #A7E0CD;border-radius:10px;padding:14px 16px;font-size:13.5px;}
+.ansbox.show{display:block;}
+.ansbox .ansno{font-weight:800;color:var(--green);font-size:14.5px;margin-bottom:6px;}
+.ansbox p{margin-bottom:5px;}
+.table-wrap{overflow-x:auto;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-top:10px;}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:13px;min-width:460px;}
+table th{background:var(--bg2);text-align:left;padding:10px 13px;font-weight:700;font-size:12.5px;border-bottom:1px solid var(--border);white-space:nowrap;}
+table td{padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:top;}
+table tr:last-child td{border-bottom:none;}
+.checks{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.check-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;transition:.15s;}
+.check-item:hover{background:var(--bg2);}
+.check-item input[type="checkbox"]{width:19px;height:19px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
+.check-item label{font-size:13.5px;cursor:pointer;}
+footer{margin-top:50px;padding:24px;text-align:center;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);}
+footer b{color:var(--text);}
+footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4px;}
+@media (max-width:860px){.mobile-bar{display:flex;}.sidebar{top:54px;width:78%;max-width:300px;height:auto;transform:translateX(-100%);transition:transform .25s ease;box-shadow:4px 0 24px rgba(0,0,0,.12);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;padding:70px 18px 50px;max-width:100%;}.hero{padding:28px 22px;}.hero h1{font-size:19px;}table{font-size:12.5px;min-width:420px;}}
+@media (max-width:480px){.hero h1{font-size:17px;line-height:1.5;}h2.section-title{font-size:17px;}.main{padding:66px 14px 40px;}.item{padding:17px;}}
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">⚡ 필기 제보 문제 21선</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 수강생 제보</span>
+  <h1>필기 실전 제보 문제 21선</h1>
+  <p class="meta"><b>2026-08-07</b> · <b>필기 시험</b>을 보고 온<br>수강생이 기억나는 대로 알려준 문제입니다.</p>
+  <nav>
+    <div class="nav-title">1과목 · 컴퓨터 일반</div>
+    <ul>
+      <li><a href="#q2"><span class="num">2</span>자료 표현 단위</a></li>
+      <li><a href="#q3"><span class="num">3</span>IPv6</a></li>
+      <li><a href="#q4"><span class="num">4</span>캐시 메모리</a></li>
+      <li><a href="#q5"><span class="num">5</span>SSD</a></li>
+      <li><a href="#q6"><span class="num">6</span>플래시 메모리·펌웨어</a></li>
+      <li><a href="#q7"><span class="num">7</span>부팅 문제 해결</a></li>
+      <li><a href="#q8"><span class="num">8</span>웹 프로그래밍 언어</a></li>
+      <li><a href="#q9"><span class="num">9</span>SMTP · POP3</a></li>
+      <li><a href="#q10"><span class="num">10</span>네트워크 장비</a></li>
+      <li><a href="#q11"><span class="num">11</span>웹 브라우저 기능</a></li>
+      <li><a href="#q12"><span class="num">12</span>허니팟</a></li>
+      <li><a href="#q13"><span class="num">13</span>샘플링(표본화)</a></li>
+      <li><a href="#q14"><span class="num">14</span>개인 설정</a></li>
+      <li><a href="#q17"><span class="num">17</span>셰어웨어</a></li>
+      <li><a href="#q19"><span class="num">19</span>검색 상자 단축키</a></li>
+      <li><a href="#q21"><span class="num">21</span>설정 → 앱</a></li>
+    </ul>
+    <div class="nav-title">2과목 · 스프레드시트 일반</div>
+    <ul>
+      <li><a href="#q1"><span class="num">1</span>메모</a></li>
+      <li><a href="#q15"><span class="num">15</span>평균 함수 3종</a></li>
+      <li><a href="#q16"><span class="num">16</span>차트 제목·범례</a></li>
+      <li><a href="#q18"><span class="num">18</span>표시 형식·분수</a></li>
+      <li><a href="#q20"><span class="num">20</span>RANK 함수</a></li>
+    </ul>
+    <div class="nav-title">마무리</div>
+    <ul>
+      <li><a href="#checklist"><span class="num">✅</span>복습 체크리스트</a></li>
+    </ul>
+  </nav>
+  <div class="teacher-box">
+    <b>태희쌤 디지털 수업자료실</b>
+    복습자료보다 <b>먼저</b> 보고 가세요.<br>제보해준 수강생분께 감사드립니다 🙏
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag" style="color:#C0392B;">⚡ 수강생 제보</span>
+      <span class="tag" style="color:#1D6FE8;">2026-08-07</span>
+      <span class="tag" style="color:#0A8A68;">필기 21문항</span>
+    </div>
+    <h1><b>필기 시험</b>을 보고 온 수강생이 <b>기억나는 대로</b> 알려준 21문제.<br>복습자료보다 <b>이걸 먼저</b> 보고 가세요.</h1>
+    <p class="sub">각 항목은 <b>개념 정리 → 문제 → [정답 확인] 버튼</b> 순서입니다. 우리 CBT 자료실에 같은 유형이 있으면 그 기출을 붙였고, 없으면 새로 만들었습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">🖥 1과목 컴퓨터 일반 16문항</span>
+      <span class="key-badge">📗 2과목 스프레드시트 일반 5문항</span>
+      <span class="key-badge">📚 CBT 기출 13 · 신규 8</span>
+    </div>
+  </section>
+
+  <div class="notice">
+    <b>⚠️ 읽기 전에 꼭 알아두세요.</b> 이 자료는 <b>필기 시험을 보고 온 수강생의 기억</b>에 의존한 제보입니다.
+    필기는 <b>1과목 컴퓨터 일반 20문항 + 2과목 스프레드시트 일반 20문항 = 총 40문항</b>이고,
+    아래는 그중 <b>기억나는 21문항</b>입니다.
+    실제 시험지가 아니므로 <b>보기 문장·숫자가 실제와 다를 수 있습니다.</b>
+    <b>기억에는 착오가 섞이기 마련이라, 제보 문장을 그대로 싣지 않았습니다.</b>
+    아래 개념과 문제는 전부 <b>강사가 정식 출제 기준에 맞춰 다시 확인해 만든 것</b>입니다.<br>
+    ※ Windows 관련 항목(14·19·21번)은 <b>현행 출제 기준인 Windows 10</b>을 따릅니다.
+    2027년 시험부터는 Windows 11로 바뀌니, 2027년 응시 예정이면 그때 다시 확인하세요.
+  </div>
+
+  <h2 class="section-title"><span class="si">🖥</span>1과목 — 컴퓨터 일반 (16문항)</h2>
+
+  <!-- 2 -->
+  <div class="item pilgi" id="q2">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>2. 자료의 표현 단위 — 워드는 4바이트가 “맞기도, 틀리기도” 합니다</h3>
+    <p class="concept"><b>워드(Word)</b> = <b>4Byte</b>. 시험에서 그냥 “워드”라고 하면 <b>전워드(4Byte)</b>를 말합니다. 그러니 <b>“워드는 8바이트”라고 나오면 틀린 지문</b>입니다.</p>
+    <p class="concept"><b>물리적 단위</b>: 비트(bit) → 니블(4bit) → 바이트(8bit) → 워드</p>
+    <p class="concept"><b>논리적 단위</b>: 필드(항목) → 레코드 → 파일 → 데이터베이스</p>
+    <div class="keypoint"><b>함정 두 개.</b> ① <b>파일의 최소 단위는 「필드」</b>입니다(레코드 아님). ② <b>자료 처리의 최소 단위 = 필드</b>, <b>자료 표현의 최소 단위 = 비트</b>. 묻는 게 “표현”인지 “처리”인지 먼저 보세요.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#629)</div>
+      <div class="qtext">다음 중 컴퓨터에서 사용되는 바이트(Byte)에 관한 설명 중 옳지 <b>않은</b> 것은?</div>
+      <div class="qopt">① 8비트가 모여 1바이트를 이룬다.</div>
+      <div class="qopt">② 영문과 숫자는 보통 1Byte로, 한글과 한자는 2Byte로 표현된다.</div>
+      <div class="qopt">③ 1바이트는 컴퓨터의 각종 처리 명령을 수행하는 기본 단위로 작용한다.</div>
+      <div class="qopt">④ 1바이트를 통해 256개의 서로 다른 정보 표현이 가능하다.</div>
+      <button class="ansbtn" onclick="showAns('a2')">정답 확인</button>
+      <div class="ansbox" id="a2">
+        <div class="ansno">정답 ③</div>
+        <p>“각종 처리 명령을 수행하는 <b>기본 단위</b>”는 <b>워드(Word)</b>입니다. 바이트는 <b>문자 표현의 기본 단위</b>예요.</p>
+        <p>④는 맞습니다 — 8비트이므로 2<sup>8</sup> = 256가지.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="item pilgi" id="q3">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>3. IPv6 — “8비트씩 8부분, 점으로 구분”은 <u>둘 다 틀린</u> 문장입니다</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th></th><th>IPv4</th><th>IPv6</th></tr>
+        <tr><td>전체 길이</td><td>32비트</td><td><b>128비트</b></td></tr>
+        <tr><td>구성</td><td><b>8비트씩 4부분</b></td><td><b>16비트씩 8부분</b></td></tr>
+        <tr><td>구분 기호</td><td>점 <code>.</code></td><td>콜론 <code>:</code></td></tr>
+        <tr><td>표기</td><td>10진수</td><td>16진수</td></tr>
+        <tr><td>주소 체계</td><td>유니·멀티·브로드캐스트</td><td>유니·멀티·<b>애니</b>캐스트</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>대표 오답 문장.</b> “8비트씩 8부분을 점으로 구분” → <b>틀림</b>. 8비트씩 4부분은 IPv4, 8부분은 IPv6, 점은 IPv4 — <b>세 가지를 섞어놓은 함정</b>입니다. IPv6는 <b>속도·보안·확장성이 모두 IPv4보다 우수</b>하다는 것도 같이 외우세요.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#437)</div>
+      <div class="qtext">다음 중 인터넷에서 활용되는 IPv6 주소 체계에 관한 설명으로 옳지 <b>않은</b> 것은?</div>
+      <div class="qopt">① 16비트씩 8개 부분으로 이루어져 총 128비트 크기이다.</div>
+      <div class="qopt">② 각 부분을 16진수로 표현하며, 세미콜론(;)으로 각 부분을 나눈다.</div>
+      <div class="qopt">③ 유니캐스트, 멀티캐스트, 애니캐스트 등 3가지 주소 체계로 나뉜다.</div>
+      <div class="qopt">④ IPv4가 겪고 있는 주소 부족 문제를 해결할 수 있다.</div>
+      <button class="ansbtn" onclick="showAns('a3')">정답 확인</button>
+      <div class="ansbox" id="a3">
+        <div class="ansno">정답 ②</div>
+        <p>세미콜론(<code>;</code>)이 아니라 <b>콜론(<code>:</code>)</b>입니다. 한 글자 차이로 정답이 갈리는 대표 함정이에요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="item pilgi" id="q4">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>4. 캐시 메모리 — “CPU와 주기억장치 사이”만 기억하면 됩니다</h3>
+    <p class="concept"><b>캐시(Cache)</b>: CPU와 주기억장치 <b>사이</b>에서 속도 차이를 줄이는 <b>고속</b> 메모리. <b>SRAM</b>을 씁니다(DRAM 아님).</p>
+    <div class="keypoint"><b>헷갈리는 3형제를 같이 잡으세요.</b> <b>캐시</b>=CPU↔주기억 속도차 완화(SRAM) · <b>가상 메모리</b>=보조기억장치 일부를 주기억처럼 사용(용량 확장) · <b>연관(연상) 메모리</b>=주소가 아닌 <b>내용</b>으로 찾는 메모리. 이 셋을 섞어 오답을 만듭니다.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#381)</div>
+      <div class="qtext">다음 중 컴퓨터 시스템에서 활용되는 캐시 메모리에 대한 설명 중 정확한 것은?</div>
+      <div class="qopt">① CPU와 RAM 사이에 배치되어 컴퓨터의 작업 처리 속도를 개선한다.</div>
+      <div class="qopt">② RAM 중에서 DRAM이 캐시 메모리의 역할을 담당한다.</div>
+      <div class="qopt">③ 보조기억장치의 일부분을 주기억장치와 동일하게 활용하는 메모리이다.</div>
+      <div class="qopt">④ 주기억장치 용량을 초과하는 규모의 프로그램을 적재·수행할 때 필요하다.</div>
+      <button class="ansbtn" onclick="showAns('a4')">정답 확인</button>
+      <div class="ansbox" id="a4">
+        <div class="ansno">정답 ①</div>
+        <p>② 캐시는 <b>SRAM</b>입니다. ③·④는 둘 다 <b>가상 메모리</b> 설명이에요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="item pilgi" id="q5">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>5. SSD — HDD와 반대로만 쓰면 다 맞습니다</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th></th><th>HDD</th><th>SSD</th></tr>
+        <tr><td>저장 방식</td><td>자기 디스크(플래터) 회전</td><td><b>반도체(플래시 메모리)</b></td></tr>
+        <tr><td>속도</td><td>느림</td><td><b>빠름</b></td></tr>
+        <tr><td>소음·발열</td><td>있음</td><td><b>소음 없음 · 발열 적음</b></td></tr>
+        <tr><td>충격</td><td>약함</td><td><b>강함</b></td></tr>
+        <tr><td>전력</td><td>많이 씀</td><td><b>적게 씀</b></td></tr>
+        <tr><td>가격(같은 용량)</td><td>저렴</td><td><b>비쌈</b></td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>시험에서 반대인 것은 「가격」.</b> 같은 용량이면 <b>SSD가 더 비쌉니다</b> — “SSD가 더 싸다”가 보이면 바로 오답. (실무적으로는 쓰기 수명 제한도 있지만 2급 필기 범위는 아닙니다.)</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#748)</div>
+      <div class="qtext">다음 중 보조 기억 장치인 SSD(Solid State Drive)의 특징으로 옳은 것은?</div>
+      <div class="qopt">① SSD는 HDD보다 데이터를 읽고 쓰는 속도가 느리다.</div>
+      <div class="qopt">② SSD는 자기 디스크(플래터)를 회전시켜 데이터를 저장한다.</div>
+      <div class="qopt">③ SSD는 작동 소음이 크고 전력 소모가 많다.</div>
+      <div class="qopt">④ SSD는 HDD보다 물리적 충격에 강하고 작동 소음이 없다.</div>
+      <button class="ansbtn" onclick="showAns('a5')">정답 확인</button>
+      <div class="ansbox" id="a5">
+        <div class="ansno">정답 ④</div>
+        <p>①②③은 전부 <b>HDD</b> 설명입니다. SSD에는 <b>움직이는 부품이 없다</b>는 것이 모든 특징의 뿌리예요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="item pilgi" id="q6">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>6. 플래시 메모리 · 펌웨어 — “비휘발성”이 정답의 핵심</h3>
+    <p class="concept"><b>플래시 메모리</b>는 <b>EEPROM의 일종 = 비휘발성</b>. 전원을 꺼도 내용이 남습니다. USB 메모리·SSD·메모리 카드·스마트폰 저장소가 전부 플래시예요. <b>블록 단위</b>로 지우고 씁니다.</p>
+    <p class="concept"><b>펌웨어(Firmware)</b>는 <b>하드웨어를 제어하는 소프트웨어</b>. 하드웨어와 소프트웨어의 <b>중간적</b> 성격이며, <b>ROM에 저장</b>되는데, 요즘은 다시 쓸 수 있는 <b>플래시 ROM(EEPROM)</b>을 쓰기 때문에 <b>부품 교체 없이 업데이트(업그레이드)가 가능</b>합니다.</p>
+    <div class="keypoint"><b>정답 만드는 문장 3개.</b> ① 펌웨어는 <b>ROM에 저장</b>(하드디스크 ❌, RAM ❌) ② 펌웨어는 <b>소프트웨어</b>(물리적 부품 ❌) ③ 업데이트하면 <b>성능 개선 가능</b>(부품 교체 ❌).</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#478)</div>
+      <div class="qtext">다음 중 컴퓨터의 펌웨어(Firmware)에 대한 설명으로 적절한 것은?</div>
+      <div class="qopt">① 주로 하드 디스크에 보관되며 시스템 시작 시에 작동한다.</div>
+      <div class="qopt">② 펌웨어를 최신 버전으로 업데이트하면 시스템 성능 개선을 기대할 수 있다.</div>
+      <div class="qopt">③ 악성코드 차단 소프트웨어와 관련된 보안 프로그램이다.</div>
+      <div class="qopt">④ 컴퓨터의 연산 처리 속도를 향상시키는 물리적 부품이다.</div>
+      <button class="ansbtn" onclick="showAns('a6')">정답 확인</button>
+      <div class="ansbox" id="a6">
+        <div class="ansno">정답 ②</div>
+        <p>① 하드디스크가 아니라 <b>ROM</b>. ④ 펌웨어는 <b>부품이 아니라 소프트웨어</b>입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="item pilgi" id="q7">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag new">신규 출제</span>
+    <h3>7. 부팅이 안 될 때 — 순서가 정답입니다</h3>
+    <p class="concept"><b>부팅 실패 대응 순서</b> — 쉽고 되돌리기 쉬운 것부터 갑니다.</p>
+    <p class="concept"><b>①</b> 전원·케이블·모니터 연결 확인 → <b>②</b> USB·외장하드 등 <b>외부 장치 제거</b> 후 재시도(부팅 순서에 끼어들 수 있음) → <b>③</b> <b>안전 모드</b>로 부팅해 최근 설치한 프로그램·드라이버 제거 → <b>④</b> <b>시스템 복원</b>으로 정상 시점 되돌리기 → <b>⑤</b> 시작 복구/복구 드라이브 → <b>⑥</b> 최후에 <b>재설치</b>.</p>
+    <div class="keypoint"><b>이 유형의 오답은 늘 “과한 조치”입니다.</b> “바로 <b>포맷</b> 후 재설치한다”, “<b>CMOS 배터리를 즉시 교체</b>한다”, “<b>메인보드를 교체</b>한다” 같은 보기가 오답. <b>안전 모드 → 시스템 복원</b>이 정답 축이라고 기억하세요.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">다음 중 컴퓨터가 정상적으로 부팅되지 않을 때의 대처 방법으로 가장 <b>적절하지 않은</b> 것은?</div>
+      <div class="qopt">① 연결된 USB 메모리나 외장 하드 디스크를 제거한 후 다시 부팅해 본다.</div>
+      <div class="qopt">② 안전 모드로 부팅하여 최근에 설치한 장치 드라이버를 제거한다.</div>
+      <div class="qopt">③ 시스템 복원을 실행하여 정상 작동하던 시점으로 되돌린다.</div>
+      <div class="qopt">④ 원인을 찾기 전에 먼저 하드 디스크를 포맷하고 운영체제를 재설치한다.</div>
+      <button class="ansbtn" onclick="showAns('a7')">정답 확인</button>
+      <div class="ansbox" id="a7">
+        <div class="ansno">정답 ④</div>
+        <p>포맷·재설치는 <b>데이터가 모두 사라지는 최후의 수단</b>입니다. 원인 파악 전에 먼저 할 조치가 아니에요.</p>
+        <p>①②③은 모두 <b>되돌릴 수 있는</b> 조치라서 순서상 먼저 옵니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="item pilgi" id="q8">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag new">신규 출제</span>
+    <h3>8. 웹 프로그래밍 언어 — LISP는 인공지능용입니다</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>구분</th><th>언어</th></tr>
+        <tr><td><b>서버측</b> 스크립트</td><td>ASP · JSP · PHP</td></tr>
+        <tr><td><b>클라이언트측</b> 스크립트</td><td>JavaScript · VBScript</td></tr>
+        <tr><td>웹 문서 <b>표현</b></td><td>HTML · DHTML · XML · SGML · WML · VRML</td></tr>
+        <tr><td><b>웹과 무관</b>(함정)</td><td><b>LISP</b>(인공지능) · FORTRAN(과학계산) · COBOL(사무처리)</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>이 한 문장이면 끝.</b> 서버측은 <b>A·J·P</b>(ASP·JSP·PHP), 클라이언트측은 <b>자바스크립트</b>. 나머지가 섞여 있으면 그게 정답(=아닌 것)입니다.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">다음 중 웹 서버에서 실행되는 <b>서버측 스크립트 언어에 해당하지 않는</b> 것은?</div>
+      <div class="qopt">① ASP</div>
+      <div class="qopt">② JSP</div>
+      <div class="qopt">③ PHP</div>
+      <div class="qopt">④ LISP</div>
+      <button class="ansbtn" onclick="showAns('a8')">정답 확인</button>
+      <div class="ansbox" id="a8">
+        <div class="ansno">정답 ④</div>
+        <p><b>LISP</b>는 <b>인공지능 분야</b>에서 쓰는 언어로, 웹 서버측 스크립트와 관계가 없습니다.</p>
+        <p>이름이 <b>-SP</b>로 끝나 ASP·JSP와 비슷해 보이게 만든 함정이에요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="item pilgi" id="q9">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>9. SMTP · POP3 — “보내기 / 받기”만 안 헷갈리면 됩니다</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>프로토콜</th><th>역할</th></tr>
+        <tr><td><b>SMTP</b></td><td>메일을 <b>보내는</b>(송신) 프로토콜</td></tr>
+        <tr><td><b>POP3</b></td><td>메일 서버의 메일을 <b>내 컴퓨터로 내려받는</b>(수신) 프로토콜</td></tr>
+        <tr><td><b>IMAP</b></td><td>수신용이지만 <b>헤더(머리글)만</b> 먼저 받아 <b>서버에 원본을 두고</b> 관리</td></tr>
+        <tr><td><b>MIME</b></td><td>메일로 <b>멀티미디어 파일</b>을 주고받게 해주는 프로토콜</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>이게 이 유형의 함정입니다.</b> “헤더만 받아온다”는 POP3가 아니라 <b>IMAP</b>, “멀티미디어 송수신”은 <b>MIME</b>. 넷을 한 문제에 섞어 냅니다.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#751)</div>
+      <div class="qtext">다음 중 전자우편에서 활용되는 POP3 프로토콜에 관한 설명으로 올바른 것은?</div>
+      <div class="qopt">① 작성한 메일을 다른 사람의 계정으로 전달하는 전자우편 송신용 프로토콜이다.</div>
+      <div class="qopt">② 메일 서버에서 전자우편을 관리·수신할 때 사용하며, 헤더(머리글)만 받아온다.</div>
+      <div class="qopt">③ 메일 서버에 도착한 E-mail을 개인용 컴퓨터로 내려받도록 하는 수신용 프로토콜이다.</div>
+      <div class="qopt">④ 전자우편을 통해 멀티미디어 정보를 송수신하도록 지원하는 프로토콜이다.</div>
+      <button class="ansbtn" onclick="showAns('a9')">정답 확인</button>
+      <div class="ansbox" id="a9">
+        <div class="ansno">정답 ③</div>
+        <p>① SMTP · ② IMAP · ④ MIME 설명입니다. <b>네 개가 그대로 보기로 나온</b> 전형적인 문제예요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="item pilgi" id="q10">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>10. 네트워크 장비 — 다섯 개를 한 줄씩 외우세요</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>장비</th><th>한 줄 정의</th></tr>
+        <tr><td><b>리피터</b></td><td>약해진 <b>신호를 증폭·재생</b>해 전송 거리를 늘림</td></tr>
+        <tr><td><b>허브</b></td><td>여러 대의 컴퓨터를 <b>한곳에 모아 연결</b>하는 장치</td></tr>
+        <tr><td><b>브리지</b></td><td><b>같은</b> 프로토콜을 쓰는 <b>두 LAN</b>을 연결</td></tr>
+        <tr><td><b>라우터</b></td><td>데이터 전송의 <b>최적 경로를 선택</b>해 전달</td></tr>
+        <tr><td><b>게이트웨이</b></td><td><b>프로토콜이 서로 다른(이질적인)</b> 네트워크를 <b>변환·연결</b>하는 관문</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>가장 많이 틀리는 짝.</b> <b>브리지</b>=같은 프로토콜, <b>게이트웨이</b>=다른 프로토콜. 그리고 <b>“경로 선택”이라는 말이 보이면 무조건 라우터</b>입니다.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#348)</div>
+      <div class="qtext">다음 중 네트워크 장비인 브리지(Bridge)의 특징으로 올바른 것은?</div>
+      <div class="qopt">① 동일한 프로토콜을 사용하면서 독립적으로 동작하는 두 개의 LAN을 연결하는 장치이다.</div>
+      <div class="qopt">② 인터넷 접속 시 필수 장비로, 데이터 전송에 가장 효율적인 경로를 결정하는 장치이다.</div>
+      <div class="qopt">③ LAN에서 다른 네트워크로 정보를 주고받는 관문 역할을 하는 장치이다.</div>
+      <div class="qopt">④ 네트워크 구축 시 여러 대의 컴퓨터를 동시에 접속시키는 장치이다.</div>
+      <button class="ansbtn" onclick="showAns('a10')">정답 확인</button>
+      <div class="ansbox" id="a10">
+        <div class="ansno">정답 ①</div>
+        <p>② 라우터 · ③ 게이트웨이 · ④ 허브 설명입니다. 위 표 다섯 줄이 그대로 보기로 나왔어요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="item pilgi" id="q11">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>11. 웹 브라우저 — <u>남의 웹 페이지 내용은 수정할 수 없습니다</u></h3>
+    <p class="concept"><b>브라우저가 할 수 있는 것</b>: 웹 페이지 <b>저장·인쇄</b>, 즐겨찾기 <b>저장·관리</b>, 방문 <b>기록(히스토리)</b> 관리, 소스 <b>보기</b>, HTML·PDF·이미지·동영상 <b>표시</b>, 전자우편·FTP 이용.</p>
+    <div class="keypoint"><b>딱 하나 못 하는 것 = 「수정」.</b> 웹 페이지는 <b>서버에 있는 남의 문서</b>라 브라우저로 <b>내용을 고쳐 저장할 수 없습니다</b>. “소스를 <b>볼</b> 수 있다”는 <b>맞고</b>, “내용을 <b>편집/수정</b>할 수 있다”는 <b>틀립니다</b>. 이 한 글자 차이가 정답입니다.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#1061)</div>
+      <div class="qtext">다음 중 웹 브라우저의 기능에 대한 설명 중 옳지 <b>않은</b> 것을 고르시오.</div>
+      <div class="qopt">① 웹 페이지를 사용자의 컴퓨터에 보관하거나 출력할 수 있다.</div>
+      <div class="qopt">② HTML 문서뿐만 아니라 PDF 문서도 볼 수 있다.</div>
+      <div class="qopt">③ 자주 이용하는 웹 사이트 주소들을 저장·관리할 수 있다.</div>
+      <div class="qopt">④ 방문한 웹 사이트의 내용을 수정할 수 있다.</div>
+      <button class="ansbtn" onclick="showAns('a11')">정답 확인</button>
+      <div class="ansbox" id="a11">
+        <div class="ansno">정답 ④</div>
+        <p>브라우저는 <b>보여주는(표시) 프로그램</b>이지 <b>편집기가 아닙니다.</b></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="item pilgi" id="q12">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag new">신규 출제</span>
+    <h3>12. 허니팟 — “일부러 만들어 둔 가짜 시스템”</h3>
+    <p class="concept"><b>허니팟(Honeypot)</b>: <b>침입자를 유인하기 위해 일부러 허술하게 만들어 둔 가짜 시스템</b>. 공격자가 걸려들면 그 <b>행동을 관찰·기록</b>해 실제 시스템 방어에 활용합니다. “꿀단지”라고 생각하면 쉬워요.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>용어</th><th>한 줄 정의</th></tr>
+        <tr><td><b>허니팟</b></td><td>침입자를 <b>유인</b>하는 가짜 시스템 (유인 → 관찰)</td></tr>
+        <tr><td><b>방화벽</b></td><td>내부와 외부 사이에서 <b>드나드는 정보를 검사·차단</b></td></tr>
+        <tr><td><b>백도어</b></td><td>정상 인증을 <b>건너뛰고 들어가는 뒷문</b></td></tr>
+        <tr><td><b>스니핑</b></td><td>네트워크에 <b>흐르는 정보를 몰래 엿듣기</b></td></tr>
+        <tr><td><b>스푸핑</b></td><td><b>가짜로 위장</b>해 신뢰를 얻어 정보를 빼내기</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>구분 포인트.</b> <b>유인</b>=허니팟, <b>차단</b>=방화벽, <b>엿듣기</b>=스니핑, <b>위장</b>=스푸핑. 지문에서 이 <b>동사</b> 하나만 찾으면 됩니다.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">다음 <보기>가 설명하는 보안 기술로 옳은 것은?<br><span style="font-weight:400;color:#5A6A7E;">— 침입자를 끌어들이기 위해 의도적으로 취약하게 구성한 시스템으로, 침입자의 활동 정보를 수집하여 실제 시스템을 보호하는 데 활용한다.</span></div>
+      <div class="qopt">① 방화벽(Firewall)</div>
+      <div class="qopt">② 허니팟(Honeypot)</div>
+      <div class="qopt">③ 백도어(Back Door)</div>
+      <div class="qopt">④ 스니핑(Sniffing)</div>
+      <button class="ansbtn" onclick="showAns('a12')">정답 확인</button>
+      <div class="ansbox" id="a12">
+        <div class="ansno">정답 ②</div>
+        <p><b>의도적으로 취약하게</b> + <b>유인</b> + <b>정보 수집</b> — 이 세 단어가 나오면 <b>허니팟</b>입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 -->
+  <div class="item pilgi" id="q13">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag new">신규 출제</span>
+    <h3>13. 아날로그 → 디지털 — 표본화 · 양자화 · 부호화</h3>
+    <p class="concept"><b>① 표본화(Sampling)</b> — 연속적인 아날로그 신호를 <b>일정한 시간 간격으로 잘라</b> 값을 뽑아냅니다. <b>샘플링 = 표본화</b>.</p>
+    <p class="concept"><b>② 양자화(Quantization)</b> — 뽑은 값을 <b>정해진 단계의 digital 값으로 근사</b>합니다.</p>
+    <p class="concept"><b>③ 부호화(Encoding)</b> — 그 값을 <b>0과 1의 2진수</b>로 바꿉니다.</p>
+    <div class="keypoint"><b>순서를 묻습니다.</b> <b>표본화 → 양자화 → 부호화</b>. 그리고 <b>샘플링 레이트(Hz)가 높을수록</b> 원음에 가깝고 <b>파일 용량은 커집니다</b>. WAV가 대표적인 무압축 디지털 오디오예요.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">다음 중 아날로그 신호를 디지털 신호로 변환하는 과정에서, <b>연속적인 신호를 일정한 시간 간격으로 나누어 값을 추출하는</b> 단계로 옳은 것은?</div>
+      <div class="qopt">① 표본화(Sampling)</div>
+      <div class="qopt">② 양자화(Quantization)</div>
+      <div class="qopt">③ 부호화(Encoding)</div>
+      <div class="qopt">④ 복호화(Decoding)</div>
+      <button class="ansbtn" onclick="showAns('a13')">정답 확인</button>
+      <div class="ansbox" id="a13">
+        <div class="ansno">정답 ①</div>
+        <p><b>“일정한 시간 간격으로 나눈다”</b>가 곧 <b>표본화(샘플링)</b>입니다. ④ 복호화는 반대로 되돌리는 과정이에요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14 -->
+  <div class="item pilgi" id="q14">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>14. 개인 설정 — <u>화면 꺼지는 시간은 여기서 못 바꿉니다</u></h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>[설정] → [개인 설정]에서 <b>되는 것</b></th><th>여기서 <b>안 되는 것</b> (다른 메뉴)</th></tr>
+        <tr>
+          <td>배경(바탕 화면 그림)<br>색<br>잠금 화면 · <b>화면 보호기</b><br>테마<br>글꼴<br>시작 · 작업 표시줄</td>
+          <td><b>화면(모니터)이 꺼지는 시간</b> → [시스템]-[전원 및 절전]<br><b>화면 해상도 · 방향</b> → [시스템]-[디스플레이]<br><b>내레이터</b> → [접근성]<br><b>자녀 보호(가족 옵션)</b> → [계정]</td>
+        </tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>가장 잘 나오는 함정.</b> <b>화면 보호기</b>는 개인 설정에서 <b>되고</b>, <b>화면이 꺼지는 시간(전원)</b>은 <b>안 됩니다</b>. 둘 다 “화면”이라 헷갈리게 만든 겁니다. <b>해상도</b>도 개인 설정 아님(디스플레이).</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#658)</div>
+      <div class="qtext">다음 중 Windows의 [설정] → [개인 설정]에 대한 설명 중 옳지 <b>않은</b> 것은?</div>
+      <div class="qopt">① 화면 보호기를 구성할 수 있다.</div>
+      <div class="qopt">② 선택한 이미지를 바탕 화면으로 지정할 수 있다.</div>
+      <div class="qopt">③ 모니터가 종료되는 시간을 조정할 수 있다.</div>
+      <div class="qopt">④ 테마를 변경할 수 있다.</div>
+      <button class="ansbtn" onclick="showAns('a14')">정답 확인</button>
+      <div class="ansbox" id="a14">
+        <div class="ansno">정답 ③</div>
+        <p>모니터가 꺼지는 시간은 <b>[시스템] → [전원 및 절전]</b>에서 설정합니다. “화면”이라는 말이 겹쳐서 가장 많이 틀리는 보기예요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17 -->
+  <div class="item pilgi" id="q17">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
+    <h3>17. 셰어웨어 — 소프트웨어 구분 6종을 한 번에</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>용어</th><th>한 줄 정의</th></tr>
+        <tr><td><b>상용 소프트웨어</b></td><td>돈을 내고 정식으로 구입해 쓰는 것</td></tr>
+        <tr><td><b>셰어웨어</b></td><td><b>기능이나 사용 기간을 제한</b>해 무료 배포 → 맘에 들면 구입</td></tr>
+        <tr><td><b>프리웨어</b></td><td>무료로 <b>제한 없이</b> 사용 (단, 배포·수정은 제한될 수 있음)</td></tr>
+        <tr><td><b>공개(오픈) 소프트웨어</b></td><td><b>소스 코드를 공개</b>해 누구나 수정·재배포 가능</td></tr>
+        <tr><td><b>데모(트라이얼) 버전</b></td><td>홍보용으로 <b>일부 기능만</b> 보여주는 것</td></tr>
+        <tr><td><b>베타 버전</b></td><td>정식 출시 <b>전 테스트용</b>으로 배포하는 것</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>구분 한 방.</b> <b>제한</b>이 있으면 셰어웨어, <b>제한이 없으면</b> 프리웨어, <b>소스 공개</b>면 오픈 소프트웨어, <b>출시 전</b>이면 베타. 여기에 <b>알파 버전</b>(개발사 내부 테스트)·<b>패치 버전</b>(오류 수정용)·<b>번들</b>(하드웨어에 끼워주는 것)도 같이 나옵니다.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#460)</div>
+      <div class="qtext">다음 중 컴퓨터 소프트웨어의 셰어웨어(Shareware)에 대한 설명 중 가장 적절한 것은?</div>
+      <div class="qopt">① 비용을 지불한 후에 사용하는 소프트웨어이다.</div>
+      <div class="qopt">② 일부 기능이나 이용 기간을 제한하여 무료로 제공하는 소프트웨어이다.</div>
+      <div class="qopt">③ 개발자가 소스 코드를 공개한 소프트웨어이다.</div>
+      <div class="qopt">④ 시장 출시 전에 테스트하는 단계의 소프트웨어이다.</div>
+      <button class="ansbtn" onclick="showAns('a17')">정답 확인</button>
+      <div class="ansbox" id="a17">
+        <div class="ansno">정답 ②</div>
+        <p>① 상용 · ③ 공개(오픈) 소프트웨어 · ④ 베타 버전 설명입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 19 -->
+  <div class="item pilgi" id="q19">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag new">신규 출제</span>
+    <h3>19. 검색 상자 단축키 — <u>윈도우+S</u>입니다 (F 아님)</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>단축키</th><th>기능</th></tr>
+        <tr><td><code>⊞ + S</code></td><td><b>검색 상자로 포커스 이동 (검색 열기)</b> ← 정답</td></tr>
+        <tr><td><code>⊞ + F</code></td><td><b>피드백 허브</b> 열기 (검색 아님 — 함정)</td></tr>
+        <tr><td><code>⊞ + D</code></td><td>바탕 화면 보기 / 복원</td></tr>
+        <tr><td><code>⊞ + E</code></td><td>파일 탐색기 열기</td></tr>
+        <tr><td><code>⊞ + L</code></td><td>컴퓨터 잠금</td></tr>
+        <tr><td><code>⊞ + T</code></td><td>작업 표시줄 프로그램을 차례로 미리 보기</td></tr>
+        <tr><td><code>⊞ + I</code></td><td>[설정] 열기</td></tr>
+        <tr><td><code>⊞ + Tab</code></td><td>작업 보기(Task View)</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>기억법.</b> <b>S</b>earch = 검색. <b>F</b>는 옛날 윈도우에서 찾기(Find)였지만 <b>지금은 피드백 허브</b>라서 오답으로 자주 나옵니다.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">다음 중 Windows에서 <b>작업 표시줄의 검색 상자로 포커스를 이동</b>시키는 바로 가기 키로 옳은 것은?</div>
+      <div class="qopt">① ⊞(윈도우 로고 키) + S</div>
+      <div class="qopt">② ⊞(윈도우 로고 키) + F</div>
+      <div class="qopt">③ ⊞(윈도우 로고 키) + D</div>
+      <div class="qopt">④ ⊞(윈도우 로고 키) + L</div>
+      <button class="ansbtn" onclick="showAns('a19')">정답 확인</button>
+      <div class="ansbox" id="a19">
+        <div class="ansno">정답 ①</div>
+        <p>② <b>⊞+F는 피드백 허브</b>입니다. ③ 바탕 화면 보기 · ④ 컴퓨터 잠금.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 21 -->
+  <div class="item pilgi" id="q21">
+    <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag new">신규 출제</span>
+    <h3>21. [설정] → [앱] — 되는 것과 안 되는 것</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>[설정] → [앱]에서 <b>되는 것</b></th><th>여기서 <b>안 되는 것</b></th></tr>
+        <tr>
+          <td>설치된 <b>앱 제거·변경</b><br>기본 앱 지정(브라우저·메일 등)<br><b>시작 프로그램</b> 켜기/끄기<br>선택적 기능 추가·제거<br>오프라인 지도 관리</td>
+          <td><b>새 앱을 직접 설치</b>(설치는 설치 파일 또는 Store에서)<br><b>하드웨어 장치 드라이버</b> 관리 → [장치 관리자]<br><b>사용자 계정</b> 추가 → [계정]<br><b>Windows 업데이트</b> → [업데이트 및 보안]</td>
+        </tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>핵심.</b> 설정의 [앱]은 <b>이미 설치된 앱을 관리</b>하는 곳입니다. <b>설치</b>는 못 하고 <b>제거</b>는 됩니다. “시작 프로그램”이 [앱] 안에 있다는 것도 꼭 외우세요.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">다음 중 Windows의 [설정] → [앱]에서 수행할 수 있는 작업으로 옳지 <b>않은</b> 것은?</div>
+      <div class="qopt">① 설치된 앱을 선택하여 제거하거나 변경할 수 있다.</div>
+      <div class="qopt">② 웹 브라우저, 메일 등 기본으로 사용할 앱을 지정할 수 있다.</div>
+      <div class="qopt">③ 컴퓨터를 켤 때 자동으로 실행되는 시작 프로그램을 끄거나 켤 수 있다.</div>
+      <div class="qopt">④ 컴퓨터에 연결된 프린터의 장치 드라이버를 업데이트할 수 있다.</div>
+      <button class="ansbtn" onclick="showAns('a21')">정답 확인</button>
+      <div class="ansbox" id="a21">
+        <div class="ansno">정답 ④</div>
+        <p>장치 드라이버는 <b>[장치 관리자]</b> 또는 <b>[설정]-[장치]</b>에서 다룹니다. [앱]은 <b>소프트웨어 관리</b> 전용이에요.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title" style="margin-top:50px;"><span class="si">📗</span>2과목 — 스프레드시트 일반 (5문항)</h2>
+
+  <!-- 1 -->
+  <div class="item silgi" id="q1">
+    <span class="itag">2과목 · 스프레드시트 일반</span><span class="itag old">CBT 기출</span>
+    <h3>1. 메모 — <u>Delete로는 메모가 안 지워집니다</u></h3>
+    <p class="concept"><b>Delete 키</b>로 지워지는 것은 <b>셀의 「내용」뿐</b>입니다. <b>메모·서식은 그대로 남습니다.</b></p>
+    <p class="concept"><b>메모까지 완전히 지우려면</b> → [홈] 탭 - [편집] 그룹 - <b>[지우기] - [모두 지우기]</b>, 또는 [검토] 탭 - <b>[삭제]</b>, 또는 셀 우클릭 - [메모 삭제].</p>
+    <div class="keypoint"><b>단축키는 <code>Shift + F2</code></b> — 메모 <b>삽입</b>이자 기존 메모 <b>편집(열기)</b>입니다.<br>또 하나: <b>[메모 숨기기]는 안 보이게만</b> 할 뿐 <b>지우는 게 아닙니다</b>. 이게 오답 보기로 꼭 나와요.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#213)</div>
+      <div class="qtext">다음 중 메모의 특성에 관한 설명 중 옳지 <b>않은</b> 것은?</div>
+      <div class="qopt">① 메모는 셀에 표시되는 위치에 인쇄하거나 시트의 마지막 부분에 인쇄할 수 있다.</div>
+      <div class="qopt">② 메모 안에는 문자·숫자·특수 문자를 입력할 수 있고 서식도 적용할 수 있다.</div>
+      <div class="qopt">③ 전체 메모를 한 번에 보이게 하려면 [검토] 탭 [메모] 그룹의 '메모 모두 표시'를 클릭한다.</div>
+      <div class="qopt">④ 셀의 내용을 [Delete] 키로 지우면 그 셀에 첨부된 메모도 함께 제거된다.</div>
+      <button class="ansbtn" onclick="showAns('a1')">정답 확인</button>
+      <div class="ansbox" id="a1">
+        <div class="ansno">정답 ④</div>
+        <p><b>Delete는 내용만</b> 지웁니다. 메모는 <b>[지우기]-[모두 지우기]</b>나 <b>[메모 삭제]</b>로만 없어져요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15 -->
+  <div class="item silgi" id="q15">
+    <span class="itag">2과목 · 스프레드시트 일반</span><span class="itag new">신규 출제</span>
+    <h3>15. 평균 함수 3종 — 인수 구조가 전부 다릅니다</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>함수</th><th>인수 구조</th><th>예</th></tr>
+        <tr><td><b>AVERAGEIF</b></td><td>(조건범위, 조건, <span style="color:#5A6A7E">[평균범위]</span>)<br>→ <b>조건이 먼저</b></td><td><code>=AVERAGEIF(B2:B10,"영업부",D2:D10)</code></td></tr>
+        <tr><td><b>AVERAGEIFS</b></td><td>(<b>평균범위</b>, 조건범위1, 조건1, …)<br>→ <b>평균범위가 먼저</b></td><td><code>=AVERAGEIFS(D2:D10,B2:B10,"영업부",C2:C10,"&gt;=3")</code></td></tr>
+        <tr><td><b>DAVERAGE</b></td><td>(<b>데이터베이스</b>, <b>필드</b>, <b>조건범위</b>)<br>→ 인수 <b>3개 고정</b>, 조건은 <b>셀 범위</b></td><td><code>=DAVERAGE(A1:F7,5,B1:B2)</code></td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>이 문제의 전부입니다.</b> <b>AVERAGEIF는 조건범위가 1번</b>, <b>AVERAGEIFS는 평균범위가 1번</b> — <b>S 하나 붙으면 순서가 뒤집힙니다.</b> 그리고 <b>DAVERAGE의 조건은 따옴표 문자열이 아니라 「조건이 입력된 셀 범위」</b>를 지정해야 해요.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">[A1:D10] 영역에 표가 있고 <b>[A1]에 사원명, [B1]에 부서, [D1]에 판매액</b> 머리글이 입력되어 있다. 또한 <b>[H1]에 "부서", [H2]에 "영업부"</b>가 입력되어 있다. 부서가 "영업부"인 사원의 <b>판매액 평균</b>을 구하는 수식으로 옳지 <b>않은</b> 것은?</div>
+      <div class="qopt">① =AVERAGEIF(B2:B10,"영업부",D2:D10)</div>
+      <div class="qopt">② =AVERAGEIFS(D2:D10,B2:B10,"영업부")</div>
+      <div class="qopt">③ =AVERAGEIFS(B2:B10,"영업부",D2:D10)</div>
+      <div class="qopt">④ =DAVERAGE(A1:D10,4,H1:H2)</div>
+      <button class="ansbtn" onclick="showAns('a15')">정답 확인</button>
+      <div class="ansbox" id="a15">
+        <div class="ansno">정답 ③</div>
+        <p><b>AVERAGEIFS는 「평균 낼 범위」가 첫 번째 인수</b>여야 합니다. ③은 AVERAGEIF의 순서를 그대로 쓴 <b>인수 순서 오류</b>예요.</p>
+        <p>①은 AVERAGEIF 정상, ②는 AVERAGEIFS 정상, ④는 DAVERAGE(데이터베이스, 필드번호, 조건범위) 정상입니다 — 판매액이 4번째 열이므로 필드 번호는 4, 조건은 <b>데이터와 떨어진 [H1:H2]</b>를 지정했습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16 -->
+  <div class="item silgi" id="q16">
+    <span class="itag">2과목 · 스프레드시트 일반</span><span class="itag old">CBT 기출</span>
+    <h3>16. 차트 — 자주 나오는 지문 세 개를 하나씩 판정합니다</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>자주 나오는 지문</th><th>판정</th></tr>
+        <tr><td>차트 제목에 <code>=</code> 하고 셀을 선택하면 제목이 입력된다</td><td><b>맞음 — 단, 조건부.</b> 제목을 클릭한 뒤 <b>수식 입력줄</b>에 <code>=</code>를 입력하고 셀을 선택해야 합니다. <b>제목 안에 직접 <code>=</code>를 치면 그냥 글자</b>가 돼요.</td></tr>
+        <tr><td>범례를 이동시키면 <b>그림 영역이 자동 조절</b>된다</td><td><b>틀림.</b> [범례 서식]이나 리본 메뉴로 위치를 바꾸면 그림 영역이 조절되지만, <b>마우스로 끌어서 옮기면 그림 영역은 그대로</b>입니다.</td></tr>
+        <tr><td>데이터 범위를 더블클릭하면 그 영역만 Delete로 지워진다</td><td><b>틀림.</b> 차트에서 <b>계열을 한 번 클릭해 선택한 뒤 Delete</b>하면 그 계열이 삭제됩니다. <b>더블클릭은 [서식] 창을 여는 동작</b>이에요. (원본 데이터는 그대로 남습니다)</td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>한 번 vs 두 번.</b> 차트에서 <b>한 번 클릭 = 선택</b>(삭제·이동 가능), <b>두 번 클릭 = 서식 대화상자</b>. 이 구분이 이 유형의 핵심입니다.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#1005)</div>
+      <div class="qtext">다음 중 차트의 범례 설정에 관한 설명 중 옳지 <b>않은</b> 것을 선택하세요.</div>
+      <div class="qopt">① 범례의 위치는 [범례 서식] 대화상자나 리본 메뉴를 통해 변경할 수 있다.</div>
+      <div class="qopt">② 범례나 범례 항목을 선택한 후 [Delete] 키를 누르면 범례를 삭제할 수 있다.</div>
+      <div class="qopt">③ 범례는 기본적으로 차트의 다른 구성 요소와 겹치지 않는 위치에 표시된다.</div>
+      <div class="qopt">④ 마우스로 범례를 이동하거나 크기를 조정하면 그림 영역의 크기와 위치가 자동으로 변경된다.</div>
+      <button class="ansbtn" onclick="showAns('a16')">정답 확인</button>
+      <div class="ansbox" id="a16">
+        <div class="ansno">정답 ④</div>
+        <p><b>마우스로 끌어서</b> 옮기거나 크기를 바꾸면 <b>그림 영역은 자동으로 조절되지 않습니다.</b></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18 -->
+  <div class="item silgi" id="q18">
+    <span class="itag">2과목 · 스프레드시트 일반</span><span class="itag old">CBT 기출</span>
+    <h3>18. 표시 형식 — 분수, <code>?.?</code>, 그리고 <code>#,</code></h3>
+    <p class="concept"><b>① 분수 입력</b> — 셀에 <code>1/2</code>만 치면 <b>날짜(1월 2일)</b>가 됩니다. <b><code>0</code>을 치고 한 칸 띄운 뒤 <code>1/2</code></b>로 입력해야 분수 <b>½</b>이 돼요.</p>
+    <p class="concept"><b>② 물음표 <code>?</code></b> — <b>자릿수를 공백으로 맞춰주는</b> 기호입니다. 분수 서식 <code>?/?</code>에서는 <b>소수를 분수로</b> 바꿔줍니다. 예: <code>1.25</code> + <code>?/?</code> → <b>5/4</b>.</p>
+    <p class="concept"><b>③ <code>123.45</code>에 <code>?.?</code></b> — 소수 <b>첫째 자리까지</b> 표시되므로 <b>123.5</b>(반올림)가 됩니다. 정수 부분은 자리 표시자보다 길어도 <b>잘리지 않고 다 나옵니다.</b> 그래서 보기에 있던 <b>“123.45”는 오답</b>이에요.</p>
+    <p class="concept"><b>④ 쉼표 <code>,</code>가 서식 <u>맨 끝</u>에 오면</b> — 뒤의 <b>세 자리(천 단위)를 잘라내고 반올림</b>합니다. 예: <code>2500</code> + <code>#,##0,</code> → <b>3</b> / <code>2,234,543</code> + <code>#,###,</code> → <b>2,235</b>.</p>
+    <div class="keypoint"><b>자리 표시자 3형제.</b> <code>0</code> = 없으면 <b>0을 채움</b> (5 → <code>00</code> → 05) · <code>#</code> = 없으면 <b>표시 안 함</b> · <code>?</code> = 없으면 <b>공백으로 자리만 확보</b>. 여기에 <code>@</code>(문자), <code>,</code>(천 단위·절삭)가 붙어 문제가 만들어집니다.</div>
+    <div class="qbox">
+      <div class="qsrc">📚 우리 CBT 자료실 기출 (#217)</div>
+      <div class="qtext">다음은 [표시 형식] – [입력값] – [출력 결과] 순서로 나타낸 것이다. 출력 결과가 옳지 <b>않은</b> 것은?</div>
+      <div class="qopt">① [&gt;5]"▲";"▼" — 2 — ▼</div>
+      <div class="qopt">② @ "판매량" — 5월 — 5월 판매량</div>
+      <div class="qopt">③ ?/? — 1.25 — 5/4</div>
+      <div class="qopt">④ #.# — 12 — 12.0</div>
+      <button class="ansbtn" onclick="showAns('a18')">정답 확인</button>
+      <div class="ansbox" id="a18">
+        <div class="ansno">정답 ④</div>
+        <p><code>#</code>은 <b>해당 자리에 값이 없으면 표시하지 않습니다.</b> 12에는 소수 부분이 없으므로 <code>#.#</code> → <b>12.</b> 로 나옵니다(12.0 아님).</p>
+        <p>만약 <code>0.0</code>이었다면 <b>12.0</b>이 맞아요. <code>#</code>과 <code>0</code>의 차이를 묻는 문제입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 20 -->
+  <div class="item silgi" id="q20">
+    <span class="itag">2과목 · 스프레드시트 일반</span><span class="itag new">신규 출제</span>
+    <h3>20. RANK — “낮은 값이 1등”이면 세 번째 인수가 <u>1</u></h3>
+    <p class="concept"><b>=RANK.EQ(순위를 구할 값, 전체 범위, <b>방법</b>)</b></p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>세 번째 인수</th><th>결과</th><th>쓰는 상황</th></tr>
+        <tr><td><b>0 또는 생략</b></td><td><b>내림차순</b> — <b>큰 값이 1등</b></td><td>점수·매출 순위</td></tr>
+        <tr><td><b>1 (0이 아닌 값)</b></td><td><b>오름차순</b> — <b>작은 값이 1등</b></td><td>기록(시간)·불량률·<b>낮을수록 좋은 것</b></td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>두 번째 함정 = 절대참조.</b> 두 번째 인수(전체 범위)는 <b>수식을 아래로 복사해도 고정</b>돼야 하므로 <b><code>$D$2:$D$5</code>처럼 절대참조</b>여야 합니다. 상대참조면 아래로 복사할 때 범위가 밀려 <b>순위가 전부 틀립니다.</b> 이 유형은 <b>오름/내림과 절대참조를 동시에</b> 묻습니다.</div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 우리 CBT에 없는 유형 — 새로 만든 문제</div>
+      <div class="qtext">[B2:B6]에 기록(초)이 입력되어 있다. [C2] 셀에 순위를 구한 뒤 [C6]까지 <b>복사</b>하려 한다. <b>기록이 가장 짧은 사람이 1위</b>가 되도록 하는 수식으로 옳은 것은?</div>
+      <div class="qopt">① =RANK.EQ(B2,B2:B6,0)</div>
+      <div class="qopt">② =RANK.EQ(B2,$B$2:$B$6,0)</div>
+      <div class="qopt">③ =RANK.EQ(B2,B2:B6,1)</div>
+      <div class="qopt">④ =RANK.EQ(B2,$B$2:$B$6,1)</div>
+      <button class="ansbtn" onclick="showAns('a20')">정답 확인</button>
+      <div class="ansbox" id="a20">
+        <div class="ansno">정답 ④</div>
+        <p><b>작은 값이 1위 → 세 번째 인수 1</b>, <b>복사해도 범위 고정 → 절대참조 <code>$B$2:$B$6</code></b>. 둘 다 만족하는 건 ④뿐입니다.</p>
+        <p>③은 오름차순은 맞지만 <b>절대참조가 없어</b> 복사하면 범위가 밀립니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <section id="checklist" style="margin-top:50px;">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">Delete는 <b>내용만</b> 지우고 <b>메모는 남는다</b> / 메모 단축키 <b>Shift+F2</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c21"><label for="c21"><b>워드 = 4Byte</b> / <b>파일의 최소 단위 = 필드</b> / 파일이 모이면 데이터베이스</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">IPv6 = <b>128비트, 16비트씩 8부분, 콜론(:), 16진수</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">캐시=<b>SRAM·CPU와 주기억 사이</b> / 가상 메모리=<b>보조기억을 주기억처럼</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">SSD는 HDD보다 <b>가격만</b> 불리하다</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">펌웨어는 <b>ROM에 저장된 소프트웨어</b>, 업데이트 가능</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">부팅 실패 → <b>안전 모드 → 시스템 복원</b> (포맷은 최후)</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">서버측 = <b>ASP·JSP·PHP</b> / <b>LISP는 인공지능</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">SMTP=송신, POP3=수신, <b>IMAP=헤더만</b>, <b>MIME=멀티미디어</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">브리지=<b>같은</b> 프로토콜 / 게이트웨이=<b>다른</b> 네트워크 / <b>경로 선택=라우터</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">웹 브라우저는 <b>소스 보기는 되고 내용 수정은 안 된다</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">허니팟 = <b>유인</b>용 가짜 시스템</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">A/D 변환 = <b>표본화 → 양자화 → 부호화</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">개인 설정 = <b>화면 보호기 O</b>, <b>화면 꺼지는 시간 X</b>(전원 및 절전)</label></div>
+      <div class="check-item"><input type="checkbox" id="c14"><label for="c14">셰어웨어 = <b>기능·기간 제한</b> 무료 배포</label></div>
+      <div class="check-item"><input type="checkbox" id="c15"><label for="c15">검색 상자 = <b>⊞+S</b> (⊞+F는 피드백 허브)</label></div>
+      <div class="check-item"><input type="checkbox" id="c16"><label for="c16">[설정]-[앱]은 <b>제거는 되고 설치는 안 된다</b> / 시작 프로그램 포함</label></div>
+      <div class="check-item"><input type="checkbox" id="c17"><label for="c17">AVERAGEIF=<b>조건범위 먼저</b>, AVERAGEIFS=<b>평균범위 먼저</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c18"><label for="c18">차트: <b>한 번 클릭=선택</b>, <b>두 번=서식</b> / 마우스로 범례 옮기면 그림 영역 안 바뀜</label></div>
+      <div class="check-item"><input type="checkbox" id="c19"><label for="c19">분수는 <b>0 띄고 1/2</b> / <code>#</code>은 없으면 표시 안 함, <code>0</code>은 0을 채움</label></div>
+      <div class="check-item"><input type="checkbox" id="c20"><label for="c20">RANK: <b>작은 값이 1등이면 세 번째 인수 1</b> + <b>범위는 절대참조</b></label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">태희쌤 디지털 수업자료실</div>
+    <b>컴활2급 <u>필기</u> · 실전 제보 문제 21선</b> · 2026-08-07 작성<br>
+    시험 보고 와서 문제를 나눠준 수강생분께 감사드립니다 🙏<br>
+    <span style="font-size:11.5px;">본 자료는 수강생 제보를 바탕으로 강사가 재구성한 학습용 자료입니다. 실제 시험 문제와 다를 수 있습니다.</span>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function showAns(id){
+  var box=document.getElementById(id);
+  if(!box)return;
+  var open=box.classList.toggle('show');
+  var btn=box.previousElementSibling;
+  if(btn&&btn.classList.contains('ansbtn'))btn.textContent=open?'정답 숨기기':'정답 확인';
+}
+document.querySelectorAll('.sidebar nav a').forEach(function(a){a.addEventListener('click',closeSidebar);});
+</script>
+</body>
+</html>
