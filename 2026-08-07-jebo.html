@@ -115,7 +115,7 @@ footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4p
       <li><a href="#q7"><span class="num">7</span>부팅 문제 해결</a></li>
       <li><a href="#q8"><span class="num">8</span>웹 프로그래밍 언어</a></li>
       <li><a href="#q9"><span class="num">9</span>SMTP · POP3</a></li>
-      <li><a href="#q10"><span class="num">10</span>네트워크 장비</a></li>
+      <li><a href="#q10"><span class="num">10</span>네트워크 장비 · 분배</a></li>
       <li><a href="#q11"><span class="num">11</span>웹 브라우저 기능</a></li>
       <li><a href="#q12"><span class="num">12</span>허니팟</a></li>
       <li><a href="#q13"><span class="num">13</span>샘플링(표본화)</a></li>
@@ -156,7 +156,7 @@ footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4p
     <div class="key-badges">
       <span class="key-badge">🖥 1과목 컴퓨터 일반 16문항</span>
       <span class="key-badge">📗 2과목 스프레드시트 일반 5문항</span>
-      <span class="key-badge">📚 CBT 기출 13 · 신규 8</span>
+      <span class="key-badge">📚 문제 22개 (기출 13 · 신규 9)</span>
     </div>
   </section>
 
@@ -386,18 +386,26 @@ footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4p
   <!-- 10 -->
   <div class="item pilgi" id="q10">
     <span class="itag">1과목 · 컴퓨터 일반</span><span class="itag old">CBT 기출</span>
-    <h3>10. 네트워크 장비 — 다섯 개를 한 줄씩 외우세요</h3>
+    <h3>10. 네트워크 장비 — <u>증폭=리피터 · 경로=라우터 · 분배=허브</u></h3>
     <div class="table-wrap">
       <table>
-        <tr><th>장비</th><th>한 줄 정의</th></tr>
-        <tr><td><b>리피터</b></td><td>약해진 <b>신호를 증폭·재생</b>해 전송 거리를 늘림</td></tr>
-        <tr><td><b>허브</b></td><td>여러 대의 컴퓨터를 <b>한곳에 모아 연결</b>하는 장치</td></tr>
-        <tr><td><b>브리지</b></td><td><b>같은</b> 프로토콜을 쓰는 <b>두 LAN</b>을 연결</td></tr>
-        <tr><td><b>라우터</b></td><td>데이터 전송의 <b>최적 경로를 선택</b>해 전달</td></tr>
-        <tr><td><b>게이트웨이</b></td><td><b>프로토콜이 서로 다른(이질적인)</b> 네트워크를 <b>변환·연결</b>하는 관문</td></tr>
+        <tr><th>장비</th><th>핵심 동사</th><th>시험이 쓰는 어려운 표현</th></tr>
+        <tr><td><b>리피터</b></td><td><b>증폭·재생</b></td><td>약해진 신호를 <b>복원</b>한다 / <b>출력 전압을 높여</b> 재전송한다 / 장거리 전송을 위해 <b>중계</b>한다</td></tr>
+        <tr><td><b>허브</b></td><td><b>분배·집선</b></td><td>여러 대를 <b>한꺼번에 연결</b>한다 / <b>각 회선을 통합 관리</b>한다 / 신호를 <b>여러 포트로 나눠 보낸다</b></td></tr>
+        <tr><td><b>브리지</b></td><td><b>연결(같은 것끼리)</b></td><td><b>MAC 주소</b>를 기반으로 <b>같은</b> 프로토콜의 두 LAN을 연결한다</td></tr>
+        <tr><td><b>라우터</b></td><td><b>경로 배정</b></td><td><b>패킷 헤더를 분석</b>해 목적지를 확인한다 / <b>최적(최단) 경로를 판단</b>한다</td></tr>
+        <tr><td><b>게이트웨이</b></td><td><b>변환(다른 것끼리)</b></td><td><b>프로토콜이 다른</b> 네트워크를 연결하는 <b>관문·진입점</b>이다</td></tr>
       </table>
     </div>
-    <div class="keypoint"><b>가장 많이 틀리는 짝.</b> <b>브리지</b>=같은 프로토콜, <b>게이트웨이</b>=다른 프로토콜. 그리고 <b>“경로 선택”이라는 말이 보이면 무조건 라우터</b>입니다.</div>
+    <p class="concept" style="margin-top:14px;"><b>★ 「분배」가 나오면 허브입니다.</b> 허브에는 두 종류가 있고, <b>대역폭을 나눠 쓰느냐</b>로 갈립니다.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>구분</th><th>대역폭</th><th>기기가 늘어나면</th></tr>
+        <tr><td><b>더미 허브</b>(일반 허브)</td><td>전체 대역폭을 <b>연결된 기기들이 나눠 씀(분배)</b></td><td><b>속도가 느려진다</b></td></tr>
+        <tr><td><b>스위칭 허브</b></td><td>포트마다 <b>전용 대역폭</b></td><td><b>속도가 유지된다</b></td></tr>
+      </table>
+    </div>
+    <div class="keypoint"><b>이 항목은 딱 세 가지만 챙기면 됩니다.</b> ① <b>동사 하나로 판정</b> — 증폭=리피터, 경로=라우터, 분배=허브 ② <b>브리지=같은</b> 프로토콜 / <b>게이트웨이=다른</b> 프로토콜 ③ <b>기기가 늘어도 속도 유지</b>라고 나오면 <b>스위칭 허브</b>(더미 허브는 느려짐). 리피터·허브·모뎀은 모두 <b>물리 계층</b>, 브리지는 <b>데이터 링크 계층</b>, 라우터는 <b>네트워크 계층</b>입니다.</div>
     <div class="qbox">
       <div class="qsrc">📚 우리 CBT 자료실 기출 (#348)</div>
       <div class="qtext">다음 중 네트워크 장비인 브리지(Bridge)의 특징으로 올바른 것은?</div>
@@ -409,6 +417,20 @@ footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4p
       <div class="ansbox" id="a10">
         <div class="ansno">정답 ①</div>
         <p>② 라우터 · ③ 게이트웨이 · ④ 허브 설명입니다. 위 표 다섯 줄이 그대로 보기로 나왔어요.</p>
+      </div>
+    </div>
+    <div class="qbox">
+      <div class="qsrc">✏️ 어려운 표현으로 낸 유형 — 새로 만든 문제</div>
+      <div class="qtext">다음 [보기]가 설명하는 네트워크 장비로 옳은 것은?<br><span style="font-weight:400;color:#5A6A7E;">— 여러 대의 컴퓨터를 한꺼번에 연결하여 각 회선을 통합적으로 관리하며, 전송받은 신호를 연결된 여러 포트로 나누어 보내는 장치이다.</span></div>
+      <div class="qopt">① 리피터(Repeater)</div>
+      <div class="qopt">② 허브(Hub)</div>
+      <div class="qopt">③ 라우터(Router)</div>
+      <div class="qopt">④ 게이트웨이(Gateway)</div>
+      <button class="ansbtn" onclick="showAns('a10b')">정답 확인</button>
+      <div class="ansbox" id="a10b">
+        <div class="ansno">정답 ②</div>
+        <p><b>“여러 대를 한꺼번에 연결” + “회선을 통합 관리” + “나누어 보낸다(분배)”</b> → <b>허브</b>입니다.</p>
+        <p>① 리피터는 <b>증폭·재생</b>, ③ 라우터는 <b>경로 배정</b>, ④ 게이트웨이는 <b>프로토콜이 다른</b> 네트워크 연결입니다.</p>
       </div>
     </div>
   </div>
@@ -757,7 +779,7 @@ footer .school{font-size:14px;font-weight:800;color:var(--blue);margin-bottom:4p
       <div class="check-item"><input type="checkbox" id="c6"><label for="c6">부팅 실패 → <b>안전 모드 → 시스템 복원</b> (포맷은 최후)</label></div>
       <div class="check-item"><input type="checkbox" id="c7"><label for="c7">서버측 = <b>ASP·JSP·PHP</b> / <b>LISP는 인공지능</b></label></div>
       <div class="check-item"><input type="checkbox" id="c8"><label for="c8">SMTP=송신, POP3=수신, <b>IMAP=헤더만</b>, <b>MIME=멀티미디어</b></label></div>
-      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">브리지=<b>같은</b> 프로토콜 / 게이트웨이=<b>다른</b> 네트워크 / <b>경로 선택=라우터</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9"><b>증폭=리피터 · 경로=라우터 · 분배=허브</b> / 브리지=<b>같은</b> 프로토콜, 게이트웨이=<b>다른</b> 프로토콜 / 기기 늘어도 속도 유지=<b>스위칭 허브</b></label></div>
       <div class="check-item"><input type="checkbox" id="c10"><label for="c10">웹 브라우저는 <b>소스 보기는 되고 내용 수정은 안 된다</b></label></div>
       <div class="check-item"><input type="checkbox" id="c11"><label for="c11">허니팟 = <b>유인</b>용 가짜 시스템</label></div>
       <div class="check-item"><input type="checkbox" id="c12"><label for="c12">A/D 변환 = <b>표본화 → 양자화 → 부호화</b></label></div>
