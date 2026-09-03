@@ -2,7 +2,6 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>1차시 복습자료 | 컴활2급 - 엑셀 실행·화면구성·데이터입력</title>
 <style>
@@ -495,7 +494,7 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
     <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
 
     <div class="name-gate" id="nameGate">
-      <p>이름은 컴활2급 9월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <p><b>반드시 본인 이름</b>을 띄어쓰기 없이 정확히 입력해주세요.<br>이름이 맞아야 복습 기록이 남습니다.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
       <input type="text" id="studentName" placeholder="이름을 입력하세요">
       <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
     </div>
@@ -648,25 +647,34 @@ const SHEET_NAME = '1차시';
 let studentName = '';
 const quizAnswers = new Array(10).fill(null);
 
-// 이번 기수 수강생 명단 (수강취소 제외)
-const ALLOWED_NAMES = [
-  '강미화','강희은','권가연','김도희','김동이','김수빈','김영숙','나채경',
-  '남윤아','박보나','박연지','백지현','우태보','이정애','정다영','정유진',
-  '조영숙','조은화','김태희'
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
 ];
+
 function normName(s){ return s.replace(/\s/g, ''); }
 
-function startQuiz(){
-  const val = document.getElementById('studentName').value.trim();
-  if(!val){ alert('이름을 입력해주세요.'); return; }
-  const match = ALLOWED_NAMES.find(n => normName(n) === normName(val));
-  if(!match){
-    alert('이번 기수 수강생 명단에 없는 이름이에요.\n띄어쓰기 없이 이름을 정확히 입력했는지 확인해주세요.');
-    return;
-  }
-  studentName = match;
-  document.getElementById('nameGate').style.display = 'none';
-  document.getElementById('quizBody').style.display = 'block';
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
 }
 
 const quizItems = document.querySelectorAll('.quiz-item');
