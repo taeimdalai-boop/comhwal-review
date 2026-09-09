@@ -392,7 +392,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <div class="card">
         <h3>데이터베이스 함수는 조건을 <b>표로 미리 만든다</b></h3>
         <p><code>=DSUM(데이터베이스, 필드, 조건범위)</code> — 조건을 수식 안에 쓰지 않고 시트 위에 <b>필드명 한 줄 + 조건 한 줄</b>짜리 표로 만들어 둡니다.</p>
-        <div class="use">그래서 채우기 핸들로 끌 수 없습니다</div>
+        <div class="use">그래서 실제로는 한 칸씩 따로 구하는 게 보통입니다</div>
       </div>
       <div class="card">
         <h3>D 함수는 <b>필드명까지</b> 범위에 넣는다</h3>
@@ -401,7 +401,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       </div>
       <div class="card">
         <h3>필드를 넣는 방법이 세 가지</h3>
-        <p>두 번째 인수 필드는 ①그 열의 셀을 클릭 ②<code>"판매금액"</code>처럼 이름을 따옴표로 ③왼쪽부터 센 <b>열 번호</b>(5) — 셋 다 맞습니다.</p>
+        <p>두 번째 인수 필드는 ①그 열의 <b>머리글 셀</b>을 클릭 ②<code>"판매금액"</code>처럼 이름을 따옴표로 ③왼쪽부터 센 <b>열 번호</b>(5) — 셋 다 맞습니다. 데이터 셀이 아니라 머리글이라는 점이 포인트예요.</p>
         <div class="use">필기에서 세 가지를 섞어 물어봅니다</div>
       </div>
       <div class="card">
@@ -470,7 +470,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <div class="step"><b>언제 쓰나</b> 조건이 <b>두 개 이상</b>일 때. "서울이면서 달성인 것만 합계" 같은 경우예요.</div>
       <div class="step"><b>★인수 순서</b> <code>=SUMIFS(합계범위, 조건범위1, 조건1, 조건범위2, 조건2)</code> — <b>합계 범위가 맨 앞</b>으로 옵니다. SUMIF에서는 맨 뒤였던 것이 자리를 옮겨요.</div>
       <div class="step"><b>조건은 짝으로 늘어난다</b> 조건을 하나 더 걸고 싶으면 <b>조건범위와 조건을 한 쌍씩</b> 뒤에 붙입니다. 항상 짝수로 늘어나요.</div>
-      <div class="step"><b>숫자 조건</b> <code>"&gt;=400000"</code>처럼 <b>따옴표 안에</b> 부등호와 숫자를 함께 씁니다.</div>
+      <div class="step"><b>부등호가 들어간 조건</b> <code>"&gt;=400000"</code>처럼 <b>부등호와 숫자를 함께 따옴표 안에</b> 씁니다. 반대로 <code>400000</code>처럼 값이 같은지만 볼 때는 따옴표 없이 숫자만 써도 됩니다.</div>
       <div class="step"><b>COUNTIFS</b> 세기만 하므로 맨 앞의 합계 범위가 없습니다. <code>=COUNTIFS(조건범위1, 조건1, 조건범위2, 조건2)</code></div>
       <div class="step"><b>인수가 길어질 때</b> 함수 이름을 친 뒤 수식 입력줄 왼쪽의 <b>fx 버튼</b>을 누르면 인수마다 이름표가 붙은 입력창이 열립니다. <b>Tab</b>으로 다음 칸, <b>Shift+Tab</b>으로 이전 칸이며 쉼표를 직접 찍지 않아도 됩니다.</div>
       <div class="step"><b>지금 어느 인수인지</b> 수식을 직접 칠 때는 아래에 뜨는 <b>스크린팁에서 굵게 표시된 항목</b>이 지금 입력 중인 인수입니다.</div>
@@ -599,12 +599,12 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
     <div class="concept-box">
       <h3>데이터베이스 함수 — DSUM · DAVERAGE · DCOUNT</h3>
       <div class="step"><b>무엇이 같나</b> 하는 일은 SUMIF와 <b>똑같습니다</b>. "조건에 맞는 것만 합계" — 방식만 달라요.</div>
-      <div class="step"><b>★인수 3개</b> <code>=DSUM(데이터베이스, 필드, 조건범위)</code>. 종류가 6개(DSUM·DAVERAGE·DMAX·DMIN·DCOUNT·DCOUNTA)인데 <b>인수는 전부 같습니다</b>.</div>
+      <div class="step"><b>★인수 3개</b> <code>=DSUM(데이터베이스, 필드, 조건범위)</code>. 우리 수업에서 다루는 <b>6종</b>(DSUM·DAVERAGE·DMAX·DMIN·DCOUNT·DCOUNTA)은 <b>인수가 전부 같습니다</b>. 엑셀에는 DGET·DPRODUCT 같은 것도 더 있지만 시험 범위에서는 이 6종이면 충분해요.</div>
       <div class="step"><b>①데이터베이스</b> 표 전체를 잡되 <b>필드명(머리글) 행이 반드시 포함</b>돼야 합니다. 필드로 열을 찾아가야 하기 때문이에요.</div>
-      <div class="step"><b>②필드</b> 계산할 열 하나를 지정합니다. <b>그 열의 셀 클릭 / <code>"판매금액"</code> / 왼쪽부터 센 번호</b> 세 가지 모두 맞습니다.</div>
+      <div class="step"><b>②필드</b> 계산할 열 하나를 지정합니다. <b>그 열의 머리글 셀 클릭 / <code>"판매금액"</code>처럼 필드명 문자열 / 왼쪽부터 센 열 번호</b> 세 가지 모두 맞습니다. ⚠️셀로 지정할 때는 데이터 셀이 아니라 <b>머리글 셀</b>이어야 해요.</div>
       <div class="step"><b>③조건 범위</b> 시트 위에 <b>필드명 한 줄 + 조건 한 줄</b>짜리 작은 표를 미리 만들어 두고 그 범위를 지정합니다. 필드명은 원본과 똑같이 적어야 해요.</div>
-      <div class="step"><b>조건의 AND</b> 조건 두 개를 <b>같은 줄</b>에 쓰면 둘 다 만족(그리고)입니다. 어제 고급 필터에서 배운 규칙과 같아요.</div>
-      <div class="step"><b>★채우기 못 함</b> 조건이 시트 위 표에 있으므로 <b>채우기 핸들로 끌 수 없습니다</b>. 칸마다 조건 표가 따로 필요해요.</div>
+      <div class="step"><b>조건의 AND와 OR</b> 조건을 <b>같은 줄</b>에 쓰면 둘 다 만족(그리고), <b>줄을 나눠</b> 쓰면 둘 중 하나(또는)입니다. 어제 고급 필터에서 배운 규칙과 똑같아요 — 조건 행은 한 줄만 있어야 하는 게 아닙니다.</div>
+      <div class="step"><b>★채우기는 보통 쓰지 않는다</b> 조건이 수식이 아니라 시트 위 표에 있어서, 끌면 둘 중 하나가 됩니다. 조건 범위를 <b>절대 참조로 고정</b>했다면 모든 칸이 <b>같은 조건</b>으로 계산되고, <b>상대 참조로 뒀다면 조건 범위가 같이 밀려</b> 엉뚱한 칸을 조건으로 삼습니다. 그래서 <b>실제로는 한 칸씩 따로 구하는 게 보통입니다</b>(강사: "해도 상관은 없습니다"). 굳이 채우려면 조건 범위를 고정할지 말지를 <b>목적에 맞게 먼저 정해야</b> 해요.</div>
       <div class="step"><b>DCOUNT와 DCOUNTA</b> COUNTIF에는 없는 구분이 여기엔 있습니다. <b>DCOUNT는 숫자 필드</b>, <b>DCOUNTA는 값이 있는 필드</b>를 셉니다.</div>
       <div class="step"><b>조건 범위를 안 주면</b> 문제에서 조건 표 위치를 주지 않는 경우가 있습니다. 그럴 땐 <b>원본 표에서 그 조건에 해당하는 부분을 직접 범위로</b> 씁니다. 임의로 따로 만들어 쓰면 틀려요.</div>
       <div class="vis-box">
@@ -634,7 +634,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <text x="346" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">② 필드</text>
   <text x="346" y="86" text-anchor="middle" font-size="11.5" fill="#5A6A7E">계산할 열 하나</text>
   <g font-size="11.5" fill="#1A202C">
-    <rect x="272" y="100" width="148" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/><text x="346" y="119" text-anchor="middle">그 열의 셀 클릭</text>
+    <rect x="272" y="100" width="148" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/><text x="346" y="119" text-anchor="middle">머리글 셀 클릭</text>
     <rect x="272" y="134" width="148" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/><text x="346" y="153" text-anchor="middle" font-family="JetBrains Mono, monospace">"판매금액"</text>
     <rect x="272" y="168" width="148" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/><text x="346" y="187" text-anchor="middle">왼쪽부터 센 번호 5</text>
   </g>
@@ -649,13 +649,13 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
     <rect x="486" y="130" width="88" height="26" fill="#fff" stroke="#D1D9E0"/><text x="530" y="148" text-anchor="middle" fill="#1A202C">서울</text>
     <rect x="574" y="130" width="88" height="26" fill="#fff" stroke="#D1D9E0"/><text x="618" y="148" text-anchor="middle" fill="#1A202C">달성</text>
   </g>
-  <text x="574" y="180" text-anchor="middle" font-size="11.5" fill="#0A8A68" font-weight="700">같은 줄 = 둘 다 만족(그리고)</text>
+  <text x="574" y="180" text-anchor="middle" font-size="11.5" fill="#0A8A68" font-weight="700">같은 줄 = 그리고 / 줄 나누면 = 또는</text>
   <text x="574" y="200" text-anchor="middle" font-size="11.5" fill="#5A6A7E">필드명은 원본과 똑같이 적는다</text>
 
   <rect x="24" y="240" width="672" height="76" rx="10" fill="#FDEDEC" stroke="#C0392B"/>
   <text x="44" y="264" font-size="12.5" font-weight="700" fill="#C0392B">★ SUMIF 계열과 완전히 다른 점</text>
   <text x="44" y="284" font-size="12" fill="#1A202C">· 조건을 수식 안에 쓰지 않고 <tspan font-weight="700">시트 위에 표로 미리 만들어 둔다</tspan></text>
-  <text x="44" y="304" font-size="12" fill="#1A202C">· 그래서 <tspan font-weight="700">채우기 핸들로 끌 수 없다</tspan> — 칸마다 조건 표가 따로 있어야 하기 때문</text>
+  <text x="44" y="304" font-size="12" fill="#1A202C">· 끌면 조건이 <tspan font-weight="700">고정되거나 통째로 밀린다</tspan> — 보통은 한 칸씩 따로 구한다</text>
 </svg></div>
           <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
           <figcaption><span class="figno">그림 5</span> · 조건을 수식이 아니라 시트 위 표로 만든다는 점이 SUMIF 계열과의 결정적 차이</figcaption>
@@ -747,9 +747,9 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
     </div>
     <div class="shock">
       <div class="shock-tag">자주 하는 실수</div>
-      <h3>D 함수를 채우기 핸들로 끌어요</h3>
-      <p>조건이 시트 위 표에 들어 있어 끌면 조건 표까지 밀립니다.</p>
-      <p class="fix">D 함수는 칸마다 조건 표를 따로 두고 하나씩 구합니다.</p>
+      <h3>D 함수를 채워 놓고 결과가 이상해요</h3>
+      <p>조건 범위를 고정했다면 모든 칸이 같은 조건으로 계산되고, 고정하지 않았다면 조건 범위가 밀려 엉뚱한 칸을 봅니다. 둘 다 원하는 결과가 아니에요.</p>
+      <p class="fix">D 함수는 보통 한 칸씩 따로 구합니다. 칸마다 조건이 달라야 하면 조건 표를 그만큼 만드세요.</p>
     </div>
 
   </section>
@@ -767,8 +767,8 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
           <tr><td>조건 1개</td><td><code>=COUNTIF(범위, 조건)</code></td><td>조건에 맞는 셀의 개수</td><td>계산범위 없음</td></tr>
           <tr><td>조건 여러 개</td><td><code>=SUMIFS(합계범위, 조건범위1, 조건1, …)</code></td><td>여러 조건을 모두 만족하는 것만 합계</td><td>★합계범위가 맨 앞</td></tr>
           <tr><td>조건 여러 개</td><td><code>=COUNTIFS(조건범위1, 조건1, …)</code></td><td>여러 조건을 모두 만족하는 개수</td><td>맨 앞 범위 없음</td></tr>
-          <tr><td>조건 표기</td><td><code>"&gt;=400000"</code></td><td>숫자 조건</td><td>부등호까지 따옴표 안에</td></tr>
-          <tr><td>DB 함수</td><td><code>=DSUM(데이터베이스, 필드, 조건범위)</code></td><td>조건에 맞는 것만 합계</td><td>머리글 포함 · 채우기 불가</td></tr>
+          <tr><td>조건 표기</td><td><code>"&gt;=400000"</code></td><td>부등호가 들어간 조건</td><td>같은지만 볼 땐 400000 처럼 따옴표 없이</td></tr>
+          <tr><td>DB 함수</td><td><code>=DSUM(데이터베이스, 필드, 조건범위)</code></td><td>조건에 맞는 것만 합계</td><td>머리글 포함 · 보통 한 칸씩</td></tr>
           <tr><td>DB 함수</td><td><code>DAVERAGE</code> / <code>DMAX</code> / <code>DMIN</code></td><td>평균 / 최대 / 최소</td><td>인수 3개로 동일</td></tr>
           <tr><td>DB 함수</td><td><code>DCOUNT</code> / <code>DCOUNTA</code></td><td>숫자 셀 개수 / 값 있는 셀 개수</td><td>COUNTIF엔 없는 구분</td></tr>
           <tr><td>참조</td><td><code>F4</code></td><td>조건 범위·합계 범위 고정</td><td>조건 셀은 고정하지 않음</td></tr>
@@ -855,7 +855,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
     <div class="quiz-item" data-q="7">
       <span class="qnum">Q7</span>
       <p class="qtext">데이터베이스 함수의 <b>조건 범위</b>는 어떻게 만들까요?</p>
-      <button class="quiz-opt" data-correct="true">필드명 한 줄 + 조건 한 줄짜리 표로 만든다</button>
+      <button class="quiz-opt" data-correct="true">필드명 행 아래에 조건 행을 두는 표로 만든다</button>
       <button class="quiz-opt" data-correct="false">수식 안에 따옴표로 쓴다</button>
       <button class="quiz-opt" data-correct="false">조건을 쉼표로 이어 쓴다</button>
       <div class="quiz-feedback"></div>
@@ -864,10 +864,10 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
 
     <div class="quiz-item" data-q="8">
       <span class="qnum">Q8</span>
-      <p class="qtext">데이터베이스 함수를 <b>채우기 핸들로 끌 수 없는</b> 이유는?</p>
-      <button class="quiz-opt" data-correct="false">인수가 3개뿐이라서</button>
-      <button class="quiz-opt" data-correct="true">조건이 시트 위 표에 들어 있어서</button>
-      <button class="quiz-opt" data-correct="false">절대 참조를 쓸 수 없어서</button>
+      <p class="qtext">데이터베이스 함수에서 <b>조건을 바꾸고 싶을 때</b>는 어디를 고쳐야 할까요?</p>
+      <button class="quiz-opt" data-correct="false">수식 안의 함수 이름을 바꾼다</button>
+      <button class="quiz-opt" data-correct="true">시트 위에 만들어 둔 조건 표의 값을 고친다</button>
+      <button class="quiz-opt" data-correct="false">데이터베이스 범위를 다시 잡는다</button>
       <div class="quiz-feedback"></div>
       <button class="retry-btn">🔄 다시 풀기</button>
     </div>
@@ -912,7 +912,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <div class="check-item"><input type="checkbox" id="c4"><label for="c4">같은 수식을 F4로 고정해 다시 채워 값이 맞아지는지 확인하기</label></div>
       <div class="check-item"><input type="checkbox" id="c5"><label for="c5">조건을 "서울" 따옴표로 썼을 때와 셀 참조로 썼을 때 결과 비교하기</label></div>
       <div class="check-item"><input type="checkbox" id="c6"><label for="c6">fx 버튼으로 함수 인수 대화상자를 열고 Tab · Shift+Tab으로 이동해보기</label></div>
-      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">숫자 조건 "&gt;=400000" 을 SUMIFS에 넣어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">SUMIFS에 "&gt;=400000"(부등호 조건)과 400000(값 일치)을 각각 넣어 비교해보기</label></div>
       <div class="check-item"><input type="checkbox" id="c8"><label for="c8">필드명 한 줄 + 조건 한 줄짜리 조건 표를 직접 만들어보기</label></div>
       <div class="check-item"><input type="checkbox" id="c9"><label for="c9">DSUM · DAVERAGE · DMAX · DMIN을 이름만 바꿔 끼우며 결과 확인하기</label></div>
       <div class="check-item"><input type="checkbox" id="c10"><label for="c10">DCOUNT와 DCOUNTA를 같은 조건으로 써서 결과가 다른 이유 확인하기</label></div>
