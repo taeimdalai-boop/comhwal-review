@@ -385,8 +385,8 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
       </div>
 
       <div class="card">
-        <h3>정렬은 최대 64개 기준, 병합 셀은 금지</h3>
-        <p>정렬 기준은 최대 64개까지 추가할 수 있고, 셀 값·셀 색·글꼴 색을 기준으로도 정렬할 수 있습니다. 단, 정렬 범위에 병합된 셀이 있으면 정렬 자체가 실행되지 않습니다.</p>
+        <h3>정렬은 최대 64개 기준, 병합 셀은 해제하고</h3>
+        <p>정렬 기준은 최대 64개까지 추가할 수 있고, 셀 값·셀 색·글꼴 색을 기준으로도 정렬할 수 있습니다. 단, 정렬 범위에 <b>크기가 서로 다른</b> 병합 셀이 섞여 있으면 오류가 나면서 정렬이 실행되지 않습니다.</p>
         <div class="use">오름차순 순서: 숫자→특수문자→영문 소문자→영문 대문자→한글→FALSE→TRUE→오류값, 빈 셀은 항상 맨 뒤</div>
       </div>
 
@@ -416,12 +416,12 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 
     <div class="concept-box">
       <h3>표시 형식 복습 — 겉모습과 실제 값은 다르다</h3>
-      <div class="step"><b>숫자</b> <code>#</code> 은 불필요한 0을 표시하지 않고, <code>0</code> 은 자릿수를 강제로 채웁니다. 둘 다 천 단위 콤마(<code>,</code>)는 똑같이 찍힙니다.</div>
+      <div class="step"><b>숫자</b> <code>#</code> 은 불필요한 0을 표시하지 않고, <code>0</code> 은 자릿수를 강제로 채웁니다. 천 단위 콤마는 <code>#</code>·<code>0</code> 자체가 아니라 <b>코드에 <code>,</code>를 넣을 때</b> 찍힙니다 — <code>#,###</code>·<code>#,##0</code>처럼요.</div>
       <div class="step"><b>★<code>#,###</code> vs <code>#,##0</code> — 값이 0일 때만 갈린다</b> 값이 25000이면 둘 다 <code>25,000</code>으로 똑같이 보입니다. <b>차이는 셀 값이 0일 때뿐</b>입니다. <code>#,###</code>은 마지막 자리가 <code>#</code>이라 "의미 없는 0"으로 보고 <b>아무것도 표시하지 않아 빈칸처럼 보이고</b>, <code>#,##0</code>은 마지막 자리가 <code>0</code>이라 <b>숫자 0을 그대로 찍습니다</b>. "원"을 붙이면 <code>#,###"원"</code>은 <b>"원"만 남아 보이고</b>, <code>#,##0"원"</code>은 <b>"0원"</b>이 됩니다.</div>
       <div class="step"><b>어느 쪽을 쓰나</b> 판매량 0을 "0"으로 명확히 보여야 하는 표(집계·정산)는 <code>#,##0</code>, 0을 굳이 안 보이게 해 표를 깔끔하게 두고 싶으면 <code>#,###</code>을 씁니다. <b>셀에 저장된 값은 둘 다 0으로 똑같습니다</b> — 겉모습만 다르니 SUM 같은 계산 결과는 변하지 않아요.</div>
       <div class="step"><b>문자</b> @ 는 셀에 입력된 문자를 그대로 가져옵니다. @"지점"으로 설정하면 '서울' 입력 시 '서울지점'으로 표시됩니다.</div>
       <div class="step"><b>날짜·시간</b> yy/yyyy(연도), mmm/mmmm(월 영문), ddd/dddd(요일 영문), aaa/aaaa(요일 한글). h/m/s로 시·분·초를 표시합니다.</div>
-      <div class="step"><b>핵심 원리</b> 숫자 뒤에 문자를 직접 입력하면 그 순간 문자 데이터가 되어 계산이 불가능해집니다. 반드시 표시 형식으로 겉모습만 바꿔야 합니다.</div>
+      <div class="step"><b>핵심 원리</b> 숫자 뒤에 문자를 직접 입력하면 텍스트로 저장되어 SUM·AVERAGE 같은 계산에 바로 쓰기 어렵습니다. 계산할 값은 숫자로 넣고 단위는 <b>표시 형식</b>으로 처리하는 것이 원칙이에요.</div>
       <div class="exam-ex">시험 예시: 화면에 '서울 지점'이라 보여도 실제 값은 '서울'일 수 있으므로, 함수 조건식에는 수식 입력줄의 원본 값을 기준으로 판단해야 합니다.</div>
     </div>
 
@@ -452,7 +452,7 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
       <div class="step"><b>다중 기준 정렬</b> 데이터 탭 → 정렬 대화상자에서 기준을 최대 64개까지 추가할 수 있습니다. 셀 값뿐 아니라 셀 색, 글꼴 색으로도 정렬 가능합니다.</div>
       <div class="step"><b>사용자 지정 목록 정렬</b> 정렬 기준이 '셀 값'일 때만 사용할 수 있고, 셀 색·글꼴 색 정렬에는 적용되지 않습니다.</div>
       <div class="step"><b>정렬 방향</b> 정렬 → 옵션 → '왼쪽에서 오른쪽'을 선택하면 행이 아니라 열 방향으로 정렬됩니다.</div>
-      <div class="step"><b>⚠️ 병합 셀 주의</b> 정렬 범위에 병합된 셀이 포함되면 정렬 자체가 실행되지 않습니다. 정렬 전 병합을 해제해야 합니다. (엄밀히는 <b>크기가 서로 다른</b> 병합 셀이 섞였을 때 "병합된 셀의 크기가 모두 같아야 합니다" 오류가 납니다. 시험은 "병합 셀이 있으면 정렬 불가"로 출제됩니다.)</div>
+      <div class="step"><b>⚠️ 병합 셀 주의</b> 정렬 범위에 <b>크기가 서로 다른</b> 병합 셀이 섞여 있으면 "병합된 셀의 크기가 모두 같아야 합니다" 오류가 뜨면서 <b>정렬이 실행되지 않습니다</b>. 크기가 모두 같으면 정렬되기도 하지만, 실무·시험 모두 <b>정렬 전 병합을 해제</b>하는 것이 안전합니다.</div>
       <div class="exam-ex">시험 예시: 등수(오름차순)와 점수(내림차순)처럼 항목에 따라 정렬 방향을 다르게 판단해야 합니다.</div>
     </div>
 
@@ -534,7 +534,7 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
           <tr><td>페이지 나누기</td><td>보기 탭 → 페이지 나누기 미리 보기</td><td>점선(자동)·실선(수동) 경계 확인</td><td>회색=인쇄 제외, 삭제 아님</td></tr>
           <tr><td>페이지 나누기</td><td>행 머리글 우클릭 → 페이지 나누기 삽입/제거</td><td>수동 페이지 나누기 추가/삭제</td><td></td></tr>
           <tr><td>정렬</td><td>데이터 탭 → 오름차순/내림차순</td><td>셀 포인터 필드 기준 빠른 정렬</td><td></td></tr>
-          <tr><td>정렬</td><td>데이터 탭 → 정렬</td><td>다중 기준(최대 64개)·색상·사용자 지정 목록</td><td>병합 셀 있으면 실행 불가</td></tr>
+          <tr><td>정렬</td><td>데이터 탭 → 정렬</td><td>다중 기준(최대 64개)·색상·사용자 지정 목록</td><td>크기가 다른 병합 셀이 섞이면 실행 불가</td></tr>
           <tr><td>정렬</td><td>정렬 → 옵션 → 왼쪽에서 오른쪽</td><td>열 방향 정렬로 전환</td><td>기본은 행(위→아래) 정렬</td></tr>
           <tr><td>자동 필터</td><td><code>Ctrl+Shift+L</code></td><td>자동 필터 걸기 / 해제 (토글)</td><td>제목 행에 목록 단추(▼) 생성</td></tr>
           <tr><td>자동 필터</td><td>목록 단추 → 숫자 필터 → 상위 10</td><td>상위/하위 × 항목/백분율로 추출</td><td>숫자 열에서만 나타남</td></tr>
@@ -637,7 +637,7 @@ footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-botto
 
     <div class="quiz-item" data-q="9">
       <span class="qnum">Q9</span>
-      <p class="qtext">정렬 범위 안에 병합된 셀이 포함되어 있으면 어떻게 될까요?</p>
+      <p class="qtext">정렬 범위 안에 <b>크기가 서로 다른</b> 병합 셀이 포함되어 있으면 어떻게 될까요?</p>
       <button class="quiz-opt" data-correct="false">병합 셀만 제외하고 정렬된다</button>
       <button class="quiz-opt" data-correct="true">정렬 명령 자체가 실행되지 않는다</button>
       <button class="quiz-opt" data-correct="false">병합이 자동으로 해제되며 정렬된다</button>
