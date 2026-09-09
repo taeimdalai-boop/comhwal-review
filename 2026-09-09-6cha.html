@@ -302,8 +302,15 @@ figure{ margin:0; text-align:center; }
 figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
 .figno{ background:none; border:none; font-weight:700; color:var(--blue); }
 
-.svg-wrap{ overflow-x:auto; }
-.svg-wrap svg{ max-width:100%; height:auto; display:block; margin:0 auto; }
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
 
 </style>
 </head>
@@ -452,6 +459,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <text x="316" y="240" font-size="12" fill="#1A202C">검사하는 열(①)과 더하는 열(③)이 서로 다르다는 점,</text>
   <text x="316" y="258" font-size="12" fill="#1A202C">그리고 그 사이에 조건이 끼어 있다는 순서를 외운다.</text>
 </svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
           <figcaption><span class="figno">그림 1</span> · 검사할 열(①)과 더할 열(③)은 다르고, 그 사이에 조건이 낀다</figcaption>
         </figure>
       </div>
@@ -497,6 +505,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <rect x="16" y="286" width="688" height="26" rx="8" fill="#FDEDEC" stroke="#C0392B"/>
   <text x="360" y="304" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">S 하나 붙었을 뿐인데 합계 범위가 맨 뒤에서 맨 앞으로 온다 — 여기서 가장 많이 틀린다</text>
 </svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
           <figcaption><span class="figno">그림 2</span> · S 하나 차이로 합계 범위가 맨 뒤에서 맨 앞으로 이동한다</figcaption>
         </figure>
       </div>
@@ -539,6 +548,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <text x="48" y="242" font-size="12" fill="#1A202C">· <tspan font-weight="700">범위 2개(조건 범위·합계 범위)</tspan> → 움직이면 안 되니까 F4로 고정한다</text>
   <text x="48" y="262" font-size="12" fill="#1A202C">· <tspan font-weight="700">조건 셀 1개</tspan> → 지역마다 바뀌어야 하니까 고정하지 않는다</text>
 </svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
           <figcaption><span class="figno">그림 3</span> · 범위는 붙박이, 조건 셀만 따라 움직인다</figcaption>
         </figure>
       </div>
@@ -580,6 +590,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <rect x="30" y="204" width="650" height="34" rx="8" fill="#FFF8E1" stroke="#92680A"/>
   <text x="355" y="226" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">표 왼쪽에 이미 지역이 적혀 있다면 따옴표로 다시 쓰지 말고 그 셀을 가리킨다</text>
 </svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
           <figcaption><span class="figno">그림 4</span> · 따옴표는 한 칸용, 여러 칸을 채울 거면 셀을 가리킨다</figcaption>
         </figure>
       </div>
@@ -646,6 +657,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <text x="44" y="284" font-size="12" fill="#1A202C">· 조건을 수식 안에 쓰지 않고 <tspan font-weight="700">시트 위에 표로 미리 만들어 둔다</tspan></text>
   <text x="44" y="304" font-size="12" fill="#1A202C">· 그래서 <tspan font-weight="700">채우기 핸들로 끌 수 없다</tspan> — 칸마다 조건 표가 따로 있어야 하기 때문</text>
 </svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
           <figcaption><span class="figno">그림 5</span> · 조건을 수식이 아니라 시트 위 표로 만든다는 점이 SUMIF 계열과의 결정적 차이</figcaption>
         </figure>
       </div>
@@ -697,6 +709,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <rect x="20" y="258" width="680" height="30" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
   <text x="360" y="278" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">함수는 20개를 따로 외우는 게 아니라 이 3계열로 묶어서 외운다 (강사 강조)</text>
 </svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
           <figcaption><span class="figno">그림 6</span> · 20개를 외우는 게 아니라 3계열로 묶어서 외운다</figcaption>
         </figure>
       </div>
