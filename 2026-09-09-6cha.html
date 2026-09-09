@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6차시 복습자료 | 컴활2급 - 조건 함수 SUMIF·SUMIFS·COUNTIF·데이터베이스 함수(DSUM)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; }
+.svg-wrap svg{ max-width:100%; height:auto; display:block; margin:0 auto; }
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">6차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>6차시 복습자료</h1>
+  <p class="meta"><b>2026-09-09</b><br>SUMIF·AVERAGEIF·COUNTIF, SUMIFS·COUNTIFS, 조건 함수의 참조 고정, 데이터베이스 함수(DSUM·DAVERAGE·DMAX·DMIN·DCOUNT·DCOUNTA)</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 6)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">SUMIF · AVERAGEIF · COUNTIF</span>
+      <span class="tag">SUMIFS · COUNTIFS</span>
+      <span class="tag">데이터베이스 함수</span>
+    </div>
+    <h1>오늘의 핵심은 "조건에 맞는 것만 계산하는 세 가지 방식을, <b>인수 순서</b>로 구분하는 것"입니다.</h1>
+    <p class="sub">2026-09-09 · 6차시 · 조건 1개(SUMIF·AVERAGEIF·COUNTIF), 조건 여러 개(SUMIFS·COUNTIFS), 채우기 전 참조 고정(F4·F2), 조건은 셀 참조로, 데이터베이스 함수(DSUM·DAVERAGE·DMAX·DMIN·DCOUNT·DCOUNTA), 비율 구하기</p>
+    <div class="key-badges">
+      <span class="key-badge">🎯 조건 함수 3계열</span>
+      <span class="key-badge">🔀 인수 순서</span>
+      <span class="key-badge">📌 범위 고정</span>
+      <span class="key-badge">🗂️ DSUM</span>
+      <span class="key-badge">🖼️ 그림 6장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>SUMIF는 조건이 <b>가운데</b>에 온다</h3>
+        <p><code>=SUMIF(범위, 조건, 합계범위)</code> — <b>검사할 열</b>과 <b>더할 열</b>이 서로 다르고, 그 사이에 조건이 끼어 있습니다. AVERAGEIF도 같은 순서예요.</p>
+        <div class="use">COUNTIF만 합계범위가 없습니다 — 세기만 하니까</div>
+      </div>
+      <div class="card">
+        <h3>★S가 붙으면 순서가 뒤집힌다</h3>
+        <p><code>SUMIFS</code>는 <b>합계 범위가 맨 앞</b>으로 옵니다. <code>=SUMIFS(합계범위, 조건범위1, 조건1, 조건범위2, 조건2)</code> — 글자 하나 차이인데 인수 자리가 통째로 바뀌어요.</p>
+        <div class="use">오늘 가장 많이 틀리는 지점 (그림 2)</div>
+      </div>
+      <div class="card">
+        <h3>범위는 고정, 조건 셀은 고정하지 않는다</h3>
+        <p>채우기 핸들로 끌 때 <b>조건 범위·합계 범위는 F4로 고정</b>해야 합니다. 안 하면 한 칸씩 밀려 아래 지역부터 값이 틀어져요. 반대로 <b>조건 셀은 지역마다 바뀌어야 하니 고정하지 않습니다</b>.</p>
+        <div class="use">값이 이상하면 그 셀에서 F2 — 범위가 밀렸는지 바로 보입니다</div>
+      </div>
+      <div class="card">
+        <h3>조건은 따옴표 대신 <b>셀을 가리킨다</b></h3>
+        <p><code>"서울"</code>이라고 직접 쓰면 채워도 전부 서울 값만 나옵니다. 표 왼쪽에 이미 지역이 적혀 있으면 <b>그 셀(J4)을 참조</b>하세요. 상대 참조라 부산·대구로 알아서 따라갑니다.</p>
+        <div class="use">한 칸만 구할 땐 따옴표도 괜찮습니다</div>
+      </div>
+      <div class="card">
+        <h3>데이터베이스 함수는 조건을 <b>표로 미리 만든다</b></h3>
+        <p><code>=DSUM(데이터베이스, 필드, 조건범위)</code> — 조건을 수식 안에 쓰지 않고 시트 위에 <b>필드명 한 줄 + 조건 한 줄</b>짜리 표로 만들어 둡니다.</p>
+        <div class="use">그래서 채우기 핸들로 끌 수 없습니다</div>
+      </div>
+      <div class="card">
+        <h3>D 함수는 <b>필드명까지</b> 범위에 넣는다</h3>
+        <p>첫 인수 데이터베이스에는 <b>머리글(필드명) 행이 반드시 포함</b>돼야 합니다. 필드로 어느 열인지 찾아가야 하기 때문이에요.</p>
+        <div class="use">SUMIF는 반대로 머리글을 빼고 잡습니다</div>
+      </div>
+      <div class="card">
+        <h3>필드를 넣는 방법이 세 가지</h3>
+        <p>두 번째 인수 필드는 ①그 열의 셀을 클릭 ②<code>"판매금액"</code>처럼 이름을 따옴표로 ③왼쪽부터 센 <b>열 번호</b>(5) — 셋 다 맞습니다.</p>
+        <div class="use">필기에서 세 가지를 섞어 물어봅니다</div>
+      </div>
+      <div class="card">
+        <h3>함수 20개가 아니라 3계열이다</h3>
+        <p>조건 1개(IF) · 조건 여러 개(IFS) · 데이터베이스(D) — <b>계열 안에서는 인수가 전부 같습니다</b>. SUM 자리에 AVERAGE·MAX·MIN·COUNT를 갈아 끼우면 끝이에요.</p>
+        <div class="use">강사 강조: 묶어서 외우면 20개가 3개가 된다</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>SUMIF · AVERAGEIF — 조건이 하나일 때</h3>
+      <div class="step"><b>무엇을 하는가</b> "서울 지역의 판매 금액만 더해라"처럼 <b>조건에 맞는 행만 골라</b> 합계·평균을 냅니다.</div>
+      <div class="step"><b>★인수 순서</b> <code>=SUMIF(범위, 조건, 합계범위)</code>. ①<b>범위</b>는 조건을 검사할 열(지역), ②<b>조건</b>은 무엇을 찾을지, ③<b>합계범위</b>는 실제로 더할 열(판매금액)입니다.</div>
+      <div class="step"><b>AVERAGEIF</b> 순서가 완전히 같고 이름만 바뀝니다. <code>=AVERAGEIF(범위, 조건, 평균범위)</code></div>
+      <div class="step"><b>COUNTIF는 두 개</b> 세기만 하면 되니 계산할 열이 필요 없습니다. <code>=COUNTIF(범위, 조건)</code></div>
+      <div class="step"><b>머리글은 뺀다</b> 범위를 잡을 때 필드명 행은 넣지 않습니다. 첫 데이터 셀에서 <code>Ctrl+Shift+↓</code>로 잡으세요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SUMIF 인수 구조">
+  <defs><marker id="a1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+    <path d="M0,0 L9,4.5 L0,9 z" fill="#1D6FE8"/></marker></defs>
+  <rect x="20" y="18" width="200" height="150" rx="8" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="120" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5A6A7E">원본 표</text>
+  <rect x="34" y="48" width="80" height="26" fill="#EBF2FF" stroke="#D1D9E0"/>
+  <rect x="114" y="48" width="92" height="26" fill="#EBF2FF" stroke="#D1D9E0"/>
+  <text x="74" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#1D6FE8">지역</text>
+  <text x="160" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#1D6FE8">판매금액</text>
+  <g font-size="12" fill="#1A202C">
+    <rect x="34" y="74" width="80" height="24" fill="#fff" stroke="#D1D9E0"/><text x="74" y="90" text-anchor="middle">서울</text>
+    <rect x="114" y="74" width="92" height="24" fill="#fff" stroke="#D1D9E0"/><text x="160" y="90" text-anchor="middle">1,200,000</text>
+    <rect x="34" y="98" width="80" height="24" fill="#fff" stroke="#D1D9E0"/><text x="74" y="114" text-anchor="middle">부산</text>
+    <rect x="114" y="98" width="92" height="24" fill="#fff" stroke="#D1D9E0"/><text x="160" y="114" text-anchor="middle">830,000</text>
+    <rect x="34" y="122" width="80" height="24" fill="#fff" stroke="#D1D9E0"/><text x="74" y="138" text-anchor="middle">서울</text>
+    <rect x="114" y="122" width="92" height="24" fill="#fff" stroke="#D1D9E0"/><text x="160" y="138" text-anchor="middle">640,000</text>
+  </g>
+  <text x="470" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#1A202C" font-family="JetBrains Mono, monospace">=SUMIF(  범위 ,  조건 ,  합계범위  )</text>
+  <rect x="300" y="62" width="110" height="46" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="355" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#1D6FE8">① 범위</text>
+  <text x="355" y="98" text-anchor="middle" font-size="11.5" fill="#5A6A7E">조건을 검사할 열</text>
+  <rect x="418" y="62" width="110" height="46" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="473" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#92680A">② 조건</text>
+  <text x="473" y="98" text-anchor="middle" font-size="11.5" fill="#5A6A7E">"서울" 또는 셀</text>
+  <rect x="536" y="62" width="140" height="46" rx="8" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="606" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#0A8A68">③ 합계범위</text>
+  <text x="606" y="98" text-anchor="middle" font-size="11.5" fill="#5A6A7E">실제로 더할 열</text>
+  <path d="M300,85 C260,85 250,70 224,64" stroke="#1D6FE8" stroke-width="1.6" fill="none" marker-end="url(#a1)"/>
+  <path d="M606,112 C606,175 250,150 214,140" stroke="#0A8A68" stroke-width="1.6" fill="none" marker-end="url(#a1)" stroke-dasharray="4 3"/>
+  <rect x="300" y="196" width="376" height="76" rx="10" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="316" y="220" font-size="12.5" font-weight="700" fill="#C0392B">★ 조건이 가운데다</text>
+  <text x="316" y="240" font-size="12" fill="#1A202C">검사하는 열(①)과 더하는 열(③)이 서로 다르다는 점,</text>
+  <text x="316" y="258" font-size="12" fill="#1A202C">그리고 그 사이에 조건이 끼어 있다는 순서를 외운다.</text>
+</svg></div>
+          <figcaption><span class="figno">그림 1</span> · 검사할 열(①)과 더할 열(③)은 다르고, 그 사이에 조건이 낀다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: SUMIF에서 "검사하는 열"과 "더하는 열"이 같아야 한다 → 틀린 설명. 서로 다른 열인 경우가 대부분입니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>★SUMIFS — S가 붙으면 순서가 뒤집힌다</h3>
+      <div class="step"><b>언제 쓰나</b> 조건이 <b>두 개 이상</b>일 때. "서울이면서 달성인 것만 합계" 같은 경우예요.</div>
+      <div class="step"><b>★인수 순서</b> <code>=SUMIFS(합계범위, 조건범위1, 조건1, 조건범위2, 조건2)</code> — <b>합계 범위가 맨 앞</b>으로 옵니다. SUMIF에서는 맨 뒤였던 것이 자리를 옮겨요.</div>
+      <div class="step"><b>조건은 짝으로 늘어난다</b> 조건을 하나 더 걸고 싶으면 <b>조건범위와 조건을 한 쌍씩</b> 뒤에 붙입니다. 항상 짝수로 늘어나요.</div>
+      <div class="step"><b>숫자 조건</b> <code>"&gt;=400000"</code>처럼 <b>따옴표 안에</b> 부등호와 숫자를 함께 씁니다.</div>
+      <div class="step"><b>COUNTIFS</b> 세기만 하므로 맨 앞의 합계 범위가 없습니다. <code>=COUNTIFS(조건범위1, 조건1, 조건범위2, 조건2)</code></div>
+      <div class="step"><b>인수가 길어질 때</b> 함수 이름을 친 뒤 수식 입력줄 왼쪽의 <b>fx 버튼</b>을 누르면 인수마다 이름표가 붙은 입력창이 열립니다. <b>Tab</b>으로 다음 칸, <b>Shift+Tab</b>으로 이전 칸이며 쉼표를 직접 찍지 않아도 됩니다.</div>
+      <div class="step"><b>지금 어느 인수인지</b> 수식을 직접 칠 때는 아래에 뜨는 <b>스크린팁에서 굵게 표시된 항목</b>이 지금 입력 중인 인수입니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SUMIF와 SUMIFS 인수 순서 비교">
+  <rect x="16" y="16" width="688" height="122" rx="12" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="36" y="42" font-size="13.5" font-weight="700" fill="#1D6FE8">조건 1개 — SUMIF</text>
+  <rect x="36" y="56" width="150" height="40" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="111" y="81" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">조건 범위</text>
+  <rect x="194" y="56" width="120" height="40" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="254" y="81" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">조건</text>
+  <rect x="322" y="56" width="160" height="40" rx="8" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="402" y="81" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68">합계 범위</text>
+  <text x="500" y="81" font-size="12.5" fill="#C0392B" font-weight="700">← 합계 범위가 맨 뒤</text>
+  <text x="36" y="122" font-size="12" fill="#5A6A7E" font-family="JetBrains Mono, monospace">=SUMIF($B$4:$B$103, J4, $E$4:$E$103)</text>
+
+  <rect x="16" y="152" width="688" height="122" rx="12" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="36" y="178" font-size="13.5" font-weight="700" fill="#1D6FE8">조건 2개 이상 — SUMIFS</text>
+  <rect x="36" y="192" width="160" height="40" rx="8" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="116" y="217" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68">합계 범위</text>
+  <rect x="204" y="192" width="132" height="40" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="270" y="217" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">조건 범위 1</text>
+  <rect x="344" y="192" width="96" height="40" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="392" y="217" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">조건 1</text>
+  <rect x="448" y="192" width="132" height="40" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="514" y="217" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">조건 범위 2</text>
+  <rect x="588" y="192" width="96" height="40" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="636" y="217" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">조건 2</text>
+  <text x="36" y="258" font-size="12" fill="#5A6A7E" font-family="JetBrains Mono, monospace">=SUMIFS($E$4:$E$103, $B$4:$B$103, $J4, $F$4:$F$103, K$3)</text>
+
+  <rect x="16" y="286" width="688" height="26" rx="8" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="360" y="304" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">S 하나 붙었을 뿐인데 합계 범위가 맨 뒤에서 맨 앞으로 온다 — 여기서 가장 많이 틀린다</text>
+</svg></div>
+          <figcaption><span class="figno">그림 2</span> · S 하나 차이로 합계 범위가 맨 뒤에서 맨 앞으로 이동한다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: SUMIF와 SUMIFS는 인수 순서가 같다 → 틀린 설명. 합계 범위의 위치가 앞뒤로 뒤바뀝니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>채우기 전에 무엇을 고정할지 정한다</h3>
+      <div class="step"><b>왜 틀리나</b> 채우기 핸들로 아래로 끌면 <b>범위도 같이 한 칸씩 내려갑니다</b>. 그러면 두 번째 지역부터 엉뚱한 구간을 더하게 돼요.</div>
+      <div class="step"><b>고정할 것</b> <b>조건 범위와 합계 범위</b>는 움직이면 안 되므로 F4를 눌러 <code>$B$4:$B$103</code>처럼 절대 참조로 만듭니다.</div>
+      <div class="step"><b>고정하지 않을 것</b> <b>조건 셀</b>은 지역마다 달라져야 하므로 상대 참조 그대로 둡니다.</div>
+      <div class="step"><b>검산</b> 값이 이상한 셀을 클릭하고 <b>F2</b>를 누르면 참조 중인 범위가 색 상자로 보입니다. 밀렸는지 한눈에 확인돼요.</div>
+      <div class="step"><b>교차표라면</b> 가로·세로 양쪽으로 채워야 하는 표에서는 어제 배운 <b>혼합 참조</b>가 필요합니다. 오른쪽으로 끌 때는 열을, 아래로 끌 때는 행을 고정해요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="범위를 고정하지 않으면 밀린다">
+  <text x="180" y="28" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">✕ 고정 안 함 — 범위가 딸려 내려간다</text>
+  <g font-family="JetBrains Mono, monospace" font-size="11.5">
+    <rect x="30" y="42" width="300" height="30" rx="6" fill="#fff" stroke="#D1D9E0"/>
+    <text x="42" y="62" fill="#1A202C">=SUMIF(B4:B103, J4, E4:E103)</text>
+    <rect x="30" y="80" width="300" height="30" rx="6" fill="#FDEDEC" stroke="#C0392B"/>
+    <text x="42" y="100" fill="#C0392B">=SUMIF(B5:B104, J5, E5:E104)</text>
+    <rect x="30" y="118" width="300" height="30" rx="6" fill="#FDEDEC" stroke="#C0392B"/>
+    <text x="42" y="138" fill="#C0392B">=SUMIF(B6:B105, J6, E6:E105)</text>
+  </g>
+  <text x="180" y="172" text-anchor="middle" font-size="12" fill="#C0392B">한 칸씩 밀려서 아래 지역일수록 값이 틀어진다</text>
+
+  <text x="540" y="28" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0A8A68">✓ F4로 고정 — 범위는 그대로</text>
+  <g font-family="JetBrains Mono, monospace" font-size="11.5">
+    <rect x="390" y="42" width="310" height="30" rx="6" fill="#fff" stroke="#D1D9E0"/>
+    <text x="402" y="62" fill="#1A202C">=SUMIF($B$4:$B$103, J4, $E$4:$E$103)</text>
+    <rect x="390" y="80" width="310" height="30" rx="6" fill="#E6F7F1" stroke="#0A8A68"/>
+    <text x="402" y="100" fill="#0A8A68">=SUMIF($B$4:$B$103, J5, $E$4:$E$103)</text>
+    <rect x="390" y="118" width="310" height="30" rx="6" fill="#E6F7F1" stroke="#0A8A68"/>
+    <text x="402" y="138" fill="#0A8A68">=SUMIF($B$4:$B$103, J6, $E$4:$E$103)</text>
+  </g>
+  <text x="540" y="172" text-anchor="middle" font-size="12" fill="#0A8A68">범위는 붙박이, 조건 셀만 서울→부산→대구로 따라간다</text>
+
+  <rect x="30" y="196" width="670" height="88" rx="10" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="48" y="220" font-size="12.5" font-weight="700" fill="#1D6FE8">두 개를 나눠서 생각한다</text>
+  <text x="48" y="242" font-size="12" fill="#1A202C">· <tspan font-weight="700">범위 2개(조건 범위·합계 범위)</tspan> → 움직이면 안 되니까 F4로 고정한다</text>
+  <text x="48" y="262" font-size="12" fill="#1A202C">· <tspan font-weight="700">조건 셀 1개</tspan> → 지역마다 바뀌어야 하니까 고정하지 않는다</text>
+</svg></div>
+          <figcaption><span class="figno">그림 3</span> · 범위는 붙박이, 조건 셀만 따라 움직인다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 조건 셀까지 절대 참조로 고정하면 → 모든 행이 같은 지역 값으로 나옵니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>조건을 따옴표로 쓸까, 셀로 쓸까</h3>
+      <div class="step"><b>따옴표</b> <code>"서울"</code>처럼 직접 씁니다. <b>한 칸만 구할 때</b>는 이것으로 충분해요.</div>
+      <div class="step"><b>★셀 참조</b> 표 왼쪽에 지역이 줄줄이 적혀 있다면 그 <b>셀을 클릭</b>합니다. 상대 참조라 채우면 서울→부산→대구로 알아서 바뀝니다.</div>
+      <div class="step"><b>왜 중요한가</b> 따옴표로 쓰고 채우면 <b>모든 행이 서울 값</b>이 됩니다. 값이 전부 똑같이 나오면 이걸 의심하세요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="조건은 따옴표 대신 셀 참조">
+  <text x="175" y="28" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">✕ 조건을 "서울"이라고 직접 타이핑</text>
+  <g font-size="12">
+    <rect x="30" y="44" width="290" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/>
+    <text x="42" y="63" font-family="JetBrains Mono, monospace" fill="#1A202C">=SUMIF(범위, "서울", 합계범위)</text>
+    <rect x="30" y="82" width="90" height="26" fill="#FDEDEC" stroke="#C0392B"/><text x="75" y="100" text-anchor="middle" fill="#C0392B">서울</text>
+    <rect x="30" y="108" width="90" height="26" fill="#FDEDEC" stroke="#C0392B"/><text x="75" y="126" text-anchor="middle" fill="#C0392B">부산</text>
+    <rect x="30" y="134" width="90" height="26" fill="#FDEDEC" stroke="#C0392B"/><text x="75" y="152" text-anchor="middle" fill="#C0392B">대구</text>
+    <text x="140" y="100" fill="#C0392B" font-size="11.5">← 서울 합계</text>
+    <text x="140" y="126" fill="#C0392B" font-size="11.5">← 또 서울 합계</text>
+    <text x="140" y="152" fill="#C0392B" font-size="11.5">← 또 서울 합계</text>
+  </g>
+  <text x="175" y="184" text-anchor="middle" font-size="12" fill="#C0392B">채워도 전부 서울 값 — 지역이 바뀌지 않는다</text>
+
+  <text x="545" y="28" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0A8A68">✓ 왼쪽 지역 셀을 참조</text>
+  <g font-size="12">
+    <rect x="390" y="44" width="290" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/>
+    <text x="402" y="63" font-family="JetBrains Mono, monospace" fill="#1A202C">=SUMIF(범위, J4, 합계범위)</text>
+    <rect x="390" y="82" width="90" height="26" fill="#E6F7F1" stroke="#0A8A68"/><text x="435" y="100" text-anchor="middle" fill="#0A8A68">서울</text>
+    <rect x="390" y="108" width="90" height="26" fill="#E6F7F1" stroke="#0A8A68"/><text x="435" y="126" text-anchor="middle" fill="#0A8A68">부산</text>
+    <rect x="390" y="134" width="90" height="26" fill="#E6F7F1" stroke="#0A8A68"/><text x="435" y="152" text-anchor="middle" fill="#0A8A68">대구</text>
+    <text x="500" y="100" fill="#0A8A68" font-size="11.5">← 서울 합계</text>
+    <text x="500" y="126" fill="#0A8A68" font-size="11.5">← 부산 합계</text>
+    <text x="500" y="152" fill="#0A8A68" font-size="11.5">← 대구 합계</text>
+  </g>
+  <text x="545" y="184" text-anchor="middle" font-size="12" fill="#0A8A68">상대 참조라 J4→J5→J6으로 알아서 따라간다</text>
+  <rect x="30" y="204" width="650" height="34" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="355" y="226" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">표 왼쪽에 이미 지역이 적혀 있다면 따옴표로 다시 쓰지 말고 그 셀을 가리킨다</text>
+</svg></div>
+          <figcaption><span class="figno">그림 4</span> · 따옴표는 한 칸용, 여러 칸을 채울 거면 셀을 가리킨다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 채웠는데 모든 지역의 합계가 같다면 조건을 따옴표로 고정해 둔 것입니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>데이터베이스 함수 — DSUM · DAVERAGE · DCOUNT</h3>
+      <div class="step"><b>무엇이 같나</b> 하는 일은 SUMIF와 <b>똑같습니다</b>. "조건에 맞는 것만 합계" — 방식만 달라요.</div>
+      <div class="step"><b>★인수 3개</b> <code>=DSUM(데이터베이스, 필드, 조건범위)</code>. 종류가 6개(DSUM·DAVERAGE·DMAX·DMIN·DCOUNT·DCOUNTA)인데 <b>인수는 전부 같습니다</b>.</div>
+      <div class="step"><b>①데이터베이스</b> 표 전체를 잡되 <b>필드명(머리글) 행이 반드시 포함</b>돼야 합니다. 필드로 열을 찾아가야 하기 때문이에요.</div>
+      <div class="step"><b>②필드</b> 계산할 열 하나를 지정합니다. <b>그 열의 셀 클릭 / <code>"판매금액"</code> / 왼쪽부터 센 번호</b> 세 가지 모두 맞습니다.</div>
+      <div class="step"><b>③조건 범위</b> 시트 위에 <b>필드명 한 줄 + 조건 한 줄</b>짜리 작은 표를 미리 만들어 두고 그 범위를 지정합니다. 필드명은 원본과 똑같이 적어야 해요.</div>
+      <div class="step"><b>조건의 AND</b> 조건 두 개를 <b>같은 줄</b>에 쓰면 둘 다 만족(그리고)입니다. 어제 고급 필터에서 배운 규칙과 같아요.</div>
+      <div class="step"><b>★채우기 못 함</b> 조건이 시트 위 표에 있으므로 <b>채우기 핸들로 끌 수 없습니다</b>. 칸마다 조건 표가 따로 필요해요.</div>
+      <div class="step"><b>DCOUNT와 DCOUNTA</b> COUNTIF에는 없는 구분이 여기엔 있습니다. <b>DCOUNT는 숫자 필드</b>, <b>DCOUNTA는 값이 있는 필드</b>를 셉니다.</div>
+      <div class="step"><b>조건 범위를 안 주면</b> 문제에서 조건 표 위치를 주지 않는 경우가 있습니다. 그럴 땐 <b>원본 표에서 그 조건에 해당하는 부분을 직접 범위로</b> 씁니다. 임의로 따로 만들어 쓰면 틀려요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="데이터베이스 함수 3인수 구조">
+  <text x="360" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1A202C" font-family="JetBrains Mono, monospace">=DSUM( 데이터베이스 , 필드 , 조건 범위 )</text>
+  <rect x="24" y="44" width="216" height="180" rx="10" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="132" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">① 데이터베이스</text>
+  <text x="132" y="84" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">필드명까지 반드시 포함</text>
+  <g font-size="11">
+    <rect x="42" y="96" width="60" height="24" fill="#1D6FE8"/><text x="72" y="112" text-anchor="middle" fill="#fff" font-weight="700">지역</text>
+    <rect x="102" y="96" width="60" height="24" fill="#1D6FE8"/><text x="132" y="112" text-anchor="middle" fill="#fff" font-weight="700">달성</text>
+    <rect x="162" y="96" width="60" height="24" fill="#1D6FE8"/><text x="192" y="112" text-anchor="middle" fill="#fff" font-weight="700">금액</text>
+    <rect x="42" y="120" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="72" y="135" text-anchor="middle">서울</text>
+    <rect x="102" y="120" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="132" y="135" text-anchor="middle">달성</text>
+    <rect x="162" y="120" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="192" y="135" text-anchor="middle">120만</text>
+    <rect x="42" y="142" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="72" y="157" text-anchor="middle">부산</text>
+    <rect x="102" y="142" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="132" y="157" text-anchor="middle">미달성</text>
+    <rect x="162" y="142" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="192" y="157" text-anchor="middle">83만</text>
+    <rect x="42" y="164" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="72" y="179" text-anchor="middle">서울</text>
+    <rect x="102" y="164" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="132" y="179" text-anchor="middle">달성</text>
+    <rect x="162" y="164" width="60" height="22" fill="#fff" stroke="#D1D9E0"/><text x="192" y="179" text-anchor="middle">64만</text>
+  </g>
+  <text x="132" y="208" text-anchor="middle" font-size="11.5" fill="#5A6A7E">표 전체(머리글 포함)</text>
+
+  <rect x="256" y="44" width="180" height="180" rx="10" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="346" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">② 필드</text>
+  <text x="346" y="86" text-anchor="middle" font-size="11.5" fill="#5A6A7E">계산할 열 하나</text>
+  <g font-size="11.5" fill="#1A202C">
+    <rect x="272" y="100" width="148" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/><text x="346" y="119" text-anchor="middle">그 열의 셀 클릭</text>
+    <rect x="272" y="134" width="148" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/><text x="346" y="153" text-anchor="middle" font-family="JetBrains Mono, monospace">"판매금액"</text>
+    <rect x="272" y="168" width="148" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/><text x="346" y="187" text-anchor="middle">왼쪽부터 센 번호 5</text>
+  </g>
+  <text x="346" y="212" text-anchor="middle" font-size="11.5" fill="#92680A" font-weight="700">세 가지 다 정답</text>
+
+  <rect x="452" y="44" width="244" height="180" rx="10" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="574" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68">③ 조건 범위</text>
+  <text x="574" y="86" text-anchor="middle" font-size="11.5" fill="#5A6A7E">필드명 한 줄 + 조건 한 줄</text>
+  <g font-size="11.5">
+    <rect x="486" y="104" width="88" height="26" fill="#0A8A68"/><text x="530" y="122" text-anchor="middle" fill="#fff" font-weight="700">지역</text>
+    <rect x="574" y="104" width="88" height="26" fill="#0A8A68"/><text x="618" y="122" text-anchor="middle" fill="#fff" font-weight="700">달성 여부</text>
+    <rect x="486" y="130" width="88" height="26" fill="#fff" stroke="#D1D9E0"/><text x="530" y="148" text-anchor="middle" fill="#1A202C">서울</text>
+    <rect x="574" y="130" width="88" height="26" fill="#fff" stroke="#D1D9E0"/><text x="618" y="148" text-anchor="middle" fill="#1A202C">달성</text>
+  </g>
+  <text x="574" y="180" text-anchor="middle" font-size="11.5" fill="#0A8A68" font-weight="700">같은 줄 = 둘 다 만족(그리고)</text>
+  <text x="574" y="200" text-anchor="middle" font-size="11.5" fill="#5A6A7E">필드명은 원본과 똑같이 적는다</text>
+
+  <rect x="24" y="240" width="672" height="76" rx="10" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="44" y="264" font-size="12.5" font-weight="700" fill="#C0392B">★ SUMIF 계열과 완전히 다른 점</text>
+  <text x="44" y="284" font-size="12" fill="#1A202C">· 조건을 수식 안에 쓰지 않고 <tspan font-weight="700">시트 위에 표로 미리 만들어 둔다</tspan></text>
+  <text x="44" y="304" font-size="12" fill="#1A202C">· 그래서 <tspan font-weight="700">채우기 핸들로 끌 수 없다</tspan> — 칸마다 조건 표가 따로 있어야 하기 때문</text>
+</svg></div>
+          <figcaption><span class="figno">그림 5</span> · 조건을 수식이 아니라 시트 위 표로 만든다는 점이 SUMIF 계열과의 결정적 차이</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: DSUM의 첫 인수에 머리글을 빼고 데이터만 넣으면 → 필드를 찾지 못해 계산되지 않습니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>오늘 배운 함수를 한 장으로</h3>
+      <div class="step"><b>3계열로 묶는다</b> 조건 1개(IF) · 조건 여러 개(IFS) · 데이터베이스(D). <b>계열 안에서는 인수가 전부 같아</b> SUM 자리에 AVERAGE·MAX·MIN·COUNT를 갈아 끼우면 됩니다.</div>
+      <div class="step"><b>실기에서 자주 나오는 조합</b> 비율 구하기 = <b>조건 합계 ÷ 전체 합계</b>. <code>=SUMIF(범위,조건,합계범위)/SUM(전체범위)</code> 형태예요.</div>
+      <div class="step"><b>백분율로 안 보이면</b> 값은 맞는데 0.14처럼 보인다면 표시 형식을 <b>백분율(%)</b>로 바꾸면 됩니다. 계산이 틀린 게 아니에요.</div>
+      <div class="step"><b>어떤 함수를 쓸지 지정될 때</b> 문제에 "SUM과 COUNT를 이용하여"처럼 <b>쓸 함수가 정해져</b> 나오면 AVERAGE로 답이 같게 나와도 <b>오답</b>입니다. 주어진 함수를 그대로 쓰세요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="오늘 배운 조건 함수 지도">
+  <text x="360" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">같은 일을 하는 세 가지 방식 — 이름만 다르다</text>
+  <rect x="20" y="44" width="216" height="200" rx="12" fill="#F8FAFC" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="128" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#1D6FE8">조건 1개</text>
+  <text x="128" y="90" text-anchor="middle" font-size="11.5" fill="#5A6A7E">범위 · 조건 · 계산범위</text>
+  <g font-size="12.5" font-family="JetBrains Mono, monospace" fill="#1A202C">
+    <text x="128" y="120" text-anchor="middle">SUMIF</text>
+    <text x="128" y="144" text-anchor="middle">AVERAGEIF</text>
+    <text x="128" y="168" text-anchor="middle">COUNTIF</text>
+  </g>
+  <text x="128" y="200" text-anchor="middle" font-size="11.5" fill="#C0392B">COUNTIF는 계산범위 없음</text>
+  <text x="128" y="222" text-anchor="middle" font-size="11.5" fill="#5A6A7E">(셀 수만 세니까)</text>
+
+  <rect x="252" y="44" width="216" height="200" rx="12" fill="#F8FAFC" stroke="#92680A" stroke-width="2"/>
+  <text x="360" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#92680A">조건 2개 이상</text>
+  <text x="360" y="90" text-anchor="middle" font-size="11.5" fill="#5A6A7E">계산범위가 맨 앞</text>
+  <g font-size="12.5" font-family="JetBrains Mono, monospace" fill="#1A202C">
+    <text x="360" y="120" text-anchor="middle">SUMIFS</text>
+    <text x="360" y="144" text-anchor="middle">AVERAGEIFS</text>
+    <text x="360" y="168" text-anchor="middle">COUNTIFS</text>
+  </g>
+  <text x="360" y="200" text-anchor="middle" font-size="11.5" fill="#C0392B">순서가 뒤집힌다</text>
+  <text x="360" y="222" text-anchor="middle" font-size="11.5" fill="#5A6A7E">(그림 2 참고)</text>
+
+  <rect x="484" y="44" width="216" height="200" rx="12" fill="#F8FAFC" stroke="#0A8A68" stroke-width="2"/>
+  <text x="592" y="70" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">데이터베이스 함수</text>
+  <text x="592" y="90" text-anchor="middle" font-size="11.5" fill="#5A6A7E">표 전체 · 필드 · 조건표</text>
+  <g font-size="12.5" font-family="JetBrains Mono, monospace" fill="#1A202C">
+    <text x="592" y="116" text-anchor="middle">DSUM  DAVERAGE</text>
+    <text x="592" y="140" text-anchor="middle">DMAX  DMIN</text>
+    <text x="592" y="164" text-anchor="middle">DCOUNT  DCOUNTA</text>
+  </g>
+  <text x="592" y="196" text-anchor="middle" font-size="11.5" fill="#C0392B">인수 3개로 전부 동일</text>
+  <text x="592" y="218" text-anchor="middle" font-size="11.5" fill="#5A6A7E">이름만 바꿔 끼우면 끝</text>
+
+  <rect x="20" y="258" width="680" height="30" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="278" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">함수는 20개를 따로 외우는 게 아니라 이 3계열로 묶어서 외운다 (강사 강조)</text>
+</svg></div>
+          <figcaption><span class="figno">그림 6</span> · 20개를 외우는 게 아니라 3계열로 묶어서 외운다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 결과값이 같아도 지정된 함수를 쓰지 않으면 채점에서 틀린 것으로 처리됩니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 오늘 가장 많이 틀린 부분</div>
+      <h3>SUMIF 순서 그대로 SUMIFS를 써요</h3>
+      <p>SUMIF는 합계 범위가 맨 뒤, SUMIFS는 맨 앞입니다. S 하나 차이인데 자리가 통째로 바뀌어요.</p>
+      <p class="fix">"S가 붙으면 더할 것부터 먼저 말한다"로 외우세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>범위를 고정하지 않고 채워요</h3>
+      <p>채우면 범위가 한 칸씩 내려가 두 번째 지역부터 엉뚱한 구간을 더합니다. 첫 줄은 맞아서 더 못 찾아요.</p>
+      <p class="fix">첫 줄이 맞아도 마지막 줄에서 F2를 눌러 범위가 그대로인지 확인하세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>조건을 "서울"이라고 쓰고 채워요</h3>
+      <p>모든 행이 서울 합계로 나옵니다. 값이 전부 똑같으면 이걸 의심하세요.</p>
+      <p class="fix">표 왼쪽 지역 셀을 참조하면 부산·대구로 알아서 따라갑니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>DSUM 범위에서 머리글을 빼요</h3>
+      <p>D 함수는 필드명으로 열을 찾아갑니다. 머리글이 없으면 계산 자체가 안 돼요.</p>
+      <p class="fix">SUMIF는 머리글을 빼고, D 함수는 머리글을 넣습니다 — 반대로 기억하세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>D 함수를 채우기 핸들로 끌어요</h3>
+      <p>조건이 시트 위 표에 들어 있어 끌면 조건 표까지 밀립니다.</p>
+      <p class="fix">D 함수는 칸마다 조건 표를 따로 두고 하나씩 구합니다.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 함수·단축키 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>함수 / 단축키</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>조건 1개</td><td><code>=SUMIF(범위, 조건, 합계범위)</code></td><td>조건에 맞는 것만 합계</td><td>조건이 가운데</td></tr>
+          <tr><td>조건 1개</td><td><code>=AVERAGEIF(범위, 조건, 평균범위)</code></td><td>조건에 맞는 것만 평균</td><td>SUMIF와 같은 순서</td></tr>
+          <tr><td>조건 1개</td><td><code>=COUNTIF(범위, 조건)</code></td><td>조건에 맞는 셀의 개수</td><td>계산범위 없음</td></tr>
+          <tr><td>조건 여러 개</td><td><code>=SUMIFS(합계범위, 조건범위1, 조건1, …)</code></td><td>여러 조건을 모두 만족하는 것만 합계</td><td>★합계범위가 맨 앞</td></tr>
+          <tr><td>조건 여러 개</td><td><code>=COUNTIFS(조건범위1, 조건1, …)</code></td><td>여러 조건을 모두 만족하는 개수</td><td>맨 앞 범위 없음</td></tr>
+          <tr><td>조건 표기</td><td><code>"&gt;=400000"</code></td><td>숫자 조건</td><td>부등호까지 따옴표 안에</td></tr>
+          <tr><td>DB 함수</td><td><code>=DSUM(데이터베이스, 필드, 조건범위)</code></td><td>조건에 맞는 것만 합계</td><td>머리글 포함 · 채우기 불가</td></tr>
+          <tr><td>DB 함수</td><td><code>DAVERAGE</code> / <code>DMAX</code> / <code>DMIN</code></td><td>평균 / 최대 / 최소</td><td>인수 3개로 동일</td></tr>
+          <tr><td>DB 함수</td><td><code>DCOUNT</code> / <code>DCOUNTA</code></td><td>숫자 셀 개수 / 값 있는 셀 개수</td><td>COUNTIF엔 없는 구분</td></tr>
+          <tr><td>참조</td><td><code>F4</code></td><td>조건 범위·합계 범위 고정</td><td>조건 셀은 고정하지 않음</td></tr>
+          <tr><td>점검</td><td><code>F2</code></td><td>참조 범위를 색 상자로 확인</td><td>밀렸는지 바로 보임</td></tr>
+          <tr><td>입력 보조</td><td>수식 입력줄 왼쪽 <code>fx</code></td><td>함수 인수 대화상자 열기</td><td>Tab / Shift+Tab 이동</td></tr>
+          <tr><td>범위 선택</td><td><code>Ctrl+Shift+↓</code></td><td>첫 셀부터 데이터 끝까지</td><td>머리글은 빼고 시작</td></tr>
+          <tr><td>실기 조합</td><td><code>=SUMIF(…)/SUM(…)</code></td><td>비율 구하기</td><td>표시 형식을 백분율로</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext"><code>=SUMIF(범위, 조건, 합계범위)</code>에서 <b>가운데</b>에 오는 것은?</p>
+      <button class="quiz-opt" data-correct="true">조건</button>
+      <button class="quiz-opt" data-correct="false">합계범위</button>
+      <button class="quiz-opt" data-correct="false">범위</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext"><b>SUMIFS</b>에서 합계 범위는 어디에 오나요?</p>
+      <button class="quiz-opt" data-correct="false">맨 뒤</button>
+      <button class="quiz-opt" data-correct="true">맨 앞</button>
+      <button class="quiz-opt" data-correct="false">조건 사이</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">조건이 <b>하나</b>일 때 개수를 세는 함수는?</p>
+      <button class="quiz-opt" data-correct="false">COUNTIFS</button>
+      <button class="quiz-opt" data-correct="false">DCOUNT</button>
+      <button class="quiz-opt" data-correct="true">COUNTIF</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">SUMIF를 채우기 핸들로 끌 때 <b>고정하지 말아야</b> 하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">조건 셀</button>
+      <button class="quiz-opt" data-correct="false">조건 범위</button>
+      <button class="quiz-opt" data-correct="false">합계 범위</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">조건을 <code>"서울"</code>이라고 직접 쓰고 아래로 채우면 어떻게 될까요?</p>
+      <button class="quiz-opt" data-correct="false">부산·대구로 자동으로 바뀐다</button>
+      <button class="quiz-opt" data-correct="true">모든 행이 서울 합계로 나온다</button>
+      <button class="quiz-opt" data-correct="false">오류가 발생한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext"><b>DSUM</b>의 첫 인수 데이터베이스에 반드시 포함돼야 하는 것은?</p>
+      <button class="quiz-opt" data-correct="false">조건 범위</button>
+      <button class="quiz-opt" data-correct="false">합계 결과 셀</button>
+      <button class="quiz-opt" data-correct="true">필드명(머리글) 행</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">데이터베이스 함수의 <b>조건 범위</b>는 어떻게 만들까요?</p>
+      <button class="quiz-opt" data-correct="true">필드명 한 줄 + 조건 한 줄짜리 표로 만든다</button>
+      <button class="quiz-opt" data-correct="false">수식 안에 따옴표로 쓴다</button>
+      <button class="quiz-opt" data-correct="false">조건을 쉼표로 이어 쓴다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">데이터베이스 함수를 <b>채우기 핸들로 끌 수 없는</b> 이유는?</p>
+      <button class="quiz-opt" data-correct="false">인수가 3개뿐이라서</button>
+      <button class="quiz-opt" data-correct="true">조건이 시트 위 표에 들어 있어서</button>
+      <button class="quiz-opt" data-correct="false">절대 참조를 쓸 수 없어서</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">숫자가 든 필드의 개수를 세는 데이터베이스 함수는?</p>
+      <button class="quiz-opt" data-correct="false">DCOUNTA</button>
+      <button class="quiz-opt" data-correct="false">COUNTIF</button>
+      <button class="quiz-opt" data-correct="true">DCOUNT</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">문제에 "SUM과 COUNT를 이용하여"처럼 쓸 함수가 지정돼 있는데 AVERAGE로 같은 값을 냈다면?</p>
+      <button class="quiz-opt" data-correct="false">결과가 같으므로 정답이다</button>
+      <button class="quiz-opt" data-correct="true">지정된 함수를 쓰지 않았으므로 오답이다</button>
+      <button class="quiz-opt" data-correct="false">감점만 된다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">SUMIF · AVERAGEIF · COUNTIF를 같은 표에 각각 써서 인수 순서 비교하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">SUMIF를 SUMIFS로 바꿔 쓰면서 합계 범위가 앞으로 오는 것 직접 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">범위를 고정하지 않고 채워 본 뒤, 마지막 줄에서 F2로 범위가 밀린 것 눈으로 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">같은 수식을 F4로 고정해 다시 채워 값이 맞아지는지 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">조건을 "서울" 따옴표로 썼을 때와 셀 참조로 썼을 때 결과 비교하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">fx 버튼으로 함수 인수 대화상자를 열고 Tab · Shift+Tab으로 이동해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">숫자 조건 "&gt;=400000" 을 SUMIFS에 넣어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">필드명 한 줄 + 조건 한 줄짜리 조건 표를 직접 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">DSUM · DAVERAGE · DMAX · DMIN을 이름만 바꿔 끼우며 결과 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">DCOUNT와 DCOUNTA를 같은 조건으로 써서 결과가 다른 이유 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">비율 구하기 =SUMIF(…)/SUM(…) 를 만들고 표시 형식을 백분율로 바꿔보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '6차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
