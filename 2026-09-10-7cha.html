@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7차시 복습자료 | 컴활2급 - VLOOKUP·HLOOKUP 찾기 참조 함수</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">7차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>7차시 복습자료</h1>
+  <p class="meta"><b>2026-09-10</b><br>어제 조건 함수 백지 복습, VLOOKUP·HLOOKUP(찾기 참조 함수), 인수 4개, 열 번호 세는 법, FALSE·TRUE 판단, #N/A 원인, 찾아서 곱하기</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 6)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">VLOOKUP · HLOOKUP</span>
+      <span class="tag">인수 4개 · 열 번호</span>
+      <span class="tag">FALSE / TRUE</span>
+    </div>
+    <h1>오늘의 핵심은 "기준표에서 값을 찾아오는 것 — <b>방향(V·H)</b>, <b>가져올 열 번호</b>, <b>일치 옵션</b> 세 가지만 정하면 됩니다."</h1>
+    <p class="sub">2026-09-10 · 7차시 · 어제 조건 함수 백지 복습(SUMIF·SUMIFS·DSUM), VLOOKUP·HLOOKUP 구분, 인수 4개, 열 번호를 세는 법, FALSE·TRUE 판단 기준, #N/A 원인과 F4, 찾아서 곱하는 실기 형태</p>
+    <div class="key-badges">
+      <span class="key-badge">🔍 VLOOKUP</span>
+      <span class="key-badge">↔️ HLOOKUP</span>
+      <span class="key-badge">🔢 열 번호</span>
+      <span class="key-badge">⚠️ #N/A</span>
+      <span class="key-badge">🖼️ 그림 6장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>검색값이 첫 열이면 V, 첫 행이면 H</h3>
+        <p>정확한 기준은 <b>검색할 값이 기준표의 첫 열에 있으면 VLOOKUP</b>, <b>첫 행에 있으면 HLOOKUP</b>입니다. V는 Vertical(세로), H는 Horizontal(가로) — 기준표가 세로로 길면 보통 V, 가로로 길면 보통 H가 되는 이유예요.</p>
+        <div class="use">인수 구조는 같고 세 번째만 열 번호(V) / 행 번호(H)</div>
+      </div>
+      <div class="card">
+        <h3>인수는 4개 — 무엇을, 어디서, 몇 번째, 어떻게</h3>
+        <p><code>=VLOOKUP(검색할 값, 기준표, 열 번호, FALSE)</code>. 「이 값을 → 저 표에서 찾아 → 그 줄의 몇 번째 열을 → 정확히 일치로 가져와라」로 읽으면 순서가 외워집니다.</p>
+        <div class="use">HLOOKUP은 세 번째만 행 번호로 바뀝니다</div>
+      </div>
+      <div class="card">
+        <h3>★열 번호는 "가져올 열"이지 찾은 위치가 아니다</h3>
+        <p>가장 많이 틀리는 지점입니다. A-101이 표의 몇 번째 줄인지 <b>내가 셀 필요가 없습니다</b> — 찾는 일은 엑셀이 합니다. 나는 <b>결과로 가져올 열이 왼쪽부터 몇 번째인가</b>만 넣어요.</p>
+        <div class="use">그래서 이 숫자는 채워도 바뀌지 않습니다</div>
+      </div>
+      <div class="card">
+        <h3>기준표는 머리글을 빼고 잡고, F4로 고정한다</h3>
+        <p>컴활 실기에서는 혼동을 줄이려고 <b>필드명(머리글) 행을 빼고</b> 데이터만 잡습니다. 그리고 채우기 핸들로 끌 것이므로 <b>F4로 절대 참조</b>를 걸어야 해요.</p>
+        <div class="use">이 둘 중 하나만 빠져도 결과가 무너집니다</div>
+      </div>
+      <div class="card">
+        <h3>첫 줄만 맞고 아래가 #N/A면 F4를 의심</h3>
+        <p><code>#N/A</code>는 Not Available, <b>찾을 수 없다</b>는 뜻입니다. 원인은 여러 가지지만, <b>첫 줄은 맞는데 아래로 갈수록 오류</b>라면 기준표 절대 참조 누락을 가장 먼저 의심하세요.</p>
+        <div class="use">오류가 뜨면 F2부터 눌러 범위가 밀렸는지 확인</div>
+      </div>
+      <div class="card">
+        <h3>코드·이름으로 찾으면 FALSE, 구간이면 TRUE</h3>
+        <p>상품코드·이름처럼 <b>정확히 같은 값을 찾아야 하는 문자</b>는 <b>FALSE</b>입니다. 945점처럼 <b>표에 딱 없고 구간에 걸치는 값</b>이면 TRUE예요.</p>
+        <div class="use">생략하면 TRUE(유사 일치)로 처리됩니다</div>
+      </div>
+      <div class="card">
+        <h3>찾아온 값을 바로 계산에 넣는 형태</h3>
+        <p>"단가를 찾아와 <b>수량과 곱해 금액</b>을 구하시오"처럼 자주 나옵니다. 한 번에 쓰지 말고 <b>VLOOKUP만 먼저 써서 값을 확인한 뒤</b> 곱셈을 붙이세요.</p>
+        <div class="use">강사 권장 순서 — 처음에는 이 방법이 훨씬 안전</div>
+      </div>
+      <div class="card">
+        <h3>어제 함수는 백지에 직접 써봐야 한다</h3>
+        <p>강사가 수업 시작에 시킨 것입니다. SUMIF·SUMIFS·DSUM의 <b>인수를 안 보고 적을 수 있는지</b> 확인하세요. 이게 돼야 필기에서 보자마자 맞다·틀리다를 가릅니다.</p>
+        <div class="use">눈으로 아는 것과 손으로 쓰는 것은 다릅니다</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>시작 전에 — 어제 함수를 백지에 써보기</h3>
+      <div class="step"><b>강사가 시킨 것</b> 수업 첫머리에 <b>노트를 펴고 인수를 직접 적어보라</b>고 했습니다. SUMIF 3개, SUMIFS는 최소 3개(조건이 2개면 5개), DSUM 3개.</div>
+      <div class="step"><b>왜 하는가</b> 눈으로 읽어 아는 것과 손으로 쓰는 것은 다릅니다. <b>안 보고 적을 수 있어야</b> 필기에서 수식을 보자마자 맞다·틀리다를 가릴 수 있어요.</div>
+      <div class="step"><b>오늘 확인할 3줄</b> <code>=SUMIF(범위, 조건, 합계범위)</code> / <code>=SUMIFS(합계범위, 조건범위1, 조건1, …)</code> / <code>=DSUM(데이터베이스, 필드, 조건범위)</code></div>
+      <div class="step"><b>안 되면</b> 붙잡고 있지 말고 <b>넘어가세요</b>. 강사도 "안 되면 패스하고 나머지 먼저 한 뒤 다시 오라"고 했습니다.</div>
+      <div class="exam-ex">시험 예시: 필기의 함수 문제는 대부분 "이 수식이 맞는가"를 묻습니다. 인수 순서가 머리에 있어야 풀립니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>VLOOKUP과 HLOOKUP — 무엇이 다른가</h3>
+      <div class="step"><b>하는 일</b> 기준표(참조표)에서 <b>값을 찾아 대응하는 다른 값을 가져오는</b> 함수입니다. 상품코드로 상품명을 찾고, 점수로 등급을 매기는 식이에요.</div>
+      <div class="step"><b>★V와 H의 구분</b> 정확한 기준은 <b>검색할 값이 기준표의 첫 열에 있으면 VLOOKUP</b>, <b>첫 행에 있으면 HLOOKUP</b>입니다. 그래서 기준표가 세로로 길면 보통 V(Vertical), 가로로 길면 보통 H(Horizontal)가 돼요.</div>
+      <div class="step"><b>외우는 법</b> 블라인드(버티컬)가 위아래로 펼쳐지는 모습을 떠올리세요. 레코드가 세로로 늘어나면 V입니다.</div>
+      <div class="step"><b>인수 구조는 동일</b> 두 함수의 인수는 개수도 순서도 같고, <b>세 번째만</b> V는 열 번호, H는 행 번호로 바뀝니다.</div>
+      <div class="step"><b>어느 쪽이 기본인가</b> 실무·시험 모두 <b>VLOOKUP이 기본</b>입니다. HLOOKUP은 기준값이 <b>첫 행에 가로로 놓인 표</b>일 때 씁니다 — 같은 점수 구간표라도 세로로 배치돼 있으면 VLOOKUP이에요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VLOOKUP과 HLOOKUP 구분">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">검색할 값이 기준표의 어디에 있는지를 본다</text>
+  <rect x="24" y="42" width="320" height="200" rx="12" fill="#F8FAFC" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="184" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#1D6FE8">VLOOKUP — V는 Vertical(세로)</text>
+  <text x="184" y="88" text-anchor="middle" font-size="11.5" fill="#5A6A7E">검색값이 첫 열에 있다</text>
+  <g font-size="11.5">
+    <rect x="90" y="100" width="90" height="24" fill="#1D6FE8"/><text x="135" y="117" text-anchor="middle" fill="#fff" font-weight="700">상품코드</text>
+    <rect x="180" y="100" width="90" height="24" fill="#1D6FE8"/><text x="225" y="117" text-anchor="middle" fill="#fff" font-weight="700">상품명</text>
+    <rect x="90" y="124" width="90" height="22" fill="#fff" stroke="#D1D9E0"/><text x="135" y="139" text-anchor="middle">A-101</text>
+    <rect x="180" y="124" width="90" height="22" fill="#fff" stroke="#D1D9E0"/><text x="225" y="139" text-anchor="middle">무선마우스</text>
+    <rect x="90" y="146" width="90" height="22" fill="#fff" stroke="#D1D9E0"/><text x="135" y="161" text-anchor="middle">A-102</text>
+    <rect x="180" y="146" width="90" height="22" fill="#fff" stroke="#D1D9E0"/><text x="225" y="161" text-anchor="middle">키보드</text>
+    <rect x="90" y="168" width="90" height="22" fill="#fff" stroke="#D1D9E0"/><text x="135" y="183" text-anchor="middle">A-103</text>
+    <rect x="180" y="168" width="90" height="22" fill="#fff" stroke="#D1D9E0"/><text x="225" y="183" text-anchor="middle">모니터</text>
+  </g>
+  <path d="M70,104 L70,186" stroke="#1D6FE8" stroke-width="2.5"/>
+  <path d="M70,190 l-5,-8 l10,0 z" fill="#1D6FE8"/>
+  <text x="184" y="212" text-anchor="middle" font-size="11.5" fill="#1D6FE8" font-weight="700">세 번째 인수 = 몇 번째 열(가로 순서)</text>
+  <text x="184" y="230" text-anchor="middle" font-size="11" fill="#5A6A7E">블라인드가 위아래로 펼쳐지는 모습</text>
+
+  <rect x="376" y="42" width="320" height="200" rx="12" fill="#F8FAFC" stroke="#0A8A68" stroke-width="2"/>
+  <text x="536" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#0A8A68">HLOOKUP — H는 Horizontal(가로)</text>
+  <text x="536" y="88" text-anchor="middle" font-size="11.5" fill="#5A6A7E">검색값이 첫 행에 있다</text>
+  <g font-size="11.5">
+    <rect x="404" y="110" width="68" height="24" fill="#0A8A68"/><text x="438" y="127" text-anchor="middle" fill="#fff" font-weight="700">0</text>
+    <rect x="472" y="110" width="68" height="24" fill="#0A8A68"/><text x="506" y="127" text-anchor="middle" fill="#fff" font-weight="700">70</text>
+    <rect x="540" y="110" width="68" height="24" fill="#0A8A68"/><text x="574" y="127" text-anchor="middle" fill="#fff" font-weight="700">80</text>
+    <rect x="608" y="110" width="68" height="24" fill="#0A8A68"/><text x="642" y="127" text-anchor="middle" fill="#fff" font-weight="700">90</text>
+    <rect x="404" y="134" width="68" height="22" fill="#fff" stroke="#D1D9E0"/><text x="438" y="149" text-anchor="middle">D</text>
+    <rect x="472" y="134" width="68" height="22" fill="#fff" stroke="#D1D9E0"/><text x="506" y="149" text-anchor="middle">C</text>
+    <rect x="540" y="134" width="68" height="22" fill="#fff" stroke="#D1D9E0"/><text x="574" y="149" text-anchor="middle">B</text>
+    <rect x="608" y="134" width="68" height="22" fill="#fff" stroke="#D1D9E0"/><text x="642" y="149" text-anchor="middle">A</text>
+  </g>
+  <path d="M408,176 L672,176" stroke="#0A8A68" stroke-width="2.5"/>
+  <path d="M676,176 l-8,-5 l0,10 z" fill="#0A8A68"/>
+  <text x="536" y="204" text-anchor="middle" font-size="11.5" fill="#0A8A68" font-weight="700">세 번째 인수 = 몇 번째 행(세로 순서)</text>
+  <text x="536" y="224" text-anchor="middle" font-size="11" fill="#5A6A7E">점수 구간표처럼 옆으로 뻗은 표</text>
+
+  <rect x="24" y="256" width="672" height="30" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="276" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">검색값이 첫 열이면 V, 첫 행이면 H — 인수 구조는 같고 세 번째만 다르다</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 1</span> · 검색값이 첫 열이면 V, 첫 행이면 H</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 기준표가 가로로 늘어서 있는데 VLOOKUP을 쓰면 값을 찾지 못합니다. 표 방향부터 확인하세요.</div>
+    </div>
+    <div class="concept-box">
+      <h3>인수 4개를 순서대로 읽는 법</h3>
+      <div class="step"><b>①검색할 값</b> 찾아 들어갈 열쇠입니다. 보통 왼쪽 표의 셀을 클릭해요. <b>범위가 아니라 셀 하나</b>입니다 — 여기서 범위를 잡는 실수가 잦습니다.</div>
+      <div class="step"><b>②기준표</b> 찾아볼 표입니다. 컴활 실기에서는 <b>머리글(필드명) 행을 빼고</b> 데이터만 잡는 것이 표준 풀이예요. 그리고 채우기 핸들로 끌 것이므로 <b>F4로 절대 참조</b>를 겁니다.</div>
+      <div class="step"><b>③열 번호</b> 가져올 열이 기준표 안에서 <b>왼쪽부터 몇 번째</b>인지입니다. HLOOKUP이면 위에서부터 몇 번째 행인지예요.</div>
+      <div class="step"><b>④일치 옵션</b> <code>FALSE</code>(또는 0)는 정확히 일치, <code>TRUE</code>(또는 1)는 유사 일치입니다.</div>
+      <div class="step"><b>읽는 문장</b> 「<b>B6</b>에 있는 값을 → <b>기준표</b>에서 찾아 → 그 줄의 <b>2번째 열</b>을 가져와라 → <b>정확히</b> 같은 것만」</div>
+      <div class="step"><b>검색할 값은 첫 열에</b> 기준표의 <b>가장 왼쪽 열</b>에 검색할 값이 있어야 합니다. 상품명으로 찾고 싶다면 기준표를 <b>상품명 열부터</b> 잡으면 돼요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VLOOKUP 인수 4개 구조">
+  <text x="360" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#1A202C" font-family="JetBrains Mono, monospace">=VLOOKUP( 검색할 값 , 기준표 , 열 번호 , FALSE )</text>
+  <rect x="20" y="48" width="160" height="120" rx="10" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="100" y="72" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">① 검색할 값</text>
+  <text x="100" y="94" text-anchor="middle" font-size="11.5" fill="#1A202C">찾아 들어갈 열쇠</text>
+  <text x="100" y="114" text-anchor="middle" font-size="11.5" fill="#5A6A7E">보통 왼쪽 표의 셀</text>
+  <rect x="42" y="126" width="116" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="100" y="144" text-anchor="middle" font-size="11.5" font-family="JetBrains Mono, monospace">B6</text>
+
+  <rect x="192" y="48" width="176" height="120" rx="10" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="280" y="72" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">② 기준표</text>
+  <text x="280" y="94" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">머리글은 뺀다</text>
+  <text x="280" y="114" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">F4로 반드시 고정</text>
+  <rect x="212" y="126" width="136" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="280" y="144" text-anchor="middle" font-size="11" font-family="JetBrains Mono, monospace">$B$26:$D$31</text>
+
+  <rect x="380" y="48" width="156" height="120" rx="10" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="458" y="72" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68">③ 열 번호</text>
+  <text x="458" y="94" text-anchor="middle" font-size="11.5" fill="#1A202C">가져올 열이 왼쪽부터</text>
+  <text x="458" y="112" text-anchor="middle" font-size="11.5" fill="#1A202C">몇 번째인가</text>
+  <rect x="404" y="126" width="108" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="458" y="144" text-anchor="middle" font-size="11.5" font-family="JetBrains Mono, monospace">2</text>
+
+  <rect x="548" y="48" width="152" height="120" rx="10" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="624" y="72" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">④ 일치 옵션</text>
+  <text x="624" y="94" text-anchor="middle" font-size="11.5" fill="#1A202C">FALSE = 정확히 일치</text>
+  <text x="624" y="112" text-anchor="middle" font-size="11.5" fill="#1A202C">TRUE = 유사 일치</text>
+  <rect x="570" y="126" width="108" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="624" y="144" text-anchor="middle" font-size="11.5" font-family="JetBrains Mono, monospace">FALSE / 0</text>
+
+  <rect x="20" y="186" width="680" height="128" rx="10" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="42" y="210" font-size="12.5" font-weight="700" fill="#1D6FE8">넣는 순서대로 이렇게 읽으면 된다</text>
+  <text x="42" y="234" font-size="12" fill="#1A202C">「<tspan font-weight="700">B6</tspan>에 있는 상품코드를 → <tspan font-weight="700">기준표</tspan>에서 찾아 → 그 줄의 <tspan font-weight="700">2번째 열</tspan>을 가져와라 → <tspan font-weight="700">정확히</tspan> 같은 것만」</text>
+  <rect x="42" y="248" width="636" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="52" y="266" font-size="12" font-family="JetBrains Mono, monospace" fill="#1A202C">=VLOOKUP(B6, $B$26:$D$31, 2, FALSE)</text>
+  <text x="42" y="296" font-size="12" fill="#C0392B">HLOOKUP도 똑같고 ③만 <tspan font-weight="700">행 번호</tspan>로 바뀝니다.</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 2</span> · 네 칸을 문장으로 읽으면 순서가 외워진다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 검색할 값 자리에 범위를 넣으면 채우기 핸들로 끌었을 때 값이 따라 내려가지 않습니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>★가장 많이 하는 실수 — 열 번호를 눈으로 세기</h3>
+      <div class="step"><b>무엇을 잘못하나</b> A-101을 기준표에서 눈으로 찾아 "첫 번째 줄이네" 하고 <b>1</b>을, 다음 행은 <b>2</b>를 적는 식입니다.</div>
+      <div class="step"><b>왜 틀렸나</b> 찾는 일은 <b>엑셀이 합니다</b>. 내가 매칭할 필요가 없어요. 이렇게 적으면 행마다 숫자를 바꿔야 하고 끝이 없습니다.</div>
+      <div class="step"><b>맞는 생각</b> <b>"결과로 가져올 열이 왼쪽부터 몇 번째인가"</b>만 정합니다. 상품명을 가져오면 언제나 2, 단가를 가져오면 언제나 3이에요.</div>
+      <div class="step"><b>확인법</b> 이 숫자는 <b>모든 행에서 같습니다</b>. 채우기 핸들로 끌어도 바뀌지 않아요. 행마다 다르게 적고 있다면 잘못 이해한 것입니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="열 번호를 잘못 세는 실수">
+  <text x="180" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">✕ 내가 눈으로 매칭해서 번호를 적는다</text>
+  <g font-size="11.5">
+    <rect x="40" y="44" width="80" height="24" fill="#C0392B"/><text x="80" y="61" text-anchor="middle" fill="#fff" font-weight="700">상품코드</text>
+    <rect x="120" y="44" width="90" height="24" fill="#C0392B"/><text x="165" y="61" text-anchor="middle" fill="#fff" font-weight="700">상품명</text>
+    <rect x="40" y="68" width="80" height="22" fill="#FDEDEC" stroke="#D1D9E0"/><text x="80" y="83" text-anchor="middle">A-101</text>
+    <rect x="120" y="68" width="90" height="22" fill="#FDEDEC" stroke="#D1D9E0"/><text x="165" y="83" text-anchor="middle">무선마우스</text>
+    <text x="222" y="83" font-size="11" fill="#C0392B">← 1번째니까 1</text>
+    <rect x="40" y="90" width="80" height="22" fill="#FDEDEC" stroke="#D1D9E0"/><text x="80" y="105" text-anchor="middle">A-102</text>
+    <rect x="120" y="90" width="90" height="22" fill="#FDEDEC" stroke="#D1D9E0"/><text x="165" y="105" text-anchor="middle">키보드</text>
+    <text x="222" y="105" font-size="11" fill="#C0392B">← 2번째니까 2</text>
+    <rect x="40" y="112" width="80" height="22" fill="#FDEDEC" stroke="#D1D9E0"/><text x="80" y="127" text-anchor="middle">A-103</text>
+    <rect x="120" y="112" width="90" height="22" fill="#FDEDEC" stroke="#D1D9E0"/><text x="165" y="127" text-anchor="middle">모니터</text>
+    <text x="222" y="127" font-size="11" fill="#C0392B">← 3번째니까 3</text>
+  </g>
+  <text x="180" y="156" text-anchor="middle" font-size="12" fill="#C0392B" font-weight="700">행마다 번호를 바꿔 적게 된다 — 끝이 없다</text>
+
+  <text x="540" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0A8A68">✓ 가져올 열이 몇 번째인지만 센다</text>
+  <g font-size="11.5">
+    <rect x="400" y="44" width="80" height="24" fill="#0A8A68"/><text x="440" y="61" text-anchor="middle" fill="#fff" font-weight="700">상품코드</text>
+    <rect x="480" y="44" width="90" height="24" fill="#0A8A68"/><text x="525" y="61" text-anchor="middle" fill="#fff" font-weight="700">상품명</text>
+    <rect x="570" y="44" width="80" height="24" fill="#0A8A68"/><text x="610" y="61" text-anchor="middle" fill="#fff" font-weight="700">단가</text>
+    <text x="440" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">1</text>
+    <text x="525" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">2</text>
+    <text x="610" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">3</text>
+    <rect x="400" y="96" width="250" height="22" fill="#E6F7F1" stroke="#D1D9E0"/>
+    <text x="525" y="111" text-anchor="middle" font-size="11">상품명을 가져올 거면 → 언제나 2</text>
+    <rect x="400" y="118" width="250" height="22" fill="#E6F7F1" stroke="#D1D9E0"/>
+    <text x="525" y="133" text-anchor="middle" font-size="11">단가를 가져올 거면 → 언제나 3</text>
+  </g>
+  <text x="540" y="164" text-anchor="middle" font-size="12" fill="#0A8A68" font-weight="700">모든 행에 같은 숫자 — 행마다 바뀌지 않는다</text>
+
+  <rect x="30" y="188" width="660" height="96" rx="10" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="50" y="212" font-size="12.5" font-weight="700" fill="#C0392B">★ 강사가 "제일 많이 하는 실수"로 꼽은 지점</text>
+  <text x="50" y="236" font-size="12" fill="#1A202C">찾는 일은 <tspan font-weight="700">엑셀이 합니다.</tspan> 내가 A-101을 눈으로 찾아 몇 번째 줄인지 셀 필요가 없어요.</text>
+  <text x="50" y="258" font-size="12" fill="#1A202C">나는 <tspan font-weight="700">"결과로 가져올 열이 왼쪽부터 몇 번째인가"</tspan>만 정해서 넣습니다.</text>
+  <text x="50" y="276" font-size="11.5" fill="#5A6A7E">그래서 이 숫자는 채우기 핸들로 끌어도 바뀌지 않습니다.</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 3</span> · 찾는 건 엑셀이 하고, 나는 가져올 열만 정한다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 강사가 "이때까지 본 학생들이 다 똑같이 하는 실수"로 꼽은 지점입니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>FALSE냐 TRUE냐 — 검색할 값을 보고 정한다</h3>
+      <div class="step"><b>★문자 데이터</b> 상품코드 A-101, 이름, 부서명처럼 <b>정확히 같은 값을 찾아야 하는 문자</b>는 <b>FALSE</b>입니다. 생략하면 유사 일치로 처리돼 값이 어긋나요.</div>
+      <div class="step"><b>숫자 데이터</b> 둘 다 가능해서 한 번 더 봅니다. 상품코드를 <code>102</code>처럼 <b>숫자로 쓴 코드</b>라면 표에 그대로 있으니 FALSE예요.</div>
+      <div class="step"><b>구간을 찾을 때</b> 945점으로 등급을 매기는 경우, <b>945가 표에 그대로 없습니다</b>. 이럴 때가 TRUE(유사 일치)입니다.</div>
+      <div class="step"><b>가르는 기준 한 줄</b> 검색할 값이 기준표에 <b>똑같이 있으면 FALSE</b>, <b>없고 구간으로 걸치면 TRUE</b>입니다.</div>
+      <div class="step"><b>생략하면</b> <b>TRUE로 처리</b>됩니다. 생략할 때는 앞의 쉼표까지 함께 지우세요.</div>
+      <div class="step"><b>유사 일치의 조건</b> TRUE를 쓸 때 기준표는 <b>오름차순으로 정렬</b>돼 있어야 제대로 걸립니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TRUE FALSE 판단 흐름">
+  <text x="360" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1A202C">네 번째 인수, 이렇게 정하면 됩니다</text>
+  <rect x="270" y="42" width="180" height="40" rx="20" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="360" y="67" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">검색할 값이 무엇인가?</text>
+  <path d="M320,82 L180,110" stroke="#1D6FE8" stroke-width="1.6" fill="none"/>
+  <path d="M176,111 l9,-4 l1,9 z" fill="#1D6FE8"/>
+  <path d="M400,82 L540,110" stroke="#1D6FE8" stroke-width="1.6" fill="none"/>
+  <path d="M544,111 l-10,-4 l-1,9 z" fill="#1D6FE8"/>
+
+  <rect x="40" y="114" width="280" height="150" rx="12" fill="#FDEDEC" stroke="#C0392B" stroke-width="2"/>
+  <text x="180" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">문자 데이터</text>
+  <text x="180" y="160" text-anchor="middle" font-size="11.5" fill="#5A6A7E">코드·이름처럼 딱 맞아야 할 때</text>
+  <rect x="70" y="172" width="220" height="34" rx="8" fill="#fff" stroke="#C0392B"/>
+  <text x="180" y="195" text-anchor="middle" font-size="14" font-weight="700" fill="#C0392B" font-family="JetBrains Mono, monospace">FALSE (또는 0)</text>
+  <text x="180" y="224" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">정확히 일치하는 것만 가져온다</text>
+  <text x="180" y="246" text-anchor="middle" font-size="11.5" fill="#1A202C">생략하면 값이 안 나옵니다</text>
+
+  <rect x="400" y="114" width="280" height="150" rx="12" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <text x="540" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">숫자 데이터</text>
+  <text x="540" y="160" text-anchor="middle" font-size="11.5" fill="#5A6A7E">둘 다 될 수 있어 한 번 더 봅니다</text>
+  <rect x="416" y="170" width="120" height="38" rx="8" fill="#fff" stroke="#D1D9E0"/>
+  <text x="476" y="186" text-anchor="middle" font-size="11" fill="#1A202C">코드로 쓴 숫자</text>
+  <text x="476" y="202" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B" font-family="JetBrains Mono, monospace">FALSE</text>
+  <rect x="544" y="170" width="120" height="38" rx="8" fill="#fff" stroke="#D1D9E0"/>
+  <text x="604" y="186" text-anchor="middle" font-size="11" fill="#1A202C">점수·금액 구간</text>
+  <text x="604" y="202" text-anchor="middle" font-size="12" font-weight="700" fill="#0A8A68" font-family="JetBrains Mono, monospace">TRUE</text>
+  <text x="540" y="230" text-anchor="middle" font-size="11.5" fill="#1A202C">945점처럼 <tspan font-weight="700">표에 딱 없는 값</tspan>이면 TRUE</text>
+  <text x="540" y="250" text-anchor="middle" font-size="11.5" fill="#1A202C">102처럼 <tspan font-weight="700">표에 그대로 있는 값</tspan>이면 FALSE</text>
+
+  <rect x="40" y="278" width="640" height="40" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="360" y="296" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">생략하면 TRUE(유사 일치)로 처리됩니다</text>
+  <text x="360" y="312" text-anchor="middle" font-size="11.5" fill="#1A202C">생략할 때는 앞의 쉼표까지 함께 지웁니다</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 4</span> · 딱 맞아야 하면 FALSE, 구간에 걸치면 TRUE</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 검색할 값이 문자인데 네 번째 인수를 생략하면 원하는 값이 나오지 않습니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>#N/A가 떴을 때 — 무엇부터 볼까</h3>
+      <div class="step"><b>무슨 뜻인가</b> <code>#N/A</code>는 <b>Not Available</b>, 찾을 수 없다는 뜻입니다. 앞으로 가장 자주 보게 될 오류예요.</div>
+      <div class="step"><b>★첫 줄만 맞을 때</b> <b>기준표 절대 참조 누락</b>일 가능성이 가장 높습니다. 채우면 기준표가 한 칸씩 밀려 내려가 찾을 곳이 사라지거든요. F4부터 확인하되, 검색값 누락·형식 불일치·공백·일치 옵션도 함께 봅니다.</div>
+      <div class="step"><b>진단</b> 오류 셀에서 <b>F2</b>를 누르면 참조 중인 기준표가 색 상자로 보입니다. 밀려 있으면 바로 눈에 들어와요.</div>
+      <div class="step"><b>고치는 법</b> 수식으로 돌아가 기준표 범위에 커서를 두고 <b>F4</b>를 누릅니다. 범위 드래그가 어려우면 <b>fx 버튼</b>으로 대화상자를 열어 고치면 편해요.</div>
+      <div class="step"><b>다른 원인</b> 검색할 값이 기준표의 <b>첫 열에 없을 때</b>, 값은 같아 보여도 <b>공백이 섞이거나 숫자·문자 형식이 다를 때</b>, <b>일치 옵션을 잘못 골랐을 때</b>도 납니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="기준표 고정과 N/A 오류">
+  <text x="180" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">✕ 기준표를 고정 안 함</text>
+  <g font-family="JetBrains Mono, monospace" font-size="11">
+    <rect x="30" y="42" width="300" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/>
+    <text x="40" y="61" fill="#1A202C">=VLOOKUP(B6, B26:D31, 2, FALSE)</text>
+    <rect x="30" y="78" width="300" height="28" rx="6" fill="#FDEDEC" stroke="#C0392B"/>
+    <text x="40" y="97" fill="#C0392B">=VLOOKUP(B7, B27:D32, 2, FALSE)</text>
+    <rect x="30" y="114" width="300" height="28" rx="6" fill="#FDEDEC" stroke="#C0392B"/>
+    <text x="40" y="133" fill="#C0392B">=VLOOKUP(B8, B28:D33, 2, FALSE)</text>
+  </g>
+  <rect x="30" y="152" width="300" height="34" rx="8" fill="#C0392B"/>
+  <text x="180" y="174" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="JetBrains Mono, monospace">#N/A</text>
+  <text x="180" y="204" text-anchor="middle" font-size="11.5" fill="#C0392B">기준표가 한 칸씩 밀려 내려가 찾을 곳이 사라진다</text>
+
+  <text x="540" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0A8A68">✓ F4로 고정</text>
+  <g font-family="JetBrains Mono, monospace" font-size="11">
+    <rect x="390" y="42" width="310" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/>
+    <text x="400" y="61" fill="#1A202C">=VLOOKUP(B6, $B$26:$D$31, 2, FALSE)</text>
+    <rect x="390" y="78" width="310" height="28" rx="6" fill="#E6F7F1" stroke="#0A8A68"/>
+    <text x="400" y="97" fill="#0A8A68">=VLOOKUP(B7, $B$26:$D$31, 2, FALSE)</text>
+    <rect x="390" y="114" width="310" height="28" rx="6" fill="#E6F7F1" stroke="#0A8A68"/>
+    <text x="400" y="133" fill="#0A8A68">=VLOOKUP(B8, $B$26:$D$31, 2, FALSE)</text>
+  </g>
+  <rect x="390" y="152" width="310" height="34" rx="8" fill="#0A8A68"/>
+  <text x="545" y="174" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">무선마우스 · 키보드 · 모니터</text>
+  <text x="545" y="204" text-anchor="middle" font-size="11.5" fill="#0A8A68">기준표는 붙박이, 검색할 값만 따라 내려간다</text>
+
+  <rect x="30" y="220" width="670" height="58" rx="10" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="50" y="242" font-size="12.5" font-weight="700" fill="#1D6FE8">#N/A = Not Available (찾을 수 없음)</text>
+  <text x="50" y="264" font-size="12" fill="#1A202C">첫 줄만 맞고 아래가 오류면 <tspan font-weight="700">F2</tspan>를 눌러 기준표가 밀렸는지부터 봅니다.</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 5</span> · 기준표는 붙박이, 검색할 값만 따라 내려간다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 첫 줄만 값이 맞고 아래가 전부 #N/A라면 기준표 고정을 빠뜨린 것입니다.</div>
+    </div>
+    <div class="concept-box">
+      <h3>실기는 이렇게 나온다 — 찾아서 곱하기</h3>
+      <div class="step"><b>문제 형태</b> 단가 열이 아예 없고 <b>"단가를 찾아와 수량과 곱해 금액을 구하시오"</b>처럼 나오는 경우가 많습니다. 단독으로도 나오지만 <b>다른 계산과 묶여 나오는 형태에 익숙해져야</b> 해요.</div>
+      <div class="step"><b>★한 번에 쓰지 말 것</b> 강사 권장 순서입니다. <b>①VLOOKUP만 먼저 써서 단가가 제대로 나오는지 확인</b> → <b>②F2를 눌러 앞에 <code>수량 *</code>를 붙인다</b> → ③채우기 핸들로 채운다.</div>
+      <div class="step"><b>왜 이렇게 하나</b> 한 번에 길게 쓰면 값이 틀렸을 때 <b>어디가 문제인지 알 수 없습니다</b>. 나눠 쓰면 1단계에서 바로 잡혀요.</div>
+      <div class="step"><b>연산자</b> 더하기·빼기·곱하기·나누기는 <b>산술 연산자</b>라 그냥 붙여 쓰면 됩니다. 별도 연결 기호가 필요 없어요.</div>
+      <div class="step"><b>셀이 클릭되지 않을 때</b> HLOOKUP에서 검색할 값 셀이 클릭되지 않으면 <b>방향키</b>로 이동하거나 <b>fx 대화상자</b>를 열어 지정합니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="실기 출제 형태 단계">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">찾아온 값을 바로 계산에 넣는 형태가 자주 나옵니다</text>
+  <rect x="24" y="40" width="672" height="52" rx="10" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="44" y="62" font-size="12.5" font-weight="700" fill="#92680A">실제 문제</text>
+  <text x="44" y="82" font-size="12" fill="#1A202C">"단가는 기준표에서 찾아오고, <tspan font-weight="700">수량과 곱해서 금액</tspan>을 구하시오" — 단가 열이 아예 없습니다</text>
+
+  <rect x="24" y="106" width="212" height="120" rx="10" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="130" y="130" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">1단계 · 먼저 찾아온다</text>
+  <rect x="42" y="142" width="176" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="130" y="160" text-anchor="middle" font-size="10.5" font-family="JetBrains Mono, monospace">=VLOOKUP(B6,$B$26:$D$31,3,0)</text>
+  <text x="130" y="186" text-anchor="middle" font-size="11.5" fill="#1A202C">엔터를 쳐서</text>
+  <text x="130" y="204" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1D6FE8">단가가 제대로 나오는지 확인</text>
+
+  <path d="M240,166 L262,166" stroke="#5A6A7E" stroke-width="2"/>
+  <path d="M266,166 l-8,-5 l0,10 z" fill="#5A6A7E"/>
+
+  <rect x="270" y="106" width="212" height="120" rx="10" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="376" y="130" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68">2단계 · 그다음 곱한다</text>
+  <rect x="288" y="142" width="176" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="376" y="160" text-anchor="middle" font-size="10" font-family="JetBrains Mono, monospace">=C6*VLOOKUP(B6,$B$26:$D$31,3,0)</text>
+  <text x="376" y="186" text-anchor="middle" font-size="11.5" fill="#1A202C">F2를 눌러 앞에</text>
+  <text x="376" y="204" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0A8A68">수량 × 를 붙이면 끝</text>
+
+  <path d="M486,166 L508,166" stroke="#5A6A7E" stroke-width="2"/>
+  <path d="M512,166 l-8,-5 l0,10 z" fill="#5A6A7E"/>
+
+  <rect x="516" y="106" width="180" height="120" rx="10" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="606" y="130" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1A202C">3단계 · 채운다</text>
+  <text x="606" y="156" text-anchor="middle" font-size="11.5" fill="#1A202C">채우기 핸들 더블 클릭</text>
+  <text x="606" y="180" text-anchor="middle" font-size="11.5" fill="#5A6A7E">기준표를 F4로</text>
+  <text x="606" y="198" text-anchor="middle" font-size="11.5" fill="#5A6A7E">고정했는지 다시 확인</text>
+
+  <rect x="24" y="240" width="672" height="46" rx="10" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="44" y="262" font-size="12.5" font-weight="700" fill="#1D6FE8">한 번에 쓰려 하지 말 것 (강사 권장)</text>
+  <text x="44" y="280" font-size="12" fill="#1A202C">처음에는 <tspan font-weight="700">VLOOKUP만 먼저 써서 값이 맞는지 보고</tspan>, 그다음 곱셈을 붙이는 편이 훨씬 안전합니다.</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 6</span> · 먼저 찾고, 확인하고, 그다음 곱한다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 결과만 맞으면 되므로 곱셈을 앞에 붙이든 뒤에 붙이든 상관없습니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 강사가 꼽은 1위 실수</div>
+      <h3>열 번호를 눈으로 매칭해서 적어요</h3>
+      <p>A-101이 첫 줄이니까 1, 다음은 2… 이렇게 적습니다. 찾는 일은 엑셀이 하는데 내가 대신 해버리는 거예요.</p>
+      <p class="fix">"가져올 열이 왼쪽부터 몇 번째인가"만 넣으세요. 모든 행에서 같은 숫자입니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>기준표에 F4를 안 눌러 #N/A가 떠요</h3>
+      <p>첫 줄은 맞게 나와서 더 못 찾습니다. 아래로 갈수록 기준표가 밀려 찾을 곳이 사라져요.</p>
+      <p class="fix">#N/A가 보이면 F2부터. 기준표 범위에 $가 있는지 확인하세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>기준표에 머리글까지 넣어요</h3>
+      <p>필드명 행이 섞이면 열 번호를 세기 어려워지고 유사 일치에서 엉뚱하게 걸릴 수 있습니다.</p>
+      <p class="fix">컴활 실기에서는 머리글을 빼고 데이터만 잡는 것이 표준입니다. VLOOKUP·HLOOKUP 공통이에요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>코드로 찾는데 네 번째 인수를 생략해요</h3>
+      <p>생략하면 TRUE(유사 일치)로 처리돼 엉뚱한 값이 나옵니다.</p>
+      <p class="fix">정확히 같은 값을 찾아야 하면 FALSE를 넣으세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>검색할 값 자리에 범위를 잡아요</h3>
+      <p>셀 하나여야 하는데 범위를 잡으면 채워도 값이 따라 내려가지 않습니다.</p>
+      <p class="fix">검색할 값은 셀 하나(B6)입니다. 범위는 두 번째 인수인 기준표예요.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 함수·단축키 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>함수 / 단축키</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>찾기 참조</td><td><code>=VLOOKUP(값, 기준표, 열번호, FALSE)</code></td><td>세로 기준표에서 찾아오기</td><td>검색값이 기준표 첫 열에 있을 때</td></tr>
+          <tr><td>찾기 참조</td><td><code>=HLOOKUP(값, 기준표, 행번호, FALSE)</code></td><td>가로 기준표에서 찾아오기</td><td>검색값이 기준표 첫 행에 있을 때</td></tr>
+          <tr><td>인수 ①</td><td>검색할 값</td><td>찾아 들어갈 열쇠</td><td>범위가 아니라 셀 하나</td></tr>
+          <tr><td>인수 ②</td><td>기준표</td><td>찾아볼 표</td><td>실기 표준은 머리글 제외 · F4 고정</td></tr>
+          <tr><td>인수 ③</td><td>열 번호 / 행 번호</td><td>가져올 열(행)이 몇 번째인지</td><td>모든 행에서 같은 숫자</td></tr>
+          <tr><td>인수 ④</td><td><code>FALSE</code> / <code>0</code></td><td>정확히 일치</td><td>코드·이름 등 정확히 일치</td></tr>
+          <tr><td>인수 ④</td><td><code>TRUE</code> / <code>1</code></td><td>유사 일치</td><td>구간·등급표 · 생략 시 기본값</td></tr>
+          <tr><td>오류</td><td><code>#N/A</code></td><td>찾을 수 없음</td><td>첫 줄만 맞으면 F4부터 확인</td></tr>
+          <tr><td>참조</td><td><code>F4</code></td><td>기준표 절대 참조</td><td>아래로 채울 때 검색값은 상대참조</td></tr>
+          <tr><td>점검</td><td><code>F2</code></td><td>참조 범위를 색 상자로 확인</td><td>#N/A 뜨면 제일 먼저</td></tr>
+          <tr><td>입력 보조</td><td>수식 입력줄 왼쪽 <code>fx</code></td><td>함수 인수 대화상자</td><td>범위 드래그가 어려울 때</td></tr>
+          <tr><td>실기 조합</td><td><code>=수량*VLOOKUP(…)</code></td><td>찾아온 값을 바로 계산</td><td>VLOOKUP 먼저 확인 후 곱하기</td></tr>
+          <tr><td>복습</td><td><code>=SUMIF(범위, 조건, 합계범위)</code></td><td>조건 1개 합계</td><td>어제 배운 것 — 백지에 써보기</td></tr>
+          <tr><td>복습</td><td><code>=DSUM(데이터베이스, 필드, 조건범위)</code></td><td>조건표로 합계</td><td>머리글 포함이 D함수의 특징</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">검색할 값이 기준표의 <b>첫 열</b>에 있을 때 쓰는 함수는?</p>
+      <button class="quiz-opt" data-correct="true">VLOOKUP</button>
+      <button class="quiz-opt" data-correct="false">HLOOKUP</button>
+      <button class="quiz-opt" data-correct="false">DSUM</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">VLOOKUP의 <b>세 번째 인수</b>(열 번호)는 무엇을 넣을까요?</p>
+      <button class="quiz-opt" data-correct="false">검색할 값이 표의 몇 번째 줄에 있는지</button>
+      <button class="quiz-opt" data-correct="true">결과로 가져올 열이 왼쪽부터 몇 번째인지</button>
+      <button class="quiz-opt" data-correct="false">기준표의 전체 열 개수</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">상품코드 <b>A-101</b>처럼 <b>정확히 같은 값</b>을 찾을 때 네 번째 인수는?</p>
+      <button class="quiz-opt" data-correct="false">생략한다</button>
+      <button class="quiz-opt" data-correct="false">TRUE</button>
+      <button class="quiz-opt" data-correct="true">FALSE</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">VLOOKUP의 네 번째 인수를 <b>생략</b>하면 어떻게 처리될까요?</p>
+      <button class="quiz-opt" data-correct="true">TRUE(유사 일치)로 처리된다</button>
+      <button class="quiz-opt" data-correct="false">FALSE(정확히 일치)로 처리된다</button>
+      <button class="quiz-opt" data-correct="false">오류가 발생한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">첫 줄은 값이 맞는데 <b>아래로 갈수록 #N/A</b>가 뜹니다. 가장 가능성 높은 원인은?</p>
+      <button class="quiz-opt" data-correct="false">열 번호를 잘못 넣었다</button>
+      <button class="quiz-opt" data-correct="true">기준표를 F4로 고정하지 않았다</button>
+      <button class="quiz-opt" data-correct="false">검색할 값이 숫자여서</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">컴활 실기에서 기준표 범위를 잡을 때 <b>보통 빼는</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">마지막 행</button>
+      <button class="quiz-opt" data-correct="false">가장 오른쪽 열</button>
+      <button class="quiz-opt" data-correct="true">머리글(필드명) 행</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">945점으로 <b>등급</b>을 매기려고 합니다. 기준표에 945가 그대로 없다면 네 번째 인수는?</p>
+      <button class="quiz-opt" data-correct="false">FALSE</button>
+      <button class="quiz-opt" data-correct="true">TRUE</button>
+      <button class="quiz-opt" data-correct="false">아무거나 상관없다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext"><b>HLOOKUP</b>의 세 번째 인수는 무엇일까요?</p>
+      <button class="quiz-opt" data-correct="true">행 번호</button>
+      <button class="quiz-opt" data-correct="false">열 번호</button>
+      <button class="quiz-opt" data-correct="false">조건 범위</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">VLOOKUP의 <b>첫 번째 인수</b>(검색할 값)에 들어가는 것은?</p>
+      <button class="quiz-opt" data-correct="false">기준표 전체 범위</button>
+      <button class="quiz-opt" data-correct="true">찾을 값이 든 셀 하나</button>
+      <button class="quiz-opt" data-correct="false">가져올 열의 머리글</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">"단가를 찾아와 수량과 곱해 금액을 구하시오"라는 문제를 <b>안전하게</b> 푸는 순서는?</p>
+      <button class="quiz-opt" data-correct="false">처음부터 곱셈까지 한 줄로 쓴다</button>
+      <button class="quiz-opt" data-correct="false">수량을 먼저 곱해두고 나중에 VLOOKUP을 넣는다</button>
+      <button class="quiz-opt" data-correct="true">VLOOKUP만 먼저 써서 값을 확인한 뒤 곱셈을 붙인다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">노트에 SUMIF · SUMIFS · DSUM 인수를 안 보고 적어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">기준표가 세로인 표와 가로인 표를 각각 만들고 V·H 골라 써보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">VLOOKUP을 쓰면서 네 인수를 소리 내어 문장으로 읽어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">기준표에 머리글을 넣었다 뺐다 하며 결과 차이 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">F4를 일부러 빼고 채워서 #N/A를 직접 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">#N/A 셀에서 F2를 눌러 기준표가 밀린 것 눈으로 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">같은 표에서 상품명(2)과 단가(3)를 각각 가져와 열 번호 감 잡기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">문자 코드로 찾을 때 FALSE / 점수 구간으로 찾을 때 TRUE 비교해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">네 번째 인수를 쉼표까지 지워 생략하고 결과 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">HLOOKUP으로 점수 구간표에서 등급 매겨보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">VLOOKUP만 먼저 쓴 뒤 F2로 수량 곱셈을 붙여 금액 완성하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '7차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
