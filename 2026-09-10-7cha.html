@@ -396,7 +396,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       </div>
       <div class="card">
         <h3>코드·이름으로 찾으면 FALSE, 구간이면 TRUE</h3>
-        <p>상품코드·이름처럼 <b>정확히 같은 값을 찾아야 하는 문자</b>는 <b>FALSE</b>입니다. 945점처럼 <b>표에 딱 없고 구간에 걸치는 값</b>이면 TRUE예요.</p>
+        <p>상품코드·이름처럼 <b>정확히 같은 값을 찾아야 하는 문자</b>는 <b>FALSE</b>입니다. 945점처럼 <b>오름차순 구간표에서 근사값</b>을 찾을 때가 TRUE예요.</p>
         <div class="use">생략하면 TRUE(유사 일치)로 처리됩니다</div>
       </div>
       <div class="card">
@@ -483,7 +483,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
     <div class="concept-box">
       <h3>인수 4개를 순서대로 읽는 법</h3>
       <div class="step"><b>①검색할 값</b> 찾아 들어갈 열쇠입니다. 보통 왼쪽 표의 셀을 클릭해요. <b>범위가 아니라 셀 하나</b>입니다 — 여기서 범위를 잡는 실수가 잦습니다.</div>
-      <div class="step"><b>②기준표</b> 찾아볼 표입니다. 컴활 실기에서는 <b>머리글(필드명) 행을 빼고</b> 데이터만 잡는 것이 표준 풀이예요. 그리고 채우기 핸들로 끌 것이므로 <b>F4로 절대 참조</b>를 겁니다.</div>
+      <div class="step"><b>②기준표</b> 찾아볼 표입니다. 보통 <b>머리글(필드명) 행을 빼고</b> 데이터만 잡습니다 — 열 번호를 세기 쉬워서예요. (머리글을 포함해도 열 번호만 맞게 세면 동작은 합니다.) 그리고 아래로 채울 것이므로 <b>F4로 절대 참조</b>를 겁니다.</div>
       <div class="step"><b>③열 번호</b> 가져올 열이 기준표 안에서 <b>왼쪽부터 몇 번째</b>인지입니다. HLOOKUP이면 위에서부터 몇 번째 행인지예요.</div>
       <div class="step"><b>④일치 옵션</b> <code>FALSE</code>(또는 0)는 정확히 일치, <code>TRUE</code>(또는 1)는 유사 일치입니다.</div>
       <div class="step"><b>읽는 문장</b> 「<b>B6</b>에 있는 값을 → <b>기준표</b>에서 찾아 → 그 줄의 <b>2번째 열</b>을 가져와라 → <b>정확히</b> 같은 것만」</div>
@@ -589,8 +589,8 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <h3>FALSE냐 TRUE냐 — 검색할 값을 보고 정한다</h3>
       <div class="step"><b>★문자 데이터</b> 상품코드 A-101, 이름, 부서명처럼 <b>정확히 같은 값을 찾아야 하는 문자</b>는 <b>FALSE</b>입니다. 생략하면 유사 일치로 처리돼 값이 어긋나요.</div>
       <div class="step"><b>숫자 데이터</b> 둘 다 가능해서 한 번 더 봅니다. 상품코드를 <code>102</code>처럼 <b>숫자로 쓴 코드</b>라면 표에 그대로 있으니 FALSE예요.</div>
-      <div class="step"><b>구간을 찾을 때</b> 945점으로 등급을 매기는 경우, <b>945가 표에 그대로 없습니다</b>. 이럴 때가 TRUE(유사 일치)입니다.</div>
-      <div class="step"><b>가르는 기준 한 줄</b> 검색할 값이 기준표에 <b>똑같이 있으면 FALSE</b>, <b>없고 구간으로 걸치면 TRUE</b>입니다.</div>
+      <div class="step"><b>구간을 찾을 때</b> 945점으로 등급을 매기는 경우입니다. 945가 표에 그대로 없고, 기준표가 <b>구간의 하한값으로 오름차순 정렬</b>돼 있을 때 TRUE(유사 일치)를 씁니다.</div>
+      <div class="step"><b>가르는 기준 한 줄</b> <b>정확히 같은 항목을 찾아야 하면 FALSE</b>, <b>오름차순 구간표에서 근사값을 찾을 때 TRUE</b>입니다. 같은 값이 없더라도 정확히 일치로 찾는 문제라면 FALSE가 맞고, 결과가 #N/A인 것이 정답일 수 있어요.</div>
       <div class="step"><b>생략하면</b> <b>TRUE로 처리</b>됩니다. 생략할 때는 앞의 쉼표까지 함께 지우세요.</div>
       <div class="step"><b>유사 일치의 조건</b> TRUE를 쓸 때 기준표는 <b>오름차순으로 정렬</b>돼 있어야 제대로 걸립니다.</div>
       <div class="vis-box">
@@ -619,9 +619,9 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
   <text x="476" y="186" text-anchor="middle" font-size="11" fill="#1A202C">코드로 쓴 숫자</text>
   <text x="476" y="202" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B" font-family="JetBrains Mono, monospace">FALSE</text>
   <rect x="544" y="170" width="120" height="38" rx="8" fill="#fff" stroke="#D1D9E0"/>
-  <text x="604" y="186" text-anchor="middle" font-size="11" fill="#1A202C">점수·금액 구간</text>
+  <text x="604" y="186" text-anchor="middle" font-size="11" fill="#1A202C">오름차순 구간표</text>
   <text x="604" y="202" text-anchor="middle" font-size="12" font-weight="700" fill="#0A8A68" font-family="JetBrains Mono, monospace">TRUE</text>
-  <text x="540" y="230" text-anchor="middle" font-size="11.5" fill="#1A202C">945점처럼 <tspan font-weight="700">표에 딱 없는 값</tspan>이면 TRUE</text>
+  <text x="540" y="230" text-anchor="middle" font-size="11.5" fill="#1A202C">오름차순 <tspan font-weight="700">구간표에서 근사값</tspan>이면 TRUE</text>
   <text x="540" y="250" text-anchor="middle" font-size="11.5" fill="#1A202C">102처럼 <tspan font-weight="700">표에 그대로 있는 값</tspan>이면 FALSE</text>
 
   <rect x="40" y="278" width="640" height="40" rx="8" fill="#FFF8E1" stroke="#92680A"/>
@@ -781,10 +781,10 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
           <tr><td>찾기 참조</td><td><code>=VLOOKUP(값, 기준표, 열번호, FALSE)</code></td><td>세로 기준표에서 찾아오기</td><td>검색값이 기준표 첫 열에 있을 때</td></tr>
           <tr><td>찾기 참조</td><td><code>=HLOOKUP(값, 기준표, 행번호, FALSE)</code></td><td>가로 기준표에서 찾아오기</td><td>검색값이 기준표 첫 행에 있을 때</td></tr>
           <tr><td>인수 ①</td><td>검색할 값</td><td>찾아 들어갈 열쇠</td><td>범위가 아니라 셀 하나</td></tr>
-          <tr><td>인수 ②</td><td>기준표</td><td>찾아볼 표</td><td>실기 표준은 머리글 제외 · F4 고정</td></tr>
+          <tr><td>인수 ②</td><td>기준표</td><td>찾아볼 표</td><td>보통 머리글 제외 · 아래로 채우면 F4 고정</td></tr>
           <tr><td>인수 ③</td><td>열 번호 / 행 번호</td><td>가져올 열(행)이 몇 번째인지</td><td>모든 행에서 같은 숫자</td></tr>
           <tr><td>인수 ④</td><td><code>FALSE</code> / <code>0</code></td><td>정확히 일치</td><td>코드·이름 등 정확히 일치</td></tr>
-          <tr><td>인수 ④</td><td><code>TRUE</code> / <code>1</code></td><td>유사 일치</td><td>구간·등급표 · 생략 시 기본값</td></tr>
+          <tr><td>인수 ④</td><td><code>TRUE</code> / <code>1</code></td><td>유사 일치</td><td>오름차순 구간표 · 생략 시 기본값</td></tr>
           <tr><td>오류</td><td><code>#N/A</code></td><td>찾을 수 없음</td><td>첫 줄만 맞으면 F4부터 확인</td></tr>
           <tr><td>참조</td><td><code>F4</code></td><td>기준표 절대 참조</td><td>아래로 채울 때 검색값은 상대참조</td></tr>
           <tr><td>점검</td><td><code>F2</code></td><td>참조 범위를 색 상자로 확인</td><td>#N/A 뜨면 제일 먼저</td></tr>
@@ -870,7 +870,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
 
     <div class="quiz-item" data-q="7">
       <span class="qnum">Q7</span>
-      <p class="qtext">945점으로 <b>등급</b>을 매기려고 합니다. 기준표에 945가 그대로 없다면 네 번째 인수는?</p>
+      <p class="qtext">945점으로 <b>등급</b>을 매기려 합니다. 기준표가 점수 <b>하한값 기준 오름차순</b>으로 된 구간표라면 네 번째 인수는?</p>
       <button class="quiz-opt" data-correct="false">FALSE</button>
       <button class="quiz-opt" data-correct="true">TRUE</button>
       <button class="quiz-opt" data-correct="false">아무거나 상관없다</button>
@@ -900,7 +900,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
 
     <div class="quiz-item" data-q="10">
       <span class="qnum">Q10</span>
-      <p class="qtext">"단가를 찾아와 수량과 곱해 금액을 구하시오"라는 문제를 <b>안전하게</b> 푸는 순서는?</p>
+      <p class="qtext">"단가를 찾아와 수량과 곱해 금액을 구하시오" — 강사가 권장한 <b>오류를 줄이는 풀이 순서</b>는?</p>
       <button class="quiz-opt" data-correct="false">처음부터 곱셈까지 한 줄로 쓴다</button>
       <button class="quiz-opt" data-correct="false">수량을 먼저 곱해두고 나중에 VLOOKUP을 넣는다</button>
       <button class="quiz-opt" data-correct="true">VLOOKUP만 먼저 써서 값을 확인한 뒤 곱셈을 붙인다</button>
