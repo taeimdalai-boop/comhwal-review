@@ -325,14 +325,14 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
 <aside class="sidebar" id="sidebar">
   <span class="badge">컴활2급 · 엑셀</span>
   <h1>8차시 복습자료</h1>
-  <p class="meta"><b>2026-09-11</b><br>CHOOSE(번호로 고르기), SWITCH(값으로 고르기), MATCH(몇 번째인지)와 일치 유형, INDEX(행·열로 꺼내기), INDEX+MATCH 조합</p>
+  <p class="meta"><b>2026-09-11</b><br>CHOOSE(번호로 고르기), SWITCH(값으로 고르기), MATCH(몇 번째인지)와 일치 유형, INDEX(행·열로 꺼내기), INDEX+MATCH 조합, 요금표·기출 대비 문제</p>
 
   <nav>
     <p class="nav-title">오늘의 목차</p>
     <ul>
       <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
       <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
-      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 6)</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 7)</a></li>
       <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
       <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>함수 정리표</a></li>
       <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
@@ -355,13 +355,13 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <span class="tag">INDEX + MATCH</span>
     </div>
     <h1>오늘의 핵심은 "<b>번호로 고르기(CHOOSE)</b>, <b>값으로 고르기(SWITCH)</b>, 그리고 <b>MATCH가 번호를 찾고 INDEX가 그 번호의 값을 꺼낸다</b>"입니다.</h1>
-    <p class="sub">2026-09-11 · 8차시 · CHOOSE(번호에 맞는 값 고르기), SWITCH(값에 맞는 결과 고르기), MATCH(몇 번째인지 찾기)와 일치 유형 0·1·-1, INDEX(행·열 번호로 값 꺼내기), INDEX와 MATCH를 짝지어 쓰는 순서</p>
+    <p class="sub">2026-09-11 · 8차시 · CHOOSE(번호에 맞는 값 고르기), SWITCH(값에 맞는 결과 고르기), MATCH(몇 번째인지 찾기)와 일치 유형 0·1·-1, INDEX(행·열 번호로 값 꺼내기), INDEX와 MATCH를 짝지어 쓰는 순서, 요금표에서 행·열 번호를 모두 MATCH로 구하기, 기출 유형(DMAX → MATCH → INDEX)</p>
     <div class="key-badges">
       <span class="key-badge">🔢 CHOOSE</span>
       <span class="key-badge">🔀 SWITCH</span>
       <span class="key-badge">📍 MATCH</span>
       <span class="key-badge">🎯 INDEX</span>
-      <span class="key-badge">🖼️ 그림 6장</span>
+      <span class="key-badge">🖼️ 그림 7장</span>
     </div>
   </section>
 
@@ -392,17 +392,17 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <div class="card">
         <h3>MATCH 세 번째 인수 — 문자·코드는 0</h3>
         <p><code>0</code>은 정확히 일치, <code>1</code>은 오름차순 표에서 찾을 값 이하 중 가장 큰 값, <code>-1</code>은 내림차순 표에서 이상 중 가장 작은 값입니다.</p>
-        <div class="use">생략하면 1로 처리됩니다</div>
+        <div class="use">순서는 <b>오정내</b> — 1 오름차순 · 0 정확히 · -1 내림차순</div>
       </div>
       <div class="card">
         <h3>INDEX는 행·열 번호로 칸을 찍어 값을 꺼낸다</h3>
         <p><code>=INDEX(범위, 행 번호, 열 번호)</code>. 행·열 번호도 MATCH처럼 <b>범위 안에서 몇 번째</b>로 셉니다. 한 열만 잡았으면 행 번호 하나만 써도 돼요.</p>
-        <div class="use">좌표 찍기 — 3행 2열이면 그 칸</div>
+        <div class="use">행 번호 먼저, 열 번호 나중 — 가장 많이 헷갈리는 순서</div>
       </div>
       <div class="card">
         <h3>INDEX + MATCH = 번호 찾기 + 값 꺼내기</h3>
         <p>MATCH가 "몇 번째"를 찾아 INDEX의 행 번호 자리에 넘겨줍니다. <code>=INDEX(가져올 열, MATCH(찾을 값, 찾을 열, 0))</code></p>
-        <div class="use">MATCH만 먼저 써서 번호가 맞는지 확인하고 감싸기</div>
+        <div class="use">목표부터: INDEX는 결과값, MATCH는 번호</div>
       </div>
       <div class="card">
         <h3>VLOOKUP과 무엇이 다른가</h3>
@@ -567,6 +567,9 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <div class="step"><b>1 = 이하 중 가장 큰 값</b> 범위가 <b>오름차순</b>으로 정렬돼 있을 때, 찾을 값보다 작거나 같은 값 중 가장 큰 값의 위치입니다. 점수 구간표에 씁니다.</div>
       <div class="step"><b>-1 = 이상 중 가장 작은 값</b> 범위가 <b>내림차순</b>으로 정렬돼 있을 때, 찾을 값보다 크거나 같은 값 중 가장 작은 값의 위치입니다.</div>
       <div class="step"><b>생략하면 1</b> VLOOKUP의 네 번째 인수를 생략하면 TRUE(유사 일치)가 되는 것과 같은 이치입니다. 문자로 정확히 찾을 땐 <b>0을 꼭 적으세요</b>.</div>
+      <div class="step"><b>오정내로 외우기</b> 수업에서 외운 순서입니다. <b>1 = 오름차순, 0 = 정확히, -1 = 내림차순</b>. 값이 딱 떨어지게 일치하지 않으면 범위의 <b>정렬 방향</b>을 보고 1이나 -1을 고릅니다.</div>
+      <div class="step"><b>숫자라도 그 값이 표에 그대로 있으면 0</b> 컴활 문제에서 이름·지역·요일처럼 <b>정확히 같은 항목을 찾을 때</b>는 따지지 말고 0입니다. 숫자여도 DMAX로 구한 최고값처럼 <b>표에 똑같은 값이 있는 위치</b>를 찾을 때는 0을 씁니다.</div>
+      <div class="step"><b>★표시 형식에 속지 않기</b> 등급표의 「3등급」, 기록표의 「9초」, 면적표의 「39㎡ 이상」처럼 보여도 셀을 클릭해 <b>수식 입력줄</b>을 보면 숫자만 들어 있을 수 있습니다. 표시 형식으로 글자를 붙여 헷갈리게 만든 것이니, 딱 같은 값이 없는 <b>구간표 숫자</b>라면 정렬 방향을 보고 1이나 -1을 고르세요.</div>
       <div class="vis-box">
         <figure>
           <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MATCH 일치 유형 0, 1, -1 비교">
@@ -621,9 +624,11 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
     <div class="concept-box">
       <h3>INDEX — 행·열 번호로 칸을 찍어 값을 꺼낸다</h3>
       <div class="step"><b>구조</b> <code>=INDEX(범위, 행 번호, 열 번호)</code>. 예: <code>=INDEX($B$2:$D$5,3,2)</code></div>
+      <div class="step"><b>첫 인수는 알맹이만</b> 결과로 나올 값이 들어 있는 칸만 잡습니다. 시간·요일·지역명 같은 <b>머리글은 뺍니다</b>.</div>
+      <div class="step"><b>★행 먼저, 열 나중</b> 표를 볼 때는 요일(열)부터 보는 습관이 있어서 많이 헷갈립니다. INDEX는 <b>행 번호 → 열 번호</b> 순서예요.</div>
       <div class="step"><b>좌표 찍기</b> 범위 안에서 <b>위에서 3번째 줄</b>, <b>왼쪽에서 2번째 칸</b>이 만나는 곳의 값을 꺼냅니다. 위 예에서는 <b>C4</b> 칸이에요.</div>
       <div class="step"><b>★범위 기준으로 센다</b> MATCH와 똑같이 행·열 번호는 <b>시트 기준이 아니라 범위 안에서</b> 셉니다. 범위가 B2에서 시작하면 B2가 1행 1열입니다.</div>
-      <div class="step"><b>한 줄만 잡았다면</b> 범위를 한 열(예: <code>$C$2:$C$6</code>)만 잡았으면 <code>=INDEX($C$2:$C$6,3)</code>처럼 번호 하나만 써도 됩니다.</div>
+      <div class="step"><b>한 줄만 잡았다면</b> 범위를 한 열(예: <code>$C$2:$C$6</code>)만 잡았으면 <code>=INDEX($C$2:$C$6,3)</code>처럼 번호 하나만 써도 됩니다. 여러 열을 잡았다면 열 번호까지 알려줘야 하니, 가져올 열이 하나면 <b>그 열만 잡아 하나라도 덜 적는 것</b>을 추천합니다.</div>
       <div class="vis-box">
         <figure>
           <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INDEX 함수의 행 번호와 열 번호">
@@ -676,7 +681,7 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <div class="step"><b>기본형</b> <code>=INDEX(가져올 열, MATCH(찾을 값, 찾을 열, 0))</code></div>
       <div class="step"><b>①MATCH만 먼저</b> 빈 칸에 MATCH만 써서 번호가 제대로 나오는지 봅니다.</div>
       <div class="step"><b>②F2로 INDEX 감싸기</b> 수식을 고쳐 앞에 <code>INDEX(가져올 열,</code>을 붙이고 괄호를 닫습니다. MATCH가 통째로 행 번호 자리에 들어가요.</div>
-      <div class="step"><b>③범위 시작 행 맞추기</b> INDEX의 범위와 MATCH의 범위는 <b>같은 행에서 시작하고 같은 줄 수</b>여야 합니다. 하나는 2행, 하나는 1행에서 시작하면 <b>한 칸씩 어긋난 값</b>이 나와요. 채우기 전에 <b>F4</b>로 두 범위를 고정합니다.</div>
+      <div class="step"><b>③범위 시작 행 맞추기</b> INDEX의 가져올 범위와 MATCH의 찾을 범위는 <b>항목 순서와 줄 수가 서로 대응</b>되어야 합니다. 시험에서는 보통 <b>같은 시작 행·같은 줄 수</b>로 맞춰 한 칸 밀림을 막아요. 하나는 2행, 하나는 1행에서 시작하면 <b>한 칸씩 어긋난 값</b>이 나와요. 채우기 전에 <b>F4</b>로 두 범위를 고정합니다.</div>
       <div class="step"><b>VLOOKUP으로 안 되는 경우</b> 찾을 값이 C열, 가져올 값이 A열처럼 <b>가져올 값이 왼쪽</b>에 있으면 VLOOKUP은 못 씁니다. INDEX+MATCH는 두 열을 따로 잡으니 됩니다.</div>
       <div class="step"><b>표 안의 한 칸 찍기</b> <code>=INDEX(표, MATCH(행으로 찾을 값,…,0), MATCH(열로 찾을 값,…,0))</code>처럼 행·열 번호를 모두 MATCH로 구할 수도 있습니다.</div>
       <div class="vis-box">
@@ -709,7 +714,64 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
           <figcaption><span class="figno">그림 6</span> · MATCH로 번호 확인 → INDEX로 감싸기 → 범위 맞추기</figcaption>
         </figure>
       </div>
-      <div class="exam-ex">시험 예시: "최고 점수를 받은 사람의 이름"처럼 <code>=INDEX(이름 범위, MATCH(MAX(점수 범위), 점수 범위, 0))</code>로 중첩하는 형태가 나옵니다. 안쪽(MAX)부터 재료를 만들고 바깥으로 감싸세요.</div>
+      <div class="step"><b>★어려운 문제는 뒤에서부터</b> 수업의 대비 문제 3번(실제 시험에 나온 유형)은 한 번에 쓰지 않고 <b>필요한 것부터</b> 올라갔습니다. ①<code>DMAX(데이터베이스, 증감률, 조건)</code>로 품목이 패션인 것 중 최고 증감률을 먼저 구해 값 확인 → ②앞에 MATCH를 붙여 <code>MATCH(DMAX(…), 증감률 범위, 0)</code>로 몇 번째인지 확인(숫자지만 표에 똑같은 값이 있으니 0) → ③F2로 <code>INDEX(항목 범위, MATCH(…))</code>로 감싸기. 항목 범위를 한 열만 잡았으니 열 번호는 생략합니다.</div>
+      <div class="step"><b>막히면 손으로</b> INDEX+MATCH는 머릿속으로 정리할 시간이 필요합니다. 안 되면 "왜 안 됐지? 인수가 뭐지?"를 <b>손으로 적으면서</b> 정리하세요.</div>
+      <div class="exam-ex">시험 예시: "조건에 맞는 것 중 가장 높은 값의 항목명"은 <code>=INDEX(항목 범위, MATCH(DMAX(데이터베이스, 필드, 조건), 필드 범위, 0))</code> 형태입니다. 조건이 없으면 DMAX 대신 MAX로도 나올 수 있습니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>요금표 · 시간표 — 행 번호와 열 번호를 따로 구한다</h3>
+      <div class="step"><b>시험에 가장 많이 나오는 형태</b> 출발지·도착지에 따른 택배 요금표, 버스 요금표, 인원수에 따른 입장료표처럼 <b>행과 열이 만나는 칸</b>을 찾는 문제입니다.</div>
+      <div class="step"><b>목표부터 정한다</b> INDEX의 목표는 <b>요금(결과값)</b>, MATCH의 목표는 <b>행 번호·열 번호</b>입니다. 서로의 목표를 알면 안에 들어갈 인수가 보입니다.</div>
+      <div class="step"><b>구조</b> <code>=INDEX(요금 알맹이, MATCH(출발지, 왼쪽 지역 목록, 0), MATCH(도착지, 위쪽 지역 목록, 0))</code>. 지역명은 문자이므로 두 MATCH 모두 0입니다.</div>
+      <div class="step"><b>번호가 이미 숫자면 MATCH는 한쪽만</b> 시간표에서 교시가 1, 2, 3…으로 <b>표의 행 순서와 똑같다면</b> 그 숫자를 바로 행 번호로 넣으면 됩니다. 문자인 요일만 <code>MATCH(요일, 월~금 목록, 0)</code>으로 열 번호를 구해요.</div>
+      <div class="step"><b>원칙은 출발지는 왼쪽, 도착지는 위쪽</b> 출발지 번호는 <b>왼쪽 지역 목록</b>에서, 도착지 번호는 <b>위쪽 지역 목록</b>에서 찾는 것이 원칙입니다. 수업 문제처럼 두 목록의 지역 순서가 똑같다면 같은 지역은 같은 번호가 나와 결과는 같지만, 순서가 다른 표도 있으니 원칙대로 쓰는 게 안전합니다.</div>
+      <div class="step"><b>F4는 채울 때만</b> 한 칸만 구하는 문제면 절대 참조를 안 해도 됩니다. 아래로 채우는 문제면 범위마다 F4를 겁니다.</div>
+      <div class="step"><b>검색할 값 넣는 법</b> 셀을 클릭해도 되고 <code>"서울"</code>처럼 직접 적어도 됩니다. 수식을 고치는 중에는 방향키로 셀이 안 잡힐 수 있으니 <b>마우스로 클릭하거나 직접 입력</b>하세요.</div>
+      <div class="step"><b>긴 수식 확인</b> 수식이 길어 안 보이면 수식 입력줄 왼쪽 <b>fx</b>로 함수 인수 대화상자를 열어 인수를 하나씩 봅니다. F2를 누르면 범위가 색 상자로 보여요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="요금표에서 행 번호와 열 번호를 각각 MATCH로 구하기">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">택배 요금표 — 출발지로 행 번호, 도착지로 열 번호</text>
+  <g font-size="12">
+    <text x="85" y="50" text-anchor="middle" fill="#5A6A7E" font-size="11">출발 \ 도착</text>
+    <rect x="130" y="58" width="90" height="32" fill="#EFF2F7" stroke="#D1D9E0"/><text x="175" y="79" text-anchor="middle" font-weight="700">서울</text>
+    <rect x="220" y="58" width="90" height="32" fill="#EFF2F7" stroke="#D1D9E0"/><text x="265" y="79" text-anchor="middle" font-weight="700">부산</text>
+    <rect x="310" y="58" width="90" height="32" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/><text x="355" y="79" text-anchor="middle" font-weight="700" fill="#0A8A68">대구</text>
+    <rect x="40" y="90" width="90" height="34" fill="#EFF2F7" stroke="#D1D9E0"/><text x="85" y="112" text-anchor="middle" font-weight="700">서울</text>
+    <rect x="40" y="124" width="90" height="34" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/><text x="85" y="146" text-anchor="middle" font-weight="700" fill="#1D6FE8">부산</text>
+    <rect x="40" y="158" width="90" height="34" fill="#EFF2F7" stroke="#D1D9E0"/><text x="85" y="180" text-anchor="middle" font-weight="700">대구</text>
+    <rect x="130" y="124" width="270" height="34" fill="#EBF2FF"/>
+    <rect x="310" y="90" width="90" height="102" fill="#E6F7F1"/>
+    <rect x="130" y="90" width="270" height="102" fill="none" stroke="#92680A" stroke-width="2.5"/>
+    <rect x="310" y="124" width="90" height="34" fill="#FFF8E1" stroke="#C0392B" stroke-width="3"/>
+    <path d="M130,124 L400,124 M130,158 L400,158 M220,90 L220,192 M310,90 L310,192" stroke="#D1D9E0"/>
+    <text x="175" y="112" text-anchor="middle">4,000</text><text x="265" y="112" text-anchor="middle">5,000</text><text x="355" y="112" text-anchor="middle">5,500</text>
+    <text x="175" y="146" text-anchor="middle">5,000</text><text x="265" y="146" text-anchor="middle">4,000</text><text x="355" y="147" text-anchor="middle" font-weight="700" fill="#C0392B" font-size="14">4,500</text>
+    <text x="175" y="180" text-anchor="middle">5,500</text><text x="265" y="180" text-anchor="middle">4,500</text><text x="355" y="180" text-anchor="middle">4,000</text>
+  </g>
+  <text x="265" y="214" text-anchor="middle" font-size="11.5" fill="#92680A" font-weight="700">노란 테두리 = INDEX 첫 인수(머리글 뺀 요금 알맹이)</text>
+
+  <rect x="430" y="50" width="270" height="44" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="442" y="68" font-size="11.5" font-family="JetBrains Mono, monospace" fill="#1A202C">MATCH("부산", 왼쪽 지역, 0)</text>
+  <text x="442" y="86" font-size="12" font-weight="700" fill="#1D6FE8">→ 2  (행 번호)</text>
+  <rect x="430" y="104" width="270" height="44" rx="8" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="442" y="122" font-size="11.5" font-family="JetBrains Mono, monospace" fill="#1A202C">MATCH("대구", 위쪽 지역, 0)</text>
+  <text x="442" y="140" font-size="12" font-weight="700" fill="#0A8A68">→ 3  (열 번호)</text>
+  <rect x="430" y="158" width="270" height="44" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="442" y="176" font-size="11.5" font-family="JetBrains Mono, monospace" fill="#1A202C">INDEX(요금 알맹이, 2, 3)</text>
+  <text x="442" y="194" font-size="12" font-weight="700" fill="#C0392B">→ 4,500</text>
+
+  <rect x="20" y="232" width="680" height="40" rx="8" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="360" y="257" text-anchor="middle" font-size="12" font-family="JetBrains Mono, monospace" fill="#1A202C">=INDEX(<tspan fill="#92680A" font-weight="700">요금</tspan>, <tspan fill="#1D6FE8">MATCH(출발지, 왼쪽 지역, 0)</tspan>, <tspan fill="#0A8A68">MATCH(도착지, 위쪽 지역, 0)</tspan>)</text>
+  <rect x="20" y="282" width="680" height="30" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="302" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">INDEX의 목표는 요금, MATCH의 목표는 번호 — 목표를 알면 인수가 보인다</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 7</span> · 출발지는 행 번호로, 도착지는 열 번호로, 요금은 INDEX로</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 지역 코드표가 따로 있고 코드가 숫자로 되어 있으면, MATCH 대신 <code>HLOOKUP(출발지, 코드표, 2, FALSE)</code>로 번호를 구하게 하기도 합니다. 헷갈리게 만든 것일 뿐, 결국 <b>행 번호·열 번호를 만드는 일</b>은 같습니다. 필요 없는 기준표를 하나 더 넣어 두는 함정도 있으니 문제가 요구하는 표만 보세요.</div>
     </div>
 
   </section>
@@ -722,6 +784,12 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
       <h3>MATCH 결과를 값이나 시트 행 번호로 착각해요</h3>
       <p>"감"을 찾으면 "감"이 나오거나, A4에 있으니 4가 나온다고 생각합니다. MATCH는 <b>범위 안에서 몇 번째</b>인지 숫자만 줍니다.</p>
       <p class="fix">범위의 첫 칸을 1로 두고 세세요. A2:A6에서 A4면 3입니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">수업에서 강조한 함정</div>
+      <h3>「3등급」「9초」「39㎡ 이상」을 문자로 보고 0을 넣어요</h3>
+      <p>표시 형식으로 글자를 붙여 두면 문자처럼 보입니다. 실제로는 숫자라서 딱 일치하지 않는 값을 0으로 찾으면 #N/A가 나요.</p>
+      <p class="fix">셀을 클릭해 수식 입력줄로 실제 값을 확인하고, 딱 같은 값이 없는 구간표 숫자라면 정렬 방향을 보고 1(오름차순)이나 -1(내림차순)을 고르세요.</p>
     </div>
     <div class="shock">
       <div class="shock-tag">자주 하는 실수</div>
@@ -761,15 +829,18 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
           <tr><td>선택</td><td><code>=CHOOSE(번호, 값1, 값2, …)</code></td><td>번호 순서의 값 고르기</td><td>번호는 1부터 · 범위 밖이면 #VALUE!</td></tr>
           <tr><td>선택</td><td><code>=SWITCH(식, 값1, 결과1, …, 기본값)</code></td><td>같은 값의 짝 결과 고르기</td><td>문자도 가능 · 안 맞고 기본값 없으면 #N/A</td></tr>
           <tr><td>찾기 참조</td><td><code>=MATCH(찾을 값, 범위, 0)</code></td><td>범위 안에서 몇 번째인지</td><td>값이 아니라 위치 번호</td></tr>
-          <tr><td>MATCH 유형</td><td><code>0</code></td><td>정확히 일치</td><td>문자·코드 · 정렬 불필요</td></tr>
+          <tr><td>MATCH 유형</td><td><code>0</code></td><td>정확히 일치</td><td>정확히 같은 문자·숫자 위치를 찾을 때</td></tr>
           <tr><td>MATCH 유형</td><td><code>1</code></td><td>이하 중 가장 큰 값</td><td>오름차순 정렬 · 생략 시 기본값</td></tr>
           <tr><td>MATCH 유형</td><td><code>-1</code></td><td>이상 중 가장 작은 값</td><td>내림차순 정렬</td></tr>
           <tr><td>찾기 참조</td><td><code>=INDEX(범위, 행, 열)</code></td><td>좌표의 값 꺼내기</td><td>행·열은 범위 안에서 센다</td></tr>
           <tr><td>조합</td><td><code>=INDEX(가져올 열, MATCH(값, 찾을 열, 0))</code></td><td>찾아서 꺼내기</td><td>두 범위 시작 행을 맞춘다</td></tr>
           <tr><td>조합</td><td><code>=INDEX(표, MATCH(…), MATCH(…))</code></td><td>표 안의 한 칸 찍기</td><td>행·열 번호를 각각 MATCH로</td></tr>
+          <tr><td>요금표</td><td><code>=INDEX(요금, MATCH(출발지,…,0), MATCH(도착지,…,0))</code></td><td>행·열 모두 찾기</td><td>번호가 이미 숫자면 그쪽 MATCH 생략</td></tr>
+          <tr><td>기출</td><td><code>=INDEX(항목, MATCH(DMAX(…), 필드 범위, 0))</code></td><td>조건 최고값의 항목명</td><td>뒤에서부터 DMAX → MATCH → INDEX</td></tr>
           <tr><td>중첩</td><td><code>=CHOOSE(MID(주민번호,8,1), …)</code></td><td>성별 구하기</td><td>번호 자리에 함수</td></tr>
           <tr><td>참조</td><td><code>F4</code></td><td>범위 절대 참조</td><td>아래로 채우기 전에</td></tr>
           <tr><td>점검</td><td><code>F2</code></td><td>참조 범위를 색 상자로 확인</td><td>값이 한 칸 밀리면 제일 먼저</td></tr>
+          <tr><td>점검</td><td>수식 입력줄</td><td>표시 형식 뒤의 실제 값 확인</td><td>「3등급」「9초」가 숫자인지</td></tr>
           <tr><td>복습</td><td><code>=VLOOKUP(값, 기준표, 열번호, FALSE)</code></td><td>기준표에서 찾아오기</td><td>찾을 값이 첫 열에 있어야 함</td></tr>
         </tbody>
       </table>
@@ -902,16 +973,16 @@ figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:ce
     <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
     <div class="checks">
       <div class="check-item"><input type="checkbox" id="c1"><label for="c1">CHOOSE로 번호 1·2·3에 직급을 붙여보고, 번호를 0과 4로 바꿔 #VALUE! 확인하기</label></div>
-      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">함수 인수 대화상자(fx)에서 Tab으로 따옴표가 자동으로 붙는 것 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">등급표·기록표 셀을 클릭해 수식 입력줄에서 표시 형식 뒤의 실제 숫자 확인하기</label></div>
       <div class="check-item"><input type="checkbox" id="c3"><label for="c3">주민번호 8번째 자리로 CHOOSE(MID(…)) 성별 구해보기</label></div>
       <div class="check-item"><input type="checkbox" id="c4"><label for="c4">SWITCH로 A·B·C 코드에 등급 붙이고, 기본값을 넣었다 뺐다 해보기</label></div>
       <div class="check-item"><input type="checkbox" id="c5"><label for="c5">MATCH 결과를 적기 전에 범위 첫 칸부터 손가락으로 1, 2, 3 세어보기</label></div>
       <div class="check-item"><input type="checkbox" id="c6"><label for="c6">MATCH 일치 유형을 0·1·생략으로 바꿔가며 결과 비교하기</label></div>
       <div class="check-item"><input type="checkbox" id="c7"><label for="c7">INDEX(범위, 행, 열) 결과가 어느 칸인지 먼저 예측하고 확인하기</label></div>
       <div class="check-item"><input type="checkbox" id="c8"><label for="c8">MATCH만 먼저 쓴 뒤 F2로 INDEX를 감싸 완성하기</label></div>
-      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">INDEX 범위를 1행부터 잡아 값이 한 칸 밀리는 것 직접 만들어보기</label></div>
-      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">가져올 값이 왼쪽 열에 있는 표를 INDEX+MATCH로 풀어보기</label></div>
-      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">어제 배운 VLOOKUP 인수 4개를 안 보고 적어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">택배 요금표는 MATCH 두 번으로, 시간표는 요일 MATCH 한 번으로 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">대비 문제 3번을 뒤에서부터(DMAX → MATCH → INDEX) 다시 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">주말 동안 작은 책자에서 INDEX·MATCH 함수 문제 골라 풀어보기</label></div>
       <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
     </div>
   </section>
