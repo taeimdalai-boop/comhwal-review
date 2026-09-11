@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8차시 복습자료 | 컴활2급 - CHOOSE·SWITCH·INDEX·MATCH</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">8차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>8차시 복습자료</h1>
+  <p class="meta"><b>2026-09-11</b><br>CHOOSE(번호로 고르기), SWITCH(값으로 고르기), MATCH(몇 번째인지)와 일치 유형, INDEX(행·열로 꺼내기), INDEX+MATCH 조합</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 6)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">CHOOSE · SWITCH</span>
+      <span class="tag">MATCH · INDEX</span>
+      <span class="tag">INDEX + MATCH</span>
+    </div>
+    <h1>오늘의 핵심은 "<b>번호로 고르기(CHOOSE)</b>, <b>값으로 고르기(SWITCH)</b>, 그리고 <b>MATCH가 번호를 찾고 INDEX가 그 번호의 값을 꺼낸다</b>"입니다.</h1>
+    <p class="sub">2026-09-11 · 8차시 · CHOOSE(번호에 맞는 값 고르기), SWITCH(값에 맞는 결과 고르기), MATCH(몇 번째인지 찾기)와 일치 유형 0·1·-1, INDEX(행·열 번호로 값 꺼내기), INDEX와 MATCH를 짝지어 쓰는 순서</p>
+    <div class="key-badges">
+      <span class="key-badge">🔢 CHOOSE</span>
+      <span class="key-badge">🔀 SWITCH</span>
+      <span class="key-badge">📍 MATCH</span>
+      <span class="key-badge">🎯 INDEX</span>
+      <span class="key-badge">🖼️ 그림 6장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>CHOOSE는 "몇 번"을 받아 그 순서의 값을 고른다</h3>
+        <p><code>=CHOOSE(번호, 값1, 값2, 값3, …)</code>. 번호가 2면 <b>두 번째 값</b>이 나옵니다. 식당 메뉴판에서 "2번 주세요" 하는 것과 같아요.</p>
+        <div class="use">번호는 1부터 셉니다</div>
+      </div>
+      <div class="card">
+        <h3>CHOOSE 번호가 0이거나 값 개수보다 크면 #VALUE!</h3>
+        <p>값을 3개 넣었는데 번호가 0이나 4면 고를 게 없어서 <code>#VALUE!</code> 오류가 납니다. 코드가 0부터 시작하면 <b>+1</b>을 해서 1부터 맞추세요.</p>
+        <div class="use">번호 자리에 MID 같은 함수를 끼워 넣는 형태가 잦습니다</div>
+      </div>
+      <div class="card">
+        <h3>SWITCH는 "이 값이면 이 결과"를 짝으로 적는다</h3>
+        <p><code>=SWITCH(식, 값1, 결과1, 값2, 결과2, …, 기본값)</code>. CHOOSE와 달리 번호가 아니라 <b>값 자체</b>(문자도 가능)를 비교합니다.</p>
+        <div class="use">맨 끝에 짝 없이 하나 남긴 값 = 아무것도 안 맞을 때 결과</div>
+      </div>
+      <div class="card">
+        <h3>★MATCH는 값이 아니라 "몇 번째"를 돌려준다</h3>
+        <p><code>=MATCH(찾을 값, 범위, 0)</code>의 결과는 숫자(위치)입니다. 그리고 그 숫자는 <b>시트의 행 번호가 아니라 범위 안에서 몇 번째</b>인지예요.</p>
+        <div class="use">A2:A6에서 A4에 있으면 4가 아니라 3</div>
+      </div>
+      <div class="card">
+        <h3>MATCH 세 번째 인수 — 문자·코드는 0</h3>
+        <p><code>0</code>은 정확히 일치, <code>1</code>은 오름차순 표에서 찾을 값 이하 중 가장 큰 값, <code>-1</code>은 내림차순 표에서 이상 중 가장 작은 값입니다.</p>
+        <div class="use">생략하면 1로 처리됩니다</div>
+      </div>
+      <div class="card">
+        <h3>INDEX는 행·열 번호로 칸을 찍어 값을 꺼낸다</h3>
+        <p><code>=INDEX(범위, 행 번호, 열 번호)</code>. 행·열 번호도 MATCH처럼 <b>범위 안에서 몇 번째</b>로 셉니다. 한 열만 잡았으면 행 번호 하나만 써도 돼요.</p>
+        <div class="use">좌표 찍기 — 3행 2열이면 그 칸</div>
+      </div>
+      <div class="card">
+        <h3>INDEX + MATCH = 번호 찾기 + 값 꺼내기</h3>
+        <p>MATCH가 "몇 번째"를 찾아 INDEX의 행 번호 자리에 넘겨줍니다. <code>=INDEX(가져올 열, MATCH(찾을 값, 찾을 열, 0))</code></p>
+        <div class="use">MATCH만 먼저 써서 번호가 맞는지 확인하고 감싸기</div>
+      </div>
+      <div class="card">
+        <h3>VLOOKUP과 무엇이 다른가</h3>
+        <p>VLOOKUP은 찾을 값이 <b>기준표 첫 열</b>에 있어야 합니다. INDEX+MATCH는 찾는 열과 가져올 열을 따로 잡으므로 <b>가져올 값이 왼쪽에 있어도</b> 됩니다.</p>
+        <div class="use">어제 배운 VLOOKUP과 비교하며 익히기</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>CHOOSE — 번호에 맞는 값을 고른다</h3>
+      <div class="step"><b>구조</b> <code>=CHOOSE(번호, 값1, 값2, 값3, …)</code>. 예: <code>=CHOOSE(2,"사원","대리","과장")</code> → <b>대리</b></div>
+      <div class="step"><b>번호는 1부터</b> 1이면 값1, 2면 값2입니다. <b>0번은 없어요.</b> 번호가 0이거나 넣은 값 개수보다 크면 <code>#VALUE!</code>가 납니다.</div>
+      <div class="step"><b>코드가 0부터 시작하면</b> 번호 자리에 <code>코드+1</code>을 넣어 1부터 되게 맞춥니다.</div>
+      <div class="step"><b>값 자리에 올 수 있는 것</b> 문자(따옴표 안에), 숫자, 셀 주소 모두 됩니다.</div>
+      <div class="step"><b>함수 인수 대화상자(fx)</b> 값 칸에 문자를 적고 <b>Tab</b>으로 다음 칸에 가면 따옴표가 자동으로 붙어 입력 실수가 줄어듭니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CHOOSE 함수가 번호로 값을 고르는 구조">
+  <text x="360" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1A202C" font-family="JetBrains Mono, monospace">=CHOOSE( 2 , "사원" , "대리" , "과장" )</text>
+  <rect x="40" y="52" width="130" height="96" rx="12" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="105" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">번호</text>
+  <text x="105" y="122" text-anchor="middle" font-size="34" font-weight="700" fill="#1D6FE8">2</text>
+  <path d="M176,100 L220,100" stroke="#1D6FE8" stroke-width="2.5"/>
+  <path d="M226,100 l-9,-5 l0,10 z" fill="#1D6FE8"/>
+
+  <g font-size="13">
+    <rect x="240" y="60" width="130" height="80" rx="10" fill="#F8FAFC" stroke="#D1D9E0"/>
+    <text x="305" y="86" text-anchor="middle" fill="#5A6A7E" font-weight="700">1번</text>
+    <text x="305" y="116" text-anchor="middle" fill="#5A6A7E">사원</text>
+    <rect x="385" y="52" width="130" height="96" rx="10" fill="#E6F7F1" stroke="#0A8A68" stroke-width="3"/>
+    <text x="450" y="82" text-anchor="middle" fill="#0A8A68" font-weight="700">2번</text>
+    <text x="450" y="116" text-anchor="middle" fill="#0A8A68" font-weight="700" font-size="16">대리</text>
+    <rect x="530" y="60" width="130" height="80" rx="10" fill="#F8FAFC" stroke="#D1D9E0"/>
+    <text x="595" y="86" text-anchor="middle" fill="#5A6A7E" font-weight="700">3번</text>
+    <text x="595" y="116" text-anchor="middle" fill="#5A6A7E">과장</text>
+  </g>
+  <path d="M450,152 L450,184" stroke="#0A8A68" stroke-width="2.5"/>
+  <path d="M450,190 l-5,-9 l10,0 z" fill="#0A8A68"/>
+  <rect x="370" y="194" width="160" height="34" rx="8" fill="#0A8A68"/>
+  <text x="450" y="216" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">결과: 대리</text>
+
+  <rect x="40" y="176" width="300" height="52" rx="8" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="190" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">번호가 0 또는 4라면?</text>
+  <text x="190" y="218" text-anchor="middle" font-size="12" fill="#C0392B">고를 칸이 없어서 #VALUE!</text>
+
+  <rect x="40" y="244" width="640" height="32" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="265" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">번호는 1부터 센다 — 메뉴판에서 "2번 주세요"와 같다</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 1</span> · 번호가 가리키는 순서의 값을 고른다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 주민등록번호 8번째 자리로 성별을 구하는 <code>=CHOOSE(MID(B3,8,1),"남","여","남","여")</code> 형태가 자주 나옵니다. 번호 자리에 다른 함수가 들어가도 결국 "몇 번"만 만들면 됩니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>SWITCH — 값을 비교해서 결과를 고른다</h3>
+      <div class="step"><b>구조</b> <code>=SWITCH(식, 값1, 결과1, 값2, 결과2, …, 기본값)</code></div>
+      <div class="step"><b>CHOOSE와 차이</b> CHOOSE는 <b>순서 번호(1, 2, 3…)</b>로 고르고, SWITCH는 <b>식의 결과와 같은 값</b>을 찾아 짝지어진 결과를 냅니다. 그래서 A·B·C 같은 <b>문자 코드도 바로</b> 쓸 수 있어요.</div>
+      <div class="step"><b>기본값</b> 맨 끝에 짝 없이 하나만 남긴 인수가 기본값입니다. 어떤 값과도 맞지 않으면 이것이 나옵니다. <b>기본값을 안 넣었는데 맞는 값이 없으면 <code>#N/A</code></b>가 나요.</div>
+      <div class="step"><b>인수 세는 법</b> 식 하나 뒤로 <b>(값, 결과)가 두 개씩 짝</b>입니다. 짝이 안 맞게 하나가 남으면 그게 기본값이에요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CHOOSE와 SWITCH 비교">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">둘 다 "골라주는" 함수 — 무엇으로 고르느냐가 다르다</text>
+
+  <rect x="20" y="40" width="330" height="200" rx="12" fill="#F8FAFC" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="185" y="66" text-anchor="middle" font-size="14" font-weight="700" fill="#1D6FE8">CHOOSE — 순서 번호로</text>
+  <text x="185" y="90" text-anchor="middle" font-size="11.5" font-family="JetBrains Mono, monospace" fill="#1A202C">=CHOOSE(C3,"우수","보통","노력")</text>
+  <g font-size="12.5">
+    <rect x="50" y="108" width="80" height="28" rx="6" fill="#1D6FE8"/><text x="90" y="127" text-anchor="middle" fill="#fff" font-weight="700">1</text>
+    <text x="150" y="127" fill="#1A202C">→</text><text x="180" y="127" fill="#1A202C">우수</text>
+    <rect x="50" y="144" width="80" height="28" rx="6" fill="#1D6FE8"/><text x="90" y="163" text-anchor="middle" fill="#fff" font-weight="700">2</text>
+    <text x="150" y="163" fill="#1A202C">→</text><text x="180" y="163" fill="#1A202C">보통</text>
+    <rect x="50" y="180" width="80" height="28" rx="6" fill="#1D6FE8"/><text x="90" y="199" text-anchor="middle" fill="#fff" font-weight="700">3</text>
+    <text x="150" y="199" fill="#1A202C">→</text><text x="180" y="199" fill="#1A202C">노력</text>
+  </g>
+  <text x="185" y="228" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">번호가 1~3을 벗어나면 #VALUE!</text>
+
+  <rect x="370" y="40" width="330" height="200" rx="12" fill="#F8FAFC" stroke="#0A8A68" stroke-width="2"/>
+  <text x="535" y="66" text-anchor="middle" font-size="14" font-weight="700" fill="#0A8A68">SWITCH — 값 자체로</text>
+  <text x="535" y="90" text-anchor="middle" font-size="11" font-family="JetBrains Mono, monospace" fill="#1A202C">=SWITCH(C3,"A","우수","B","보통","노력")</text>
+  <g font-size="12.5">
+    <rect x="400" y="108" width="80" height="28" rx="6" fill="#0A8A68"/><text x="440" y="127" text-anchor="middle" fill="#fff" font-weight="700">"A"</text>
+    <text x="500" y="127" fill="#1A202C">→</text><text x="530" y="127" fill="#1A202C">우수</text>
+    <rect x="400" y="144" width="80" height="28" rx="6" fill="#0A8A68"/><text x="440" y="163" text-anchor="middle" fill="#fff" font-weight="700">"B"</text>
+    <text x="500" y="163" fill="#1A202C">→</text><text x="530" y="163" fill="#1A202C">보통</text>
+    <rect x="400" y="180" width="80" height="28" rx="6" fill="#FFF8E1" stroke="#92680A"/><text x="440" y="199" text-anchor="middle" fill="#92680A" font-weight="700">그 외</text>
+    <text x="500" y="199" fill="#1A202C">→</text><text x="530" y="199" fill="#1A202C">노력 <tspan fill="#92680A" font-size="11">(기본값)</tspan></text>
+  </g>
+  <text x="535" y="228" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">기본값이 없고 안 맞으면 #N/A</text>
+
+  <rect x="20" y="254" width="680" height="32" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="275" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">CHOOSE는 번호표, SWITCH는 (값, 결과) 짝꿍표 — 끝에 혼자 남은 것이 기본값</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 2</span> · 번호로 고르면 CHOOSE, 값으로 고르면 SWITCH</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: <code>=SWITCH("B","A","우수","B","보통","노력")</code>의 결과를 묻는 형태 — 식의 값 "B"와 같은 값을 찾아 짝인 <b>보통</b>이 나옵니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>MATCH — 값이 범위에서 몇 번째인지 찾는다</h3>
+      <div class="step"><b>구조</b> <code>=MATCH(찾을 값, 찾을 범위, 일치 유형)</code>. 예: <code>=MATCH("감",$A$2:$A$6,0)</code></div>
+      <div class="step"><b>★돌려주는 것</b> "감"이라는 <b>값이 아니라 위치 번호</b>입니다. 범위에서 세 번째에 있으면 <b>3</b>이 나와요.</div>
+      <div class="step"><b>★범위 기준으로 센다</b> 범위가 A2부터 시작하므로 A4는 <b>시트의 4행이지만 범위 안에서는 3번째</b>입니다. MATCH 결과는 3이에요.</div>
+      <div class="step"><b>찾을 범위</b> 한 열 또는 한 행만 잡습니다. 세로로 잡으면 위에서부터, 가로로 잡으면 왼쪽부터 셉니다.</div>
+      <div class="step"><b>혼자서는 잘 안 쓴다</b> 번호만 나오니까 보통 INDEX의 행·열 번호 자리에 넣어 씁니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MATCH는 범위 안에서의 위치를 돌려준다">
+  <text x="360" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#1A202C" font-family="JetBrains Mono, monospace">=MATCH( "감" , $A$2:$A$6 , 0 )</text>
+  <g font-size="12">
+    <text x="92" y="62" text-anchor="middle" fill="#5A6A7E" font-weight="700">시트 행</text>
+    <text x="180" y="62" text-anchor="middle" fill="#1D6FE8" font-weight="700">A열</text>
+    <text x="276" y="62" text-anchor="middle" fill="#0A8A68" font-weight="700">범위 안 순서</text>
+    <rect x="70" y="72" width="44" height="30" fill="#EFF2F7" stroke="#D1D9E0"/><text x="92" y="92" text-anchor="middle" fill="#5A6A7E">1</text>
+    <rect x="130" y="72" width="100" height="30" fill="#F8FAFC" stroke="#D1D9E0"/><text x="180" y="92" text-anchor="middle" fill="#5A6A7E">과일</text>
+    <rect x="70" y="102" width="44" height="30" fill="#EFF2F7" stroke="#D1D9E0"/><text x="92" y="122" text-anchor="middle" fill="#5A6A7E">2</text>
+    <rect x="130" y="102" width="100" height="30" fill="#fff" stroke="#1D6FE8"/><text x="180" y="122" text-anchor="middle">사과</text>
+    <text x="276" y="122" text-anchor="middle" fill="#0A8A68" font-weight="700">1</text>
+    <rect x="70" y="132" width="44" height="30" fill="#EFF2F7" stroke="#D1D9E0"/><text x="92" y="152" text-anchor="middle" fill="#5A6A7E">3</text>
+    <rect x="130" y="132" width="100" height="30" fill="#fff" stroke="#1D6FE8"/><text x="180" y="152" text-anchor="middle">배</text>
+    <text x="276" y="152" text-anchor="middle" fill="#0A8A68" font-weight="700">2</text>
+    <rect x="70" y="162" width="44" height="30" fill="#FDEDEC" stroke="#C0392B"/><text x="92" y="182" text-anchor="middle" fill="#C0392B" font-weight="700">4</text>
+    <rect x="130" y="162" width="100" height="30" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2.5"/><text x="180" y="182" text-anchor="middle" font-weight="700" fill="#0A8A68">감</text>
+    <text x="276" y="182" text-anchor="middle" fill="#0A8A68" font-weight="700" font-size="15">3</text>
+    <rect x="70" y="192" width="44" height="30" fill="#EFF2F7" stroke="#D1D9E0"/><text x="92" y="212" text-anchor="middle" fill="#5A6A7E">5</text>
+    <rect x="130" y="192" width="100" height="30" fill="#fff" stroke="#1D6FE8"/><text x="180" y="212" text-anchor="middle">귤</text>
+    <text x="276" y="212" text-anchor="middle" fill="#0A8A68" font-weight="700">4</text>
+    <rect x="70" y="222" width="44" height="30" fill="#EFF2F7" stroke="#D1D9E0"/><text x="92" y="242" text-anchor="middle" fill="#5A6A7E">6</text>
+    <rect x="130" y="222" width="100" height="30" fill="#fff" stroke="#1D6FE8"/><text x="180" y="242" text-anchor="middle">포도</text>
+    <text x="276" y="242" text-anchor="middle" fill="#0A8A68" font-weight="700">5</text>
+  </g>
+  <text x="240" y="275" text-anchor="middle" font-size="11" fill="#1D6FE8">파란 테두리 = 범위 $A$2:$A$6 (머리글 제외)</text>
+
+  <rect x="370" y="80" width="320" height="64" rx="10" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <text x="530" y="106" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">✔ 결과는 3</text>
+  <text x="530" y="128" text-anchor="middle" font-size="12" fill="#1A202C">범위 안에서 세 번째 자리</text>
+  <rect x="370" y="158" width="320" height="64" rx="10" fill="#FDEDEC" stroke="#C0392B" stroke-width="2"/>
+  <text x="530" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">✘ "감"도 아니고 4도 아니다</text>
+  <text x="530" y="206" text-anchor="middle" font-size="12" fill="#1A202C">값이 아니고, 시트 행 번호도 아니다</text>
+  <rect x="370" y="236" width="320" height="40" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="530" y="261" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">MATCH = "몇 번째?"에 대한 대답</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 3</span> · MATCH는 값이 아니라 범위 안의 순서를 돌려준다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 필기에서 <code>=MATCH(…)</code>의 결과를 고르게 할 때, 시트 행 번호를 보기로 넣어 함정을 만듭니다. 범위 시작 칸부터 1, 2, 3… 세세요.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>MATCH의 세 번째 인수 — 0 · 1 · -1</h3>
+      <div class="step"><b>0 = 정확히 일치</b> 찾을 값과 똑같은 것의 위치입니다. 이름·코드·부서명처럼 <b>문자로 찾을 때는 0</b>을 씁니다. 정렬되어 있지 않아도 됩니다.</div>
+      <div class="step"><b>1 = 이하 중 가장 큰 값</b> 범위가 <b>오름차순</b>으로 정렬돼 있을 때, 찾을 값보다 작거나 같은 값 중 가장 큰 값의 위치입니다. 점수 구간표에 씁니다.</div>
+      <div class="step"><b>-1 = 이상 중 가장 작은 값</b> 범위가 <b>내림차순</b>으로 정렬돼 있을 때, 찾을 값보다 크거나 같은 값 중 가장 작은 값의 위치입니다.</div>
+      <div class="step"><b>생략하면 1</b> VLOOKUP의 네 번째 인수를 생략하면 TRUE(유사 일치)가 되는 것과 같은 이치입니다. 문자로 정확히 찾을 땐 <b>0을 꼭 적으세요</b>.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MATCH 일치 유형 0, 1, -1 비교">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">같은 "85"를 찾아도 일치 유형과 정렬 방향에 따라 답이 달라진다</text>
+
+  <rect x="16" y="40" width="220" height="220" rx="12" fill="#F8FAFC" stroke="#0A8A68" stroke-width="2"/>
+  <text x="126" y="64" text-anchor="middle" font-size="14" font-weight="700" fill="#0A8A68">0 · 정확히 일치</text>
+  <text x="126" y="84" text-anchor="middle" font-size="11" fill="#5A6A7E">문자·코드 · 정렬 불필요</text>
+  <g font-size="12">
+    <rect x="76" y="96" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="126" y="114" text-anchor="middle">총무부</text>
+    <rect x="76" y="122" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="126" y="140" text-anchor="middle">영업부</text>
+    <rect x="76" y="148" width="100" height="26" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2.5"/><text x="126" y="166" text-anchor="middle" font-weight="700" fill="#0A8A68">인사부</text>
+    <rect x="76" y="174" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="126" y="192" text-anchor="middle">기획부</text>
+  </g>
+  <text x="126" y="222" text-anchor="middle" font-size="11" fill="#1A202C">"인사부"를 0으로 찾기</text>
+  <text x="126" y="244" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">→ 3</text>
+
+  <rect x="250" y="40" width="220" height="220" rx="12" fill="#F8FAFC" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="360" y="64" text-anchor="middle" font-size="14" font-weight="700" fill="#1D6FE8">1 · 이하 중 최댓값</text>
+  <text x="360" y="84" text-anchor="middle" font-size="11" fill="#5A6A7E">오름차순 정렬 필요</text>
+  <g font-size="12">
+    <rect x="310" y="96" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="360" y="114" text-anchor="middle">0</text>
+    <rect x="310" y="122" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="360" y="140" text-anchor="middle">60</text>
+    <rect x="310" y="148" width="100" height="26" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2.5"/><text x="360" y="166" text-anchor="middle" font-weight="700" fill="#1D6FE8">80</text>
+    <rect x="310" y="174" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="360" y="192" text-anchor="middle">90</text>
+  </g>
+  <text x="360" y="222" text-anchor="middle" font-size="11" fill="#1A202C">85 이하 중 가장 큰 값 = 80</text>
+  <text x="360" y="244" text-anchor="middle" font-size="13" font-weight="700" fill="#1D6FE8">→ 3</text>
+
+  <rect x="484" y="40" width="220" height="220" rx="12" fill="#F8FAFC" stroke="#92680A" stroke-width="2"/>
+  <text x="594" y="64" text-anchor="middle" font-size="14" font-weight="700" fill="#92680A">-1 · 이상 중 최솟값</text>
+  <text x="594" y="84" text-anchor="middle" font-size="11" fill="#5A6A7E">내림차순 정렬 필요</text>
+  <g font-size="12">
+    <rect x="544" y="96" width="100" height="26" fill="#FFF8E1" stroke="#92680A" stroke-width="2.5"/><text x="594" y="114" text-anchor="middle" font-weight="700" fill="#92680A">90</text>
+    <rect x="544" y="122" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="594" y="140" text-anchor="middle">80</text>
+    <rect x="544" y="148" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="594" y="166" text-anchor="middle">60</text>
+    <rect x="544" y="174" width="100" height="26" fill="#fff" stroke="#D1D9E0"/><text x="594" y="192" text-anchor="middle">0</text>
+  </g>
+  <text x="594" y="222" text-anchor="middle" font-size="11" fill="#1A202C">85 이상 중 가장 작은 값 = 90</text>
+  <text x="594" y="244" text-anchor="middle" font-size="13" font-weight="700" fill="#92680A">→ 1</text>
+
+  <rect x="16" y="268" width="688" height="28" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="287" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">문자로 찾으면 0 · 생략하면 1로 처리된다</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 4</span> · 문자는 0, 오름차순 구간은 1, 내림차순 구간은 -1</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 이름으로 위치를 찾는데 세 번째 인수를 생략하면 1로 처리돼 엉뚱한 위치나 <code>#N/A</code>가 나올 수 있습니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>INDEX — 행·열 번호로 칸을 찍어 값을 꺼낸다</h3>
+      <div class="step"><b>구조</b> <code>=INDEX(범위, 행 번호, 열 번호)</code>. 예: <code>=INDEX($B$2:$D$5,3,2)</code></div>
+      <div class="step"><b>좌표 찍기</b> 범위 안에서 <b>위에서 3번째 줄</b>, <b>왼쪽에서 2번째 칸</b>이 만나는 곳의 값을 꺼냅니다. 위 예에서는 <b>C4</b> 칸이에요.</div>
+      <div class="step"><b>★범위 기준으로 센다</b> MATCH와 똑같이 행·열 번호는 <b>시트 기준이 아니라 범위 안에서</b> 셉니다. 범위가 B2에서 시작하면 B2가 1행 1열입니다.</div>
+      <div class="step"><b>한 줄만 잡았다면</b> 범위를 한 열(예: <code>$C$2:$C$6</code>)만 잡았으면 <code>=INDEX($C$2:$C$6,3)</code>처럼 번호 하나만 써도 됩니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INDEX 함수의 행 번호와 열 번호">
+  <text x="360" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#1A202C" font-family="JetBrains Mono, monospace">=INDEX( $B$2:$D$5 , 3 , 2 )</text>
+  <g font-size="12">
+    <text x="175" y="60" text-anchor="middle" fill="#5A6A7E" font-weight="700">B</text>
+    <text x="265" y="60" text-anchor="middle" fill="#5A6A7E" font-weight="700">C</text>
+    <text x="355" y="60" text-anchor="middle" fill="#5A6A7E" font-weight="700">D</text>
+    <text x="175" y="80" text-anchor="middle" fill="#0A8A68" font-weight="700">열 1</text>
+    <text x="265" y="80" text-anchor="middle" fill="#0A8A68" font-weight="700">열 2</text>
+    <text x="355" y="80" text-anchor="middle" fill="#0A8A68" font-weight="700">열 3</text>
+
+    <text x="62" y="112" text-anchor="middle" fill="#5A6A7E">2행</text><text x="104" y="112" text-anchor="middle" fill="#1D6FE8" font-weight="700">행 1</text>
+    <text x="62" y="146" text-anchor="middle" fill="#5A6A7E">3행</text><text x="104" y="146" text-anchor="middle" fill="#1D6FE8" font-weight="700">행 2</text>
+    <text x="62" y="180" text-anchor="middle" fill="#5A6A7E">4행</text><text x="104" y="180" text-anchor="middle" fill="#1D6FE8" font-weight="700">행 3</text>
+    <text x="62" y="214" text-anchor="middle" fill="#5A6A7E">5행</text><text x="104" y="214" text-anchor="middle" fill="#1D6FE8" font-weight="700">행 4</text>
+
+    <rect x="130" y="92" width="270" height="136" fill="none" stroke="#1D6FE8" stroke-width="2"/>
+    <rect x="130" y="160" width="270" height="34" fill="#EBF2FF" opacity="0.8"/>
+    <rect x="220" y="92" width="90" height="136" fill="#E6F7F1" opacity="0.8"/>
+    <rect x="220" y="160" width="90" height="34" fill="#FFF8E1" stroke="#C0392B" stroke-width="3"/>
+
+    <text x="175" y="112" text-anchor="middle">김민수</text><text x="265" y="112" text-anchor="middle">영업부</text><text x="355" y="112" text-anchor="middle">85</text>
+    <text x="175" y="146" text-anchor="middle">이영희</text><text x="265" y="146" text-anchor="middle">총무부</text><text x="355" y="146" text-anchor="middle">92</text>
+    <text x="175" y="180" text-anchor="middle">박지훈</text><text x="265" y="182" text-anchor="middle" font-weight="700" fill="#C0392B" font-size="14">인사부</text><text x="355" y="180" text-anchor="middle">78</text>
+    <text x="175" y="214" text-anchor="middle">최수진</text><text x="265" y="214" text-anchor="middle">기획부</text><text x="355" y="214" text-anchor="middle">88</text>
+    <path d="M130,126 L400,126 M130,160 L400,160 M130,194 L400,194 M220,92 L220,228 M310,92 L310,228" stroke="#D1D9E0"/>
+  </g>
+  <text x="265" y="252" text-anchor="middle" font-size="11.5" fill="#1A202C">파란 줄(행 3) × 초록 줄(열 2)이 만나는 칸 = C4</text>
+
+  <rect x="430" y="92" width="270" height="62" rx="10" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <text x="565" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">✔ 결과: 인사부</text>
+  <text x="565" y="140" text-anchor="middle" font-size="12" fill="#1A202C">범위 안의 3행 2열</text>
+  <rect x="430" y="166" width="270" height="62" rx="10" fill="#FDEDEC" stroke="#C0392B" stroke-width="2"/>
+  <text x="565" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">✘ 시트의 3행(B3·C3)이 아니다</text>
+  <text x="565" y="214" text-anchor="middle" font-size="12" fill="#1A202C">범위 첫 칸 B2가 1행 1열</text>
+  <rect x="20" y="266" width="680" height="28" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="285" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">INDEX = 범위 안의 좌표(몇 행, 몇 열)에 있는 값을 꺼낸다</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 5</span> · 행 번호와 열 번호가 만나는 칸의 값을 꺼낸다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: <code>=INDEX(범위, 행, 열)</code>의 결과를 표에서 고르게 합니다. 범위의 첫 칸에 손가락을 두고 행·열을 세면 틀리지 않습니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>INDEX + MATCH — 찾고, 확인하고, 감싼다</h3>
+      <div class="step"><b>역할 나누기</b> <b>MATCH</b>가 "찾을 값이 몇 번째 줄인지"를 구하고, <b>INDEX</b>가 "가져올 열의 그 번째 값"을 꺼냅니다.</div>
+      <div class="step"><b>기본형</b> <code>=INDEX(가져올 열, MATCH(찾을 값, 찾을 열, 0))</code></div>
+      <div class="step"><b>①MATCH만 먼저</b> 빈 칸에 MATCH만 써서 번호가 제대로 나오는지 봅니다.</div>
+      <div class="step"><b>②F2로 INDEX 감싸기</b> 수식을 고쳐 앞에 <code>INDEX(가져올 열,</code>을 붙이고 괄호를 닫습니다. MATCH가 통째로 행 번호 자리에 들어가요.</div>
+      <div class="step"><b>③범위 시작 행 맞추기</b> INDEX의 범위와 MATCH의 범위는 <b>같은 행에서 시작하고 같은 줄 수</b>여야 합니다. 하나는 2행, 하나는 1행에서 시작하면 <b>한 칸씩 어긋난 값</b>이 나와요. 채우기 전에 <b>F4</b>로 두 범위를 고정합니다.</div>
+      <div class="step"><b>VLOOKUP으로 안 되는 경우</b> 찾을 값이 C열, 가져올 값이 A열처럼 <b>가져올 값이 왼쪽</b>에 있으면 VLOOKUP은 못 씁니다. INDEX+MATCH는 두 열을 따로 잡으니 됩니다.</div>
+      <div class="step"><b>표 안의 한 칸 찍기</b> <code>=INDEX(표, MATCH(행으로 찾을 값,…,0), MATCH(열로 찾을 값,…,0))</code>처럼 행·열 번호를 모두 MATCH로 구할 수도 있습니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INDEX와 MATCH를 짝지어 쓰는 3단계">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">"박지훈의 부서를 구하시오" — 이름은 A열, 부서는 B열(범위 2~5행)</text>
+
+  <rect x="20" y="40" width="680" height="76" rx="12" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/>
+  <circle cx="52" cy="78" r="18" fill="#1D6FE8"/><text x="52" y="84" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">1</text>
+  <text x="84" y="66" font-size="13" font-weight="700" fill="#1D6FE8">MATCH만 먼저 써서 번호 확인</text>
+  <rect x="84" y="76" width="420" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="96" y="95" font-size="12.5" font-family="JetBrains Mono, monospace" fill="#1A202C">=MATCH("박지훈", $A$2:$A$5, 0)</text>
+  <text x="600" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#1D6FE8">→ 3 (세 번째)</text>
+
+  <rect x="20" y="128" width="680" height="84" rx="12" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <circle cx="52" cy="170" r="18" fill="#0A8A68"/><text x="52" y="176" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">2</text>
+  <text x="84" y="154" font-size="13" font-weight="700" fill="#0A8A68">F2 누르고 INDEX로 감싸기 — MATCH가 행 번호 자리로</text>
+  <rect x="84" y="164" width="520" height="30" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="96" y="184" font-size="12.5" font-family="JetBrains Mono, monospace" fill="#1A202C"><tspan fill="#0A8A68" font-weight="700">=INDEX($B$2:$B$5, </tspan><tspan fill="#1D6FE8">MATCH("박지훈", $A$2:$A$5, 0)</tspan><tspan fill="#0A8A68" font-weight="700">)</tspan></text>
+  <text x="656" y="184" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">→ 인사부</text>
+
+  <rect x="20" y="224" width="680" height="100" rx="12" fill="#FFF8E1" stroke="#92680A" stroke-width="2"/>
+  <circle cx="52" cy="266" r="18" fill="#92680A"/><text x="52" y="272" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">3</text>
+  <text x="84" y="250" font-size="13" font-weight="700" fill="#92680A">두 범위의 시작 행·줄 수 확인 후 채우기</text>
+  <text x="84" y="274" font-size="12" fill="#1A202C">✔ $B$<tspan font-weight="700">2</tspan>:$B$<tspan font-weight="700">5</tspan> 와 $A$<tspan font-weight="700">2</tspan>:$A$<tspan font-weight="700">5</tspan> — 둘 다 2행에서 시작, 4줄</text>
+  <text x="84" y="298" font-size="12" fill="#C0392B">✘ $B$<tspan font-weight="700">1</tspan>:$B$5 와 $A$<tspan font-weight="700">2</tspan>:$A$5 — 시작 행이 달라 한 칸 위 값(총무부)이 나온다</text>
+  <text x="84" y="316" font-size="11" fill="#5A6A7E">(아래로 채울 거면 찾을 값은 "박지훈" 대신 셀 주소로, 두 범위는 F4로 고정)</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 6</span> · MATCH로 번호 확인 → INDEX로 감싸기 → 범위 맞추기</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: "최고 점수를 받은 사람의 이름"처럼 <code>=INDEX(이름 범위, MATCH(MAX(점수 범위), 점수 범위, 0))</code>로 중첩하는 형태가 나옵니다. 안쪽(MAX)부터 재료를 만들고 바깥으로 감싸세요.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 오늘 가장 조심할 실수</div>
+      <h3>MATCH 결과를 값이나 시트 행 번호로 착각해요</h3>
+      <p>"감"을 찾으면 "감"이 나오거나, A4에 있으니 4가 나온다고 생각합니다. MATCH는 <b>범위 안에서 몇 번째</b>인지 숫자만 줍니다.</p>
+      <p class="fix">범위의 첫 칸을 1로 두고 세세요. A2:A6에서 A4면 3입니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>INDEX와 MATCH의 범위 시작 행이 달라요</h3>
+      <p>INDEX는 머리글 포함 1행부터, MATCH는 2행부터 잡으면 번호가 한 칸씩 밀려 <b>바로 윗줄 값</b>이 나옵니다. 오류 표시가 안 떠서 더 못 찾아요.</p>
+      <p class="fix">F2로 두 범위의 색 상자를 보고, 시작 행과 끝 행이 같은지 확인하세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>MATCH 세 번째 인수를 생략해요</h3>
+      <p>생략하면 1(이하 중 가장 큰 값)로 처리됩니다. 정렬 안 된 이름 목록에서 찾으면 엉뚱한 위치나 #N/A가 나올 수 있어요.</p>
+      <p class="fix">이름·코드·부서처럼 정확히 찾을 때는 끝에 0을 적으세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>CHOOSE 번호가 0부터 시작해요</h3>
+      <p>코드가 0, 1, 2로 되어 있는데 그대로 넣으면 0일 때 <code>#VALUE!</code>가 나고 나머지는 한 칸씩 밀립니다.</p>
+      <p class="fix">번호 자리에 <code>코드+1</code>을 넣어 1부터 되게 맞추세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>SWITCH에서 값과 결과의 짝을 헷갈려요</h3>
+      <p>인수가 길어지면 어디까지가 짝이고 무엇이 기본값인지 놓칩니다. 짝이 하나 밀리면 결과가 전부 틀려요.</p>
+      <p class="fix">식 다음부터 (값, 결과)로 두 개씩 끊어 읽고, 끝에 혼자 남은 것을 기본값으로 확인하세요.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 함수·단축키 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>함수 / 단축키</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>선택</td><td><code>=CHOOSE(번호, 값1, 값2, …)</code></td><td>번호 순서의 값 고르기</td><td>번호는 1부터 · 범위 밖이면 #VALUE!</td></tr>
+          <tr><td>선택</td><td><code>=SWITCH(식, 값1, 결과1, …, 기본값)</code></td><td>같은 값의 짝 결과 고르기</td><td>문자도 가능 · 안 맞고 기본값 없으면 #N/A</td></tr>
+          <tr><td>찾기 참조</td><td><code>=MATCH(찾을 값, 범위, 0)</code></td><td>범위 안에서 몇 번째인지</td><td>값이 아니라 위치 번호</td></tr>
+          <tr><td>MATCH 유형</td><td><code>0</code></td><td>정확히 일치</td><td>문자·코드 · 정렬 불필요</td></tr>
+          <tr><td>MATCH 유형</td><td><code>1</code></td><td>이하 중 가장 큰 값</td><td>오름차순 정렬 · 생략 시 기본값</td></tr>
+          <tr><td>MATCH 유형</td><td><code>-1</code></td><td>이상 중 가장 작은 값</td><td>내림차순 정렬</td></tr>
+          <tr><td>찾기 참조</td><td><code>=INDEX(범위, 행, 열)</code></td><td>좌표의 값 꺼내기</td><td>행·열은 범위 안에서 센다</td></tr>
+          <tr><td>조합</td><td><code>=INDEX(가져올 열, MATCH(값, 찾을 열, 0))</code></td><td>찾아서 꺼내기</td><td>두 범위 시작 행을 맞춘다</td></tr>
+          <tr><td>조합</td><td><code>=INDEX(표, MATCH(…), MATCH(…))</code></td><td>표 안의 한 칸 찍기</td><td>행·열 번호를 각각 MATCH로</td></tr>
+          <tr><td>중첩</td><td><code>=CHOOSE(MID(주민번호,8,1), …)</code></td><td>성별 구하기</td><td>번호 자리에 함수</td></tr>
+          <tr><td>참조</td><td><code>F4</code></td><td>범위 절대 참조</td><td>아래로 채우기 전에</td></tr>
+          <tr><td>점검</td><td><code>F2</code></td><td>참조 범위를 색 상자로 확인</td><td>값이 한 칸 밀리면 제일 먼저</td></tr>
+          <tr><td>복습</td><td><code>=VLOOKUP(값, 기준표, 열번호, FALSE)</code></td><td>기준표에서 찾아오기</td><td>찾을 값이 첫 열에 있어야 함</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext"><code>=CHOOSE(2,"배","사과","감")</code>의 결과는?</p>
+      <button class="quiz-opt" data-correct="true">사과</button>
+      <button class="quiz-opt" data-correct="false">배</button>
+      <button class="quiz-opt" data-correct="false">2</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext"><code>=CHOOSE(0,"A","B","C")</code>처럼 CHOOSE의 번호가 <b>0</b>이면 어떻게 될까요?</p>
+      <button class="quiz-opt" data-correct="false">첫 번째 값 "A"가 나온다</button>
+      <button class="quiz-opt" data-correct="true">#VALUE! 오류가 난다</button>
+      <button class="quiz-opt" data-correct="false">마지막 값 "C"가 나온다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext"><code>=SWITCH("B","A","우수","B","보통","노력")</code>의 결과는?</p>
+      <button class="quiz-opt" data-correct="false">우수</button>
+      <button class="quiz-opt" data-correct="false">노력</button>
+      <button class="quiz-opt" data-correct="true">보통</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">A2:A5에 차례로 "사과", "배", "감", "귤"이 있습니다. <code>=MATCH("배",A2:A5,0)</code>의 결과는?</p>
+      <button class="quiz-opt" data-correct="false">배</button>
+      <button class="quiz-opt" data-correct="true">2</button>
+      <button class="quiz-opt" data-correct="false">3</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">MATCH 함수로 이름을 <b>정확히 일치</b>하는 위치로 찾을 때 세 번째 인수(일치 유형)는?</p>
+      <button class="quiz-opt" data-correct="true">0</button>
+      <button class="quiz-opt" data-correct="false">1</button>
+      <button class="quiz-opt" data-correct="false">-1</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">MATCH의 일치 유형을 <b>-1</b>로 쓸 때 찾을 범위는 어떻게 정렬돼 있어야 할까요?</p>
+      <button class="quiz-opt" data-correct="false">오름차순</button>
+      <button class="quiz-opt" data-correct="true">내림차순</button>
+      <button class="quiz-opt" data-correct="false">정렬과 상관없다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext"><code>=INDEX(B2:D5,3,2)</code>가 꺼내는 값은 어느 칸의 값일까요?</p>
+      <button class="quiz-opt" data-correct="true">C4</button>
+      <button class="quiz-opt" data-correct="false">C3</button>
+      <button class="quiz-opt" data-correct="false">B3</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext"><code>=INDEX(부서 범위, MATCH(이름, 이름 범위, 0))</code>에서 <b>MATCH</b>가 맡는 역할은?</p>
+      <button class="quiz-opt" data-correct="false">최종 결과인 부서명을 꺼낸다</button>
+      <button class="quiz-opt" data-correct="true">이름이 몇 번째인지 구해 INDEX의 행 번호로 넘긴다</button>
+      <button class="quiz-opt" data-correct="false">범위를 절대 참조로 고정한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">INDEX+MATCH 결과가 오류 없이 <b>매번 바로 윗줄의 값</b>으로 나옵니다. 가장 가능성 높은 원인은?</p>
+      <button class="quiz-opt" data-correct="false">MATCH의 일치 유형을 0으로 썼다</button>
+      <button class="quiz-opt" data-correct="false">찾을 값이 문자여서</button>
+      <button class="quiz-opt" data-correct="true">INDEX 범위와 MATCH 범위의 시작 행이 서로 다르다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">사번은 C열, 가져올 이름은 A열에 있습니다. VLOOKUP 대신 <b>INDEX+MATCH</b>를 쓰는 이유로 알맞은 것은?</p>
+      <button class="quiz-opt" data-correct="false">INDEX+MATCH는 절대 참조가 필요 없어서</button>
+      <button class="quiz-opt" data-correct="false">VLOOKUP은 문자를 찾을 수 없어서</button>
+      <button class="quiz-opt" data-correct="true">VLOOKUP은 찾을 값보다 왼쪽 열의 값을 가져올 수 없어서</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">CHOOSE로 번호 1·2·3에 직급을 붙여보고, 번호를 0과 4로 바꿔 #VALUE! 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">함수 인수 대화상자(fx)에서 Tab으로 따옴표가 자동으로 붙는 것 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">주민번호 8번째 자리로 CHOOSE(MID(…)) 성별 구해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">SWITCH로 A·B·C 코드에 등급 붙이고, 기본값을 넣었다 뺐다 해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">MATCH 결과를 적기 전에 범위 첫 칸부터 손가락으로 1, 2, 3 세어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">MATCH 일치 유형을 0·1·생략으로 바꿔가며 결과 비교하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">INDEX(범위, 행, 열) 결과가 어느 칸인지 먼저 예측하고 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">MATCH만 먼저 쓴 뒤 F2로 INDEX를 감싸 완성하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">INDEX 범위를 1행부터 잡아 값이 한 칸 밀리는 것 직접 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">가져올 값이 왼쪽 열에 있는 표를 INDEX+MATCH로 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">어제 배운 VLOOKUP 인수 4개를 안 보고 적어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '8차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
