@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9차시 복습자료 | 컴활2급 - INT·TRUNC·MOD·날짜시간·IF</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">9차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 엑셀</span>
+  <h1>9차시 복습자료</h1>
+  <p class="meta"><b>2026-09-14</b><br>MOD와 +1, 텍스트 추출 함수는 문자, INT·TRUNC 음수 차이, 날짜=숫자와 분해·합체, WEEKDAY 유형 2, IF·중첩 IF·AND, RANK.EQ와 통계 함수, FIND·SEARCH</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 8)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>함수 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">INT · TRUNC · MOD</span>
+      <span class="tag">날짜 · 시간 · WEEKDAY</span>
+      <span class="tag">IF · 중첩 IF · AND</span>
+      <span class="tag">RANK.EQ</span>
+    </div>
+    <h1>오늘의 핵심은 "<b>질문을 식으로 바꾸는 것</b>입니다. IF의 첫 칸은 값이 아니라 <b>「너 60점 넘니?」라는 질문</b>이고, 답이 여러 갈래면 질문을 한 줄씩 쌓습니다."</h1>
+    <p class="sub">2026-09-14 · 9차시 · MOD와 CHOOSE를 잇는 +1, 텍스트 추출 함수의 결과는 문자, INT와 TRUNC가 음수에서 갈리는 이유, 날짜=숫자와 분해·합체, WEEKDAY 유형 2, IF·중첩 IF·AND, RANK.EQ와 LARGE·SMALL·MEDIAN·MODE.SNGL, FIND와 SEARCH</p>
+    <div class="key-badges">
+      <span class="key-badge">➗ MOD</span>
+      <span class="key-badge">📅 WEEKDAY</span>
+      <span class="key-badge">❓ IF</span>
+      <span class="key-badge">🏅 RANK.EQ</span>
+      <span class="key-badge">🖼️ 그림 8장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>★IF의 첫 칸은 값이 아니라 "질문"이다</h3>
+        <p><code>=IF(조건식, 참일 때, 거짓일 때)</code>. 첫 칸에 <b>「너 60점 넘니?」</b>를 <code>B8&gt;=60</code>처럼 식으로 적습니다. 답은 TRUE 아니면 FALSE예요.</p>
+        <div class="use">SUMIF의 "조건"과 생김새가 다릅니다</div>
+      </div>
+      <div class="card">
+        <h3>중첩 IF는 구간이 N개면 IF가 N-1개</h3>
+        <p>A·B·C·D·F 다섯 구간이면 IF는 <b>네 개</b>입니다. 마지막 거짓 자리에 남는 것이 F예요. 조건은 <b>한쪽 끝(90점)부터</b> 차례로 씁니다.</p>
+        <div class="use">IF를 연 개수만큼 괄호도 닫습니다</div>
+      </div>
+      <div class="card">
+        <h3>나머지는 0부터, CHOOSE는 1부터 — 그래서 +1</h3>
+        <p><code>MOD</code> 결과는 0, 1, 2로 나옵니다. 그런데 <code>CHOOSE</code>는 1번부터 고르므로 0을 받을 자리가 없어요. 그래서 <b>+1</b>을 해서 1·2·3조로 맞춥니다.</p>
+        <div class="use">시험 지시문에 "+1 하라"는 말은 없습니다</div>
+      </div>
+      <div class="card">
+        <h3>★INT와 TRUNC는 음수에서 갈린다</h3>
+        <p>양수는 <code>INT(3.7)</code>·<code>TRUNC(3.7)</code> 둘 다 3입니다. 음수에서 <code>INT(-3.7)</code>은 <b>-4</b>(작은 쪽으로 내림), <code>TRUNC(-3.7)</code>은 <b>-3</b>(그냥 잘라냄)이에요.</p>
+        <div class="use">INT에는 자릿수 인수가 없습니다</div>
+      </div>
+      <div class="card">
+        <h3>텍스트 추출 함수의 결과는 문자다</h3>
+        <p>MID·LEFT·RIGHT 결과는 숫자처럼 보여도 <b>문자</b>입니다. <b>MOD처럼 계산하는 함수에 넣으면 자동으로 숫자</b>가 되지만, IF로 직접 비교할 때는 <code>="1"</code>처럼 따옴표가 필요해요.</p>
+        <div class="use">강사가 여러 번 반복해 강조한 지점</div>
+      </div>
+      <div class="card">
+        <h3>날짜는 숫자다 — 그래서 분해·합체가 된다</h3>
+        <p>YEAR·MONTH·DAY로 <b>쪼개고</b> DATE로 <b>합칩니다</b>. 시각은 HOUR·MINUTE·SECOND로 쪼개고 TIME으로 합쳐요. TODAY와 NOW는 <b>인수가 없어도 괄호</b>를 씁니다.</p>
+        <div class="use">결과가 숫자로 보이면 표시 형식만 바꾸면 됩니다</div>
+      </div>
+      <div class="card">
+        <h3>WEEKDAY는 유형 2를 가장 많이 쓴다</h3>
+        <p>유형 2는 <b>월요일이 1</b>입니다. 시험에는 "월요일이 1로 시작하는 유형"이라고 나와요. <b>6 이상이면 토·일</b>이라 주말 판정에 그대로 씁니다.</p>
+        <div class="use">CHOOSE와 짝지어 한글 요일을 만듭니다</div>
+      </div>
+      <div class="card">
+        <h3>RANK.EQ는 범위를 반드시 F4로 고정</h3>
+        <p><code>=RANK.EQ(내 점수, 전체 범위, 방법)</code>. 두 번째가 범위이므로 <b>F4</b>가 필요합니다. 세 번째는 <b>0이나 생략이 내림차순</b>(큰 값이 1등)이에요.</p>
+        <div class="use">실기·필기 모두 출제 빈도가 높습니다</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>시작 전에 — 어제 가장 많이 틀린 것 되짚기</h3>
+      <div class="step"><b>어제 퀴즈에서 두 문항이 나란히 71%</b>였습니다. 둘 다 같은 것을 묻고 있었어요. <b>MATCH와 INDEX의 번호는 시트 기준이 아니라 범위 안에서 센다</b>는 점입니다.</div>
+      <div class="step"><b>MATCH</b> <code>=MATCH("배", A2:A5, 0)</code>에서 "배"가 A3에 있어도 답은 3이 아니라 <b>2</b>입니다. 범위가 A2에서 시작하니 A2가 1번이에요.</div>
+      <div class="step"><b>INDEX</b> <code>=INDEX(B2:D5, 3, 2)</code>는 시트의 3행이 아니라 <b>범위 안에서 3번째 줄·2번째 칸</b>, 즉 <b>C4</b>입니다.</div>
+      <div class="step"><b>손가락으로 세기</b> 범위의 첫 칸에 손가락을 얹고 1, 2, 3을 세세요. 이 습관 하나로 두 문항이 같이 해결됩니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MATCH와 INDEX의 번호는 범위 안에서 센다">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">어제 71%였던 두 문항 — 원인은 하나입니다</text>
+
+  <rect x="20" y="40" width="330" height="210" rx="12" fill="#F8FAFC" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="185" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1D6FE8" font-family="JetBrains Mono, monospace">=MATCH("배", A2:A5, 0)</text>
+  <g font-size="12">
+    <text x="62" y="90" text-anchor="middle" fill="#5A6A7E" font-size="11">시트 행</text>
+    <text x="150" y="90" text-anchor="middle" fill="#5A6A7E" font-size="11">A열</text>
+    <text x="270" y="90" text-anchor="middle" fill="#0A8A68" font-size="11" font-weight="700">범위 안 순서</text>
+    <rect x="40" y="98" width="44" height="28" fill="#EFF2F7" stroke="#D1D9E0"/><text x="62" y="117" text-anchor="middle" fill="#5A6A7E">2</text>
+    <rect x="100" y="98" width="100" height="28" fill="#fff" stroke="#1D6FE8"/><text x="150" y="117" text-anchor="middle">사과</text>
+    <text x="270" y="117" text-anchor="middle" fill="#0A8A68" font-weight="700">1</text>
+    <rect x="40" y="126" width="44" height="28" fill="#FDEDEC" stroke="#C0392B"/><text x="62" y="145" text-anchor="middle" fill="#C0392B" font-weight="700">3</text>
+    <rect x="100" y="126" width="100" height="28" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2.5"/><text x="150" y="145" text-anchor="middle" font-weight="700" fill="#0A8A68">배</text>
+    <text x="270" y="145" text-anchor="middle" fill="#0A8A68" font-weight="700" font-size="15">2</text>
+    <rect x="40" y="154" width="44" height="28" fill="#EFF2F7" stroke="#D1D9E0"/><text x="62" y="173" text-anchor="middle" fill="#5A6A7E">4</text>
+    <rect x="100" y="154" width="100" height="28" fill="#fff" stroke="#1D6FE8"/><text x="150" y="173" text-anchor="middle">감</text>
+    <text x="270" y="173" text-anchor="middle" fill="#0A8A68" font-weight="700">3</text>
+    <rect x="40" y="182" width="44" height="28" fill="#EFF2F7" stroke="#D1D9E0"/><text x="62" y="201" text-anchor="middle" fill="#5A6A7E">5</text>
+    <rect x="100" y="182" width="100" height="28" fill="#fff" stroke="#1D6FE8"/><text x="150" y="201" text-anchor="middle">귤</text>
+    <text x="270" y="201" text-anchor="middle" fill="#0A8A68" font-weight="700">4</text>
+  </g>
+  <text x="185" y="232" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68">답은 2 — 시트 행 번호 3이 아닙니다</text>
+
+  <rect x="370" y="40" width="330" height="210" rx="12" fill="#F8FAFC" stroke="#92680A" stroke-width="2"/>
+  <text x="535" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#92680A" font-family="JetBrains Mono, monospace">=INDEX(B2:D5, 3, 2)</text>
+  <g font-size="12">
+    <text x="400" y="90" text-anchor="middle" fill="#5A6A7E" font-size="11">시트</text>
+    <text x="470" y="90" text-anchor="middle" fill="#5A6A7E" font-size="11">B</text>
+    <text x="545" y="90" text-anchor="middle" fill="#5A6A7E" font-size="11">C</text>
+    <text x="620" y="90" text-anchor="middle" fill="#5A6A7E" font-size="11">D</text>
+    <text x="400" y="117" text-anchor="middle" fill="#5A6A7E">2행</text>
+    <text x="400" y="145" text-anchor="middle" fill="#5A6A7E">3행</text>
+    <text x="400" y="173" text-anchor="middle" fill="#C0392B" font-weight="700">4행</text>
+    <text x="400" y="201" text-anchor="middle" fill="#5A6A7E">5행</text>
+    <rect x="430" y="98" width="225" height="112" fill="none" stroke="#92680A" stroke-width="2"/>
+    <rect x="505" y="98" width="75" height="112" fill="#E6F7F1" opacity="0.7"/>
+    <rect x="430" y="154" width="225" height="28" fill="#EBF2FF" opacity="0.8"/>
+    <rect x="505" y="154" width="75" height="28" fill="#FFF8E1" stroke="#C0392B" stroke-width="3"/>
+    <text x="470" y="117" text-anchor="middle">가</text><text x="545" y="117" text-anchor="middle">나</text><text x="620" y="117" text-anchor="middle">다</text>
+    <text x="470" y="145" text-anchor="middle">라</text><text x="545" y="145" text-anchor="middle">마</text><text x="620" y="145" text-anchor="middle">바</text>
+    <text x="470" y="173" text-anchor="middle">사</text><text x="545" y="174" text-anchor="middle" font-weight="700" fill="#C0392B" font-size="14">아</text><text x="620" y="173" text-anchor="middle">자</text>
+    <text x="470" y="201" text-anchor="middle">차</text><text x="545" y="201" text-anchor="middle">카</text><text x="620" y="201" text-anchor="middle">타</text>
+    <path d="M430,126 L655,126 M430,154 L655,154 M430,182 L655,182 M505,98 L505,210 M580,98 L580,210" stroke="#D1D9E0"/>
+  </g>
+  <text x="535" y="232" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">범위 안 3번째 줄 × 2번째 칸 = C4</text>
+
+  <rect x="20" y="262" width="680" height="30" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="282" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">범위의 첫 칸에 손가락을 얹고 1, 2, 3 — 시트 행 번호는 잊으세요</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 1</span> · 번호는 언제나 범위 안에서 센다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 보기에 시트 행 번호를 섞어 놓습니다. 범위가 2행부터 시작하면 답은 한 칸씩 작아집니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>MOD — 나머지, 그리고 CHOOSE로 잇는 +1</h3>
+      <div class="step"><b>구조</b> <code>=MOD(숫자, 나눌 수)</code>. <code>MOD(7,3)=1</code>, <code>MOD(8,2)=0</code>, <code>MOD(9,2)=1</code>입니다.</div>
+      <div class="step"><b>짝수·홀수</b> 2로 나눈 나머지가 <b>0이면 짝수</b>, <b>1이면 홀수</b>입니다.</div>
+      <div class="step"><b>★조 나누기와 +1</b> 3으로 나눈 나머지는 <b>0, 1, 2</b>로 나옵니다. 그런데 CHOOSE는 <b>1번부터</b> 고르기 때문에 0을 받을 자리가 없어요. 그래서 <code>MOD(사번,3)+1</code>로 <b>1·2·3조</b>가 되게 맞춥니다.</div>
+      <div class="step"><b>시험에는 +1 하라는 말이 없다</b> 지시문에 "1을 더하시오"라고 적어 주지 않습니다. 결과가 0부터 나온다는 것을 알고 <b>스스로</b> 붙여야 해요.</div>
+      <div class="step"><b>시간으로 나누기</b> 근무 분을 <code>INT(분/60)</code>으로 시간, <code>MOD(분,60)</code>으로 분을 구합니다. 245분이면 4시간 5분이에요.</div>
+      <div class="step"><b>0으로 나누면</b> 나눌 수가 0이면 <code>#DIV/0!</code>입니다. 인수 순서가 뒤집히지 않도록 조심하세요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MOD 결과는 0부터, CHOOSE는 1부터라 +1이 필요하다">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">나머지는 0부터 나오고, CHOOSE는 1부터 고른다 — 그래서 한 칸 밀어 준다</text>
+
+  <rect x="20" y="42" width="200" height="150" rx="12" fill="#F8FAFC" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="120" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#1D6FE8">MOD(사번, 3)</text>
+  <g font-size="13">
+    <rect x="60" y="80" width="120" height="28" rx="6" fill="#EBF2FF" stroke="#1D6FE8"/><text x="120" y="99" text-anchor="middle" fill="#1D6FE8" font-weight="700">0</text>
+    <rect x="60" y="112" width="120" height="28" rx="6" fill="#EBF2FF" stroke="#1D6FE8"/><text x="120" y="131" text-anchor="middle" fill="#1D6FE8" font-weight="700">1</text>
+    <rect x="60" y="144" width="120" height="28" rx="6" fill="#EBF2FF" stroke="#1D6FE8"/><text x="120" y="163" text-anchor="middle" fill="#1D6FE8" font-weight="700">2</text>
+  </g>
+  <text x="120" y="184" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">0번 자리는 CHOOSE에 없다</text>
+
+  <text x="252" y="120" text-anchor="middle" font-size="16" font-weight="700" fill="#0A8A68">+1</text>
+  <path d="M232,132 L272,132" stroke="#0A8A68" stroke-width="2.5"/>
+  <path d="M278,132 l-9,-5 l0,10 z" fill="#0A8A68"/>
+
+  <rect x="290" y="42" width="200" height="150" rx="12" fill="#F8FAFC" stroke="#0A8A68" stroke-width="2"/>
+  <text x="390" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">MOD(사번, 3) + 1</text>
+  <g font-size="13">
+    <rect x="330" y="80" width="120" height="28" rx="6" fill="#E6F7F1" stroke="#0A8A68"/><text x="390" y="99" text-anchor="middle" fill="#0A8A68" font-weight="700">1</text>
+    <rect x="330" y="112" width="120" height="28" rx="6" fill="#E6F7F1" stroke="#0A8A68"/><text x="390" y="131" text-anchor="middle" fill="#0A8A68" font-weight="700">2</text>
+    <rect x="330" y="144" width="120" height="28" rx="6" fill="#E6F7F1" stroke="#0A8A68"/><text x="390" y="163" text-anchor="middle" fill="#0A8A68" font-weight="700">3</text>
+  </g>
+  <text x="390" y="184" text-anchor="middle" font-size="11.5" fill="#0A8A68" font-weight="700">1부터 시작 — CHOOSE가 받을 수 있다</text>
+
+  <path d="M500,132 L540,132" stroke="#92680A" stroke-width="2.5"/>
+  <path d="M546,132 l-9,-5 l0,10 z" fill="#92680A"/>
+
+  <rect x="556" y="42" width="144" height="150" rx="12" fill="#FFF8E1" stroke="#92680A" stroke-width="2"/>
+  <text x="628" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#92680A">CHOOSE</text>
+  <g font-size="13">
+    <text x="628" y="99" text-anchor="middle">1 → A조</text>
+    <text x="628" y="131" text-anchor="middle">2 → B조</text>
+    <text x="628" y="163" text-anchor="middle">3 → C조</text>
+  </g>
+
+  <rect x="20" y="206" width="680" height="30" rx="8" fill="#fff" stroke="#D1D9E0"/>
+  <text x="360" y="226" text-anchor="middle" font-size="12.5" font-family="JetBrains Mono, monospace" fill="#1A202C">=CHOOSE( MOD(사번, 3) + 1 , "A조" , "B조" , "C조" )</text>
+  <rect x="20" y="244" width="680" height="30" rx="8" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="360" y="264" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">시험 지시문에 "+1 하라"는 말은 없습니다 — 스스로 붙여야 합니다</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 2</span> · 0부터 나오는 나머지를 1부터로 밀어 주는 +1</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 사번을 3으로 나눠 조를 배정하는 문제에서 +1을 빠뜨리면 0이 나오는 사람에게 <code>#VALUE!</code>가 뜨고 나머지도 한 칸씩 밀립니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>★텍스트 추출 함수(MID·LEFT·RIGHT)의 결과는 문자다</h3>
+      <div class="step"><b>이름부터</b> MID·LEFT·RIGHT는 <b>텍스트 추출 함수</b>입니다. 뽑아낸 결과는 눈에 숫자로 보여도 <b>문자</b>예요.</div>
+      <div class="step"><b>계산에 넣으면 자동으로 숫자</b> <code>MOD(MID(주민번호,8,1), 2)</code>처럼 <b>계산하는 함수에 넣으면</b> 엑셀이 알아서 숫자로 바꿔 계산합니다. <code>*1</code>을 곱하지 않아도 됩니다.</div>
+      <div class="step"><b>★IF로 직접 비교할 때는 따옴표</b> 반대로 뽑은 값을 <b>그대로 IF에 넣어 비교</b>하면 문자끼리 비교해야 합니다. <code>=IF(MID(B3,8,1)="1","남","여")</code>처럼 <b>"1"</b>로 적어야 맞아요. 따옴표 없이 <code>=1</code>로 적으면 비교가 되지 않습니다.</div>
+      <div class="step"><b>정리</b> 계산(MOD·곱하기 등)을 한 번이라도 거치면 숫자, 곧바로 비교하면 문자입니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="텍스트 추출 함수 결과가 문자인 경우와 숫자가 되는 경우">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">MID로 뽑은 「1」은 문자입니다 — 다음에 무엇을 하느냐로 갈립니다</text>
+  <rect x="250" y="38" width="220" height="46" rx="10" fill="#EFF2F7" stroke="#5A6A7E" stroke-width="2"/>
+  <text x="360" y="58" text-anchor="middle" font-size="12" font-family="JetBrains Mono, monospace" fill="#1A202C">MID(B3, 8, 1)</text>
+  <text x="360" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">결과 "1" — 문자</text>
+
+  <path d="M300,88 L190,120" stroke="#0A8A68" stroke-width="2.5"/><path d="M184,123 l10,-6 l2,10 z" fill="#0A8A68"/>
+  <path d="M420,88 L530,120" stroke="#92680A" stroke-width="2.5"/><path d="M536,123 l-12,-6 l-2,10 z" fill="#92680A"/>
+
+  <rect x="20" y="126" width="330" height="130" rx="12" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <text x="185" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">계산하는 함수에 넣으면</text>
+  <rect x="40" y="162" width="290" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="185" y="181" text-anchor="middle" font-size="11.5" font-family="JetBrains Mono, monospace">MOD( MID(B3,8,1) , 2 )</text>
+  <text x="185" y="210" text-anchor="middle" font-size="12.5" fill="#1A202C">엑셀이 <tspan font-weight="700" fill="#0A8A68">알아서 숫자로</tspan> 바꿔 계산</text>
+  <text x="185" y="234" text-anchor="middle" font-size="13" font-weight="700" fill="#0A8A68">*1 을 곱하지 않아도 됩니다</text>
+
+  <rect x="370" y="126" width="330" height="130" rx="12" fill="#FFF8E1" stroke="#92680A" stroke-width="2"/>
+  <text x="535" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#92680A">IF로 곧바로 비교하면</text>
+  <rect x="390" y="162" width="290" height="28" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="535" y="181" text-anchor="middle" font-size="11.5" font-family="JetBrains Mono, monospace">IF( MID(B3,8,1)=<tspan font-weight="700" fill="#C0392B">"1"</tspan> , "남" , "여" )</text>
+  <text x="535" y="210" text-anchor="middle" font-size="12.5" fill="#1A202C">문자끼리 비교해야 하므로</text>
+  <text x="535" y="234" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">따옴표를 붙여 "1" 로 적습니다</text>
+
+  <rect x="20" y="266" width="680" height="28" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="285" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">계산을 거치면 숫자, 곧바로 비교하면 문자</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 3</span> · 같은 「1」이라도 다음 동작에 따라 달라진다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 주민등록번호 8번째 자리로 성별을 구할 때 <code>MOD</code>를 거치면 그대로, <code>IF</code>로 바로 비교하면 <code>="1"</code>로 씁니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>INT · TRUNC — 음수에서 갈린다</h3>
+      <div class="step"><b>INT</b> <code>=INT(숫자)</code>. 소수를 버려 정수로 만드는데, <b>작은 쪽(왼쪽)으로 내립니다</b>. 자릿수 인수가 <b>없습니다</b>.</div>
+      <div class="step"><b>TRUNC</b> <code>=TRUNC(숫자, 자릿수)</code>. 지정한 자리 아래를 <b>그냥 잘라냅니다</b>. 자릿수를 생략하면 0으로 봅니다.</div>
+      <div class="step"><b>★양수는 같고 음수에서 다르다</b> <code>INT(3.7)=3</code>, <code>TRUNC(3.7)=3</code>으로 같습니다. 그런데 <code>INT(-3.7)=-4</code>, <code>TRUNC(-3.7)=-3</code>이에요. 오늘의 가장 큰 급소입니다.</div>
+      <div class="step"><b>ROUNDDOWN</b> 결과는 TRUNC와 같습니다. 다만 <b>자릿수를 생략할 수 없어요</b>.</div>
+      <div class="step"><b>어디에 쓰나</b> 나눈 몫의 정수 부분(상자 수, 근속 연수, 시간)을 구할 때 INT를 씁니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="INT와 TRUNC가 음수에서 갈리는 모습">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">수직선 위에서 보면 이유가 보입니다</text>
+  <path d="M60,110 L660,110" stroke="#5A6A7E" stroke-width="2"/>
+  <g font-size="12" fill="#5A6A7E">
+    <path d="M120,104 L120,116" stroke="#5A6A7E" stroke-width="2"/><text x="120" y="134" text-anchor="middle">-4</text>
+    <path d="M240,104 L240,116" stroke="#5A6A7E" stroke-width="2"/><text x="240" y="134" text-anchor="middle">-3</text>
+    <path d="M360,104 L360,116" stroke="#5A6A7E" stroke-width="2"/><text x="360" y="134" text-anchor="middle">0</text>
+    <path d="M480,104 L480,116" stroke="#5A6A7E" stroke-width="2"/><text x="480" y="134" text-anchor="middle">3</text>
+    <path d="M600,104 L600,116" stroke="#5A6A7E" stroke-width="2"/><text x="600" y="134" text-anchor="middle">4</text>
+  </g>
+  <circle cx="204" cy="110" r="6" fill="#C0392B"/>
+  <text x="204" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">-3.7</text>
+  <circle cx="564" cy="110" r="6" fill="#1D6FE8"/>
+  <text x="564" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#1D6FE8">3.7</text>
+
+  <path d="M198,110 C170,110 140,110 126,110" stroke="#C0392B" stroke-width="2" stroke-dasharray="4 3"/>
+  <path d="M120,110 l9,-5 l0,10 z" fill="#C0392B"/>
+  <text x="150" y="162" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">INT: 작은 쪽으로 → -4</text>
+  <path d="M210,110 C222,110 232,110 234,110" stroke="#92680A" stroke-width="2" stroke-dasharray="4 3"/>
+  <path d="M240,110 l-9,-5 l0,10 z" fill="#92680A"/>
+  <text x="286" y="182" text-anchor="middle" font-size="11.5" fill="#92680A" font-weight="700">TRUNC: 소수만 잘라 → -3</text>
+
+  <path d="M558,110 C530,110 500,110 486,110" stroke="#1D6FE8" stroke-width="2" stroke-dasharray="4 3"/>
+  <path d="M480,110 l9,-5 l0,10 z" fill="#1D6FE8"/>
+  <text x="530" y="162" text-anchor="middle" font-size="11.5" fill="#1D6FE8" font-weight="700">양수는 둘 다 3</text>
+
+  <rect x="60" y="196" width="290" height="46" rx="10" fill="#FDEDEC" stroke="#C0392B" stroke-width="2"/>
+  <text x="205" y="216" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">음수에서만 갈린다</text>
+  <text x="205" y="234" text-anchor="middle" font-size="12" font-family="JetBrains Mono, monospace">INT(-3.7)=-4 · TRUNC(-3.7)=-3</text>
+  <rect x="370" y="196" width="290" height="46" rx="10" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="515" y="216" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">양수는 결과가 같다</text>
+  <text x="515" y="234" text-anchor="middle" font-size="12" font-family="JetBrains Mono, monospace">INT(3.7)=3 · TRUNC(3.7)=3</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 4</span> · INT는 내리고, TRUNC는 잘라낸다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 필기에서 <code>INT(-3.5)</code>의 결과를 묻습니다. -3이 아니라 <b>-4</b>입니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>ABS · SQRT · POWER — 짧게</h3>
+      <div class="step"><b>ABS</b> 부호를 떼고 크기만 남깁니다. 목표와 실적의 차이를 <b>부호 없이</b> 볼 때 <code>=ABS(목표-실적)</code>처럼 계산 결과를 감쌉니다.</div>
+      <div class="step"><b>SQRT</b> 제곱근입니다. 음수를 넣으면 <code>#NUM!</code> 오류예요.</div>
+      <div class="step"><b>POWER</b> <code>=POWER(2,3)=8</code>, <code>=POWER(5,3)=125</code>. <b><code>=2^3</code>처럼 ^ 연산자로 써도 같습니다.</b></div>
+      <div class="step"><b>★필기 함정</b> <b>5의 3세제곱은 125</b>입니다. 5×3=15로 착각하는 사람이 많아요. 여러 함수의 결과를 섞어 놓고 "틀린 것"을 고르게 합니다.</div>
+      <div class="exam-ex">시험 예시: 최근 실기에도 출제된 적이 있습니다. 어려운 함수는 아니니 형태만 기억해 두세요.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>날짜 · 시간 — 쪼개고 합치기</h3>
+      <div class="step"><b>날짜는 숫자다</b> 1900-01-01이 1이고 하루에 1씩 커집니다. 시각은 하루를 1로 본 소수예요(0.5 = 12:00).</div>
+      <div class="step"><b>TODAY · NOW</b> 오늘 날짜, 현재 날짜+시각입니다. <b>인수가 없어도 괄호</b>를 반드시 씁니다. NOW는 다시 계산될 때마다 바뀝니다.</div>
+      <div class="step"><b>쪼개기</b> <code>YEAR</code>·<code>MONTH</code>·<code>DAY</code>로 연·월·일을, <code>HOUR</code>·<code>MINUTE</code>·<code>SECOND</code>로 시·분·초를 뽑습니다.</div>
+      <div class="step"><b>합치기</b> <code>=DATE(년, 월, 일)</code>로 날짜를, <code>=TIME(시, 분, 초)</code>로 시각을 만듭니다. DATE는 주민번호 앞 두 자리에 19나 20을 붙이는 문제와 엮여 어렵게 나옵니다.</div>
+      <div class="step"><b>결과가 숫자로 보이면</b> 값이 틀린 게 아니라 표시 형식이 '일반'인 것입니다. 셀 서식을 날짜로 바꾸세요.</div>
+      <div class="step"><b>가볍게 볼 것</b> DAYS·EDATE·EOMONTH·WORKDAY는 출제가 잦지 않습니다. 한 번씩만 보고 넘어가세요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="날짜와 시각을 쪼개는 함수와 합치는 함수">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">쪼개는 함수와 합치는 함수는 짝입니다</text>
+
+  <rect x="30" y="44" width="180" height="44" rx="10" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="120" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#1D6FE8">2026-09-14</text>
+  <path d="M214,66 L280,66" stroke="#1D6FE8" stroke-width="2"/><path d="M286,66 l-9,-5 l0,10 z" fill="#1D6FE8"/>
+  <text x="250" y="58" text-anchor="middle" font-size="11" fill="#1D6FE8">쪼개기</text>
+  <g font-size="12">
+    <rect x="292" y="44" width="120" height="44" rx="8" fill="#fff" stroke="#D1D9E0"/><text x="352" y="63" text-anchor="middle" font-weight="700" fill="#1D6FE8">YEAR</text><text x="352" y="80" text-anchor="middle">2026</text>
+    <rect x="420" y="44" width="120" height="44" rx="8" fill="#fff" stroke="#D1D9E0"/><text x="480" y="63" text-anchor="middle" font-weight="700" fill="#1D6FE8">MONTH</text><text x="480" y="80" text-anchor="middle">9</text>
+    <rect x="548" y="44" width="120" height="44" rx="8" fill="#fff" stroke="#D1D9E0"/><text x="608" y="63" text-anchor="middle" font-weight="700" fill="#1D6FE8">DAY</text><text x="608" y="80" text-anchor="middle">14</text>
+  </g>
+  <path d="M480,96 L480,112" stroke="#0A8A68" stroke-width="2"/>
+  <rect x="292" y="112" width="376" height="30" rx="8" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <text x="480" y="132" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68" font-family="JetBrains Mono, monospace">=DATE(년, 월, 일) → 다시 날짜로</text>
+
+  <rect x="30" y="162" width="180" height="44" rx="10" fill="#FFF8E1" stroke="#92680A" stroke-width="2"/>
+  <text x="120" y="190" text-anchor="middle" font-size="13" font-weight="700" fill="#92680A">09:12:30</text>
+  <path d="M214,184 L280,184" stroke="#92680A" stroke-width="2"/><path d="M286,184 l-9,-5 l0,10 z" fill="#92680A"/>
+  <text x="250" y="176" text-anchor="middle" font-size="11" fill="#92680A">쪼개기</text>
+  <g font-size="12">
+    <rect x="292" y="162" width="120" height="44" rx="8" fill="#fff" stroke="#D1D9E0"/><text x="352" y="181" text-anchor="middle" font-weight="700" fill="#92680A">HOUR</text><text x="352" y="198" text-anchor="middle">9</text>
+    <rect x="420" y="162" width="120" height="44" rx="8" fill="#fff" stroke="#D1D9E0"/><text x="480" y="181" text-anchor="middle" font-weight="700" fill="#92680A">MINUTE</text><text x="480" y="198" text-anchor="middle">12</text>
+    <rect x="548" y="162" width="120" height="44" rx="8" fill="#fff" stroke="#D1D9E0"/><text x="608" y="181" text-anchor="middle" font-weight="700" fill="#92680A">SECOND</text><text x="608" y="198" text-anchor="middle">30</text>
+  </g>
+  <path d="M480,214 L480,230" stroke="#0A8A68" stroke-width="2"/>
+  <rect x="292" y="230" width="376" height="30" rx="8" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <text x="480" y="250" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68" font-family="JetBrains Mono, monospace">=TIME(시, 분, 초) → 다시 시각으로</text>
+
+  <rect x="30" y="230" width="180" height="30" rx="8" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="120" y="250" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">TODAY · NOW는 괄호만</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 5</span> · YEAR·MONTH·DAY ↔ DATE, HOUR·MINUTE·SECOND ↔ TIME</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 흩어진 연·월·일 숫자를 DATE로 합쳐 날짜를 만드는 형태가 자주 나옵니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>★WEEKDAY — 요일을 숫자로</h3>
+      <div class="step"><b>하는 일</b> <code>=WEEKDAY(날짜, 유형)</code>. 엑셀은 날짜만 있으면 요일을 압니다. 그 요일을 <b>숫자로</b> 돌려주는 함수예요.</div>
+      <div class="step"><b>왜 숫자로 바꾸나</b> 문자보다 숫자가 다루기 쉽기 때문입니다. 숫자가 되면 IF로 크다·작다를 따지거나 CHOOSE로 고를 수 있어요.</div>
+      <div class="step"><b>★유형 2를 가장 많이 쓴다</b> 유형 2는 <b>월요일이 1</b>, 화요일이 2 … 일요일이 7입니다. 우리가 요일을 월요일부터 세기 때문이에요. 유형 1(생략)은 일요일이 1, 유형 3은 월요일이 0입니다.</div>
+      <div class="step"><b>시험 문구</b> "월요일이 1로 시작하는 유형을 선택하시오"라고 나옵니다. 이 말이 곧 <b>유형 2</b>예요.</div>
+      <div class="step"><b>주말 판정</b> 유형 2에서 <b>6 이상이면 토·일</b>입니다. <code>=IF(WEEKDAY(입사일,2)&gt;=6,"주말","")</code>로 씁니다. <code>&lt;=5</code>로 평일을 먼저 물어도 됩니다 — 답이 하나가 아니에요.</div>
+      <div class="step"><b>한글 요일</b> <code>=CHOOSE(WEEKDAY(날짜,2),"월","화","수","목","금","토","일")</code>. 일곱 개를 한 번은 적어야 하니 <b>함수 인수 대화상자</b>에서 Tab으로 넘기며 적으면 훨씬 빠릅니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="WEEKDAY 유형 2의 요일 번호와 주말 판정">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">유형 2 — 월요일이 1, 6 이상이면 주말</text>
+  <g font-size="13">
+    <rect x="40" y="44" width="88" height="56" rx="8" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/><text x="84" y="68" text-anchor="middle" font-weight="700" fill="#1D6FE8">1</text><text x="84" y="90" text-anchor="middle">월</text>
+    <rect x="134" y="44" width="88" height="56" rx="8" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/><text x="178" y="68" text-anchor="middle" font-weight="700" fill="#1D6FE8">2</text><text x="178" y="90" text-anchor="middle">화</text>
+    <rect x="228" y="44" width="88" height="56" rx="8" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/><text x="272" y="68" text-anchor="middle" font-weight="700" fill="#1D6FE8">3</text><text x="272" y="90" text-anchor="middle">수</text>
+    <rect x="322" y="44" width="88" height="56" rx="8" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/><text x="366" y="68" text-anchor="middle" font-weight="700" fill="#1D6FE8">4</text><text x="366" y="90" text-anchor="middle">목</text>
+    <rect x="416" y="44" width="88" height="56" rx="8" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/><text x="460" y="68" text-anchor="middle" font-weight="700" fill="#1D6FE8">5</text><text x="460" y="90" text-anchor="middle">금</text>
+    <rect x="510" y="44" width="88" height="56" rx="8" fill="#FDEDEC" stroke="#C0392B" stroke-width="2.5"/><text x="554" y="68" text-anchor="middle" font-weight="700" fill="#C0392B">6</text><text x="554" y="90" text-anchor="middle" fill="#C0392B">토</text>
+    <rect x="604" y="44" width="88" height="56" rx="8" fill="#FDEDEC" stroke="#C0392B" stroke-width="2.5"/><text x="648" y="68" text-anchor="middle" font-weight="700" fill="#C0392B">7</text><text x="648" y="90" text-anchor="middle" fill="#C0392B">일</text>
+  </g>
+  <path d="M40,112 L504,112" stroke="#1D6FE8" stroke-width="2.5"/>
+  <text x="272" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#1D6FE8">1 ~ 5 = 평일</text>
+  <path d="M510,112 L692,112" stroke="#C0392B" stroke-width="2.5"/>
+  <text x="601" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">6 이상 = 주말</text>
+
+  <rect x="30" y="146" width="320" height="56" rx="10" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="190" y="167" text-anchor="middle" font-size="11.5" fill="#5A6A7E">주말 판정</text>
+  <text x="190" y="188" text-anchor="middle" font-size="11.5" font-family="JetBrains Mono, monospace">=IF(WEEKDAY(날짜,2)&gt;=6,"주말","")</text>
+  <rect x="370" y="146" width="320" height="56" rx="10" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="530" y="167" text-anchor="middle" font-size="11.5" fill="#5A6A7E">한글 요일</text>
+  <text x="530" y="188" text-anchor="middle" font-size="10.5" font-family="JetBrains Mono, monospace">=CHOOSE(WEEKDAY(날짜,2),"월","화",…,"일")</text>
+
+  <rect x="30" y="214" width="660" height="26" rx="8" fill="#FFF8E1" stroke="#92680A"/>
+  <text x="360" y="232" text-anchor="middle" font-size="12" font-weight="700" fill="#92680A">시험 문구: "월요일이 1로 시작하는 유형" = 유형 2</text>
+  <rect x="30" y="246" width="660" height="26" rx="8" fill="#EBF2FF" stroke="#1D6FE8"/>
+  <text x="360" y="264" text-anchor="middle" font-size="12" fill="#1D6FE8">유형 1(생략) 일요일=1 · 유형 3 월요일=0</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 6</span> · 유형 2에서 6 이상이면 주말</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 요일 번호를 구해 CHOOSE로 한글 요일을 만들거나, IF로 주말을 가려내는 형태가 함께 나옵니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>★IF — 첫 칸은 "질문"이다</h3>
+      <div class="step"><b>구조</b> <code>=IF(조건식, 참일 때, 거짓일 때)</code>. 인수는 셋입니다.</div>
+      <div class="step"><b>조건식 = 질문</b> 「너 60점 넘니?」를 <code>B8&gt;=60</code>으로 적습니다. 이 질문의 답은 <b>TRUE 아니면 FALSE</b>예요.</div>
+      <div class="step"><b>★SUMIF의 "조건"과 다르다</b> SUMIF·COUNTIF에서는 범위를 먼저 주고 <code>"&gt;=60"</code>처럼 <b>따옴표 안에</b> 조건을 넣었습니다. IF는 <b>셀 하나를 놓고 만든 완전한 식</b>이라 따옴표가 없어요. 가장 많이 헷갈리는 지점입니다.</div>
+      <div class="step"><b>문자는 따옴표</b> 결과로 낼 글자는 <code>"합격"</code>처럼 감쌉니다. 아무것도 표시하지 않으려면 <code>""</code>(따옴표 두 개)를 씁니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="IF의 조건식과 SUMIF의 조건 비교">
+  <text x="360" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#1A202C" font-family="JetBrains Mono, monospace">=IF( B8&gt;=60 , "합격" , "불합격" )</text>
+  <rect x="30" y="42" width="200" height="92" rx="10" fill="#EBF2FF" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="130" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">① 조건식 = 질문</text>
+  <text x="130" y="88" text-anchor="middle" font-size="12">「너 60점 넘니?」</text>
+  <text x="130" y="112" text-anchor="middle" font-size="11.5" fill="#5A6A7E">답은 TRUE / FALSE</text>
+  <rect x="246" y="42" width="200" height="92" rx="10" fill="#E6F7F1" stroke="#0A8A68" stroke-width="2"/>
+  <text x="346" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0A8A68">② 참일 때</text>
+  <text x="346" y="92" text-anchor="middle" font-size="13" font-weight="700">"합격"</text>
+  <text x="346" y="114" text-anchor="middle" font-size="11.5" fill="#5A6A7E">문자는 따옴표로</text>
+  <rect x="462" y="42" width="200" height="92" rx="10" fill="#FDEDEC" stroke="#C0392B" stroke-width="2"/>
+  <text x="562" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">③ 거짓일 때</text>
+  <text x="562" y="92" text-anchor="middle" font-size="13" font-weight="700">"불합격"</text>
+  <text x="562" y="114" text-anchor="middle" font-size="11.5" fill="#5A6A7E">빈칸은 "" 두 개</text>
+
+  <rect x="30" y="152" width="310" height="80" rx="10" fill="#F8FAFC" stroke="#1D6FE8" stroke-width="2"/>
+  <text x="185" y="174" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1D6FE8">IF — 셀 하나로 만든 완전한 식</text>
+  <rect x="50" y="184" width="270" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="185" y="202" text-anchor="middle" font-size="12" font-family="JetBrains Mono, monospace">IF( B8&gt;=60 , … )</text>
+  <text x="185" y="224" text-anchor="middle" font-size="11.5" fill="#0A8A68" font-weight="700">따옴표가 없다</text>
+
+  <rect x="380" y="152" width="310" height="80" rx="10" fill="#F8FAFC" stroke="#92680A" stroke-width="2"/>
+  <text x="535" y="174" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92680A">SUMIF — 범위 + 따옴표 조건</text>
+  <rect x="400" y="184" width="270" height="26" rx="6" fill="#fff" stroke="#D1D9E0"/>
+  <text x="535" y="202" text-anchor="middle" font-size="12" font-family="JetBrains Mono, monospace">SUMIF( B1:B10 , "&gt;=60" , … )</text>
+  <text x="535" y="224" text-anchor="middle" font-size="11.5" fill="#C0392B" font-weight="700">범위를 놓고 따옴표 안에</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 7</span> · IF의 조건식과 SUMIF의 조건은 생김새가 다르다</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 실기에서 출제 빈도가 가장 높은 함수입니다. 조건식을 말로 읽어 보고 그대로 옮기세요.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>중첩 IF — 질문을 한 줄씩 쌓는다</h3>
+      <div class="step"><b>언제 쓰나</b> 답이 두 갈래가 아니라 A·B·C·D·F처럼 <b>여러 구간</b>일 때입니다.</div>
+      <div class="step"><b>★구간이 N개면 IF는 N-1개</b> 다섯 구간이면 IF는 <b>네 개</b>입니다. 마지막 거짓 자리에 남는 것이 F라서 F는 물어볼 필요가 없어요.</div>
+      <div class="step"><b>★한쪽 끝부터</b> 90 → 80 → 70 → 60 순서로 씁니다. 순서를 뒤집어 60부터 물으면 <b>60점 이상이 전부 D</b>가 됩니다. IF는 <b>TRUE를 만나는 순간 멈추기</b> 때문이에요.</div>
+      <div class="step"><b>다음 질문은 거짓 자리에</b> 90점이 아니면 "그럼 80점은 넘니?"를 <b>거짓 자리</b>에 넣습니다. 이렇게 계단처럼 쌓입니다.</div>
+      <div class="step"><b>괄호 세기</b> IF를 네 번 열었으면 괄호도 네 개 닫습니다. 마지막 괄호가 <b>검정색</b>으로 끝나는지 확인하세요.</div>
+      <div class="step"><b>IFS로도 된다</b> <code>=IFS(조건1,값1, 조건2,값2, …)</code>로 같은 문제를 풀 수 있습니다. 마지막에 <code>TRUE</code>를 넣으면 "나머지 전부"가 돼요.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="중첩 IF가 구간을 나누는 방식">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#5A6A7E">점수 선 위에 칸막이를 세운다 — 칸이 5개면 칸막이는 4개</text>
+  <path d="M40,60 L680,60" stroke="#5A6A7E" stroke-width="2"/>
+  <g font-size="11.5" fill="#5A6A7E">
+    <text x="40" y="80" text-anchor="middle">0</text>
+    <text x="296" y="80" text-anchor="middle">60</text>
+    <text x="424" y="80" text-anchor="middle">70</text>
+    <text x="552" y="80" text-anchor="middle">80</text>
+    <text x="640" y="80" text-anchor="middle">90</text>
+    <text x="680" y="80" text-anchor="middle">100</text>
+  </g>
+  <g>
+    <path d="M296,48 L296,72" stroke="#C0392B" stroke-width="2.5"/>
+    <path d="M424,48 L424,72" stroke="#C0392B" stroke-width="2.5"/>
+    <path d="M552,48 L552,72" stroke="#C0392B" stroke-width="2.5"/>
+    <path d="M640,48 L640,72" stroke="#C0392B" stroke-width="2.5"/>
+  </g>
+  <g font-size="13" font-weight="700">
+    <text x="168" y="44" text-anchor="middle" fill="#5A6A7E">F</text>
+    <text x="360" y="44" text-anchor="middle" fill="#1D6FE8">D</text>
+    <text x="488" y="44" text-anchor="middle" fill="#1D6FE8">C</text>
+    <text x="596" y="44" text-anchor="middle" fill="#1D6FE8">B</text>
+    <text x="660" y="44" text-anchor="middle" fill="#0A8A68">A</text>
+  </g>
+  <text x="360" y="100" text-anchor="middle" font-size="12" fill="#C0392B" font-weight="700">빨간 칸막이 4개 = IF 4개 (F는 남는 자리라 묻지 않는다)</text>
+
+  <rect x="30" y="114" width="660" height="128" rx="10" fill="#F8FAFC" stroke="#D1D9E0"/>
+  <text x="46" y="136" font-size="12" font-weight="700" fill="#1D6FE8">질문을 거짓 자리에 계단처럼 쌓는다</text>
+  <text x="60" y="160" font-size="12" fill="#1A202C">① 너 90 넘니? → 맞으면 <tspan font-weight="700">A</tspan>, 아니면 ↓</text>
+  <text x="90" y="180" font-size="12" fill="#1A202C">② 너 80 넘니? → 맞으면 <tspan font-weight="700">B</tspan>, 아니면 ↓</text>
+  <text x="120" y="200" font-size="12" fill="#1A202C">③ 너 70 넘니? → 맞으면 <tspan font-weight="700">C</tspan>, 아니면 ↓</text>
+  <text x="150" y="220" font-size="12" fill="#1A202C">④ 너 60 넘니? → 맞으면 <tspan font-weight="700">D</tspan>, 아니면 <tspan font-weight="700" fill="#C0392B">F</tspan></text>
+  <text x="470" y="200" font-size="11.5" fill="#5A6A7E">IF는 TRUE를 만나면</text>
+  <text x="470" y="218" font-size="11.5" fill="#5A6A7E">거기서 멈춥니다</text>
+
+  <rect x="30" y="252" width="320" height="36" rx="8" fill="#FDEDEC" stroke="#C0392B"/>
+  <text x="190" y="275" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">60부터 물으면 전부 D가 된다</text>
+  <rect x="370" y="252" width="320" height="36" rx="8" fill="#E6F7F1" stroke="#0A8A68"/>
+  <text x="530" y="275" text-anchor="middle" font-size="12" font-weight="700" fill="#0A8A68">연 괄호 4개 = 닫는 괄호 4개</text>
+</svg></div>
+          <div class="svg-hint">← 그림을 좌우로 밀어서 보세요 →</div>
+          <figcaption><span class="figno">그림 8</span> · 구간 5개 = IF 4개, 그리고 한쪽 끝부터</figcaption>
+        </figure>
+      </div>
+      <div class="exam-ex">시험 예시: 조건 순서를 뒤집은 수식을 주고 결과가 왜 전부 D가 되는지 묻습니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>AND · OR · NOT · IFERROR</h3>
+      <div class="step"><b>질문이 두 개 이상일 때</b> <code>=IF(AND(B8&gt;=80, E8&gt;=28),"장학생","")</code>처럼 IF의 <b>조건식 자리</b>에 넣습니다.</div>
+      <div class="step"><b>AND는 모두, OR는 하나라도</b> AND는 모든 질문이 TRUE여야 TRUE(논리곱), OR는 하나만 TRUE여도 TRUE(논리합)입니다.</div>
+      <div class="step"><b>컴활 합격 조건이 곧 AND</b> 평균 60점 이상 <b>그리고</b> 과목별 40점 이상 — 모두 만족해야 하므로 AND입니다.</div>
+      <div class="step"><b>질문은 여러 개</b> 조건식을 두 개까지만 넣을 수 있는 게 아닙니다. 대화상자에서 Tab을 누르면 칸이 계속 늘어나요.</div>
+      <div class="step"><b>NOT</b> 결과를 반대로 뒤집습니다. TRUE를 FALSE로 바꿔요. 출제는 잦지 않습니다.</div>
+      <div class="step"><b>IFERROR</b> <code>=IFERROR(식, 오류일 때)</code>. 목표가 0이라 <code>#DIV/0!</code>가 나는 달성률을 "목표없음"으로 바꿀 때 씁니다.</div>
+      <div class="exam-ex">시험 예시: AND를 OR로 바꾸면 대상자가 몇 명이 되는지 묻는 형태로 차이를 확인시킵니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>★RANK.EQ — 순위, 그리고 F4</h3>
+      <div class="step"><b>구조</b> <code>=RANK.EQ(내 점수, 전체 범위, 방법)</code>. 인수는 셋입니다.</div>
+      <div class="step"><b>①내 점수</b> 셀 하나입니다. <b>②전체 범위</b>는 반에 해당하는 전체 데이터예요.</div>
+      <div class="step"><b>★F4</b> 두 번째가 범위이므로 아래로 채우면 밀립니다. <b>반드시 F4로 절대 참조</b>하세요. 이것 하나로 한 문항이 통째로 갈립니다.</div>
+      <div class="step"><b>③방법</b> <b>0 또는 생략이면 내림차순</b>(큰 값이 1등), <b>1이면 오름차순</b>(작은 값이 1등)입니다. 점수는 내림차순, 달리기 기록은 오름차순이에요.</div>
+      <div class="step"><b>생략의 기본값이 함수마다 다르다</b> RANK.EQ는 생략하면 <b>0(내림차순)</b>, VLOOKUP·MATCH는 생략하면 <b>TRUE·1(유사 일치)</b>입니다. 필기는 이 차이를 노립니다.</div>
+      <div class="step"><b>RANK.AVG는 안 쓴다</b> 동점자를 평균 순위로 처리하는 함수입니다. 컴활에서는 <b>RANK.EQ</b>를 씁니다. 동점이면 <b>같은 순위</b>를 줍니다.</div>
+      <div class="exam-ex">시험 예시: 필기는 세 번째 인수를 생략한 수식을 주고 1등이 누구인지 묻습니다. 생략 = 내림차순입니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>LARGE · SMALL · MEDIAN · MODE.SNGL</h3>
+      <div class="step"><b>LARGE · SMALL</b> <code>=LARGE(범위, k)</code>는 k번째로 큰 값, <code>=SMALL(범위, k)</code>는 k번째로 작은 값입니다. MAX·MIN은 1등만 구하지만 이 둘은 <b>2등, 3등</b>도 구해요.</div>
+      <div class="step"><b>k가 1이면</b> LARGE는 MAX와, SMALL은 MIN과 같습니다. 범위 개수를 넘는 k를 넣으면 <code>#NUM!</code>이에요.</div>
+      <div class="step"><b>MEDIAN</b> 값을 <b>일렬로 세워 가운데</b> 값을 고릅니다. 개수가 짝수면 가운데 두 값의 평균이에요. 평균(AVERAGE)과는 다릅니다.</div>
+      <div class="step"><b>MODE.SNGL</b> 가장 많이 나온 값(최빈값)입니다. 중복된 값이 하나도 없으면 <code>#N/A</code>가 납니다.</div>
+      <div class="step"><b>범위에는 F4</b> LARGE·SMALL도 채우기로 끌면 범위가 밀립니다. RANK.EQ와 똑같이 고정하세요.</div>
+      <div class="exam-ex">시험 예시: 1위 판매액과 꼴찌 판매액의 차이를 LARGE와 SMALL로 구하게 합니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>UPPER · LOWER · PROPER · FIND · SEARCH</h3>
+      <div class="step"><b>UPPER · LOWER · PROPER</b> 모두 대문자 / 모두 소문자 / 각 단어의 첫 글자만 대문자입니다. 한글과 숫자에는 변화가 없어요.</div>
+      <div class="step"><b>FIND</b> <code>=FIND(찾을 문자, 문자열)</code>. 몇 번째에 있는지 <b>숫자</b>로 알려 줍니다. 못 찾으면 <code>#VALUE!</code>예요.</div>
+      <div class="step"><b>★FIND와 SEARCH의 차이</b> 하는 일은 같고 <b>대소문자 구분</b>만 다릅니다. <b>FIND는 구분하고</b>, SEARCH는 구분하지 않아요. 필기에서 이 차이를 묻습니다.</div>
+      <div class="step"><b>★아이디 뽑기</b> 이메일에서 @ 앞만 뽑을 때 <code>=LEFT(이메일, FIND("@",이메일)-1)</code>. <b>-1</b>을 빼지 않으면 @까지 딸려 옵니다.</div>
+      <div class="step"><b>인수 순서</b> VLOOKUP·MATCH·FIND 모두 <b>찾을 값이 맨 앞</b>입니다. 필기는 순서를 바꿔 놓고 틀린 것을 고르게 해요.</div>
+      <div class="exam-ex">시험 예시: 아이디 길이가 사람마다 다를 때 FIND로 @ 위치를 구해 기준으로 삼습니다.</div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+
+    <div class="shock top-priority">
+      <div class="shock-tag">⭐ 어제 가장 많이 틀린 것</div>
+      <h3>MATCH·INDEX 번호를 시트 행으로 세요</h3>
+      <p>어제 퀴즈 두 문항이 나란히 71%였습니다. 범위가 2행부터 시작하면 번호는 한 칸씩 작아집니다.</p>
+      <p class="fix">범위의 첫 칸을 1로 두고 세세요. A2:A5에서 A3은 2번입니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">오늘의 급소</div>
+      <h3>중첩 IF의 조건을 낮은 점수부터 써요</h3>
+      <p>60부터 물으면 60점 이상이 전부 D가 됩니다. IF가 TRUE를 만나는 순간 멈추기 때문이에요.</p>
+      <p class="fix">90 → 80 → 70 → 60처럼 한쪽 끝부터 쓰세요.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>RANK.EQ 범위에 F4를 안 걸어요</h3>
+      <p>첫 줄만 맞고 아래로 갈수록 순위가 엉킵니다. 범위가 함께 밀려 내려가기 때문입니다.</p>
+      <p class="fix">두 번째 인수를 잡고 바로 F4. LARGE·SMALL도 같습니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>MOD 결과를 그대로 CHOOSE에 넣어요</h3>
+      <p>나머지는 0부터 나오는데 CHOOSE는 1부터 고릅니다. 0이 나온 행에서 <code>#VALUE!</code>가 납니다.</p>
+      <p class="fix">+1을 붙여 1부터 되게 맞추세요. 지시문에는 적혀 있지 않습니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">자주 하는 실수</div>
+      <h3>IF에 SUMIF식 조건을 넣어요</h3>
+      <p><code>=IF("&gt;=60","합격","불합격")</code>처럼 따옴표에 넣습니다. IF의 첫 칸은 셀을 놓고 만든 완전한 식이어야 합니다.</p>
+      <p class="fix"><code>B8&gt;=60</code>으로 적으세요. 말로 읽으면 「너 60점 넘니?」입니다.</p>
+    </div>
+    <div class="shock">
+      <div class="shock-tag">필기 함정</div>
+      <h3>5의 세제곱을 15로 계산해요</h3>
+      <p><code>POWER(5,3)</code>은 5×5×5로 <b>125</b>입니다. 곱셈으로 착각하기 쉬워요.</p>
+      <p class="fix"><code>=5^3</code>과 같은 뜻이라는 것까지 같이 기억하세요.</p>
+    </div>
+
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 함수·단축키 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>함수 / 단축키</th><th>기능</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>정수</td><td><code>=INT(숫자)</code></td><td>작은 쪽으로 내림</td><td>자릿수 인수 없음 · INT(-3.7)=-4</td></tr>
+          <tr><td>정수</td><td><code>=TRUNC(숫자, 자릿수)</code></td><td>지정한 자리 아래를 잘라냄</td><td>자릿수 생략 가능 · TRUNC(-3.7)=-3</td></tr>
+          <tr><td>정수</td><td><code>=ROUNDDOWN(숫자, 자릿수)</code></td><td>내림(버림)</td><td>결과는 TRUNC와 같으나 자릿수 생략 불가</td></tr>
+          <tr><td>나머지</td><td><code>=MOD(숫자, 나눌 수)</code></td><td>나눗셈의 나머지</td><td>0이면 짝수 · 나눌 수가 0이면 #DIV/0!</td></tr>
+          <tr><td>조합</td><td><code>=CHOOSE(MOD(값,3)+1, …)</code></td><td>0부터 나오는 나머지로 조 나누기</td><td>CHOOSE는 1부터 — +1 필요</td></tr>
+          <tr><td>수학</td><td><code>=ABS / SQRT / POWER</code></td><td>절대값 · 제곱근 · 거듭제곱</td><td>POWER(5,3)=125 · <code>=5^3</code>과 같음</td></tr>
+          <tr><td>날짜</td><td><code>=TODAY() / =NOW()</code></td><td>오늘 / 현재 날짜+시각</td><td>인수가 없어도 괄호를 쓴다</td></tr>
+          <tr><td>날짜</td><td><code>=YEAR / MONTH / DAY</code></td><td>날짜를 쪼갠다</td><td>합칠 때는 <code>=DATE(년,월,일)</code></td></tr>
+          <tr><td>시간</td><td><code>=HOUR / MINUTE / SECOND</code></td><td>시각을 쪼갠다</td><td>합칠 때는 <code>=TIME(시,분,초)</code></td></tr>
+          <tr><td>날짜</td><td><code>=WEEKDAY(날짜, 2)</code></td><td>요일을 숫자로</td><td>유형 2 = 월요일이 1 · 6 이상이면 주말</td></tr>
+          <tr><td>조건</td><td><code>=IF(조건식, 참, 거짓)</code></td><td>질문에 따라 다른 값</td><td>조건식은 따옴표 없는 완전한 식</td></tr>
+          <tr><td>조건</td><td>중첩 IF</td><td>구간이 여러 개일 때</td><td>구간 N개면 IF N-1개 · 한쪽 끝부터</td></tr>
+          <tr><td>조건</td><td><code>=AND / OR / NOT</code></td><td>그리고 / 또는 / 반대</td><td>IF의 조건식 자리에 넣는다</td></tr>
+          <tr><td>조건</td><td><code>=IFERROR(식, 오류일 때)</code></td><td>오류를 원하는 문구로</td><td>#DIV/0! 등을 "목표없음"으로</td></tr>
+          <tr><td>순위</td><td><code>=RANK.EQ(값, 범위, 방법)</code></td><td>순위</td><td>범위는 F4 · 0이나 생략 = 내림차순</td></tr>
+          <tr><td>통계</td><td><code>=LARGE / SMALL(범위, k)</code></td><td>k번째 큰 값 / 작은 값</td><td>k=1이면 MAX·MIN과 같음</td></tr>
+          <tr><td>통계</td><td><code>=MEDIAN / MODE.SNGL</code></td><td>중앙값 / 최빈값</td><td>짝수면 가운데 둘의 평균 · 중복 없으면 #N/A</td></tr>
+          <tr><td>텍스트</td><td><code>=UPPER / LOWER / PROPER</code></td><td>대문자 / 소문자 / 첫 글자만</td><td>한글·숫자는 변화 없음</td></tr>
+          <tr><td>텍스트</td><td><code>=FIND / SEARCH</code></td><td>글자 위치를 숫자로</td><td>FIND는 대소문자 구분 · 못 찾으면 #VALUE!</td></tr>
+          <tr><td>조합</td><td><code>=LEFT(글, FIND("@",글)-1)</code></td><td>@ 앞 아이디 뽑기</td><td>-1을 빼지 않으면 @까지 나온다</td></tr>
+          <tr><td>복습</td><td><code>=MATCH / INDEX</code></td><td>위치 찾기 / 값 꺼내기</td><td>번호는 범위 안에서 센다</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월과정 수강생임을 확인하는 용도입니다.<br>이름을 입력해주세요.<br>스스로 얼마나 이해했는지 점검하는 용도예요.<br>편하게 풀어보세요!</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">사번을 3으로 나눈 나머지로 1·2·3조를 나눌 때 <code>MOD</code> 결과에 <b>+1</b>을 하는 이유는?</p>
+      <button class="quiz-opt" data-correct="false">MOD가 음수를 돌려주기 때문에</button>
+      <button class="quiz-opt" data-correct="true">나머지는 0부터 나오는데 CHOOSE는 1부터 고르기 때문에</button>
+      <button class="quiz-opt" data-correct="false">조가 세 개뿐이기 때문에</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext"><code>=INT(-3.7)</code>의 결과는?</p>
+      <button class="quiz-opt" data-correct="true">-4</button>
+      <button class="quiz-opt" data-correct="false">-3</button>
+      <button class="quiz-opt" data-correct="false">3</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext"><code>MID</code>로 뽑은 값을 <b>IF로 곧바로 비교</b>할 때 올바른 것은?</p>
+      <button class="quiz-opt" data-correct="false">=IF(MID(B3,8,1)=1,"남","여")</button>
+      <button class="quiz-opt" data-correct="false">=IF(MID(B3,8,1)&gt;1,"남","여")</button>
+      <button class="quiz-opt" data-correct="true">=IF(MID(B3,8,1)="1","남","여")</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext"><code>WEEKDAY</code>의 <b>유형 2</b>에서 <b>1</b>이 뜻하는 요일은?</p>
+      <button class="quiz-opt" data-correct="false">일요일</button>
+      <button class="quiz-opt" data-correct="true">월요일</button>
+      <button class="quiz-opt" data-correct="false">토요일</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">A·B·C·D·F <b>다섯 구간</b>으로 등급을 매길 때 필요한 <b>IF의 개수</b>는?</p>
+      <button class="quiz-opt" data-correct="false">5개</button>
+      <button class="quiz-opt" data-correct="true">4개</button>
+      <button class="quiz-opt" data-correct="false">2개</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext"><code>RANK.EQ</code>의 <b>세 번째 인수를 생략</b>하면 어떻게 처리될까요?</p>
+      <button class="quiz-opt" data-correct="true">내림차순 — 큰 값이 1등</button>
+      <button class="quiz-opt" data-correct="false">오름차순 — 작은 값이 1등</button>
+      <button class="quiz-opt" data-correct="false">오류가 발생한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext"><code>RANK.EQ</code>로 순위를 구해 아래로 채웠더니 순위가 엉킵니다. 가장 가능성 높은 원인은?</p>
+      <button class="quiz-opt" data-correct="false">세 번째 인수를 0으로 써서</button>
+      <button class="quiz-opt" data-correct="false">첫 번째 인수가 셀 하나여서</button>
+      <button class="quiz-opt" data-correct="true">두 번째 인수(전체 범위)를 F4로 고정하지 않아서</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">"점수가 80 이상 <b>그리고</b> 출석이 28 이상"을 IF의 조건식에 넣으려면?</p>
+      <button class="quiz-opt" data-correct="false">OR 함수를 쓴다</button>
+      <button class="quiz-opt" data-correct="true">AND 함수를 쓴다</button>
+      <button class="quiz-opt" data-correct="false">NOT 함수를 쓴다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext"><code>FIND</code>와 <code>SEARCH</code>의 <b>차이</b>는?</p>
+      <button class="quiz-opt" data-correct="false">FIND는 숫자만, SEARCH는 문자만 찾는다</button>
+      <button class="quiz-opt" data-correct="false">FIND는 위치를, SEARCH는 값을 돌려준다</button>
+      <button class="quiz-opt" data-correct="true">FIND는 대소문자를 구분하고, SEARCH는 구분하지 않는다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">A2:A5에 차례로 "사과", "배", "감", "귤"이 있습니다. <code>=MATCH("감",A2:A5,0)</code>의 결과는?</p>
+      <button class="quiz-opt" data-correct="true">3</button>
+      <button class="quiz-opt" data-correct="false">4</button>
+      <button class="quiz-opt" data-correct="false">감</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="checks">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">어제 틀린 MATCH·INDEX 문제를 범위 첫 칸부터 세어 다시 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">같은 값을 INT·TRUNC에 넣고 양수·음수에서 결과 비교하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">사번을 3으로 나눈 나머지에 +1을 빼고 넣어 #VALUE! 직접 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">근무 분을 INT와 MOD로 「○시간 ○분」으로 나눠보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">주민번호 성별을 MOD로 한 번, IF의 ="1" 비교로 한 번 각각 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">날짜를 YEAR·MONTH·DAY로 쪼갠 뒤 DATE로 다시 합쳐보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">WEEKDAY 유형을 1·2·3으로 바꿔가며 같은 날짜의 번호 변화 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">CHOOSE+WEEKDAY로 한글 요일 만들고, IF로 주말 판정까지 해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">중첩 IF 조건을 60부터 써서 전부 D가 되는 것 직접 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">AND를 OR로 바꿔 장학생이 몇 명으로 늘어나는지 세어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">RANK.EQ를 F4 없이 채워 순위가 엉키는 것 눈으로 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">FIND로 @ 위치를 구해 LEFT로 아이디만 뽑아보기(-1 잊지 않기)</label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '9차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
