@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컴활2급 12차시 복습자료 — 피벗 테이블·표·데이터 표 / 윈도우 설정·프린터</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">12차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 필기+실기</span>
+  <h1>12차시 복습자료</h1>
+  <p class="meta"><b>2026-09-17</b><br>실기는 피벗 테이블·표·데이터 표, 필기는 윈도우 설정 창과 프린터·스풀. 오늘 배운 실기 기능은 <b>필기에도 그대로 나옵니다.</b></p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 10)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·기능 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">피벗 테이블</span>
+      <span class="tag">표 · 데이터 표</span>
+      <span class="tag">윈도우 설정 창</span>
+      <span class="tag">프린터 · 스풀</span>
+    </div>
+    <h1>오늘의 핵심은 "<b>실기에서 손으로 해 본 기능이, 필기에서는 «사진 한 장»으로 나온다</b>는 점입니다. 피벗 테이블은 실기 10점짜리이면서 동시에 필기 단골입니다."</h1>
+    <p class="sub">2026-09-17 · 12차시 · 오전 필기는 컴퓨터 일반 1장을 마무리하고 2장(윈도우 설정 창·프린터·스풀)으로 들어갔고, 오후 실기는 부분합을 복습한 뒤 <b>표 만들기 · 피벗 테이블 · 데이터 표</b>를 나갔습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">📊 피벗 테이블</span>
+      <span class="key-badge">🧮 데이터 표</span>
+      <span class="key-badge">🖨 스풀</span>
+      <span class="key-badge">🖥 설정 창</span>
+      <span class="key-badge">🖼️ 그림 10장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>★피벗 테이블만 «삽입 탭»에 있다</h3>
+        <p>분석 작업으로 배우는 <b>부분합·데이터 표·목표값 찾기·시나리오·통합</b>은 모두 <b>데이터 탭</b>인데, <b class="r">피벗 테이블만 삽입 탭</b>에서 시작합니다.</p>
+        <div class="use">메뉴를 못 찾아 시간을 버리는 자리</div>
+      </div>
+      <div class="card">
+        <h3>피벗은 10점 · 부분 점수가 없다</h3>
+        <p>분석 작업의 피벗 문제는 <b>10점 통째로</b>입니다. <b class="r">하나라도 틀리면 10점이 전부 날아갑니다.</b> 지시문을 한 줄씩 손으로 짚어 가며 순서대로 처리하세요.</p>
+        <div class="use">기본 작업·차트와 달리 부분 점수 없음</div>
+      </div>
+      <div class="card">
+        <h3>값을 2개 넣으면 «Σ 값»이 생긴다</h3>
+        <p>값 영역에 항목을 <b>두 개 이상</b> 넣으면 내가 만들지 않은 <b class="k">Σ 값</b>이 열 영역에 저절로 생깁니다. 표가 옆으로 길어지면 이 <b>Σ 값을 행으로 끌어내립니다.</b></p>
+        <div class="use">보기 편해지고, 시험에도 그대로 나옵니다</div>
+      </div>
+      <div class="card">
+        <h3>🔄 원본을 고쳐도 피벗은 안 바뀐다</h3>
+        <p>원본 데이터를 수정해도 피벗 테이블은 <b class="r">자동으로 갱신되지 않습니다.</b> <b class="k">피벗 테이블 분석 → 새로 고침</b>을 눌러야 반영돼요.</p>
+        <div class="use">필기에서 「자동 업데이트된다」는 틀린 보기</div>
+      </div>
+      <div class="card">
+        <h3>그룹화가 회색이면 «셀 포인터»부터</h3>
+        <p>날짜 데이터에 문제가 없는데 그룹 메뉴가 눌리지 않는다면, 열에 아홉은 셀 포인터가 엉뚱한 곳에 있는 겁니다. <b class="k">행 레이블(1월·2월…) 안</b>에 두면 활성화됩니다.</p>
+        <div class="use">"안 되는데요"의 대부분이 이것</div>
+      </div>
+      <div class="card">
+        <h3>🧮 데이터 표는 30초짜리 행운의 문제</h3>
+        <p>왼쪽 위 빈 칸에 <code>=원래 수식 셀</code>을 당겨 오고 → <b>표 전체를 선택</b> → 데이터 → 가상 분석 → 데이터 표. <b class="k">행 입력 셀·열 입력 셀만 구분</b>하면 끝납니다.</p>
+        <div class="use">가상 분석 3형제 중 첫째</div>
+      </div>
+      <div class="card">
+        <h3>🖨 스풀은 «CPU»를 위한 기능</h3>
+        <p>느린 프린터와 빠른 CPU를 함께 굴리려고 인쇄할 내용을 <b>하드디스크에 잠깐 맡겨 둡니다.</b> 좋아지는 것은 <b class="k">컴퓨터 전체(CPU)의 효율</b>이고, <b class="r">인쇄 속도 자체가 빨라지지는 않습니다</b>(한 단계를 더 거치므로 오히려 느려질 수 있어요).</p>
+        <div class="use">「인쇄 속도가 빨라진다」는 틀린 보기</div>
+      </div>
+      <div class="card">
+        <h3>🖥 해상도를 높이면 아이콘은 «작아진다»</h3>
+        <p>해상도 = 화면에 찍는 <b>점(픽셀)의 개수</b>입니다. 점이 많을수록 <b>화면은 선명해지고</b>, 같은 화면에 더 많이 담기니 <b class="k">바탕 화면 아이콘은 작아집니다.</b></p>
+        <div class="use">설정 → 시스템 → 디스플레이</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>먼저 — 오늘 배운 것이 «어느 시험»에 나오는지</h3>
+      <div class="step"><b>실기는 손으로, 필기는 눈으로 묻습니다.</b> 오늘 실기에서 만든 피벗 테이블·부분합·표는, 필기 2과목(스프레드시트 일반)에서 <b class="k">완성된 화면 사진</b>을 보여 주고 「이 설명 중 옳지 않은 것은?」으로 나옵니다.</div>
+      <div class="step"><b>그래서 실기를 배우면 필기가 딸려 옵니다.</b> 단, 방향이 한쪽입니다 — 필기 스프레드시트는 실기 내용을 <b>거의 다 포함</b>하지만, 필기에만 나오고 <b class="r">실기에는 전혀 안 나오는 것</b>도 있어요.</div>
+      <div class="step"><b>오늘 나온 «판별을 요구하는» 항목</b> 부분합의 <b>「그룹 사이에서 페이지 나누기」</b>와 피벗의 <b>행/열 총합계 구분</b>이 그렇습니다. 실기는 지시문대로 메뉴에서 고르면 그만이지만, 필기는 <b>사진만 보고 판별</b>해야 합니다.</div>
+      <div class="step"><b>오늘 «필기 전용» 과목</b> 1교시·2교시에 한 컴퓨터 일반(윈도우 설정 창·프린터·스풀)은 실기와 무관한 <b>필기 1과목</b>입니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="오늘 배운 내용이 필기와 실기 중 어디에 나오는지">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">오늘 배운 것을 시험별로 갈라 두면 외울 양이 줄어듭니다</text>
+
+  <rect x="20" y="44" width="216" height="206" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="128" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">필기 1과목 · 컴퓨터 일반</text>
+  <text x="128" y="88" text-anchor="middle" font-size="11.5" fill="#7F8C8D">실기와 무관 — 오늘 오전</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="128" y="114" text-anchor="middle">설정 창 7개 범주</text>
+    <text x="128" y="136" text-anchor="middle">디스플레이 · 해상도</text>
+    <text x="128" y="158" text-anchor="middle">연결 프로그램 · 방화벽</text>
+    <text x="128" y="180" text-anchor="middle">프린터 로컬 / 네트워크</text>
+    <text x="128" y="202" text-anchor="middle">인쇄 대기열</text>
+    <text x="128" y="224" text-anchor="middle" font-weight="700" fill="#1F4E8C">스풀</text>
+  </g>
+
+  <rect x="252" y="44" width="216" height="206" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="360" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">실기 = 필기 2과목</text>
+  <text x="360" y="88" text-anchor="middle" font-size="11.5" fill="#7F8C8D">양쪽에 다 나옴 — 오늘 오후</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="360" y="118" text-anchor="middle" font-weight="700">피벗 테이블</text>
+    <text x="360" y="142" text-anchor="middle">부분합 · 정렬</text>
+    <text x="360" y="166" text-anchor="middle">표 만들기</text>
+    <text x="360" y="190" text-anchor="middle">데이터 표</text>
+    <text x="360" y="214" text-anchor="middle">텍스트 나누기</text>
+  </g>
+  <text x="360" y="240" text-anchor="middle" font-size="11" fill="#7F8C8D">손으로 익히면 양쪽이 함께 풀립니다</text>
+
+  <rect x="484" y="44" width="216" height="206" rx="10" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="592" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">주로 필기에서 묻는 것</text>
+  <text x="592" y="88" text-anchor="middle" font-size="11.5" fill="#7F8C8D">실기는 고르기만 하면 끝</text>
+  <g font-size="11.5" fill="#C0392B">
+    <text x="592" y="120" text-anchor="middle" font-weight="700">그룹 사이에서</text>
+    <text x="592" y="138" text-anchor="middle" font-weight="700">페이지 나누기</text>
+    <text x="592" y="166" text-anchor="middle" font-weight="700">행 총합계 / 열 총합계</text>
+    <text x="592" y="184" text-anchor="middle">사진만 보고 구분하기</text>
+    <text x="592" y="212" text-anchor="middle" font-weight="700">피벗 시작 위치 읽기</text>
+    <text x="592" y="230" text-anchor="middle">필터 자리 2칸을 빼고 셈</text>
+  </g>
+
+  <text x="360" y="286" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">실기에서 <tspan fill="#1E8449">직접 해 본 것</tspan>은 필기에서 <tspan fill="#C0392B">사진 한 장</tspan>으로 돌아옵니다</text>
+</svg></div>
+          <figcaption>그림 1 · 오늘 자료도 이 순서대로 — 먼저 실기(오후), 그다음 필기(오전)로 정리했습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 피벗 테이블 ① — 만드는 순서와 네 개의 영역</h3>
+      <div class="step"><b>피벗이 무엇인가</b> 세로로 쌓인 원본 데이터를 <b>돌려서</b> 가로·세로 표로 바꿔 주는 기능입니다. 「부서별·직위별 평균 급여」를 <code>AVERAGEIFS</code>로 만들려면 인수를 다섯 개 넣고 혼합참조까지 따져야 하는데, 피벗은 <b class="k">끌어다 놓기만 하면</b> 같은 표가 나옵니다.</div>
+      <div class="step"><b>1단계</b> 셀 포인터를 <b>데이터 안</b>에 둡니다. <code>Ctrl + A</code>를 눌러 범위가 제대로 잡히는지 확인하면 안전해요.</div>
+      <div class="step"><b>2단계</b> <b class="r">삽입 탭 → 피벗 테이블</b>. 분석 작업으로 배우는 기능 가운데 <b>피벗 테이블만 삽입 탭</b>에서 시작합니다.</div>
+      <div class="step"><b>3단계</b> 「표 또는 범위」를 확인하고, 위치는 시험에서 <b class="k">기존 워크시트</b>를 지정하라고 나옵니다(예: A18). 실무에서는 새 워크시트를 씁니다.</div>
+      <div class="step"><b>4단계</b> 오른쪽 작업창에서 <b>필터 · 행 · 열 · 값</b> 네 영역에 필드를 끌어다 놓습니다. <b>지시문에 적힌 순서 그대로</b> 넣으세요.</div>
+      <div class="step"><b>5단계</b> 값의 계산 방법을 바꾸려면 <b class="k">값 필드 설정</b>. 여기서 합계 → 평균 · 최대 · 최소로 바꾸고, <b>표시 형식</b>(숫자·천 단위 구분 기호)도 이 안에서 지정합니다.</div>
+      <div class="step"><b>표시 형식은 «아래쪽» 것을 씁니다</b> 값 필드 설정 안에는 표시 형식이 두 군데 보이는데, 컴활 2급에서는 <b>대화상자 아래쪽의 「표시 형식」 단추</b>를 씁니다. 값 하나하나에 <b class="r">따로</b> 지정해야 해요.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="피벗 테이블 만드는 순서와 네 개 영역">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">피벗 테이블 — 끌어다 놓는 자리가 표의 모양을 정합니다</text>
+
+  <rect x="20" y="40" width="150" height="70" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="95" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">① 셀 포인터</text>
+  <text x="95" y="84" text-anchor="middle" font-size="11" fill="#5D6D7E">데이터 안쪽에</text>
+  <text x="95" y="100" text-anchor="middle" font-size="11" fill="#5D6D7E">Ctrl+A로 확인</text>
+
+  <rect x="186" y="40" width="160" height="70" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="266" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">② 삽입 탭</text>
+  <text x="266" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">데이터 탭 아님!</text>
+  <text x="266" y="100" text-anchor="middle" font-size="11" fill="#C0392B">피벗만 여기 있음</text>
+
+  <rect x="362" y="40" width="160" height="70" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="442" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">③ 위치 지정</text>
+  <text x="442" y="84" text-anchor="middle" font-size="11" fill="#5D6D7E">시험 = 기존 워크시트</text>
+  <text x="442" y="100" text-anchor="middle" font-size="11" fill="#5D6D7E">실무 = 새 워크시트</text>
+
+  <rect x="538" y="40" width="162" height="70" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="619" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">④ 영역에 끌어놓기</text>
+  <text x="619" y="84" text-anchor="middle" font-size="11" fill="#B9770E">지시문 순서대로</text>
+  <text x="619" y="100" text-anchor="middle" font-size="11" fill="#B9770E">잘못 넣으면 밖으로</text>
+
+  <g stroke="#95A5A6" stroke-width="1.6" fill="none">
+    <path d="M170 75 L184 75" marker-end="url(#p2)"/>
+    <path d="M346 75 L360 75" marker-end="url(#p2)"/>
+    <path d="M522 75 L536 75" marker-end="url(#p2)"/>
+  </g>
+  <defs><marker id="p2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <text x="360" y="142" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">네 개의 영역 — 어디에 넣느냐가 전부입니다</text>
+
+  <rect x="150" y="158" width="420" height="30" rx="6" fill="#F4F7FC" stroke="#5B86C9"/>
+  <text x="360" y="178" text-anchor="middle" font-size="12" fill="#1F4E8C"><tspan font-weight="700">필터</tspan> — 표 위쪽에 깔때기로 붙어 전체를 걸러 냅니다</text>
+
+  <rect x="150" y="196" width="130" height="86" rx="6" fill="#E8F6EF" stroke="#27AE60"/>
+  <text x="215" y="218" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">행</text>
+  <text x="215" y="240" text-anchor="middle" font-size="11" fill="#1B5E20">왼쪽 세로로</text>
+  <text x="215" y="258" text-anchor="middle" font-size="11" fill="#1B5E20">예) 부서명</text>
+
+  <rect x="290" y="196" width="130" height="86" rx="6" fill="#E8F6EF" stroke="#27AE60"/>
+  <text x="355" y="218" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">열</text>
+  <text x="355" y="240" text-anchor="middle" font-size="11" fill="#1B5E20">위쪽 가로로</text>
+  <text x="355" y="258" text-anchor="middle" font-size="11" fill="#1B5E20">예) 직위</text>
+
+  <rect x="430" y="196" width="140" height="86" rx="6" fill="#FDF3E3" stroke="#E67E22"/>
+  <text x="500" y="218" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">값(Σ)</text>
+  <text x="500" y="240" text-anchor="middle" font-size="11" fill="#B9770E">숫자를 계산</text>
+  <text x="500" y="258" text-anchor="middle" font-size="11" fill="#B9770E">값 필드 설정으로</text>
+  <text x="500" y="274" text-anchor="middle" font-size="11" font-weight="700" fill="#B9770E">합계→평균·최대·최소</text>
+
+  <text x="360" y="308" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">분석 작업의 피벗은 10점 · 부분 점수가 없습니다 — 한 줄씩 짚으며 확인</text>
+</svg></div>
+          <figcaption>그림 2 · 「어느 영역에 넣는가」만 정해지면 표는 저절로 만들어집니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 피벗 테이블 ② — 값을 2개 넣으면 생기는 「Σ 값」</h3>
+      <div class="step"><b>내가 만들지 않은 것이 생깁니다</b> 값 영역에 기본급·상여금처럼 <b>두 개 이상</b>을 넣으면, 열 영역에 <b class="k">Σ 값</b>이라는 항목이 저절로 들어갑니다.</div>
+      <div class="step"><b>그러면 표가 옆으로 길어집니다</b> 직위 × 값 2개 = 열이 두 배로 늘어나 화면 밖으로 나갑니다. 보기 불편해요.</div>
+      <div class="step"><b>해결</b> 그 <b class="k">Σ 값을 «행» 영역으로 끌어내립니다.</b> 표가 아래로 펼쳐지면서 훨씬 읽기 편해집니다.</div>
+      <div class="step"><b>작업창이 안 보인다면</b> 먼저 셀 포인터를 피벗 테이블 <b>안쪽</b>으로 옮겨 보세요. 그래도 안 나오면 <b class="k">피벗 테이블 분석 → 필드 목록</b>이 꺼져 있는 것이니 다시 켜면 됩니다.</div>
+      <div class="step"><b>필기에서는</b> 완성된 사진을 주고 <b>「Σ 값을 열에서 행으로 옮겼다」</b>가 맞는지 묻습니다. 값이 세로로 나란히 적혀 있으면 행으로 내린 것입니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="시그마 값을 열에서 행으로 내리기">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">값을 2개 넣으면 「Σ 값」이 저절로 생깁니다</text>
+
+  <rect x="20" y="40" width="320" height="196" rx="10" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.4"/>
+  <text x="180" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">Σ 값이 «열»에 있을 때</text>
+  <g font-size="10.5">
+    <rect x="40" y="74" width="60" height="22" fill="#F4F7FC" stroke="#D5DDE9"/><text x="70" y="89" text-anchor="middle" fill="#2C3E50">부서</text>
+    <rect x="100" y="74" width="110" height="22" fill="#EEF3FB" stroke="#D5DDE9"/><text x="155" y="89" text-anchor="middle" fill="#1F4E8C">과장</text>
+    <rect x="210" y="74" width="110" height="22" fill="#EEF3FB" stroke="#D5DDE9"/><text x="265" y="89" text-anchor="middle" fill="#1F4E8C">대리</text>
+    <rect x="100" y="96" width="55" height="22" fill="#fff" stroke="#D5DDE9"/><text x="127" y="111" text-anchor="middle" fill="#7F8C8D">기본급</text>
+    <rect x="155" y="96" width="55" height="22" fill="#fff" stroke="#D5DDE9"/><text x="182" y="111" text-anchor="middle" fill="#7F8C8D">상여금</text>
+    <rect x="210" y="96" width="55" height="22" fill="#fff" stroke="#D5DDE9"/><text x="237" y="111" text-anchor="middle" fill="#7F8C8D">기본급</text>
+    <rect x="265" y="96" width="55" height="22" fill="#fff" stroke="#D5DDE9"/><text x="292" y="111" text-anchor="middle" fill="#7F8C8D">상여금</text>
+    <rect x="40" y="118" width="60" height="22" fill="#fff" stroke="#D5DDE9"/><text x="70" y="133" text-anchor="middle" fill="#2C3E50">영업부</text>
+    <rect x="40" y="140" width="60" height="22" fill="#fff" stroke="#D5DDE9"/><text x="70" y="155" text-anchor="middle" fill="#2C3E50">관리부</text>
+  </g>
+  <text x="180" y="190" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">열이 두 배로 늘어 옆으로 길어집니다</text>
+  <text x="180" y="212" text-anchor="middle" font-size="11.5" fill="#C0392B">화면 밖으로 나가 읽기 불편</text>
+
+  <g stroke="#E67E22" stroke-width="2.2" fill="none">
+    <path d="M346 138 L378 138" marker-end="url(#s3)"/>
+  </g>
+  <defs><marker id="s3" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#E67E22"/></marker></defs>
+  <text x="362" y="126" text-anchor="middle" font-size="10.5" font-weight="700" fill="#B9770E">행으로</text>
+
+  <rect x="386" y="40" width="314" height="196" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="543" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">Σ 값을 «행»으로 내린 뒤</text>
+  <g font-size="10.5">
+    <rect x="406" y="74" width="120" height="22" fill="#F4F7FC" stroke="#D5DDE9"/><text x="466" y="89" text-anchor="middle" fill="#2C3E50">부서 / 값</text>
+    <rect x="526" y="74" width="80" height="22" fill="#EEF3FB" stroke="#D5DDE9"/><text x="566" y="89" text-anchor="middle" fill="#1F4E8C">과장</text>
+    <rect x="606" y="74" width="80" height="22" fill="#EEF3FB" stroke="#D5DDE9"/><text x="646" y="89" text-anchor="middle" fill="#1F4E8C">대리</text>
+    <rect x="406" y="96" width="120" height="22" fill="#fff" stroke="#D5DDE9"/><text x="466" y="111" text-anchor="middle" fill="#2C3E50">영업부 · 기본급</text>
+    <rect x="406" y="118" width="120" height="22" fill="#fff" stroke="#D5DDE9"/><text x="466" y="133" text-anchor="middle" fill="#2C3E50">영업부 · 상여금</text>
+    <rect x="406" y="140" width="120" height="22" fill="#fff" stroke="#D5DDE9"/><text x="466" y="155" text-anchor="middle" fill="#2C3E50">관리부 · 기본급</text>
+    <rect x="406" y="162" width="120" height="22" fill="#fff" stroke="#D5DDE9"/><text x="466" y="177" text-anchor="middle" fill="#2C3E50">관리부 · 상여금</text>
+    <rect x="526" y="96" width="160" height="88" fill="#fff" stroke="#D5DDE9"/>
+  </g>
+  <text x="543" y="206" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">아래로 펼쳐져 한눈에 들어옵니다</text>
+
+  <text x="360" y="266" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">값이 <tspan fill="#1E8449">세로로 나란히</tspan> 적혀 있으면 → Σ 값을 행으로 내린 표입니다</text>
+</svg></div>
+          <figcaption>그림 3 · 시험에서도 실무에서도 「옆으로 긴 표」는 쓰지 않습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 피벗 테이블 ③ — 행 총합계와 열 총합계 가려내기 <span style="font-size:13px;font-weight:400;color:#c0392b">(필기 전용)</span></h3>
+      <div class="step"><b>실기는 걱정할 게 없습니다</b> 「행 및 열의 총합계를 모두 해제」라고 나오면 메뉴에서 그대로 고르면 끝입니다. 문제는 <b class="r">필기</b>예요 — 사진만 보고 어느 쪽인지 가려내야 합니다.</div>
+      <div class="step"><b>기준은 «사용한 데이터»입니다</b> 화면에 보이는 위치가 아니라, <b class="k">어느 방향의 데이터를 더해서 만든 값인가</b>로 이름이 정해집니다.</div>
+      <div class="step"><b>행 총합계</b> 한 <b>행</b>에 놓인 값들을 쭉 더한 것 → 결과는 표의 <b>오른쪽 끝 세로줄</b>에 나타납니다.</div>
+      <div class="step"><b>열 총합계</b> 한 <b>열</b>에 놓인 값들을 위아래로 더한 것 → 결과는 표의 <b>맨 아래 가로줄</b>에 나타납니다.</div>
+      <div class="step"><b>헷갈리는 이유</b> 「행」이라는 말과 그 값이 <b>보이는 자리</b>가 서로 어긋나기 때문입니다. <b>이름은 더한 방향, 위치는 그 반대</b>라고 외우세요.</div>
+      <div class="step"><b>메뉴는 두 군데</b> <b>디자인 탭 → 총합계</b>, 또는 <b>피벗 테이블 분석 → 옵션 → 요약 및 필터</b>. 어느 쪽으로 들어가도 결과는 같습니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="행 총합계와 열 총합계 구분">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">이름은 «더한 방향», 위치는 그 반대입니다</text>
+
+  <g font-size="11">
+    <rect x="150" y="48" width="90" height="26" fill="#F4F7FC" stroke="#B9C7E2"/><text x="195" y="66" text-anchor="middle" fill="#2C3E50">부서 \ 직위</text>
+    <rect x="240" y="48" width="86" height="26" fill="#EEF3FB" stroke="#B9C7E2"/><text x="283" y="66" text-anchor="middle" fill="#1F4E8C">과장</text>
+    <rect x="326" y="48" width="86" height="26" fill="#EEF3FB" stroke="#B9C7E2"/><text x="369" y="66" text-anchor="middle" fill="#1F4E8C">대리</text>
+    <rect x="412" y="48" width="86" height="26" fill="#EEF3FB" stroke="#B9C7E2"/><text x="455" y="66" text-anchor="middle" fill="#1F4E8C">사원</text>
+    <rect x="498" y="48" width="110" height="26" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/><text x="553" y="66" text-anchor="middle" font-weight="700" fill="#1E8449">총합계</text>
+
+    <rect x="150" y="74" width="90" height="26" fill="#fff" stroke="#B9C7E2"/><text x="195" y="92" text-anchor="middle" fill="#2C3E50">영업부</text>
+    <rect x="240" y="74" width="86" height="26" fill="#fff" stroke="#B9C7E2"/><text x="283" y="92" text-anchor="middle" fill="#7F8C8D">320</text>
+    <rect x="326" y="74" width="86" height="26" fill="#fff" stroke="#B9C7E2"/><text x="369" y="92" text-anchor="middle" fill="#7F8C8D">280</text>
+    <rect x="412" y="74" width="86" height="26" fill="#fff" stroke="#B9C7E2"/><text x="455" y="92" text-anchor="middle" fill="#7F8C8D">240</text>
+    <rect x="498" y="74" width="110" height="26" fill="#E8F6EF" stroke="#27AE60"/><text x="553" y="92" text-anchor="middle" font-weight="700" fill="#1E8449">840</text>
+
+    <rect x="150" y="100" width="90" height="26" fill="#fff" stroke="#B9C7E2"/><text x="195" y="118" text-anchor="middle" fill="#2C3E50">관리부</text>
+    <rect x="240" y="100" width="86" height="26" fill="#fff" stroke="#B9C7E2"/><text x="283" y="118" text-anchor="middle" fill="#7F8C8D">300</text>
+    <rect x="326" y="100" width="86" height="26" fill="#fff" stroke="#B9C7E2"/><text x="369" y="118" text-anchor="middle" fill="#7F8C8D">260</text>
+    <rect x="412" y="100" width="86" height="26" fill="#fff" stroke="#B9C7E2"/><text x="455" y="118" text-anchor="middle" fill="#7F8C8D">220</text>
+    <rect x="498" y="100" width="110" height="26" fill="#E8F6EF" stroke="#27AE60"/><text x="553" y="118" text-anchor="middle" font-weight="700" fill="#1E8449">780</text>
+
+    <rect x="150" y="126" width="90" height="26" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/><text x="195" y="144" text-anchor="middle" font-weight="700" fill="#B9770E">총합계</text>
+    <rect x="240" y="126" width="86" height="26" fill="#FDF3E3" stroke="#E67E22"/><text x="283" y="144" text-anchor="middle" font-weight="700" fill="#B9770E">620</text>
+    <rect x="326" y="126" width="86" height="26" fill="#FDF3E3" stroke="#E67E22"/><text x="369" y="144" text-anchor="middle" font-weight="700" fill="#B9770E">540</text>
+    <rect x="412" y="126" width="86" height="26" fill="#FDF3E3" stroke="#E67E22"/><text x="455" y="144" text-anchor="middle" font-weight="700" fill="#B9770E">460</text>
+    <rect x="498" y="126" width="110" height="26" fill="#F4F7FC" stroke="#B9C7E2"/><text x="553" y="144" text-anchor="middle" fill="#7F8C8D">1620</text>
+  </g>
+
+  <rect x="498" y="170" width="202" height="76" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="599" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">행 총합계</text>
+  <text x="599" y="212" text-anchor="middle" font-size="11" fill="#1B5E20">한 «행»을 가로로 더함</text>
+  <text x="599" y="232" text-anchor="middle" font-size="11" font-weight="700" fill="#1E8449">→ 오른쪽 세로줄에 표시</text>
+
+  <rect x="150" y="170" width="202" height="76" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="251" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">열 총합계</text>
+  <text x="251" y="212" text-anchor="middle" font-size="11" fill="#B9770E">한 «열»을 세로로 더함</text>
+  <text x="251" y="232" text-anchor="middle" font-size="11" font-weight="700" fill="#B9770E">→ 맨 아래 가로줄에 표시</text>
+
+  <text x="360" y="276" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">해제하는 곳 — <tspan fill="#1F4E8C">분석 → 옵션 → 요약 및 필터</tspan> 또는 <tspan fill="#1F4E8C">디자인 → 총합계</tspan></text>
+</svg></div>
+          <figcaption>그림 4 · 필기 시험은 이 표 사진을 그대로 보여 주고 O·X를 묻습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 피벗 테이블 ④ — 새로 고침 · 빈 셀 · 그룹화</h3>
+      <div class="step"><b>새로 고침</b> 원본의 기본급을 2,800 → 3,000으로 고쳐도 피벗은 <b class="r">그대로입니다.</b> <b class="k">피벗 테이블 분석 → 새로 고침</b>을 눌러야 바뀝니다. 필기에서 <b>「자동으로 업데이트된다」는 틀린 보기</b>예요.</div>
+      <div class="step"><b>빈 셀 표시</b> 해당하는 사람이 없어 비어 있는 칸에 <b>0</b>이나 <b>#</b>, <b>-</b> 같은 표시를 넣을 수 있습니다. <b class="k">분석 → 옵션 → 레이아웃 및 서식</b>의 「빈 셀 표시」에 적으면 됩니다.</div>
+      <div class="step"><b>그룹화 — 셀 포인터부터 봅니다</b> 날짜를 월 단위로 묶으려는데 그룹 메뉴가 <b>회색으로 눌리지 않는다면</b>, 셀 포인터를 <b class="r">묶을 필드(행 레이블의 날짜 칸) 안</b>으로 옮기세요. 값 칸이나 피벗 바깥에 있으면 활성화되지 않습니다. (날짜 칸에 빈 셀이나 «글자» 날짜가 섞여 있어도 묶이지 않으니, 그때는 원본을 고쳐야 합니다.)</div>
+      <div class="step"><b>월 단위로만 묶기</b> 필드 그룹화 대화상자에서 <b>「월」만 선택</b>하고 기본으로 잡혀 있는 <b class="k">「일」은 해제</b>합니다. 숫자 필드라면 「10개씩」처럼 구간으로도 묶을 수 있어요.</div>
+      <div class="step"><b>보고서 레이아웃</b> <b>디자인 탭 → 보고서 레이아웃</b>에서 압축 형식 / 개요 형식 / 테이블 형식을 고릅니다. 개요 형식으로 바꾸면 값이 오른쪽으로 한 칸 떨어져 나옵니다.</div>
+      <div class="step"><b>모두 지우기 ≠ 삭제</b> 분석 탭의 「모두 지우기」는 <b>설정만</b> 비웁니다. 피벗 테이블 자체를 없애려면 <b>범위를 선택해 홈 탭에서 모두 지우기</b>를 하세요.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="원본을 고쳐도 피벗은 새로 고침해야 바뀐다">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">원본을 고쳐도 피벗은 «가만히» 있습니다</text>
+
+  <rect x="24" y="44" width="188" height="120" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="118" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">원본 데이터</text>
+  <text x="118" y="94" text-anchor="middle" font-size="12" fill="#7F8C8D">기본급 2,800</text>
+  <text x="118" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#1F4E8C">↓ 3,000으로 수정</text>
+  <text x="118" y="142" text-anchor="middle" font-size="11.5" fill="#5D6D7E">실수령액도 같이 바뀜</text>
+
+  <g stroke="#95A5A6" stroke-width="1.6" fill="none">
+    <path d="M214 104 L262 104" marker-end="url(#r5)"/>
+  </g>
+  <defs><marker id="r5" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="270" y="44" width="188" height="120" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="364" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">피벗 테이블</text>
+  <text x="364" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">아직 2,800</text>
+  <text x="364" y="122" text-anchor="middle" font-size="11.5" fill="#C0392B">자동으로 안 바뀝니다</text>
+  <text x="364" y="144" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">「자동 업데이트」는 오답</text>
+
+  <g stroke="#27AE60" stroke-width="2" fill="none">
+    <path d="M460 104 L506 104" marker-end="url(#r5b)"/>
+  </g>
+  <defs><marker id="r5b" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#27AE60"/></marker></defs>
+  <text x="483" y="94" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E8449">새로 고침</text>
+
+  <rect x="514" y="44" width="186" height="120" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="607" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">반영된 피벗</text>
+  <text x="607" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#1E8449">3,000</text>
+  <text x="607" y="124" text-anchor="middle" font-size="11.5" fill="#1B5E20">분석 탭 → 새로 고침</text>
+  <text x="607" y="146" text-anchor="middle" font-size="11.5" fill="#1B5E20">이때만 갱신됩니다</text>
+
+  <rect x="24" y="182" width="676" height="56" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+  <text x="362" y="204" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">그룹화가 회색이면 — 셀 포인터를 «묶을 필드 안»으로</text>
+  <text x="362" y="226" text-anchor="middle" font-size="11.5" fill="#B9770E">행 레이블의 날짜 칸을 클릭한 뒤 분석 → 필드 그룹화 → 「월」만 선택, 「일」은 해제</text>
+</svg></div>
+          <figcaption>그림 5 · "안 되는데요"의 대부분은 셀 포인터 위치 문제였습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📋 표 만들기 — 삽입 탭의 「표」</h3>
+      <div class="step"><b>들어가는 문이 두 개입니다</b> 홈 탭의 <b>「표 서식」</b>으로도, <b class="k">삽입 탭 → 표</b>로도 같은 «표» 개체가 만들어집니다. 수업에서는 삽입 탭 쪽으로 해 봤어요 — <b>지시문에 적힌 경로</b>를 따르면 됩니다.</div>
+      <div class="step"><b>만드는 법</b> 데이터 안에 셀 포인터를 두고 <b>삽입 → 표</b>. 범위와 <b>「머리글 포함」</b>을 확인하고 확인을 누릅니다. 머리글 = 필드명입니다.</div>
+      <div class="step"><b>달라지는 것 세 가지</b> ① 머리글에 <b>필터 단추가 자동</b>으로 붙고 ② <b class="k">테이블 디자인</b> 리본 메뉴가 새로 생기며 ③ 스크롤을 내리면 <b class="r">열 문자(A·B·C) 자리에 필드명이 나타납니다</b> — 틀 고정을 하지 않아도 머리글이 보입니다.</div>
+      <div class="step"><b>요약 행</b> 테이블 디자인에서 <b>「요약 행」</b>을 켜면 맨 아래에 줄이 생기고, 칸마다 <b>합계·평균·개수</b>를 클릭만으로 고를 수 있습니다. 함수를 쓰지 않아도 됩니다.</div>
+      <div class="step"><b>리본 메뉴가 사라졌다면</b> 셀 포인터가 표 <b>바깥</b>에 있는 겁니다. 개체를 선택해야 그 개체의 리본이 나타납니다 — 피벗도 차트도 모두 같은 규칙이에요.</div>
+      <div class="step"><b>슬라이서</b> 표나 피벗에 붙여 단추로 걸러 보는 기능입니다. <b>컴활 2급 시험에는 나오지 않지만</b> 실무에서 많이 씁니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="표로 만들면 달라지는 세 가지">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">삽입 → 표 — 데이터가 «개체»가 되면서 셋이 달라집니다</text>
+
+  <rect x="24" y="44" width="216" height="150" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="132" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">① 필터 단추 자동</text>
+  <g font-size="10.5">
+    <rect x="46" y="84" width="172" height="24" fill="#fff" stroke="#B9C7E2"/>
+    <text x="112" y="100" text-anchor="middle" fill="#2C3E50">연령대</text>
+    <text x="196" y="100" text-anchor="middle" fill="#1F4E8C">▼</text>
+    <rect x="46" y="108" width="172" height="22" fill="#F8FAFD" stroke="#E4E9F2"/>
+    <rect x="46" y="130" width="172" height="22" fill="#fff" stroke="#E4E9F2"/>
+    <rect x="46" y="152" width="172" height="22" fill="#F8FAFD" stroke="#E4E9F2"/>
+  </g>
+  <text x="132" y="188" text-anchor="middle" font-size="11" fill="#5D6D7E">줄무늬 서식도 함께</text>
+
+  <rect x="252" y="44" width="216" height="150" rx="10" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+  <text x="360" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">② 테이블 디자인 리본</text>
+  <rect x="274" y="84" width="172" height="26" rx="4" fill="#fff" stroke="#E67E22"/>
+  <text x="360" y="102" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B9770E">테이블 디자인</text>
+  <text x="360" y="130" text-anchor="middle" font-size="11" fill="#B9770E">요약 행 · 필터 단추</text>
+  <text x="360" y="150" text-anchor="middle" font-size="11" fill="#B9770E">줄무늬 행 / 줄무늬 열</text>
+  <text x="360" y="172" text-anchor="middle" font-size="11" font-weight="700" fill="#B9770E">표 안을 클릭해야 보임</text>
+
+  <rect x="480" y="44" width="216" height="150" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="588" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">③ 열 문자가 필드명으로</text>
+  <g font-size="10.5">
+    <rect x="502" y="84" width="58" height="22" fill="#D5E8DC" stroke="#27AE60"/><text x="531" y="99" text-anchor="middle" font-weight="700" fill="#1E8449">연령대</text>
+    <rect x="560" y="84" width="58" height="22" fill="#D5E8DC" stroke="#27AE60"/><text x="589" y="99" text-anchor="middle" font-weight="700" fill="#1E8449">인원</text>
+    <rect x="618" y="84" width="58" height="22" fill="#D5E8DC" stroke="#27AE60"/><text x="647" y="99" text-anchor="middle" font-weight="700" fill="#1E8449">지역</text>
+  </g>
+  <text x="588" y="128" text-anchor="middle" font-size="11" fill="#1B5E20">스크롤을 내려도</text>
+  <text x="588" y="148" text-anchor="middle" font-size="11" font-weight="700" fill="#1E8449">머리글이 계속 보입니다</text>
+  <text x="588" y="170" text-anchor="middle" font-size="11" fill="#1B5E20">틀 고정을 하지 않아도 됨</text>
+
+  <text x="360" y="230" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">요약 행을 켜면 <tspan fill="#1E8449">합계·평균·개수</tspan>를 함수 없이 클릭으로 고릅니다</text>
+  <text x="360" y="250" text-anchor="middle" font-size="11.5" fill="#7F8C8D">슬라이서는 컴활 2급 시험 범위가 아닙니다 — 실무용으로 소개된 기능</text>
+</svg></div>
+          <figcaption>그림 6 · 개체를 선택해야 그 개체의 리본이 나타난다 — 표·피벗·차트 공통 규칙입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🧮 데이터 표 — 가상 분석 3형제의 첫째</h3>
+      <div class="step"><b>무엇을 하나</b> <b>「값이 이렇게 바뀌면 결과가 얼마가 될까」</b>를 미리 계산해 표로 펼쳐 줍니다. 국어를 80·90·100으로, 수학을 90·95·100으로 바꿔 가며 총점이 어떻게 변하는지 한 번에 보는 식입니다.</div>
+      <div class="step"><b>가상 분석 3형제</b> <b class="k">데이터 표 · 시나리오 · 목표값 찾기</b>. 셋 다 <b>데이터 탭 → 예측 → 가상 분석</b> 안에 함께 들어 있습니다. 메뉴에서 「데이터 표」를 바로 찾으면 안 보여요.</div>
+      <div class="step"><b>1단계 · 왼쪽 위 빈 칸에 수식 당겨 오기</b> 그 칸에 <code>=</code> 를 치고 <b>원래 결과가 계산되어 있던 셀</b>을 클릭한 뒤 Enter. <b class="r">복사·붙여넣기는 하지 마세요</b> — 상대참조가 밀려 엉뚱한 값이 나옵니다(수업에서 해 봤을 때는 0이었어요). 시험에서는 <code>=</code>로 결과 셀을 <b>참조</b>시키는 방식이 가장 안전합니다.</div>
+      <div class="step"><b>2단계 · 표 전체 선택</b> 셀 포인터만 두면 안 됩니다. 채워야 할 <b>표 영역을 통째로 드래그</b>하세요.</div>
+      <div class="step"><b>3단계 · 데이터 → 가상 분석 → 데이터 표</b></div>
+      <div class="step"><b>4단계 · 행 입력 셀 / 열 입력 셀</b> 표에서 <b>가로로 놓인 항목</b>이 행 입력 셀, <b>세로로 놓인 항목</b>이 열 입력 셀입니다. 넣는 값은 그 항목이 <b class="k">원래 수식에서 쓰이던 셀 주소</b>입니다 — 표 안의 값이 아닙니다.</div>
+      <div class="step"><b>익숙해지면 30초</b> 손에 붙으면 문제를 읽지 않고도 풀 수 있는 <b>행운의 문제</b>입니다. 행·열 입력 셀만 헷갈리지 않으면 됩니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="데이터 표의 행 입력 셀과 열 입력 셀">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">데이터 표 — 가로 항목이 «행», 세로 항목이 «열»</text>
+
+  <g font-size="11">
+    <rect x="120" y="44" width="96" height="26" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.8"/>
+    <text x="168" y="62" text-anchor="middle" font-weight="700" fill="#B9770E">=총점셀</text>
+    <rect x="216" y="44" width="80" height="26" fill="#EEF3FB" stroke="#B9C7E2"/><text x="256" y="62" text-anchor="middle" fill="#1F4E8C">80</text>
+    <rect x="296" y="44" width="80" height="26" fill="#EEF3FB" stroke="#B9C7E2"/><text x="336" y="62" text-anchor="middle" fill="#1F4E8C">90</text>
+    <rect x="376" y="44" width="80" height="26" fill="#EEF3FB" stroke="#B9C7E2"/><text x="416" y="62" text-anchor="middle" fill="#1F4E8C">100</text>
+
+    <rect x="120" y="70" width="96" height="26" fill="#E8F6EF" stroke="#B9C7E2"/><text x="168" y="88" text-anchor="middle" fill="#1E8449">90</text>
+    <rect x="120" y="96" width="96" height="26" fill="#E8F6EF" stroke="#B9C7E2"/><text x="168" y="114" text-anchor="middle" fill="#1E8449">95</text>
+    <rect x="120" y="122" width="96" height="26" fill="#E8F6EF" stroke="#B9C7E2"/><text x="168" y="140" text-anchor="middle" fill="#1E8449">100</text>
+    <rect x="216" y="70" width="240" height="78" fill="#fff" stroke="#B9C7E2"/>
+    <text x="336" y="114" text-anchor="middle" font-size="11.5" fill="#95A5A6">여기가 자동으로 채워집니다</text>
+  </g>
+
+  <text x="336" y="34" text-anchor="middle" font-size="11" font-weight="700" fill="#1F4E8C">국어 — 가로로 놓임</text>
+  <text x="64" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#1E8449">수학</text>
+  <text x="64" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#1E8449">세로로</text>
+
+  <rect x="480" y="44" width="220" height="50" rx="8" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="590" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">행 입력 셀 ← 국어</text>
+  <text x="590" y="84" text-anchor="middle" font-size="11" fill="#5D6D7E">원래 수식의 국어 점수 칸</text>
+
+  <rect x="480" y="102" width="220" height="50" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="590" y="122" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">열 입력 셀 ← 수학</text>
+  <text x="590" y="142" text-anchor="middle" font-size="11" fill="#1B5E20">원래 수식의 수학 점수 칸</text>
+
+  <rect x="24" y="176" width="676" height="46" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.4"/>
+  <text x="362" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">왼쪽 위 칸은 복사·붙여넣기 금지 — 엉뚱한 값이 나옵니다</text>
+  <text x="362" y="214" text-anchor="middle" font-size="11.5" fill="#C0392B">= 를 치고 원래 결과 셀을 클릭한 뒤 Enter 하세요</text>
+
+  <text x="360" y="254" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">순서 — <tspan fill="#1F4E8C">=수식 당겨오기 → 표 전체 선택 → 데이터 → 가상 분석 → 데이터 표</tspan></text>
+  <text x="360" y="278" text-anchor="middle" font-size="12" fill="#7F8C8D">가상 분석 3형제 = 데이터 표 · 시나리오 · 목표값 찾기 (셋 다 데이터 탭)</text>
+</svg></div>
+          <figcaption>그림 7 · 넣는 값은 «표 안의 숫자»가 아니라 «원래 수식이 쓰던 셀 주소»입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📑 부분합 복습 — 「그룹 사이에서 페이지 나누기」 <span style="font-size:13px;font-weight:400;color:#c0392b">(주로 필기에서 묻습니다)</span></h3>
+      <div class="step"><b>어제 배운 것 다시</b> ① 그룹으로 묶을 항목으로 <b>먼저 정렬</b> → ② 데이터 → 개요 → 부분합 → ③ 두 번째 부분합은 <b>「새로운 값으로 대치」 해제</b> → ④ 되돌릴 때는 <b>「모두 제거」</b>.</div>
+      <div class="step"><b>오늘 새로 나온 항목</b> 부분합 대화상자 아래쪽의 <b class="k">「그룹 사이에서 페이지 나누기」</b>입니다. 체크하면 <b>그룹이 바뀔 때마다 인쇄 페이지가 넘어갑니다.</b></div>
+      <div class="step"><b>확인하는 법</b> 오른쪽 아래의 <b>페이지 나누기 미리 보기</b>로 전환하면 그룹 경계마다 <b>파란 구분선</b>이 들어가 있는 것이 보입니다.</div>
+      <div class="step"><b class="r">실기에서는 거의 볼 일이 없습니다</b> 강사가 수업에서 짚은 부분입니다. 실기라면 지시문에 적힌 대로 체크만 하면 되고, <b>판별을 요구하는 쪽은 필기</b>입니다.</div>
+      <div class="step"><b>데이터 아래에 요약 표시</b> 체크를 해제하면 각 그룹의 <b>부분합 행이 그 그룹 데이터 위쪽</b>에 표시됩니다. 기본값(체크됨)은 아래쪽이고, 보기에도 그편이 낫습니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="그룹 사이에서 페이지 나누기">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">「그룹 사이에서 페이지 나누기」를 켜면 인쇄가 이렇게 갈립니다</text>
+
+  <rect x="60" y="44" width="240" height="150" rx="8" fill="#fff" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="180" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">1페이지</text>
+  <g font-size="11" fill="#5D6D7E">
+    <text x="180" y="92" text-anchor="middle">내과 · 20대</text>
+    <text x="180" y="112" text-anchor="middle">내과 · 30대</text>
+    <text x="180" y="132" text-anchor="middle">내과 · 40대</text>
+  </g>
+  <rect x="82" y="144" width="196" height="24" fill="#EEF3FB" stroke="#5B86C9"/>
+  <text x="180" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#1F4E8C">내과 요약</text>
+
+  <line x1="310" y1="44" x2="310" y2="194" stroke="#E74C3C" stroke-width="2.4" stroke-dasharray="6 4"/>
+  <text x="310" y="212" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">페이지 경계</text>
+
+  <rect x="320" y="44" width="240" height="150" rx="8" fill="#fff" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="440" y="66" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">2페이지</text>
+  <g font-size="11" fill="#5D6D7E">
+    <text x="440" y="92" text-anchor="middle">한방과 · 30대</text>
+    <text x="440" y="112" text-anchor="middle">한방과 · 50대</text>
+    <text x="440" y="132" text-anchor="middle">한방과 · 60대</text>
+  </g>
+  <rect x="342" y="144" width="196" height="24" fill="#EEF3FB" stroke="#5B86C9"/>
+  <text x="440" y="160" text-anchor="middle" font-size="11" font-weight="700" fill="#1F4E8C">한방과 요약</text>
+
+  <rect x="576" y="44" width="124" height="150" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="638" y="76" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">주로 필기</text>
+  <text x="638" y="104" text-anchor="middle" font-size="11" fill="#C0392B">실기에서는</text>
+  <text x="638" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">거의 안 나옵니다</text>
+  <text x="638" y="152" text-anchor="middle" font-size="11" fill="#C0392B">확인은</text>
+  <text x="638" y="170" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">페이지 나누기<tspan x="638" dy="16">미리 보기</tspan></text>
+
+  <text x="360" y="238" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">부분합은 여전히 <tspan fill="#C0392B">정렬이 먼저</tspan> — 이 순서는 바뀌지 않습니다</text>
+</svg></div>
+          <figcaption>그림 8 · 어제 배운 부분합에 오늘 항목 하나가 더 붙었습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🖥 필기 · 윈도우 설정 창 — 「어느 범주에 있나」를 묻습니다</h3>
+      <div class="step"><b>여는 법</b> <code>Windows + I</code>. 예전 제어판에서 보던 항목들이 범주별로 모여 있습니다. 메뉴가 달라 보이면 왼쪽 <b>「홈」</b>으로 나가면 됩니다.</div>
+      <div class="step"><b>시험이 묻는 방식</b> 기능 하나를 주고 <b class="r">「어느 범주에서 설정하나」</b>를 묻습니다. 「모니터 해상도를 개인 설정에서 바꾼다」 같은 보기가 틀린 보기예요.</div>
+      <div class="step"><b class="k">시스템</b> — 가장 많이 나옵니다. <b>디스플레이(해상도·방향·주 모니터·확장/복제·야간 모드)</b>, 알림과 집중 지원, 전원, 저장 공간, 정보.</div>
+      <div class="step"><b class="k">개인 설정</b> — 지극히 «나»에 관한 것. <b>배경 화면·테마·색·잠금 화면·화면 보호기·마우스 커서 모양</b>. <b class="r">화면 보호기는 디스플레이별로 따로 설정할 수 없습니다</b>(모니터가 여러 대여도 하나로 적용).</div>
+      <div class="step"><b class="k">앱</b> — 설치된 프로그램 확인·제거, <b>연결 프로그램(기본 앱)</b>, 시작 프로그램, 선택적 기능. <b class="r">윈도우 업데이트는 여기가 아니라</b> 「업데이트 및 보안」입니다.</div>
+      <div class="step"><b class="k">계정 · 접근성 · 장치 · 업데이트 및 보안</b> — 계정에는 <b>사용자 계정 컨트롤(UAC)</b>, 장치에는 마우스(<b>한 번에 1~100줄 스크롤</b>, 왼손잡이 단추 바꾸기, 비활성 창 스크롤), 업데이트 및 보안에는 <b>Windows Defender 방화벽</b>이 있습니다.</div>
+      <div class="step"><b>방화벽의 한계</b> 외부의 <b>침입</b>은 막지만, <b class="r">내부에서 생기는 위협이나 모든 바이러스를 막아 주지는 않습니다.</b> BitLocker는 드라이브 <b>암호화</b>, 멀웨어는 악성 프로그램을 통틀어 부르는 말입니다.</div>
+      <div class="step"><b>해상도</b> 화면에 찍는 <b>점(픽셀)의 개수</b>입니다. 높일수록 <b>선명해지지만</b> 같은 화면에 더 촘촘히 담기니 <b class="k">바탕 화면 아이콘은 작아집니다.</b></div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="윈도우 설정 창의 범주별 기능">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">Windows + I — 「이 기능이 어느 범주에 있나」가 문제입니다</text>
+
+  <rect x="20" y="42" width="220" height="118" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.8"/>
+  <text x="130" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">시스템 (최다 출제)</text>
+  <g font-size="11" fill="#2C3E50">
+    <text x="130" y="86" text-anchor="middle">디스플레이 · 해상도</text>
+    <text x="130" y="106" text-anchor="middle">화면 방향 · 주 모니터</text>
+    <text x="130" y="126" text-anchor="middle">확장 / 복제 · 야간 모드</text>
+    <text x="130" y="146" text-anchor="middle">알림과 집중 지원</text>
+  </g>
+
+  <rect x="250" y="42" width="220" height="118" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.4"/>
+  <text x="360" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">개인 설정</text>
+  <g font-size="11" fill="#1B5E20">
+    <text x="360" y="86" text-anchor="middle">배경 화면 · 테마 · 색</text>
+    <text x="360" y="106" text-anchor="middle">잠금 화면 · 화면 보호기</text>
+    <text x="360" y="126" text-anchor="middle">마우스 커서 모양</text>
+    <text x="360" y="146" text-anchor="middle" font-weight="700">해상도는 여기가 아님</text>
+  </g>
+
+  <rect x="480" y="42" width="220" height="118" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+  <text x="590" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">앱</text>
+  <g font-size="11" fill="#B9770E">
+    <text x="590" y="86" text-anchor="middle">프로그램 확인 · 제거</text>
+    <text x="590" y="106" text-anchor="middle">연결 프로그램(기본 앱)</text>
+    <text x="590" y="126" text-anchor="middle">시작 프로그램</text>
+    <text x="590" y="146" text-anchor="middle" font-weight="700">윈도우 업데이트는 없음</text>
+  </g>
+
+  <rect x="20" y="172" width="220" height="86" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="130" y="194" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">계정</text>
+  <text x="130" y="216" text-anchor="middle" font-size="11" fill="#5D6D7E">사용자 계정 컨트롤(UAC)</text>
+  <text x="130" y="238" text-anchor="middle" font-size="11" fill="#5D6D7E">설정을 함부로 못 바꾸게</text>
+
+  <rect x="250" y="172" width="220" height="86" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="360" y="194" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">장치</text>
+  <text x="360" y="216" text-anchor="middle" font-size="11" fill="#5D6D7E">마우스 — 1~100줄 스크롤</text>
+  <text x="360" y="238" text-anchor="middle" font-size="11" fill="#5D6D7E">왼손잡이 · 비활성 창 스크롤</text>
+
+  <rect x="480" y="172" width="220" height="86" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="590" y="194" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">업데이트 및 보안</text>
+  <text x="590" y="216" text-anchor="middle" font-size="11" fill="#5D6D7E">Windows Defender 방화벽</text>
+  <text x="590" y="238" text-anchor="middle" font-size="11" fill="#5D6D7E">윈도우 업데이트 · 백업</text>
+
+  <text x="360" y="286" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">해상도를 높이면 화면은 선명해지고 <tspan fill="#C0392B">바탕 화면 아이콘은 작아집니다</tspan></text>
+</svg></div>
+          <figcaption>그림 9 · 기능 이름만 외우지 말고 «어느 방 안에 있는지»를 함께 외웁니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🖨 필기 · 프린터와 스풀</h3>
+      <div class="step"><b>로컬 프린터</b> 내 컴퓨터에 <b>선으로 직접</b> 연결한 프린터. 설정할 것은 <b class="k">포트</b>입니다. 교재에 나오는 로컬 포트는 <b>LPT1·LPT2(병렬)</b>와 <b>COM1·COM2(직렬)</b>이고, 요즘 USB로 연결한 프린터는 <b>USB001</b> 같은 USB 포트로 잡힙니다.</div>
+      <div class="step"><b>네트워크 프린터</b> 사무실 복합기처럼 네트워크에 물린 프린터. <b class="k">프린터의 공유 이름과 연결된 컴퓨터 이름</b>, 또는 <b>IP 주소</b>를 알아야 합니다. 컴활 문제에서는 여기에 <b class="r">「LPT1 같은 포트를 지정한다」</b>고 써 놓고 틀린 보기로 씁니다 — <b>포트는 로컬 쪽 표현</b>이라고 기억하세요.</div>
+      <div class="step"><b>기본 프린터</b> <code>Ctrl + P</code>를 눌렀을 때 처음 잡히는 프린터. <b class="r">한 대만</b> 지정할 수 있고, <b>로컬이든 네트워크든</b> 상관없습니다.</div>
+      <div class="step"><b>인쇄 대기열에서 되는 것</b> 일시 중지 · 계속 · 다시 시작 · <b class="k">취소</b>. <b class="r">인쇄 «중»인 문서도 중간에 취소할 수 있습니다.</b></div>
+      <div class="step"><b>인쇄 대기열에서 «안» 되는 것</b> 대기 중인 문서의 <b class="r">용지 방향·용지 공급·인쇄 매수를 바꾸는 것</b>. 이건 인쇄 명령을 내리기 <b>전</b>에 정하는 값이라, 고치려면 취소하고 다시 인쇄해야 합니다.</div>
+      <div class="step"><b>스풀(SPOOL)이란</b> 느린 프린터와 빠른 CPU를 <b>함께 굴리기</b> 위해, 인쇄할 내용을 CPU가 계속 붙들고 있지 않고 <b class="k">하드디스크(보조기억장치)에 잠깐 맡겨 두는</b> 기능입니다.</div>
+      <div class="step"><b class="r">★ 스풀의 함정</b> 좋아지는 것은 <b class="k">컴퓨터 전체(CPU)의 효율</b>입니다. 스풀은 <b class="r">프린터의 인쇄 속도를 빠르게 해 주는 기능이 아니고</b>, 보조기억장치를 한 번 더 거치므로 오히려 느려질 수 있습니다. 「스풀을 쓰면 인쇄가 빨라진다」는 <b>틀린 보기</b>예요.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="스풀은 CPU 효율을 높이고 인쇄 속도는 느려진다">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">스풀 — 좋아지는 건 «CPU», 인쇄 속도가 아닙니다</text>
+
+  <rect x="30" y="44" width="150" height="86" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="105" y="70" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">CPU</text>
+  <text x="105" y="92" text-anchor="middle" font-size="11" fill="#5D6D7E">중앙처리장치</text>
+  <text x="105" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F4E8C">아주 빠름</text>
+
+  <rect x="285" y="44" width="150" height="86" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.8"/>
+  <text x="360" y="70" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">하드디스크</text>
+  <text x="360" y="92" text-anchor="middle" font-size="11" fill="#B9770E">보조기억장치</text>
+  <text x="360" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B9770E">여기에 잠깐 맡김</text>
+
+  <rect x="540" y="44" width="150" height="86" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="615" y="70" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">프린터</text>
+  <text x="615" y="92" text-anchor="middle" font-size="11" fill="#C0392B">출력장치</text>
+  <text x="615" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">아주 느림</text>
+
+  <g stroke="#95A5A6" stroke-width="1.8" fill="none">
+    <path d="M182 87 L281 87" marker-end="url(#sp)"/>
+    <path d="M437 87 L536 87" marker-end="url(#sp)"/>
+  </g>
+  <defs><marker id="sp" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="30" y="152" width="320" height="94" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="190" y="176" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">좋아지는 것 ○</text>
+  <text x="190" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">CPU · 컴퓨터 전체의 효율</text>
+  <text x="190" y="222" text-anchor="middle" font-size="11.5" fill="#1B5E20">인쇄를 맡겨 두고 다른 일을 합니다</text>
+
+  <rect x="370" y="152" width="320" height="94" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.8"/>
+  <text x="530" y="176" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">나빠지는 것 ✕</text>
+  <text x="530" y="200" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">인쇄 속도 — 빨라지지 않음</text>
+  <text x="530" y="222" text-anchor="middle" font-size="11.5" fill="#C0392B">한 단계 더 거쳐 오히려 느려질 수 있음</text>
+
+  <text x="360" y="276" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">대화상자에 <tspan font-family="monospace">스풀링 중</tspan>이라고 뜨면 «저장하는 중»이라는 뜻입니다</text>
+</svg></div>
+          <figcaption>그림 10 · 「무엇이 좋아지나」를 바꿔 묻는 것이 이 단원의 전형적인 함정입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+    <div class="mistake-grid">
+
+      <div class="mistake-card top">
+        <div class="mistake-label">⭐ 가장 많이 막히는 부분</div>
+        <h3>피벗 테이블을 데이터 탭에서 찾습니다</h3>
+        <p>부분합·데이터 표·통합이 전부 데이터 탭에 있다 보니 피벗도 거기 있을 거라 생각하고 한참 헤맵니다.</p>
+        <div class="fix">분석 기능 중 <b>피벗 테이블만 삽입 탭</b>입니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>그룹화 메뉴가 회색이라 못 누릅니다</h3>
+        <p>날짜를 월 단위로 묶으려는데 「그룹」이 눌리지 않습니다. 기능이 없는 게 아니라 셀 포인터 위치 문제입니다.</p>
+        <div class="fix">셀 포인터를 <b>행 레이블의 날짜 칸 안</b>으로 옮기세요</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>원본을 고쳤는데 피벗이 그대로입니다</h3>
+        <p>값을 수정하고 저장까지 했는데 피벗 테이블 숫자가 예전 그대로라 당황합니다.</p>
+        <div class="fix">피벗 테이블 분석 → <b>새로 고침</b> — 자동 갱신은 안 됩니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>데이터 표 왼쪽 위 칸에 붙여넣기를 합니다</h3>
+        <p>원래 결과를 복사해서 붙여 넣었더니 0이 나옵니다. 상대참조가 밀려 엉뚱한 칸을 계산하기 때문입니다. (밀린 자리에 따라 다른 값이 나오기도 합니다.)</p>
+        <div class="fix"><code>=</code> 를 치고 <b>원래 결과 셀을 클릭</b>한 뒤 Enter</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>데이터 표에서 셀 포인터만 두고 실행합니다</h3>
+        <p>부분합·피벗은 셀 포인터만 둬도 되니 같은 줄 알고 넘어갔다가 결과가 채워지지 않습니다.</p>
+        <div class="fix">데이터 표는 <b>채울 영역 전체를 드래그</b>해야 합니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>행 입력 셀에 표 안의 숫자를 넣습니다</h3>
+        <p>80·90·100 같은 표 안의 값을 지정해 버립니다.</p>
+        <div class="fix">넣을 것은 <b>원래 수식이 쓰던 셀 주소</b>입니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>값 필드의 표시 형식을 한 번만 지정합니다</h3>
+        <p>최댓값에만 천 단위 구분 기호를 넣고 평균은 그대로 두어 감점됩니다.</p>
+        <div class="fix">값이 여러 개면 <b>하나씩 따로</b> 값 필드 설정에 들어가세요</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>「스풀을 쓰면 인쇄가 빨라진다」에 O를 합니다</h3>
+        <p>효율이 좋아진다니 인쇄도 빨라질 것 같지만 반대입니다.</p>
+        <div class="fix">좋아지는 것은 <b>CPU의 효율</b>, 인쇄 속도는 <b>느려집니다</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>「네트워크 프린터는 포트를 지정한다」에 O를 합니다</h3>
+        <p>포트라는 말이 익숙해서 그냥 맞다고 넘어갑니다.</p>
+        <div class="fix">포트는 <b>로컬</b> · 네트워크는 <b>공유 이름·컴퓨터 이름 또는 IP</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>해상도를 높이면 아이콘도 커진다고 답합니다</h3>
+        <p>「선명해진다」와 「커진다」를 같이 묶어 생각하기 쉽습니다.</p>
+        <div class="fix">점이 촘촘해지므로 <b>아이콘은 작아집니다</b></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·기능 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>구분</th><th>단축키/기능</th><th>하는 일</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>실기</td><td><b>삽입 → 피벗 테이블</b></td><td>데이터를 돌려 요약표 만들기</td><td><b class="r">분석 작업 중 이것만 삽입 탭</b></td></tr>
+          <tr><td>실기</td><td>필터 · 행 · 열 · 값</td><td>피벗의 네 영역</td><td>지시문 순서대로 넣을 것</td></tr>
+          <tr><td>실기</td><td>값 필드 설정</td><td>합계→평균·최대·최소</td><td>표시 형식도 여기(아래쪽 단추)</td></tr>
+          <tr><td>실기</td><td>Σ 값을 행으로 끌기</td><td>옆으로 긴 표를 아래로</td><td>값 2개 이상이면 저절로 생김</td></tr>
+          <tr><td>실기</td><td>분석 → <b>새로 고침</b></td><td>원본 변경을 피벗에 반영</td><td><b class="r">자동 갱신 안 됨</b></td></tr>
+          <tr><td>실기</td><td>분석 → 옵션 → 레이아웃 및 서식</td><td>빈 셀에 0·#·- 표시</td><td>오류 값 표시도 같은 자리</td></tr>
+          <tr><td>실기</td><td>분석 → 필드 그룹화</td><td>날짜를 월·분기로 묶기</td><td>셀 포인터를 <b>행 레이블 안</b>에</td></tr>
+          <tr><td>실기</td><td>디자인 → 보고서 레이아웃</td><td>압축 / 개요 / 테이블 형식</td><td>스타일·총합계도 디자인 탭</td></tr>
+          <tr><td>실기</td><td><b>디자인 → 총합계</b></td><td>행·열 총합계 표시/해제</td><td>분석 → 옵션 → 요약 및 필터로도 가능</td></tr>
+          <tr><td>실기</td><td><b>삽입 → 표</b></td><td>데이터를 표 개체로</td><td>필터 단추·디자인 리본·머리글 고정</td></tr>
+          <tr><td>실기</td><td>테이블 디자인 → 요약 행</td><td>맨 아래 합계·평균·개수</td><td>함수 없이 클릭으로</td></tr>
+          <tr><td>실기</td><td>데이터 → 가상 분석 → <b>데이터 표</b></td><td>값 변화에 따른 결과 예측</td><td>3형제 = 데이터 표·시나리오·목표값 찾기</td></tr>
+          <tr><td>실기</td><td>행 입력 셀 / 열 입력 셀</td><td>가로 항목 / 세로 항목</td><td><b>원래 수식이 쓰던 셀 주소</b></td></tr>
+          <tr><td>실기+필기</td><td>부분합 → 그룹 사이에서 페이지 나누기</td><td>그룹마다 인쇄 페이지 분리</td><td>주로 <b class="r">필기에서 출제</b> · 미리 보기로 확인</td></tr>
+          <tr><td>필기</td><td><code>Windows + I</code></td><td>설정 창 열기</td><td>홈으로 나가면 전체 범주</td></tr>
+          <tr><td>필기</td><td>시스템 → 디스플레이</td><td>해상도·방향·주 모니터·확장/복제</td><td>해상도↑ = 선명 / 아이콘 작아짐</td></tr>
+          <tr><td>필기</td><td>개인 설정</td><td>배경·테마·화면 보호기·커서</td><td>화면 보호기는 디스플레이별 설정 불가</td></tr>
+          <tr><td>필기</td><td>앱 → 기본 앱</td><td>연결 프로그램 지정</td><td>윈도우 업데이트는 여기 아님</td></tr>
+          <tr><td>필기</td><td>업데이트 및 보안</td><td>Defender 방화벽·업데이트</td><td>내부 위협·모든 바이러스는 못 막음</td></tr>
+          <tr><td>필기</td><td>로컬 프린터</td><td>선으로 직접 연결</td><td><b>포트</b> 지정 (병렬=LPT · 직렬=COM · 요즘은 USB)</td></tr>
+          <tr><td>필기</td><td>네트워크 프린터</td><td>네트워크로 공유된 프린터</td><td><b class="r">공유 이름·컴퓨터 이름 또는 IP</b></td></tr>
+          <tr><td>필기</td><td>기본 프린터</td><td>Ctrl+P에서 처음 잡히는 것</td><td><b>한 대만</b> · 로컬/네트워크 무관</td></tr>
+          <tr><td>필기</td><td>인쇄 대기열</td><td>일시 중지·다시 시작·취소</td><td>인쇄 <b>중</b>인 문서도 취소 가능</td></tr>
+          <tr><td>필기</td><td><b>스풀</b></td><td>인쇄 내용을 하드디스크에 임시 저장</td><td>CPU 효율↑ · <b class="r">인쇄 속도를 높이는 기능은 아님</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월 과정 수강생임을 확인하는 용도입니다.</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext"><b>피벗 테이블</b>을 만들려면 어느 탭으로 들어가야 하나요?</p>
+      <button class="quiz-opt" data-correct="false">데이터 탭</button>
+      <button class="quiz-opt" data-correct="true">삽입 탭</button>
+      <button class="quiz-opt" data-correct="false">수식 탭</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">피벗 테이블의 <b>값 영역에 항목을 두 개 넣었더니</b> 표가 옆으로 길어졌습니다. 보기 좋게 만들려면?</p>
+      <button class="quiz-opt" data-correct="true">저절로 생긴 「Σ 값」을 행 영역으로 끌어내린다</button>
+      <button class="quiz-opt" data-correct="false">값 하나를 지우고 하나만 남긴다</button>
+      <button class="quiz-opt" data-correct="false">열 너비를 좁혀서 화면에 맞춘다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext"><b>원본 데이터의 값을 수정</b>했습니다. 피벗 테이블에 반영하려면?</p>
+      <button class="quiz-opt" data-correct="false">원본을 고치는 즉시 피벗 테이블도 함께 바뀐다</button>
+      <button class="quiz-opt" data-correct="false">피벗 테이블을 지우고 처음부터 다시 만든다</button>
+      <button class="quiz-opt" data-correct="true">피벗 테이블 분석 → 새로 고침을 누른다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">날짜 데이터에 아무 문제가 없는 <b>일반 피벗 테이블</b>인데, 날짜를 <b>월 단위로 그룹화</b>하려니 그룹 메뉴가 회색으로 눌리지 않습니다. 가장 먼저 확인할 것은?</p>
+      <button class="quiz-opt" data-correct="false">피벗 테이블에는 그룹화 기능이 없으므로 포기한다</button>
+      <button class="quiz-opt" data-correct="true">셀 포인터가 묶을 필드(행 레이블) 안에 있는지 확인한다</button>
+      <button class="quiz-opt" data-correct="false">먼저 날짜를 오름차순으로 정렬한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext"><b>데이터 표</b>에서 <b>행 입력 셀</b>에 지정해야 하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">가로로 놓인 항목이 원래 수식에서 쓰이던 셀 주소</button>
+      <button class="quiz-opt" data-correct="false">표 맨 윗줄에 적어 둔 숫자 값</button>
+      <button class="quiz-opt" data-correct="false">결과가 채워질 범위의 첫 번째 셀</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">데이터 표를 만들 때 <b>왼쪽 위 빈 칸</b>에 원래 수식을 가져오는 올바른 방법은?</p>
+      <button class="quiz-opt" data-correct="false">원래 결과 셀을 복사해 그 칸에 붙여넣는다</button>
+      <button class="quiz-opt" data-correct="false">결과 숫자를 직접 입력한다</button>
+      <button class="quiz-opt" data-correct="true"><code>=</code> 를 입력한 뒤 원래 결과 셀을 클릭하고 Enter</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext"><b>스풀(SPOOL)</b>에 대한 설명으로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">인쇄 속도 자체가 빨라진다</button>
+      <button class="quiz-opt" data-correct="true">CPU의 효율이 높아지지만 인쇄 속도 자체가 빨라지지는 않는다</button>
+      <button class="quiz-opt" data-correct="false">인쇄 내용을 주기억장치에만 저장한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext"><b>네트워크 프린터</b>를 연결할 때 알아야 하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">프린터의 공유 이름과 연결된 컴퓨터 이름(또는 IP 주소)</button>
+      <button class="quiz-opt" data-correct="false">LPT1이나 COM1 같은 포트 번호</button>
+      <button class="quiz-opt" data-correct="false">프린터 제조사의 드라이버 일련번호</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">모니터의 <b>해상도를 높였을 때</b> 나타나는 변화는?</p>
+      <button class="quiz-opt" data-correct="false">화면이 선명해지고 바탕 화면 아이콘도 커진다</button>
+      <button class="quiz-opt" data-correct="false">화면이 흐려지고 아이콘은 작아진다</button>
+      <button class="quiz-opt" data-correct="true">화면이 선명해지고 바탕 화면 아이콘은 작아진다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">데이터를 <b>삽입 탭의 「표」</b>로 만들었을 때 생기는 변화가 <b>아닌</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">머리글에 필터 단추가 자동으로 붙는다</button>
+      <button class="quiz-opt" data-correct="true">원본 데이터가 자동으로 오름차순 정렬된다</button>
+      <button class="quiz-opt" data-correct="false">표 안을 클릭하면 테이블 디자인 리본이 나타난다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="check-grid">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">실기: 삽입 → 피벗 테이블로 <b>부서 × 직위</b> 표 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">실기: 값 필드 설정으로 <b>합계 → 평균·최대·최소</b> 바꿔보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">실기: 값을 2개 넣어 Σ 값을 만든 뒤 <b>행으로 끌어내리기</b></label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">실기: 원본을 고치고 <b>새로 고침</b> 눌러 숫자가 바뀌는지 확인</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">실기: 옵션에서 <b>빈 셀에 0 또는 #</b> 표시해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">실기: 날짜 필드를 <b>월 단위로 그룹화</b>(「일」 해제) 해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">실기: 디자인 탭에서 <b>보고서 레이아웃·스타일·총합계</b> 바꿔보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">실기: 삽입 → 표로 만든 뒤 <b>요약 행</b> 켜고 평균 골라보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">실기: 스크롤을 내려 <b>열 문자가 필드명으로</b> 바뀌는지 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">실기: 데이터 표를 <b>30초 안에</b> 완성해보기(행·열 입력 셀 구분)</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">실기: 부분합에서 <b>그룹 사이 페이지 나누기</b> 켜고 미리 보기로 확인</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">필기: Windows+I를 눌러 <b>7개 범주</b>를 눈으로 훑어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">필기: 「해상도는 시스템, 배경은 개인 설정」 소리 내어 말해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c14"><label for="c14">필기: <b>스풀</b> — 좋아지는 것과 느려지는 것 한 줄로 적어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c15"><label for="c15">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '12차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
