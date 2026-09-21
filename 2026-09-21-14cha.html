@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컴활2급 14차시 복습자료 — CPU·메모리·프린터·USB / 차트</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">14차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 필기+실기</span>
+  <h1>14차시 복습자료</h1>
+  <p class="meta"><b>2026-09-21</b><br>오전 필기는 4장 하드웨어(CPU·메모리·입출력·포트), 오후 실기는 분석 작업·매크로 복습과 <b>차트</b>. 배운 순서 그대로 실었습니다.</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 12)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·기능 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">필기 · CPU · 메모리</span>
+      <span class="tag">필기 · 프린터 · USB</span>
+      <span class="tag">실기 · 분석·매크로 복습</span>
+      <span class="tag">실기 · 차트 (마지막 단원)</span>
+    </div>
+    <h1>오늘의 핵심은 "<b>필기는 백지에 써 봐야 외워지고, 실기는 오늘로 진도가 끝났다</b>는 점입니다. CPU 레지스터 이름들과 <b>밀·마·나·피·펨·아</b>는 손으로 써서 외우세요."</h1>
+    <p class="sub">2026-09-21 · 14차시 · 오전 필기는 4장 하드웨어 — 중앙처리장치(제어장치·연산장치) → 주기억장치(ROM·RAM·캐시·가상 메모리) → 보조기억장치와 단위 → 입력장치 → 출력장치·프린터 → 채널·포트. 오후 실기는 시나리오·목표값 찾기·통합·매크로를 복습하고 <b>차트</b>로 실기 진도를 마쳤습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">🧠 CPU 레지스터</span>
+      <span class="key-badge">💾 메모리 5종</span>
+      <span class="key-badge">🔌 USB · HDMI</span>
+      <span class="key-badge">📊 차트</span>
+      <span class="key-badge">🖼️ 그림 12장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>[필기] ★가장 많이 나오는 건 PC</h3>
+        <p><b>프로그램 카운터(PC)</b>는 <b class="k">다음에 실행할 명령어의 «주소»</b>를 기억합니다. <b>명령 레지스터(IR)</b>는 <b>현재 실행 중인 명령어 «자체»</b>를 담아요. 이 둘이 제어장치의 핵심입니다.</p>
+        <div class="use">주소는 PC · 명령어는 IR</div>
+      </div>
+      <div class="card">
+        <h3>[필기] 보수기 = 뺄셈 담당</h3>
+        <p>연산장치에는 더하는 <b>가산기</b>는 있어도 <b class="r">감산기는 없습니다.</b> 그 자리를 <b class="k">보수기</b>가 대신해 뺄셈을 처리해요. 강사가 "제일 잘 까먹는다"고 별표한 항목입니다.</p>
+        <div class="use">누산기(AC)는 연산 결과를 잠시 보관</div>
+      </div>
+      <div class="card">
+        <h3>[필기] 캐시는 «속도차», 가상은 «용량»</h3>
+        <p><b>캐시 메모리(SRAM)</b>는 빠른 CPU와 느린 주기억장치 사이의 <b class="k">속도 차이</b>를 메웁니다. <b>가상 메모리</b>는 하드디스크 일부를 빌려 <b class="k">용량 부족</b>을 해결하고요.</p>
+        <div class="use">가상 메모리를 쓰면 속도는 느려질 수 있음</div>
+      </div>
+      <div class="card">
+        <h3>[필기] 밀 · 마 · 나 · 피 · 펨 · 아</h3>
+        <p>처리 속도 단위는 <b>ms → μs → ns → ps → fs → as</b> 순으로 빨라지고, 지수는 <b class="k">10⁻³부터 3씩</b> 내려가 10⁻¹⁸까지 갑니다.</p>
+        <div class="use">순서를 묻는 문제가 실제로 나옵니다</div>
+      </div>
+      <div class="card">
+        <h3>[필기] USB는 «직렬» — 한 비트씩</h3>
+        <p>이름부터 <b>범용 직렬 버스</b>라서 데이터를 <b class="r">한 비트씩</b> 보냅니다. 「8비트씩」은 틀린 보기예요. 최대 <b>127개</b> 연결, 핫 플러그·플러그 앤 플레이 지원.</p>
+        <div class="use">버전이 올라갈수록 단자 색이 화려해집니다</div>
+      </div>
+      <div class="card">
+        <h3>[실기] 목표값 찾기 — 어제 62%</h3>
+        <p><b>수식 셀</b>이 <b>찾는 값</b>이 되도록 <b class="k">값을 바꿀 셀</b>을 조정합니다. 바꿀 셀에는 <b class="r">결과가 아니라 «원인»</b>이 되는 칸을 넣으세요.</p>
+        <div class="use">지난 퀴즈에서 가장 많이 틀린 문항</div>
+      </div>
+      <div class="card">
+        <h3>[실기] 매크로 키는 엑셀 기본보다 우선 — 어제 69%</h3>
+        <p><code>Ctrl + G</code>처럼 기본 단축키와 겹치게 지정하면, 그 통합 문서가 열려 있는 동안은 <b class="k">매크로가 실행</b>됩니다.</p>
+        <div class="use">기록은 리본 단추로만 — Alt+F8로는 기록 못 함</div>
+      </div>
+      <div class="card">
+        <h3>[실기] 차트는 지우면 0점</h3>
+        <p>차트 문제는 <b>2점씩 5개, 총 10점</b>이라 부분 점수가 있습니다. 다만 차트를 <b class="r">지우고 새로 만들면 채점이 안 됩니다</b> — 실수로 지웠다면 즉시 <code>Ctrl + Z</code>.</p>
+        <div class="use">오늘로 실기 진도 종료</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>먼저 — 오늘 배운 순서</h3>
+      <div class="step"><b>1교시는 복습</b> 지난주 금요일(13차시)에 배운 관리 도구·네트워크 명령어·자료 단위·문자 코드·진법을 빠르게 훑고 시작했습니다. 그 내용은 <b>13차시 복습자료</b>에 그대로 있으니 같이 보세요.</div>
+      <div class="step"><b>오전 필기(4장 하드웨어)</b> 중앙처리장치 → 주기억장치 → 보조기억장치·단위 → 입력장치 → 출력장치·프린터 → 채널·포트. 강사가 "오늘부터 <b class="r">진짜 외워야 한다</b>"고 한 구간입니다.</div>
+      <div class="step"><b>오후 실기</b> 시나리오 → 목표값 찾기 → 통합 → 매크로를 한 번씩 복습하고, 마지막 단원인 <b class="k">차트</b>를 나갔습니다. <b>이것으로 실기 진도는 끝</b>이고, 내일(화)부터 기출 문제 풀이입니다.</div>
+      <div class="step"><b>외우는 방법</b> 강사가 콕 집어 말했습니다 — <b class="k">백지에 써 보기</b>. "CPU는 제어장치와 연산장치로 되어 있고, 제어장치에는 PC·IR·해독기·부호기·MAR·MBR이 있고…"를 손으로 써 보세요.</div>
+      <div class="step"><b>실기에서 배웠지만 필기에도 나오는 것</b> 오늘치는 <b>시나리오의 「숨기기」와 시트 보호</b>, <b>매크로 바로 가기 키·Alt+F8·Alt+F11</b>, <b>차트의 Alt+F1·F11과 구성 요소 이름</b>입니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="오늘 배운 순서">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">오늘 배운 순서 — 오전 필기, 오후 실기</text>
+
+  <rect x="20" y="42" width="330" height="188" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="185" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">오전 · 필기 4장 (하드웨어)</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="40" y="94">① 중앙처리장치 — 제어장치 · 연산장치</text>
+    <text x="40" y="118">② 주기억장치 — ROM · RAM · 캐시 · 가상</text>
+    <text x="40" y="142">③ 보조기억장치 · 용량 단위 · 속도 단위</text>
+    <text x="40" y="166">④ 입력장치 · 키오스크</text>
+    <text x="40" y="190">⑤ 출력장치 · 프린터 5종 · IPM</text>
+    <text x="40" y="214">⑥ 채널 · 포트(USB) · HDMI</text>
+  </g>
+
+  <g stroke="#95A5A6" stroke-width="1.8" fill="none"><path d="M352 136 L368 136" marker-end="url(#o14)"/></g>
+  <defs><marker id="o14" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="372" y="42" width="328" height="188" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="536" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">오후 · 실기 (마지막 진도)</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="392" y="94">⑦ 시나리오 복습 <tspan fill="#7F8C8D">(+시트 보호·숨기기)</tspan></text>
+    <text x="392" y="118">⑧ 목표값 찾기 복습 <tspan font-weight="700" fill="#C0392B">← 어제 62%</tspan></text>
+    <text x="392" y="142">⑨ 통합 복습 <tspan fill="#7F8C8D">(+와일드카드)</tspan></text>
+    <text x="392" y="166">⑩ 매크로 복습 <tspan font-weight="700" fill="#C0392B">← 어제 69%</tspan></text>
+    <text x="392" y="190" font-weight="700">⑪ 차트 — 신규</text>
+    <text x="392" y="214" fill="#7F8C8D">내일(화)부터 기출 문제 풀이</text>
+  </g>
+
+  <text x="360" y="266" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">필기는 <tspan fill="#1F4E8C">백지에 써서</tspan> 외우고, 실기는 <tspan fill="#1E8449">손으로 반복</tspan>합니다</text>
+</svg></div>
+          <figcaption>그림 1 · 실기 진도가 끝났으니, 이제 남은 시간은 필기 암기와 기출 풀이로 갑니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🧠 [필기] 중앙처리장치(CPU) — 제어장치와 연산장치</h3>
+      <div class="step"><b>제어장치(CU)</b> 컴퓨터에 연결된 모든 장치의 동작을 <b>지시·감독</b>합니다. 구성 요소를 <b class="k">쌍으로</b> 외우세요.</div>
+      <div class="step"><b>PC(프로그램 카운터) ↔ IR(명령 레지스터)</b> PC는 <b class="r">다음에 실행할 명령어의 «번지»</b>를, IR은 <b class="r">현재 실행 중인 명령어 «자체»</b>를 기억합니다. <b>출제 빈도가 가장 높은 것이 PC</b>입니다(프로그램 계수기라고도 부름).</div>
+      <div class="step"><b>해독기(디코더) ↔ 부호기(인코더)</b> 기계어로 된 명령어를 <b>해독</b>해 CPU가 알아듣게 만들고, 반대로 제어 신호를 만들 때는 <b>부호기</b>가 씁니다.</div>
+      <div class="step"><b>MAR ↔ MBR</b> MAR(<b>M</b>emory <b>A</b>ddress <b>R</b>egister)은 <b>주소</b>를, MBR(<b>B</b>uffer)은 <b>내용(명령어·데이터)</b>을 잠시 담아 두는 버퍼입니다. A는 Address라고 외우면 쉽습니다.</div>
+      <div class="step"><b>연산장치(ALU)</b> 산술·논리·관계·시프트 연산을 합니다. <b>가산기(Adder)</b>는 2진수 덧셈, <b class="r">보수기</b>는 <b class="k">뺄셈</b> 담당 — 컴퓨터에는 감산기가 따로 없어, 값을 반대로 바꾼 보수를 더해 뺄셈을 흉내 냅니다.</div>
+      <div class="step"><b>누산기(AC)</b> 연산의 <b>중간·최종 결과를 일시적으로</b> 저장합니다. 「연산 중 발생하는 상태(부호·자리 올림·오버플로·인터럽트)」를 기억하는 것은 <b class="r">상태 레지스터</b>로, 누산기와 헷갈리게 내는 문제가 나옵니다.</div>
+      <div class="step"><b>그 밖에</b> 데이터 레지스터(연산할 값), 인덱스 레지스터(주소 변경), 범용 레지스터. 그리고 <b class="k">레지스터는 모든 기억장치 중 가장 빠릅니다.</b></div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CPU 제어장치와 연산장치 구성">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">CPU = 제어장치 + 연산장치 (+ 레지스터)</text>
+
+  <rect x="20" y="40" width="330" height="206" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="185" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">제어장치 (CU) — 지시·감독</text>
+  <g font-size="11.5">
+    <rect x="40" y="78" width="140" height="44" rx="6" fill="#fff" stroke="#E74C3C" stroke-width="1.8"/>
+    <text x="110" y="96" text-anchor="middle" font-weight="700" fill="#C0392B">PC</text>
+    <text x="110" y="113" text-anchor="middle" fill="#C0392B">다음 명령어 «주소»</text>
+    <rect x="190" y="78" width="140" height="44" rx="6" fill="#fff" stroke="#E74C3C" stroke-width="1.8"/>
+    <text x="260" y="96" text-anchor="middle" font-weight="700" fill="#C0392B">IR</text>
+    <text x="260" y="113" text-anchor="middle" fill="#C0392B">현재 명령어 «자체»</text>
+
+    <rect x="40" y="130" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="110" y="148" text-anchor="middle" font-weight="700" fill="#1F4E8C">해독기(디코더)</text>
+    <text x="110" y="165" text-anchor="middle" fill="#5D6D7E">명령어를 해독</text>
+    <rect x="190" y="130" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="260" y="148" text-anchor="middle" font-weight="700" fill="#1F4E8C">부호기(인코더)</text>
+    <text x="260" y="165" text-anchor="middle" fill="#5D6D7E">제어 신호 생성</text>
+
+    <rect x="40" y="182" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="110" y="200" text-anchor="middle" font-weight="700" fill="#1F4E8C">MAR</text>
+    <text x="110" y="217" text-anchor="middle" fill="#5D6D7E">주소를 임시 보관</text>
+    <rect x="190" y="182" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="260" y="200" text-anchor="middle" font-weight="700" fill="#1F4E8C">MBR</text>
+    <text x="260" y="217" text-anchor="middle" fill="#5D6D7E">내용을 임시 보관</text>
+  </g>
+
+  <rect x="370" y="40" width="330" height="206" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="535" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">연산장치 (ALU) — 계산</text>
+  <g font-size="11.5">
+    <rect x="390" y="78" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="460" y="96" text-anchor="middle" font-weight="700" fill="#1E8449">가산기</text>
+    <text x="460" y="113" text-anchor="middle" fill="#5D6D7E">2진수 덧셈</text>
+    <rect x="540" y="78" width="140" height="44" rx="6" fill="#fff" stroke="#E74C3C" stroke-width="1.8"/>
+    <text x="610" y="96" text-anchor="middle" font-weight="700" fill="#C0392B">보수기</text>
+    <text x="610" y="113" text-anchor="middle" font-weight="700" fill="#C0392B">뺄셈 담당</text>
+
+    <rect x="390" y="130" width="140" height="44" rx="6" fill="#fff" stroke="#E67E22" stroke-width="1.6"/>
+    <text x="460" y="148" text-anchor="middle" font-weight="700" fill="#B9770E">누산기(AC)</text>
+    <text x="460" y="165" text-anchor="middle" fill="#B9770E">결과를 일시 저장</text>
+    <rect x="540" y="130" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="610" y="148" text-anchor="middle" font-weight="700" fill="#1E8449">상태 레지스터</text>
+    <text x="610" y="165" text-anchor="middle" fill="#5D6D7E">자리 올림 · 부호</text>
+
+    <rect x="390" y="182" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="460" y="200" text-anchor="middle" font-weight="700" fill="#1E8449">데이터 레지스터</text>
+    <text x="460" y="217" text-anchor="middle" fill="#5D6D7E">연산할 값</text>
+    <rect x="540" y="182" width="140" height="44" rx="6" fill="#fff" stroke="#B9C7E2"/>
+    <text x="610" y="200" text-anchor="middle" font-weight="700" fill="#1E8449">인덱스 레지스터</text>
+    <text x="610" y="217" text-anchor="middle" fill="#5D6D7E">주소 변경</text>
+  </g>
+
+  <text x="360" y="272" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">감산기는 없습니다 — 뺄셈은 «보수기»가 합니다</text>
+  <text x="360" y="292" text-anchor="middle" font-size="11.5" fill="#7F8C8D">레지스터는 모든 기억장치 중 가장 빠릅니다</text>
+</svg></div>
+          <figcaption>그림 2 · 왼쪽 세 쌍(PC·IR / 해독기·부호기 / MAR·MBR)을 쌍으로 외우면 빠집니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>💾 [필기] 주기억장치 — ROM · RAM과 기타 메모리</h3>
+      <div class="step"><b>ROM</b> 전원을 꺼도 내용이 남는(비휘발성) 읽기 전용 메모리. <b class="k">바이오스(BIOS·기본 입출력 시스템)</b>, 글자 폰트, <b class="k">POST(자가 진단 프로그램)</b>가 들어 있어 부팅에 꼭 필요합니다. POST는 전원을 켰을 때 주변 장치가 제대로 붙어 있는지 검사하고, 이상이 있으면 «삐» 소리로 알립니다.</div>
+      <div class="step"><b>EEPROM</b> ROM 중에서 <b>전기적인 방법으로 여러 번 지우고 다시 쓸 수 있는</b> 것. 요즘 출제는 거의 여기에 몰려 있습니다.</div>
+      <div class="step"><b>RAM</b> 현재 실행 중인 프로그램과 데이터가 올라가는 곳. <b class="r">전원이 꺼지면 내용이 사라집니다</b>(휘발성). <b>DRAM</b>이 주기억장치로 쓰이고, <b>SRAM</b>은 더 빠릅니다 — <b class="k">S라인이 빠르고 D라인이 느리다</b>로 외우세요.</div>
+      <div class="step"><b>캐시 메모리 = SRAM</b> 아주 빠른 CPU와 상대적으로 느린 DRAM 사이의 <b class="k">속도 차이</b>를 메우는 완충 지대입니다.</div>
+      <div class="step"><b>가상 메모리</b> <b>보조기억장치(하드디스크)의 일부를 주기억장치처럼</b> 빌려 쓰는 기법. 주기억장치보다 큰 프로그램, 또는 여러 개를 동시에 돌릴 때 유용합니다. 다만 보조기억장치를 거치므로 <b class="r">처리 속도는 오히려 느려질 수 있습니다.</b></div>
+      <div class="step"><b>플래시 메모리</b> EEPROM의 일종으로 <b>비휘발성</b>이고, 데이터를 <b class="k">블록 단위</b>로 다룹니다(원판을 쓰는 하드디스크의 <b class="r">트랙·섹터 단위가 아닙니다</b> — 이 대비로 출제됩니다). 스마트폰·디지털카메라·블랙박스·SSD에 쓰입니다.</div>
+      <div class="step"><b>연관 메모리</b> 주소가 아니라 <b class="k">내용으로 검색</b>해 찾아가는 방식. <b>버퍼 메모리</b>는 속도가 다른 두 장치 사이에 두는 임시 공간입니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ROM RAM과 기타 메모리">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">주기억장치는 ROM과 RAM 두 가지</text>
+
+  <rect x="20" y="40" width="330" height="104" rx="10" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="185" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">ROM — 전원이 꺼져도 남음</text>
+  <g font-size="11.5" fill="#B9770E">
+    <text x="185" y="86" text-anchor="middle">바이오스(BIOS) · 글자 폰트</text>
+    <text x="185" y="108" text-anchor="middle" font-weight="700">POST — 자가 진단 프로그램</text>
+    <text x="185" y="130" text-anchor="middle">EEPROM은 여러 번 고쳐 쓸 수 있음</text>
+  </g>
+
+  <rect x="370" y="40" width="330" height="104" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="535" y="62" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">RAM — 전원이 꺼지면 사라짐</text>
+  <g font-size="11.5" fill="#1F4E8C">
+    <text x="535" y="86" text-anchor="middle">실행 중인 프로그램 · 데이터</text>
+    <text x="535" y="108" text-anchor="middle" font-weight="700">DRAM = 주기억 · SRAM = 캐시</text>
+    <text x="535" y="130" text-anchor="middle">S라인이 빠르고 D라인이 느립니다</text>
+  </g>
+
+  <text x="360" y="170" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">기타 메모리 — 이름과 «하는 일»을 짝지어 외웁니다</text>
+
+  <g font-size="11">
+    <rect x="20" y="182" width="164" height="72" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+    <text x="102" y="204" text-anchor="middle" font-weight="700" fill="#1E8449">캐시 (SRAM)</text>
+    <text x="102" y="224" text-anchor="middle" fill="#1B5E20">CPU ↔ 주기억</text>
+    <text x="102" y="242" text-anchor="middle" font-weight="700" fill="#1E8449">속도 차이 해결</text>
+
+    <rect x="192" y="182" width="164" height="72" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+    <text x="274" y="204" text-anchor="middle" font-weight="700" fill="#1E8449">가상 메모리</text>
+    <text x="274" y="224" text-anchor="middle" fill="#1B5E20">하드디스크 일부를</text>
+    <text x="274" y="242" text-anchor="middle" font-weight="700" fill="#1E8449">용량 부족 해결</text>
+
+    <rect x="364" y="182" width="164" height="72" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="446" y="204" text-anchor="middle" font-weight="700" fill="#2C3E50">플래시 메모리</text>
+    <text x="446" y="224" text-anchor="middle" fill="#5D6D7E">비휘발성 · EEPROM 계열</text>
+    <text x="446" y="242" text-anchor="middle" font-weight="700" fill="#2C3E50">블록 단위 (트랙 ✕)</text>
+
+    <rect x="536" y="182" width="164" height="72" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="618" y="204" text-anchor="middle" font-weight="700" fill="#2C3E50">연관 메모리</text>
+    <text x="618" y="224" text-anchor="middle" fill="#5D6D7E">주소가 아니라</text>
+    <text x="618" y="242" text-anchor="middle" font-weight="700" fill="#2C3E50">내용으로 검색</text>
+  </g>
+
+  <text x="360" y="282" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">가상 메모리를 쓰면 «속도가 향상된다»는 틀린 보기입니다</text>
+</svg></div>
+          <figcaption>그림 3 · 「캐시=속도, 가상=용량」 두 단어만 붙잡으면 서로 바꿔 낸 문제가 보입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🗄 [필기] 보조기억장치 · 용량 단위 · 접근 속도</h3>
+      <div class="step"><b>하드디스크(HDD)</b> 자성 물질을 입힌 금속 원판을 겹쳐 돌리며 읽습니다. 값이 싸고 용량이 크지만 <b class="r">충격에 약해</b> 본체 안에 고정해 씁니다.</div>
+      <div class="step"><b>SSD</b> 반도체를 쓰므로 원판·헤드 같은 기계 장치가 없습니다. 그래서 <b>충격에 강하고 발열·소음이 적으며 빠르고 가볍습니다.</b> 교재는 「기계적 지연이나 에러 발생 확률이 낮다」고 설명해요. 단점은 <b class="k">하드디스크보다 비싸다</b>는 점입니다(쓰기 수명에도 한계가 있습니다).</div>
+      <div class="step"><b>광디스크</b> DVD는 4.7~17GB, <b>블루레이</b>는 25~50GB로 DVD보다 훨씬 많이 담습니다.</div>
+      <div class="step"><b>기억 용량 단위</b> <b>B → KB → MB → GB → TB → PB → EB</b>. 한 단계 올라갈 때마다 <b class="k">2¹⁰(=1,024)배</b>입니다. "1GB는 정확히 몇 바이트인가" 같은 문제가 나와요.</div>
+      <div class="step"><b>접근 속도 순서</b> <b class="k">레지스터 → 캐시(SRAM) → 주기억장치(RAM·ROM) → 보조기억장치</b>. 굳이 표를 외우지 않아도 «CPU에 가까울수록 빠르다»로 정리됩니다.</div>
+      <div class="step"><b>처리 속도 단위 — 밀·마·나·피·펨·아</b> <b>ms(10⁻³) → μs(10⁻⁶) → ns(10⁻⁹) → ps(10⁻¹²) → fs(10⁻¹⁵) → as(10⁻¹⁸)</b>. 뒤로 갈수록 빠릅니다. 순서를 묻는 문제가 실제로 출제됩니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="용량 단위와 처리 속도 단위">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">커지는 단위 · 빨라지는 단위</text>
+
+  <text x="360" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">기억 용량 — 한 칸마다 2¹⁰(1,024)배</text>
+  <g font-size="12">
+    <rect x="30" y="60" width="86" height="34" rx="6" fill="#EEF3FB" stroke="#5B86C9"/><text x="73" y="82" text-anchor="middle" font-weight="700" fill="#1F4E8C">B</text>
+    <rect x="126" y="60" width="86" height="34" rx="6" fill="#EEF3FB" stroke="#5B86C9"/><text x="169" y="82" text-anchor="middle" font-weight="700" fill="#1F4E8C">KB</text>
+    <rect x="222" y="60" width="86" height="34" rx="6" fill="#EEF3FB" stroke="#5B86C9"/><text x="265" y="82" text-anchor="middle" font-weight="700" fill="#1F4E8C">MB</text>
+    <rect x="318" y="60" width="86" height="34" rx="6" fill="#EEF3FB" stroke="#5B86C9"/><text x="361" y="82" text-anchor="middle" font-weight="700" fill="#1F4E8C">GB</text>
+    <rect x="414" y="60" width="86" height="34" rx="6" fill="#EEF3FB" stroke="#5B86C9"/><text x="457" y="82" text-anchor="middle" font-weight="700" fill="#1F4E8C">TB</text>
+    <rect x="510" y="60" width="86" height="34" rx="6" fill="#EEF3FB" stroke="#5B86C9"/><text x="553" y="82" text-anchor="middle" font-weight="700" fill="#1F4E8C">PB</text>
+    <rect x="606" y="60" width="86" height="34" rx="6" fill="#EEF3FB" stroke="#5B86C9"/><text x="649" y="82" text-anchor="middle" font-weight="700" fill="#1F4E8C">EB</text>
+  </g>
+  <text x="360" y="112" text-anchor="middle" font-size="11" fill="#7F8C8D">1KB = 1,024B · 1MB = 1,024KB · 1GB = 1,024MB …</text>
+
+  <text x="360" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">처리 속도 — 뒤로 갈수록 빠름 (지수는 3씩 내려감)</text>
+  <g font-size="12">
+    <rect x="30" y="158" width="104" height="44" rx="6" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="82" y="176" text-anchor="middle" font-weight="700" fill="#1E8449">ms</text><text x="82" y="194" text-anchor="middle" font-size="10.5" fill="#1B5E20">10⁻³ 밀리</text>
+    <rect x="144" y="158" width="104" height="44" rx="6" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="196" y="176" text-anchor="middle" font-weight="700" fill="#1E8449">μs</text><text x="196" y="194" text-anchor="middle" font-size="10.5" fill="#1B5E20">10⁻⁶ 마이크로</text>
+    <rect x="258" y="158" width="104" height="44" rx="6" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="310" y="176" text-anchor="middle" font-weight="700" fill="#1E8449">ns</text><text x="310" y="194" text-anchor="middle" font-size="10.5" fill="#1B5E20">10⁻⁹ 나노</text>
+    <rect x="372" y="158" width="104" height="44" rx="6" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="424" y="176" text-anchor="middle" font-weight="700" fill="#1E8449">ps</text><text x="424" y="194" text-anchor="middle" font-size="10.5" fill="#1B5E20">10⁻¹² 피코</text>
+    <rect x="486" y="158" width="104" height="44" rx="6" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="538" y="176" text-anchor="middle" font-weight="700" fill="#1E8449">fs</text><text x="538" y="194" text-anchor="middle" font-size="10.5" fill="#1B5E20">10⁻¹⁵ 펨토</text>
+    <rect x="600" y="158" width="92" height="44" rx="6" fill="#D5F0E2" stroke="#27AE60" stroke-width="1.8"/>
+    <text x="646" y="176" text-anchor="middle" font-weight="700" fill="#1E8449">as</text><text x="646" y="194" text-anchor="middle" font-size="10.5" fill="#1B5E20">10⁻¹⁸ 아토</text>
+  </g>
+  <text x="360" y="224" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">외우는 말 — 밀 · 마 · 나 · 피 · 펨 · 아</text>
+
+  <rect x="20" y="238" width="680" height="42" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+  <text x="360" y="258" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">접근 속도 — 레지스터 › 캐시(SRAM) › 주기억(RAM·ROM) › 보조기억(SSD·HDD)</text>
+  <text x="360" y="274" text-anchor="middle" font-size="11" fill="#7F8C8D">CPU에 가까울수록 빠릅니다</text>
+</svg></div>
+          <figcaption>그림 4 · 두 줄 다 «순서»를 묻습니다. 노트에 손으로 한 번 써 보세요.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>⌨️ [필기] 입력장치와 출력장치 · 프린터</h3>
+      <div class="step"><b>입력장치</b> 키보드·마우스·<b>터치스크린/터치패드</b>·트랙볼·스캐너·디지타이저와 태블릿·디지털카메라. 판독기 4종(OMR 광학 마크, OCR 광학 문자, MICR 자기 잉크 문자, 바코드)도 입력장치입니다.</div>
+      <div class="step"><b class="k">키오스크</b> 터치스크린·사운드·통신 카드를 갖춘 <b>무인 종합 정보 안내 시스템</b>. 요즘 이 단원에서 가장 자주 나옵니다(전시장·쇼핑센터·터미널의 안내 단말, 무인 주문기).</div>
+      <div class="step"><b>UPS</b> 무정전 전원 공급 장치 — 정전이 되어도 잠시 전원을 공급해 줍니다.</div>
+      <div class="step"><b>모니터 용어</b> <b>픽셀</b>(화면을 이루는 점), <b>해상도</b>(점의 개수 — 많을수록 선명), 재생률, 점 간격.</div>
+      <div class="step"><b>프린터 5종</b> <b>도트 매트릭스</b>(핀으로 리본을 때리는 충격식) · <b>잉크젯</b>(노즐로 분사) · <b class="k">레이저</b>(드럼에 <b>토너</b>를 묻혀 인쇄, 비충격식이라 <b>빠르고 조용</b>하지만 비쌈) · <b>감열식</b>(영수증·휴대용 프린터) · <b>열전사</b>(리본을 녹여 유통기한 등 인쇄).</div>
+      <div class="step"><b>프린터 단위</b> CPS(초당 문자) · LPM(분당 줄) · PPM(분당 페이지) · DPI(인치당 점). 그리고 <b class="r">국제 표준화 기구(ISO)가 정한 것은 IPM</b>(분당 이미지 수) — 「표준」이라는 말이 보이면 IPM입니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="프린터 종류와 단위">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">프린터 — 무엇으로 찍는지가 이름이 됩니다</text>
+
+  <g font-size="11">
+    <rect x="20" y="40" width="130" height="92" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="85" y="62" text-anchor="middle" font-weight="700" fill="#2C3E50">도트 매트릭스</text>
+    <text x="85" y="84" text-anchor="middle" fill="#5D6D7E">핀으로 리본을</text>
+    <text x="85" y="100" text-anchor="middle" fill="#5D6D7E">때려서 인쇄</text>
+    <text x="85" y="120" text-anchor="middle" font-weight="700" fill="#C0392B">충격식</text>
+
+    <rect x="158" y="40" width="130" height="92" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="223" y="62" text-anchor="middle" font-weight="700" fill="#2C3E50">잉크젯</text>
+    <text x="223" y="84" text-anchor="middle" fill="#5D6D7E">노즐로 잉크를</text>
+    <text x="223" y="100" text-anchor="middle" fill="#5D6D7E">분사</text>
+    <text x="223" y="120" text-anchor="middle" fill="#7F8C8D">노즐이 막힐 수 있음</text>
+
+    <rect x="296" y="40" width="130" height="92" rx="8" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.8"/>
+    <text x="361" y="62" text-anchor="middle" font-weight="700" fill="#1F4E8C">레이저</text>
+    <text x="361" y="84" text-anchor="middle" fill="#1F4E8C">드럼 + 토너</text>
+    <text x="361" y="100" text-anchor="middle" font-weight="700" fill="#1F4E8C">빠르고 조용</text>
+    <text x="361" y="120" text-anchor="middle" fill="#5D6D7E">비충격식 · 비쌈</text>
+
+    <rect x="434" y="40" width="130" height="92" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="499" y="62" text-anchor="middle" font-weight="700" fill="#2C3E50">감열식</text>
+    <text x="499" y="84" text-anchor="middle" fill="#5D6D7E">감열지에 열로</text>
+    <text x="499" y="100" text-anchor="middle" fill="#5D6D7E">인쇄</text>
+    <text x="499" y="120" text-anchor="middle" fill="#7F8C8D">영수증 · 휴대용</text>
+
+    <rect x="572" y="40" width="128" height="92" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="636" y="62" text-anchor="middle" font-weight="700" fill="#2C3E50">열전사</text>
+    <text x="636" y="84" text-anchor="middle" fill="#5D6D7E">리본을 녹여</text>
+    <text x="636" y="100" text-anchor="middle" fill="#5D6D7E">인쇄</text>
+    <text x="636" y="120" text-anchor="middle" fill="#7F8C8D">유통기한 표시</text>
+  </g>
+
+  <rect x="20" y="150" width="680" height="88" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+  <text x="360" y="174" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">프린터 단위 — 무엇을 세는가</text>
+  <g font-size="11.5" fill="#B9770E">
+    <text x="130" y="200" text-anchor="middle">CPS = 문자</text>
+    <text x="280" y="200" text-anchor="middle">LPM = 줄</text>
+    <text x="430" y="200" text-anchor="middle">PPM = 페이지</text>
+    <text x="590" y="200" text-anchor="middle">DPI = 점</text>
+  </g>
+  <text x="360" y="226" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">국제 표준(ISO)이 정한 단위 = IPM (분당 이미지 수)</text>
+</svg></div>
+          <figcaption>그림 5 · 「표준」이라는 단어가 나오면 IPM을 고르면 됩니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔌 [필기] 채널 · 포트 · HDMI</h3>
+      <div class="step"><b>채널</b> CPU가 입출력까지 전부 맡으면 다른 일을 못 하니, <b class="k">입출력에 대한 제어권을 넘겨받아</b> 대신 처리하는 장치입니다. <b>「입출력」이 보이면 채널</b>로 연결하세요. 작업이 끝나거나 문제가 생기면 <b>인터럽트</b> 신호를 보냅니다.</div>
+      <div class="step"><b class="r">주의</b> 「CPU와 주기억장치 사이의 속도 차이를 해결한다」는 채널이 아니라 <b>캐시 메모리</b> 설명입니다 — 채널 문제의 단골 오답입니다.</div>
+      <div class="step"><b>포트</b> 본체 뒤쪽에 꽂는 구멍. <b>직렬</b>은 한 번에 <b>1비트</b>씩, <b>병렬(LPT)</b>은 여러 비트를 한꺼번에 보냅니다. PS/2는 예전 키보드·마우스용으로 요즘은 쓰지 않습니다.</div>
+      <div class="step"><b class="k">USB</b> <b>범용 직렬 버스</b> — 이름 그대로 <b class="r">한 비트씩</b> 전송합니다(「8비트씩」은 틀린 보기). 기존 직렬·병렬·PS/2를 통합했고, 허브를 쓰면 <b>최대 127개</b>까지 연결합니다. 전원이 켜진 채로 꽂는 <b>핫 플러그</b>와 <b>플러그 앤 플레이</b>를 지원해요.</div>
+      <div class="step"><b>USB 단자 색</b> 교재와 시험은 <b>2.0 이하 검정(또는 흰색) · 3.0 파랑 · 그 이후 하늘색이나 빨강</b>으로 정리합니다 — <b class="k">버전이 올라갈수록 색이 화려해진다</b>로 외우세요. 실제 제품의 색은 제조사마다 다를 수 있고, 속도도 <b>포트·케이블·장치가 모두 그 규격을 지원해야</b> 나옵니다.</div>
+      <div class="step"><b>HDMI</b> <b class="k">영상과 음향을 압축하지 않고 하나로</b> 전송하는 고화질 멀티미디어 인터페이스. 「영상과 음성을 한 케이블로」가 보이면 HDMI입니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="USB 포트의 특징과 버전 색상">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">USB = 범용 «직렬» 버스 — 한 비트씩</text>
+
+  <rect x="20" y="40" width="200" height="96" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="120" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">직렬</text>
+  <g stroke="#1F4E8C" stroke-width="2" fill="none"><path d="M44 86 L196 86"/></g>
+  <circle cx="60" cy="86" r="5" fill="#1F4E8C"/><circle cx="90" cy="86" r="5" fill="#1F4E8C"/><circle cx="120" cy="86" r="5" fill="#1F4E8C"/>
+  <text x="120" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F4E8C">한 번에 1비트 (교재)</text>
+  <text x="120" y="128" text-anchor="middle" font-size="11" fill="#5D6D7E">USB가 여기</text>
+
+  <rect x="238" y="40" width="200" height="96" rx="9" fill="#F4F7FC" stroke="#B9C7E2"/>
+  <text x="338" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">병렬 (LPT)</text>
+  <g stroke="#7F8C8D" stroke-width="2" fill="none"><path d="M262 78 L414 78"/><path d="M262 92 L414 92"/><path d="M262 106 L414 106"/></g>
+  <text x="338" y="128" text-anchor="middle" font-size="11" fill="#5D6D7E">여러 비트를 한꺼번에</text>
+
+  <rect x="456" y="40" width="244" height="96" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="578" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">USB가 지원하는 것</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="578" y="84" text-anchor="middle">최대 127개 연결</text>
+    <text x="578" y="104" text-anchor="middle">핫 플러그 — 켠 채로 꽂기</text>
+    <text x="578" y="124" text-anchor="middle">플러그 앤 플레이</text>
+  </g>
+
+  <text x="360" y="166" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">단자 색 — 교재 기준, 버전이 올라갈수록 화려해집니다</text>
+  <g font-size="11.5">
+    <rect x="120" y="180" width="150" height="44" rx="7" fill="#2C3E50"/>
+    <text x="195" y="200" text-anchor="middle" font-weight="700" fill="#fff">2.0 이하</text>
+    <text x="195" y="216" text-anchor="middle" fill="#BDC3C7">검정 · 흰색</text>
+    <rect x="286" y="180" width="150" height="44" rx="7" fill="#1F4E8C"/>
+    <text x="361" y="200" text-anchor="middle" font-weight="700" fill="#fff">3.0</text>
+    <text x="361" y="216" text-anchor="middle" fill="#D6E4F7">파랑</text>
+    <rect x="452" y="180" width="150" height="44" rx="7" fill="#C0392B"/>
+    <text x="527" y="200" text-anchor="middle" font-weight="700" fill="#fff">그 이후</text>
+    <text x="527" y="216" text-anchor="middle" fill="#FADBD8">하늘색 · 빨강</text>
+  </g>
+  <text x="360" y="250" text-anchor="middle" font-size="12" fill="#2C3E50">HDMI는 <tspan font-weight="700">영상 + 음향</tspan>을 압축하지 않고 한 선으로 보냅니다</text>
+</svg></div>
+          <figcaption>그림 6 · 노트북의 파란 단자에 꽂아야 3.0 속도가 나옵니다 — 배운 걸 바로 쓰는 지점입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🎯 [실기] 목표값 찾기 다시 — 지난 퀴즈 <b class="r">62%</b></h3>
+      <div class="step"><b>가장 많이 틀린 문항</b>이었습니다. 「월 상환액이 20,000원이 되려면 상환 기간이 얼마여야 하나」에서 <b>값을 바꿀 셀</b>에 무엇을 넣느냐를 묻는 문제였어요.</div>
+      <div class="step"><b>세 칸의 뜻을 문장으로</b> <b class="k">「이 «수식 셀»이 «찾는 값»이 되게 하려면, 이 «값을 바꿀 셀»을 얼마로 해야 하나?」</b> — 대화상자를 이 문장 그대로 읽으면 헷갈리지 않습니다.</div>
+      <div class="step"><b>결과 ↔ 원인</b> 수식 셀은 <b>결과</b>(수식이 들어 있어야 함), 값을 바꿀 셀은 <b>원인</b>입니다. 상환액을 바꾸려고 상환액 칸을 바꿀 셀에 넣으면 안 됩니다.</div>
+      <div class="step"><b>오늘 해 본 예</b> 순수 매출액을 60만 원으로 만들려고 <b>단가</b>를 조정했습니다. 수식 셀 = 순수 매출액, 찾는 값 = 600000, 값을 바꿀 셀 = 단가.</div>
+      <div class="step"><b>단위 주의</b> 표에 «단위: 천 원»처럼 0 세 개가 생략돼 있으면 목표 금액도 그 단위로 적습니다. 잘못했으면 <code>Ctrl + Z</code>로 즉시 되돌리면 됩니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="목표값 찾기 세 칸을 문장으로 읽기">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">지난 퀴즈 62% — 대화상자를 «문장»으로 읽으세요</text>
+
+  <rect x="40" y="44" width="640" height="52" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="360" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#B9770E">「이 <tspan fill="#1F4E8C">수식 셀</tspan>이 <tspan fill="#1F4E8C">찾는 값</tspan>이 되게 하려면,</text>
+  <text x="360" y="88" text-anchor="middle" font-size="13" font-weight="700" fill="#B9770E">이 <tspan fill="#1E8449">값을 바꿀 셀</tspan>을 얼마로 해야 하나?」</text>
+
+  <rect x="40" y="112" width="300" height="46" rx="7" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="190" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">수식 셀 = 결과</text>
+  <text x="190" y="150" text-anchor="middle" font-size="11" fill="#5D6D7E">월 상환액 (수식이 들어 있어야 함)</text>
+
+  <rect x="380" y="112" width="300" height="46" rx="7" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="530" y="132" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">값을 바꿀 셀 = 원인</text>
+  <text x="530" y="150" text-anchor="middle" font-size="11" fill="#1B5E20">상환 기간 (답이 채워질 칸)</text>
+
+  <rect x="40" y="170" width="640" height="40" rx="7" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.4"/>
+  <text x="360" y="195" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">바꿀 셀에 «결과 칸»이나 «목표 숫자»를 넣으면 틀립니다</text>
+
+  <text x="360" y="234" text-anchor="middle" font-size="12" fill="#2C3E50">데이터 표 = 여러 경우 · 시나리오 = 2~3가지 · <tspan font-weight="700">목표값 찾기 = 답 1개</tspan></text>
+</svg></div>
+          <figcaption>그림 7 · 오늘 수업에서 단가를 조정해 매출액을 60만 원으로 맞춰 본 그 문제입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>⚙️ [실기] 매크로 다시 — 지난 퀴즈 <b class="r">69%</b> · 단축키가 헷갈립니다</h3>
+      <div class="step"><b>바로 가기 키의 우선순위</b> 매크로에 <code>Ctrl + G</code>를 지정하면, 그 통합 문서가 열려 있는 동안 <code>Ctrl + G</code>는 원래 기능(이동)이 아니라 <b class="k">매크로를 실행</b>합니다. 기본은 <code>Ctrl + 문자</code>, 대문자로 입력하면 <code>Ctrl + Shift + 문자</code>가 되고 <b class="r">Alt 조합은 지정할 수 없습니다.</b></div>
+      <div class="step"><b class="k">Alt + F8</b> 매크로 <b>대화상자</b>가 열립니다 — 실행·편집·삭제는 되지만 <b class="r">여기서 «기록»은 할 수 없습니다.</b> 기록은 리본의 <b>매크로 기록</b> 단추로만 시작합니다(이 단추에는 단축키가 없습니다).</div>
+      <div class="step"><b class="k">Alt + F11</b> <b>VBA 편집기</b>가 열립니다. 개발 도구 탭이 없어도 열 수 있고, 삽입 → 모듈에 코드를 붙여 넣을 수 있어요.</div>
+      <div class="step"><b class="r">「상대 참조로 기록」을 누르지 마세요</b> 매크로 기록 단추 옆에 있어서 실수로 눌리기 쉽습니다. 켜져 있으면 «어디서 실행하든 같은 칸»이 아니라 현재 위치 기준으로 동작해 채점이 틀어집니다.</div>
+      <div class="step"><b>서식 매크로 검증법</b> 수식 매크로는 결과를 지우고 눌러 보면 되는데, 서식은 헷갈립니다 — <b class="k">채우기 색을 「없음」이나 다른 색으로 바꾼 뒤</b> 단추를 눌러 원래 색이 다시 칠해지는지 보면 됩니다. 글자 색 매크로면 글자 색을 바꿔 놓고 확인하세요.</div>
+      <div class="step"><b>잘못 만들었으면 지우고 다시</b> 코드를 고치려 들지 말고 <b>개발 도구 → 매크로 → 삭제</b> 후 처음부터 다시 기록하는 편이 빠릅니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="매크로 단축키 정리">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">지난 퀴즈 69% — 매크로 키 세 가지를 갈라 두세요</text>
+
+  <rect x="20" y="42" width="330" height="96" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.8"/>
+  <text x="185" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">지정한 바로 가기 키</text>
+  <text x="185" y="92" text-anchor="middle" font-size="13" font-family="monospace" font-weight="700" fill="#C0392B">Ctrl + G</text>
+  <text x="185" y="114" text-anchor="middle" font-size="11.5" fill="#C0392B">엑셀 기본 «이동»과 겹쳐도</text>
+  <text x="185" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">매크로가 우선 실행</text>
+
+  <rect x="370" y="42" width="330" height="96" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="535" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">키 만드는 규칙</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="390" y="90">• 기본 <tspan font-weight="700">Ctrl + 문자</tspan></text>
+    <text x="390" y="110">• 대문자 입력 → <tspan font-weight="700">Ctrl + Shift + 문자</tspan></text>
+    <text x="390" y="130">• <tspan font-weight="700" fill="#C0392B">Alt 조합은 지정 불가</tspan></text>
+  </g>
+
+  <rect x="20" y="152" width="330" height="88" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="185" y="176" text-anchor="middle" font-size="13" font-family="monospace" font-weight="700" fill="#2C3E50">Alt + F8</text>
+  <text x="185" y="198" text-anchor="middle" font-size="11.5" fill="#5D6D7E">매크로 대화상자</text>
+  <text x="185" y="218" text-anchor="middle" font-size="11.5" fill="#2C3E50">실행 · 편집 · 삭제 O</text>
+  <text x="185" y="234" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">기록은 ✕</text>
+
+  <rect x="370" y="152" width="330" height="88" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="535" y="176" text-anchor="middle" font-size="13" font-family="monospace" font-weight="700" fill="#2C3E50">Alt + F11</text>
+  <text x="535" y="198" text-anchor="middle" font-size="11.5" fill="#5D6D7E">VBA 편집기</text>
+  <text x="535" y="218" text-anchor="middle" font-size="11.5" fill="#2C3E50">코드 보기 · 붙여넣기</text>
+  <text x="535" y="234" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">기록은 리본 단추로만</text>
+</svg></div>
+          <figcaption>그림 8 · 「F8은 대화상자, F11은 코드, 기록은 리본」으로 갈라 두면 섞이지 않습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔁 [실기] 시나리오 · 통합 복습에서 새로 나온 것</h3>
+      <div class="step"><b>시나리오의 「숨기기」</b> 시나리오를 추가할 때 <b>보호</b> 항목에 <b>변경 금지</b>와 <b>숨기기</b>가 있습니다. 숨기기를 체크해도 평소에는 그대로 보이고, <b class="k">검토 탭에서 「시트 보호」를 걸었을 때 비로소 목록에서 사라집니다.</b> 이 동작을 필기에서 물어봤습니다.</div>
+      <div class="step"><b>이름 정의 규칙 다시</b> 공백을 쓸 수 없고, 셀 주소와 같은 이름도 안 됩니다. 만들 때는 <b>이름 상자</b>, 고칠 때는 <b>수식 → 이름 관리자</b>.</div>
+      <div class="step"><b>통합의 필수 습관</b> 결과 표와 원본 범위 모두 <b class="k">필드명(첫 행)과 왼쪽 열을 포함</b>해 선택하고, 대화상자에서 <b>사용할 레이블 — 첫 행·왼쪽 열</b>을 체크합니다. <b>추가 단추를 누르지 않아</b> 원본이 하나만 들어가는 실수가 잦습니다.</div>
+      <div class="step"><b>원본 데이터에 연결</b> 같은 시트 안에서는 쓸 수 없고, 다른 시트·다른 문서를 참조할 때만 가능합니다. 연결해 두면 원본이 바뀔 때 자동으로 갱신돼요.</div>
+      <div class="step"><b class="k">와일드카드가 나오는 네 군데</b> <b>찾기·바꾸기 · 고급 필터 · 함수(조건) · 통합</b>. 「현대로 시작」은 <code>현대*</code>, 「코리아로 끝」은 <code>*코리아</code>를 결과 표 왼쪽 열에 <b>미리 적어 두고</b> 통합합니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="시나리오 숨기기와 와일드카드">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">복습에서 새로 짚은 두 가지</text>
+
+  <rect x="20" y="40" width="330" height="106" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="185" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">시나리오 «숨기기»</text>
+  <text x="185" y="88" text-anchor="middle" font-size="11.5" fill="#2C3E50">체크만 해서는 그대로 보임</text>
+  <g stroke="#95A5A6" stroke-width="1.6" fill="none"><path d="M185 96 L185 110" marker-end="url(#s14)"/></g>
+  <defs><marker id="s14" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+  <text x="185" y="126" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">검토 → 시트 보호를 걸면</text>
+  <text x="185" y="140" text-anchor="middle" font-size="11.5" fill="#5D6D7E">그때 목록에서 사라집니다</text>
+
+  <rect x="370" y="40" width="330" height="106" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.4"/>
+  <text x="535" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">와일드카드가 나오는 네 군데</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="535" y="88" text-anchor="middle">찾기·바꾸기 · 고급 필터</text>
+    <text x="535" y="108" text-anchor="middle">함수의 조건 · 통합</text>
+  </g>
+  <text x="535" y="132" text-anchor="middle" font-size="12" font-family="monospace" font-weight="700" fill="#1E8449">현대*   ·   *코리아</text>
+
+  <rect x="20" y="160" width="680" height="52" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+  <text x="360" y="182" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">통합 — 필드명·왼쪽 열까지 선택 · 원본마다 «추가» 단추 · 레이블 첫 행·왼쪽 열 체크</text>
+  <text x="360" y="202" text-anchor="middle" font-size="11.5" fill="#B9770E">「원본 데이터에 연결」은 같은 시트에서는 쓸 수 없습니다</text>
+</svg></div>
+          <figcaption>그림 9 · 시나리오의 숨기기는 «시트 보호와 짝»이라는 점이 필기 포인트입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 [실기] 차트 ① — 만드는 법과 구성 요소 이름</h3>
+      <div class="step"><b>배점</b> 차트는 <b>5개 지시 × 2점 = 10점</b>이라 <b class="k">부분 점수가 있습니다.</b> 다만 <b class="r">차트를 지우고 새로 만들면 채점이 되지 않는다</b>고 강사가 강조했습니다 — 실수로 지웠으면 즉시 <code>Ctrl + Z</code>.</div>
+      <div class="step"><b>만드는 법</b> 데이터 범위를 선택하고 <b>삽입 탭 → 차트</b>. 단축키가 둘 있는데 결과가 다릅니다 — <b class="k">Alt + F1</b>은 <b>같은 워크시트 안에</b> 기본 차트를 넣고, <b class="k">F11</b>은 <b>별도의 «차트 시트»</b>를 새로 만듭니다. 필기에 나옵니다.</div>
+      <div class="step"><b>차트 영역 ↔ 그림 영역</b> <b>그림 영역</b>은 막대와 눈금선이 그려진 <b>안쪽</b>, <b>차트 영역</b>은 그것을 포함한 <b>전체 배경</b>입니다. 서식을 각각 다르게 지정하라는 문제가 나오니 꼭 구분하세요.</div>
+      <div class="step"><b>데이터 계열 · 데이터 레이블 · 범례</b> 막대 묶음 하나가 <b>데이터 계열</b>, 막대 위에 붙는 숫자나 이름이 <b>데이터 레이블</b>, 어떤 색이 어떤 계열인지 알려 주는 것이 <b>범례</b>입니다.</div>
+      <div class="step"><b>축</b> 세로막대형에서 <b>세로(값) 축</b>에는 숫자가, <b>가로(항목) 축</b>에는 항목 이름이 옵니다. 각각 <b>축 제목</b>을 붙일 수 있고, <b>주 눈금선</b>(가로·세로)과 보조 눈금선도 있습니다.</div>
+      <div class="step"><b>추세선 · 데이터 테이블</b> 추세선은 <b>특정 계열 하나를 선택한 뒤</b> 추가하며 값의 흐름을 선으로 보여 줍니다. 데이터 테이블은 차트 아래에 원본 표를 한 번 더 그려 줍니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="차트의 구성 요소 이름">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">차트 구성 요소 — 이름을 알아야 메뉴를 찾습니다</text>
+
+  <rect x="150" y="40" width="420" height="200" rx="8" fill="#F8FAFD" stroke="#5B86C9" stroke-width="2"/>
+  <text x="360" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">7월 문구 생산 현황</text>
+
+  <rect x="210" y="76" width="300" height="130" fill="#fff" stroke="#D5DDE9"/>
+  <g stroke="#E4E9F2" stroke-width="1"><path d="M210 106 L510 106"/><path d="M210 136 L510 136"/><path d="M210 166 L510 166"/></g>
+  <rect x="236" y="126" width="26" height="80" fill="#5B86C9"/><rect x="266" y="146" width="26" height="60" fill="#E67E22"/>
+  <rect x="326" y="106" width="26" height="100" fill="#5B86C9"/><rect x="356" y="156" width="26" height="50" fill="#E67E22"/>
+  <rect x="416" y="146" width="26" height="60" fill="#5B86C9"/><rect x="446" y="166" width="26" height="40" fill="#E67E22"/>
+  <text x="249" y="120" text-anchor="middle" font-size="9.5" fill="#2C3E50">430</text>
+
+  <text x="180" y="146" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1F4E8C">세로(값) 축</text>
+  <text x="360" y="224" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1F4E8C">가로(항목) 축</text>
+  <g font-size="10.5">
+    <rect x="240" y="212" width="12" height="10" fill="#5B86C9"/><text x="258" y="221" fill="#2C3E50">생산량</text>
+    <rect x="320" y="212" width="12" height="10" fill="#E67E22"/><text x="338" y="221" fill="#2C3E50">원가</text>
+  </g>
+
+  <g font-size="11">
+    <text x="596" y="70" fill="#C0392B" font-weight="700">차트 제목</text>
+    <path d="M590 64 L440 56" stroke="#C0392B" stroke-width="1.2" fill="none"/>
+    <text x="596" y="104" fill="#1F4E8C" font-weight="700">차트 영역</text>
+    <path d="M590 100 L566 92" stroke="#1F4E8C" stroke-width="1.2" fill="none"/>
+    <text x="596" y="138" fill="#1E8449" font-weight="700">그림 영역</text>
+    <path d="M590 134 L506 120" stroke="#1E8449" stroke-width="1.2" fill="none"/>
+    <text x="596" y="172" fill="#B9770E" font-weight="700">데이터 계열</text>
+    <path d="M590 168 L478 160" stroke="#B9770E" stroke-width="1.2" fill="none"/>
+    <text x="596" y="206" fill="#2C3E50" font-weight="700">데이터 레이블</text>
+    <path d="M590 202 L262 124" stroke="#95A5A6" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+    <text x="70" y="206" fill="#2C3E50" font-weight="700">범례</text>
+    <path d="M96 202 L236 218" stroke="#95A5A6" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+    <text x="70" y="104" fill="#2C3E50" font-weight="700">눈금선</text>
+    <path d="M100 108 L212 134" stroke="#95A5A6" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+  </g>
+
+  <rect x="20" y="254" width="680" height="54" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+  <text x="360" y="276" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">Alt + F1 = 같은 시트에 차트 · F11 = 새 «차트 시트»</text>
+  <text x="360" y="296" text-anchor="middle" font-size="11.5" fill="#B9770E">차트를 지우고 새로 만들면 채점되지 않습니다 — 지웠으면 바로 Ctrl + Z</text>
+</svg></div>
+          <figcaption>그림 10 · 실기는 이 이름들로 지시가 내려오고, 필기는 이 그림을 찍어 O·X를 묻습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 [실기] 차트 ② — 계열 지우기 세 가지와 혼합 차트</h3>
+      <div class="step"><b>① 끝에 있는 계열은 «드래그»</b> 차트를 클릭하면 원본 범위가 색 테두리로 표시됩니다. 그 <b>경계선을 끌어</b> 범위를 줄이면 맨 끝 계열(예: 불량률)이 빠집니다. <b class="r">단, 연속된 범위를 쓴 차트에서만</b> 이 테두리가 보입니다.</div>
+      <div class="step"><b>② 가운데 계열은 «선택 후 Delete»</b> 원가처럼 중간에 있는 계열은 드래그로 못 뺍니다. <b class="k">그 계열(막대)을 한 번 클릭해 선택하고 Delete</b>를 누르세요. 막대가 작아 클릭이 어려우면 <b>서식 탭 → 현재 선택 영역</b>의 목록에서 계열을 고르면 됩니다.</div>
+      <div class="step"><b>③ 범례에 없는 항목은 «행/열 전환»</b> 커터칼처럼 범례가 아니라 가로축에 있는 항목은, <b>차트 디자인 → 행/열 전환</b>으로 범례와 항목축을 맞바꾼 뒤 선택해 지우고, <b>다시 행/열 전환</b>해 되돌립니다. (행/열 전환은 «가로세로를 뒤집는 것»이 아니라 <b>범례와 항목축을 맞바꾸는 것</b>입니다 — 필기 단골)</div>
+      <div class="step"><b class="r">「데이터 선택」 메뉴는 피하세요</b> 체크를 해제하면 지운 줄 알지만 <b>화면에서 감추기만</b> 하는 경우가 있어 차트가 꼬입니다.</div>
+      <div class="step"><b>차트 제목을 셀과 연결</b> 제목을 <b>실선</b>이 되도록 선택하고, <b>수식 입력줄에 <code>=</code>를 친 뒤 셀을 클릭</b>하고 Enter. 나중에 그 셀이 「8월…」로 바뀌면 제목도 따라 바뀝니다.</div>
+      <div class="step"><b class="k">혼합(콤보) 차트와 보조 축</b> 생산량(수만 단위)과 불량률(2~3%)처럼 <b>값의 크기가 크게 다르면</b> 작은 쪽이 보이지 않습니다. <b>계열 하나를 선택한 뒤 차트 디자인 → 차트 종류 변경 → 혼합</b>에서, 불량률을 <b>표식이 있는 꺾은선형</b>으로 바꾸고 <b class="r">보조 축</b>에 체크하세요. (2016 버전은 「콤보」, 이후 버전은 「혼합」으로 이름만 다릅니다)</div>
+      <div class="step"><b>그 밖에 자주 나오는 편집</b> 세로 축을 더블클릭 → <b>축 옵션</b>에서 최소·최대·기본 단위 조정 / <b>데이터 레이블</b>은 특정 계열이나 <b>특정 요소 하나만</b> 선택해서 넣을 수 있고, 표시 내용(값·항목 이름)을 바꾸려면 <b class="k">오른쪽 버튼 → 데이터 레이블 서식</b> / 서식 탭의 <b>도형 스타일</b>을 차트 영역·그림 영역에 각각 적용.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="계열 삭제 세 가지 방법과 보조 축">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">계열을 지우는 세 가지 방법 — 위치에 따라 다릅니다</text>
+
+  <rect x="20" y="40" width="220" height="110" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="130" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">① 맨 끝 계열</text>
+  <text x="130" y="86" text-anchor="middle" font-size="11.5" fill="#2C3E50">원본 범위 테두리를</text>
+  <text x="130" y="104" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">드래그해서 줄이기</text>
+  <text x="130" y="128" text-anchor="middle" font-size="11" fill="#7F8C8D">연속 범위일 때만 보입니다</text>
+
+  <rect x="250" y="40" width="220" height="110" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="360" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">② 가운데 계열</text>
+  <text x="360" y="86" text-anchor="middle" font-size="11.5" fill="#1B5E20">그 계열을 클릭하고</text>
+  <text x="360" y="104" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">Delete</text>
+  <text x="360" y="128" text-anchor="middle" font-size="11" fill="#7F8C8D">작으면 서식 → 현재 선택 영역</text>
+
+  <rect x="480" y="40" width="220" height="110" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="590" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">③ 범례에 없는 항목</text>
+  <text x="590" y="86" text-anchor="middle" font-size="11.5" fill="#B9770E">행/열 전환 → 선택 삭제</text>
+  <text x="590" y="104" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">→ 다시 행/열 전환</text>
+  <text x="590" y="128" text-anchor="middle" font-size="11" fill="#7F8C8D">범례와 항목축을 맞바꿉니다</text>
+
+  <text x="360" y="180" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">값의 크기가 너무 다르면 — 혼합 차트 + 보조 축</text>
+
+  <rect x="80" y="192" width="250" height="86" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.4"/>
+  <text x="205" y="212" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">그냥 두면</text>
+  <rect x="110" y="222" width="24" height="44" fill="#5B86C9"/><rect x="150" y="234" width="24" height="32" fill="#5B86C9"/><rect x="190" y="228" width="24" height="38" fill="#5B86C9"/>
+  <rect x="230" y="264" width="24" height="2" fill="#E67E22"/><rect x="266" y="264" width="24" height="2" fill="#E67E22"/>
+  <text x="205" y="276" text-anchor="middle" font-size="10.5" fill="#C0392B">불량률이 보이지 않음</text>
+
+  <g stroke="#95A5A6" stroke-width="2" fill="none"><path d="M338 234 L370 234" marker-end="url(#c14)"/></g>
+  <defs><marker id="c14" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="380" y="192" width="260" height="86" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="510" y="212" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">묶은 세로막대형 + 꺾은선형(보조 축)</text>
+  <rect x="410" y="226" width="24" height="40" fill="#5B86C9"/><rect x="450" y="238" width="24" height="28" fill="#5B86C9"/><rect x="490" y="232" width="24" height="34" fill="#5B86C9"/>
+  <polyline points="422,236 462,224 502,230 542,220" fill="none" stroke="#E67E22" stroke-width="2.4"/>
+  <circle cx="422" cy="236" r="3" fill="#E67E22"/><circle cx="462" cy="224" r="3" fill="#E67E22"/><circle cx="502" cy="230" r="3" fill="#E67E22"/>
+  <text x="600" y="240" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E8449">보조 축</text>
+  <text x="510" y="276" text-anchor="middle" font-size="10.5" fill="#1B5E20">오른쪽에 %가 따로 표시됩니다</text>
+</svg></div>
+          <figcaption>그림 11 · 「데이터 선택」 메뉴를 쓰지 않고도 세 가지 방법으로 다 해결됩니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🗓 실기 진도 종료 — 남은 일정</h3>
+      <div class="step"><b>실기 진도는 오늘로 끝</b>입니다. 남은 것은 연습과 기출 풀이예요.</div>
+      <div class="step"><b>집에서 풀어 올 것</b> 차트 문제(실기책 193쪽, 205~206쪽)와 매크로(178쪽, 189~190쪽). 잘 안 되는 것은 표시해 두었다가 <b>직접 보여 드리세요</b>.</div>
+      <div class="step"><b>내일(화)부터 기출 문제 풀이</b> 작은 책자를 가지고 오셔야 합니다. 필기도 수요일까지 교재를 끝내고, 교재에 없는 내용은 따로 프린트로 받습니다.</div>
+      <div class="step"><b>아직 안 한 것</b> 실기책 앞부분의 <b>셀 서식</b>은 수업에서 다루지 않았지만 <b class="r">스스로 풀어 보셔야</b> 합니다. 모의고사를 풀면서 다시 설명이 붙습니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="남은 일정">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">여기까지 왔습니다 — 20차시 중 14차시</text>
+
+  <rect x="40" y="48" width="640" height="24" rx="12" fill="#E4E9F2"/>
+  <rect x="40" y="48" width="448" height="24" rx="12" fill="#1a56db"/>
+  <text x="264" y="65" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">1 ~ 14차시 완료</text>
+  <text x="584" y="65" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5D6D7E">15 ~ 20차시</text>
+
+  <rect x="40" y="92" width="200" height="76" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="140" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">실기</text>
+  <text x="140" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">진도 종료</text>
+  <text x="140" y="156" text-anchor="middle" font-size="11" fill="#1B5E20">이제 기출 풀이</text>
+
+  <rect x="260" y="92" width="200" height="76" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="360" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">필기</text>
+  <text x="360" y="136" text-anchor="middle" font-size="11.5" fill="#2C3E50">4장 진행 중</text>
+  <text x="360" y="156" text-anchor="middle" font-size="11" fill="#5D6D7E">수요일까지 교재 완료 목표</text>
+
+  <rect x="480" y="92" width="200" height="76" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="580" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">내일(화)부터</text>
+  <text x="580" y="136" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B9770E">기출 문제 풀이</text>
+  <text x="580" y="156" text-anchor="middle" font-size="11" fill="#B9770E">작은 책자 지참</text>
+</svg></div>
+          <figcaption>그림 12 · 남은 6차시는 「외우기 + 풀기」입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+    <div class="mistake-grid">
+
+      <div class="mistake-card top">
+        <div class="mistake-label">⭐ 지난 퀴즈 62% · 다시 짚기</div>
+        <h3>목표값 찾기에서 «값을 바꿀 셀»에 결과 칸을 넣습니다</h3>
+        <p>월 상환액을 2만 원으로 만들고 싶으니 월 상환액 칸을 바꿀 셀에 넣어 버립니다.</p>
+        <div class="fix">바꿀 셀은 <b>원인</b>(상환 기간) · 수식 셀이 <b>결과</b>(월 상환액)</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">지난 퀴즈 69%</div>
+        <h3>매크로 키가 엑셀 기본 키에 밀린다고 답합니다</h3>
+        <p>Ctrl+G를 지정했는데 「이동」이 열릴 거라고 생각합니다.</p>
+        <div class="fix">그 통합 문서가 열려 있는 동안은 <b>매크로가 우선</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>누산기를 「상태를 기억하는 곳」으로 고릅니다</h3>
+        <p>자리 올림·오버플로 같은 상태 정보를 누산기가 담는다고 착각합니다.</p>
+        <div class="fix">누산기는 <b>연산 결과</b>, 상태 정보는 <b>상태 레지스터</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>뺄셈을 하는 장치로 「감산기」를 고릅니다</h3>
+        <p>가산기가 있으니 감산기도 있을 것 같지만 없습니다.</p>
+        <div class="fix">뺄셈은 <b>보수기</b>가 담당합니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>「가상 메모리를 쓰면 속도가 빨라진다」에 O를 합니다</h3>
+        <p>메모리가 늘어나니 빨라질 것 같지만, 보조기억장치를 거치므로 느려질 수 있습니다.</p>
+        <div class="fix">가상 메모리의 목적은 <b>속도가 아니라 용량</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>「USB는 8비트씩 전송한다」에 O를 합니다</h3>
+        <p>빠르니까 여러 비트를 보낼 것 같지만 USB는 직렬입니다.</p>
+        <div class="fix">범용 <b>직렬</b> 버스 — <b>한 비트씩</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>채널을 「CPU와 주기억장치의 속도 차이 해결」로 고릅니다</h3>
+        <p>보기에 자연스럽게 섞여 나옵니다.</p>
+        <div class="fix">그건 <b>캐시 메모리</b> · 채널은 <b>입출력 제어권</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>차트를 잘못 건드려 지운 뒤 다시 만듭니다</h3>
+        <p>새로 만들어 지시대로 다 해도 채점이 되지 않습니다.</p>
+        <div class="fix">지웠다면 <b>즉시 Ctrl + Z</b>로 되살려 편집</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>가운데 계열을 지우려고 막대를 두 번 클릭합니다</h3>
+        <p>두 번 클릭하면 요소 하나만 선택되고, Delete를 누르면 계열 전체가 날아가기도 합니다.</p>
+        <div class="fix">계열은 <b>한 번 클릭</b> 후 Delete · 작으면 서식 탭에서 선택</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>매크로 기록 단추 대신 「상대 참조로 기록」을 누릅니다</h3>
+        <p>바로 옆에 있어서 잘 눌립니다. 눌린 채로 기록하면 실행 위치에 따라 결과가 달라집니다.</p>
+        <div class="fix">기록 전에 그 단추가 <b>눌려 있지 않은지</b> 확인</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·기능 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>구분</th><th>단축키/기능</th><th>하는 일</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>필기</td><td><b>PC</b> (프로그램 카운터)</td><td>다음에 실행할 명령어의 주소</td><td><b class="r">출제 빈도 1위</b></td></tr>
+          <tr><td>필기</td><td><b>IR</b> (명령 레지스터)</td><td>현재 실행 중인 명령어</td><td>PC와 짝으로 암기</td></tr>
+          <tr><td>필기</td><td>해독기 / 부호기</td><td>디코더 / 인코더</td><td>해독 ↔ 제어 신호 생성</td></tr>
+          <tr><td>필기</td><td>MAR / MBR</td><td>주소 / 내용 임시 보관</td><td>A = Address</td></tr>
+          <tr><td>필기</td><td>가산기 / <b>보수기</b></td><td>덧셈 / <b>뺄셈</b></td><td>감산기는 없음</td></tr>
+          <tr><td>필기</td><td>누산기(AC)</td><td>연산 결과 일시 저장</td><td>상태 정보는 상태 레지스터</td></tr>
+          <tr><td>필기</td><td>ROM</td><td>BIOS · 글자 폰트 · <b>POST</b></td><td>EEPROM은 여러 번 기록 가능</td></tr>
+          <tr><td>필기</td><td>DRAM / SRAM</td><td>주기억 / <b>캐시</b></td><td>S가 빠르고 D가 느림</td></tr>
+          <tr><td>필기</td><td>가상 메모리</td><td>보조기억 일부를 주기억처럼</td><td>용량 해결 · <b class="r">속도는 느려질 수 있음</b></td></tr>
+          <tr><td>필기</td><td>기억 용량 단위</td><td>B·KB·MB·GB·TB·PB·EB</td><td>한 칸마다 2¹⁰(1,024)배</td></tr>
+          <tr><td>필기</td><td>처리 속도 단위</td><td>ms·μs·ns·ps·fs·as</td><td><b>밀·마·나·피·펨·아</b> (10⁻³~10⁻¹⁸)</td></tr>
+          <tr><td>필기</td><td>접근 속도 순서</td><td>레지스터 › 캐시 › 주기억 › 보조기억</td><td>CPU에 가까울수록 빠름</td></tr>
+          <tr><td>필기</td><td>키오스크</td><td>무인 종합 정보 안내 시스템</td><td>입력장치에서 최다 출제</td></tr>
+          <tr><td>필기</td><td>레이저 프린터</td><td>드럼 + 토너</td><td>비충격식 · 빠르고 조용 · 비쌈</td></tr>
+          <tr><td>필기</td><td><b>IPM</b></td><td>분당 이미지 수</td><td><b>ISO 국제 표준</b> 단위</td></tr>
+          <tr><td>필기</td><td>채널</td><td>입출력 제어권을 넘겨받음</td><td>끝나면 인터럽트</td></tr>
+          <tr><td>필기</td><td><b>USB</b></td><td>범용 직렬 버스</td><td><b>직렬 — 1비트씩</b>(교재) · 127개 · 색은 참고용</td></tr>
+          <tr><td>필기</td><td>HDMI</td><td>영상 + 음향 비압축 전송</td><td>한 케이블로 둘 다</td></tr>
+          <tr><td>실기</td><td>목표값 찾기</td><td>답 1개를 거꾸로 찾기</td><td>수식 셀=결과 · 바꿀 셀=원인</td></tr>
+          <tr><td>실기</td><td>시나리오 보호 → 숨기기</td><td>목록에서 감추기</td><td><b>시트 보호</b>를 걸어야 작동</td></tr>
+          <tr><td>실기</td><td>통합</td><td>떨어진 표 모아 계산</td><td>레이블 첫 행·왼쪽 열 · 원본마다 추가</td></tr>
+          <tr><td>실기+필기</td><td><code>Alt + F8</code></td><td>매크로 대화상자</td><td>실행·편집·삭제 O / <b class="r">기록 ✕</b></td></tr>
+          <tr><td>실기+필기</td><td><code>Alt + F11</code></td><td>VBA 편집기</td><td>코드 보기·붙여넣기</td></tr>
+          <tr><td>실기+필기</td><td>매크로 바로 가기 키</td><td>Ctrl / Ctrl+Shift</td><td>Alt ✕ · <b>기본 키보다 우선</b></td></tr>
+          <tr><td>실기+필기</td><td><code>Alt + F1</code> / <code>F11</code></td><td>같은 시트 차트 / <b>새 차트 시트</b></td><td>결과가 다릅니다</td></tr>
+          <tr><td>실기</td><td>차트 디자인 → 행/열 전환</td><td>범례 ↔ 항목축 맞바꾸기</td><td>가운데 항목을 지울 때 씀</td></tr>
+          <tr><td>실기</td><td>차트 종류 변경 → 혼합</td><td>보조 축 + 꺾은선형</td><td>값 차이가 클 때 (콤보 = 혼합)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월 과정 수강생임을 확인하는 용도입니다.</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">제어장치의 <b>프로그램 카운터(PC)</b>가 기억하는 것은?</p>
+      <button class="quiz-opt" data-correct="false">현재 실행 중인 명령어 자체</button>
+      <button class="quiz-opt" data-correct="true">다음에 실행할 명령어가 있는 주소(번지)</button>
+      <button class="quiz-opt" data-correct="false">연산의 중간 결과 값</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">연산장치에서 <b>뺄셈</b>을 처리하기 위해 사용하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">보수기</button>
+      <button class="quiz-opt" data-correct="false">감산기</button>
+      <button class="quiz-opt" data-correct="false">누산기</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext"><b>보조기억장치의 일부를 주기억장치처럼</b> 사용해, 주기억장치보다 큰 프로그램을 실행할 수 있게 하는 것은?</p>
+      <button class="quiz-opt" data-correct="false">캐시 메모리</button>
+      <button class="quiz-opt" data-correct="false">연관 메모리</button>
+      <button class="quiz-opt" data-correct="true">가상 메모리</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">기억장치를 <b>접근 속도가 빠른 순서</b>로 바르게 나열한 것은?</p>
+      <button class="quiz-opt" data-correct="false">캐시 메모리 → 레지스터 → 주기억장치 → 보조기억장치</button>
+      <button class="quiz-opt" data-correct="true">레지스터 → 캐시 메모리 → 주기억장치 → 보조기억장치</button>
+      <button class="quiz-opt" data-correct="false">주기억장치 → 레지스터 → 캐시 메모리 → 보조기억장치</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">다음 처리 속도 단위 중 <b>가장 빠른</b> 것은?</p>
+      <button class="quiz-opt" data-correct="true">ps (피코초)</button>
+      <button class="quiz-opt" data-correct="false">ms (밀리초)</button>
+      <button class="quiz-opt" data-correct="false">μs (마이크로초)</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext"><b>USB 포트</b>에 대한 설명으로 <b>옳지 않은</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">핫 플러그와 플러그 앤 플레이를 지원한다</button>
+      <button class="quiz-opt" data-correct="false">허브를 이용해 최대 127개까지 연결할 수 있다</button>
+      <button class="quiz-opt" data-correct="true">데이터를 한 번에 8비트씩 전송한다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">프린터 관련 단위 중 <b>국제 표준화 기구(ISO)가 정한</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">CPS</button>
+      <button class="quiz-opt" data-correct="true">IPM</button>
+      <button class="quiz-opt" data-correct="false">LPM</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext"><b>목표값 찾기</b>로 「순수 매출액이 60만 원이 되려면 <b>단가</b>가 얼마여야 하나」를 구할 때, <b>값을 바꿀 셀</b>에 지정하는 것은?</p>
+      <button class="quiz-opt" data-correct="true">단가가 들어 있는 셀</button>
+      <button class="quiz-opt" data-correct="false">순수 매출액이 계산되는 셀</button>
+      <button class="quiz-opt" data-correct="false">600000</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">매크로 작업에 대한 설명으로 <b>옳은</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">매크로 바로 가기 키는 Alt 조합으로도 지정할 수 있다</button>
+      <button class="quiz-opt" data-correct="false">Alt+F8을 눌러 매크로 기록을 시작할 수 있다</button>
+      <button class="quiz-opt" data-correct="true">Alt+F11을 누르면 VBA 편집기가 열려 코드를 볼 수 있다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">데이터 범위를 선택한 뒤 <b>F11</b>을 눌렀을 때 만들어지는 것은?</p>
+      <button class="quiz-opt" data-correct="false">데이터가 있는 워크시트 안에 기본 차트가 삽입된다</button>
+      <button class="quiz-opt" data-correct="true">차트만 들어 있는 별도의 «차트 시트»가 새로 만들어진다</button>
+      <button class="quiz-opt" data-correct="false">차트 종류를 고르는 대화상자가 열린다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="check-grid">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">필기: 백지에 <b>CPU 구조</b>(제어장치 6 · 연산장치 6) 써 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">필기: PC와 IR의 차이를 한 문장으로 말해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">필기: 보수기 = 뺄셈, 누산기 = 결과 저장 구분해 적기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">필기: ROM에 들어 있는 3가지(BIOS·폰트·POST) 외우기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">필기: 캐시(속도)와 가상 메모리(용량)를 바꿔 설명해 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">필기: <b>밀·마·나·피·펨·아</b>를 기호와 지수까지 손으로 쓰기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">필기: 프린터 5종과 단위 5가지(특히 IPM) 정리하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">필기: USB 단자 색 ↔ 버전 표를 교재에서 한 번 더 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">실기: 목표값 찾기 세 칸을 문장으로 읽으며 한 문제 풀기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">실기: 매크로 <b>서식</b> 문제를 기록 → 단추 → <b>검증</b>까지 해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">실기: Alt+F8과 Alt+F11을 눌러 화면 차이 확인하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">실기: 차트 구성 요소 이름을 그림 보고 짚어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">실기: 가운데 계열 삭제 3가지 방법 직접 해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c14"><label for="c14">실기: 혼합 차트 + 보조 축으로 불량률 보이게 만들기</label></div>
+      <div class="check-item"><input type="checkbox" id="c15"><label for="c15">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '14차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
