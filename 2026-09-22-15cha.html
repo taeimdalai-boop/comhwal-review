@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컴활2급 15차시 복습자료 — 펌웨어·소프트웨어·운영체제 / 차트 마무리·기출 전략</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">15차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 필기+실기</span>
+  <h1>15차시 복습자료</h1>
+  <p class="meta"><b>2026-09-22</b><br>오전 필기는 4장 마무리(바이오스·펌웨어·SATA)와 5장 소프트웨어 전체, 오후 실기는 차트 마무리와 <b>기출 문제 푸는 순서</b>. 배운 순서 그대로 실었습니다.</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 13)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·기능 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">필기 · 바이오스 · 펌웨어</span>
+      <span class="tag">필기 · 소프트웨어 5장</span>
+      <span class="tag">실기 · 차트 마무리</span>
+      <span class="tag">실기 · 40분 푸는 순서</span>
+    </div>
+    <h1>오늘의 핵심은 "<b>5장은 «분류»를 외우는 단원이고, 실기는 이제 «순서와 속도»의 싸움</b>이라는 점입니다. 감·작·데 / 언·서·문, 그리고 40분 푸는 순서를 몸에 익히세요."</h1>
+    <p class="sub">2026-09-22 · 15차시 · 오전 필기는 4장을 마무리(바이오스·CMOS 셋업·펌웨어·하드디스크 연결 방식)하고 5장 전체 — 소프트웨어 사용권 분류, 운영체제의 구성과 운영 기법, 프로그래밍 언어와 웹 언어 — 를 나갔습니다. 오후 실기는 차트 서식을 끝까지 다루고 <b>기출 문제 푸는 순서</b>를 배운 뒤 40분 실전 연습을 했습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">🔧 펌웨어 · SATA</span>
+      <span class="key-badge">📦 사용권 분류</span>
+      <span class="key-badge">🖥 운영체제</span>
+      <span class="key-badge">📊 차트 서식</span>
+      <span class="key-badge">🖼️ 그림 13장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>[필기] 펌웨어 = 하드웨어 속의 소프트웨어</h3>
+        <p><b>ROM에 저장</b>되어 하드웨어를 제어하는 프로그램입니다. 하드웨어를 바꾸지 않고 <b class="k">업그레이드만으로 성능을 높일 수</b> 있어요. 냉장고·세탁기·스마트폰의 «펌웨어 업데이트»가 바로 이것입니다.</p>
+        <div class="use">바이오스가 대표적인 펌웨어</div>
+      </div>
+      <div class="card">
+        <h3>[필기] CMOS 셋업에서 «부팅 순서»를 바꾼다</h3>
+        <p>전원을 켤 때 <code>Delete</code>나 <code>F2</code> 같은 키로 들어가는 검은 화면입니다. 시스템 날짜·시간, <b class="k">부팅 순서</b>, 전원 관리, <b>시스템(셋업) 암호</b>를 설정합니다.</p>
+        <div class="use">윈도우 로그인 암호와는 다른 암호</div>
+      </div>
+      <div class="card">
+        <h3>[필기] SATA의 S = 시리얼(직렬)</h3>
+        <p>예전 <b>PATA(병렬)</b>는 케이블이 넓어 먼지가 쌓이고 통풍이 나빴습니다. <b class="k">SATA(직렬)</b>는 선이 얇고 전송 속도가 빠르며 <b>핫 플러그인</b>을 지원해요.</p>
+        <div class="use">USB의 S와 같은 «시리얼»</div>
+      </div>
+      <div class="card">
+        <h3>[필기] ★제어는 감·작·데, 처리는 언·서·문</h3>
+        <p>운영체제는 <b>제어 프로그램</b>(<b class="k">감</b>시·<b class="k">작</b>업 관리·<b class="k">데</b>이터 관리)과 <b>처리 프로그램</b>(<b class="k">언</b>어 번역·<b class="k">서</b>비스·<b class="k">문</b>제 해결)으로 나뉩니다. 외우지 않으면 풀 수 없는 문제가 나옵니다.</p>
+        <div class="use">ㅈ(제어)이 먼저, ㅊ(처리)이 나중</div>
+      </div>
+      <div class="card">
+        <h3>[필기] 다중 프로그래밍 vs 다중 처리 = CPU 개수</h3>
+        <p><b>다중 프로그래밍</b>은 CPU <b class="k">한 개</b>로 여러 프로그램을, <b>다중 처리</b>는 CPU <b class="k">여러 개</b>로 처리합니다. <b>듀얼</b>은 두 대가 동시에, <b>듀플렉스</b>는 한 대가 쉬다가 고장 나면 투입됩니다.</p>
+        <div class="use">발달 순서는 «일괄»이 처음, «분산»이 마지막</div>
+      </div>
+      <div class="card">
+        <h3>[필기] 컴파일러 = 통번역, 인터프리터 = 줄번역</h3>
+        <p>컴파일러는 전체를 한꺼번에 번역해 <b class="k">목적 프로그램을 만들고</b>, 번역은 느리지만 <b>실행은 빠릅니다</b>. 인터프리터는 한 줄씩 번역해 목적 프로그램이 없습니다.</p>
+        <div class="use">HTML5는 액티브X 없이 멀티미디어 재생</div>
+      </div>
+      <div class="card">
+        <h3>[실기] 차트 서식은 «작업창 3칸»에 다 있다</h3>
+        <p>요소를 더블클릭하면 오른쪽 작업창이 열립니다. <b class="k">채우기 및 선</b>(그라데이션·질감·패턴·<b>둥근 모서리</b>) · <b class="k">효과</b>(그림자) · <b class="k">축 옵션</b>(최대·기본 단위·표시 단위) 세 칸을 기억하세요.</p>
+        <div class="use">데이터 레이블 내용만 오른쪽 버튼</div>
+      </div>
+      <div class="card">
+        <h3>[실기] 40분·70점 — 푸는 순서가 점수다</h3>
+        <p><b>1-2 · 1-3 → 분석 작업(3번) → 매크로·차트(4번) → 계산 작업(함수) → 남으면 1-1 입력</b>. 함수는 <b class="r">맨 나중</b>에, 그리고 <b class="k">Ctrl+S</b>를 수시로.</p>
+        <div class="use">오늘부터 기출 30회분 풀이 시작</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>먼저 — 오늘 배운 순서와 어제 틀린 것</h3>
+      <div class="step"><b>오전 필기</b> 4장 복습 → <b>바이오스·CMOS 셋업·펌웨어</b> → 하드디스크 연결 방식(SATA) → <b>5장 전체</b>(소프트웨어 사용권 · 운영체제 · 운영 기법 · 프로그래밍 언어 · 웹 언어).</div>
+      <div class="step"><b>오후 실기</b> 차트 서식을 끝까지 다루고, <b class="k">기출 문제 푸는 순서</b>를 배운 뒤 40분 실전 연습과 자가 채점을 했습니다.</div>
+      <div class="step"><b class="r">어제 퀴즈에서 세 문항이 기준 미달</b>이었습니다 — <b>처리 속도 단위 54%</b>, <b>매크로 Alt+F11 69%</b>, <b>차트 F11 69%</b>. 뒤의 둘은 사실 <b class="k">같은 뿌리</b>(F 키 단축키 혼동)라 아래에서 한 장으로 묶어 정리했습니다.</div>
+      <div class="step"><b>앞으로</b> 필기는 6·7·8장이 남았고(내일 6·7장 예정), 스프레드시트 필기 보강은 <b>추석 이후</b>입니다. 실기는 진도가 끝나 <b>기출 30회분</b>을 계속 풉니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="오늘 배운 순서">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">오늘 배운 순서</text>
+
+  <rect x="20" y="42" width="330" height="190" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="185" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">오전 · 필기</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="40" y="92">① 4장 복습 (CPU · 메모리 · USB)</text>
+    <text x="40" y="116">② 바이오스 · CMOS 셋업 · <tspan font-weight="700">펌웨어</tspan></text>
+    <text x="40" y="140">③ 하드디스크 연결 — <tspan font-weight="700">SATA</tspan></text>
+    <text x="40" y="164">④ 5장 — 소프트웨어 사용권 분류</text>
+    <text x="40" y="188">⑤ 운영체제 · 운영 기법</text>
+    <text x="40" y="212">⑥ 프로그래밍 언어 · 웹 언어</text>
+  </g>
+
+  <g stroke="#95A5A6" stroke-width="1.8" fill="none"><path d="M352 136 L368 136" marker-end="url(#o15)"/></g>
+  <defs><marker id="o15" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="372" y="42" width="328" height="190" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="536" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">오후 · 실기</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="392" y="92">⑦ 차트 넣기 — 비연속 범위도</text>
+    <text x="392" y="116">⑧ 차트 서식 — 작업창 3칸</text>
+    <text x="392" y="140">⑨ 혼합 차트 · 데이터 레이블 · 추세선</text>
+    <text x="392" y="164">⑩ 기출 문제 <tspan font-weight="700">푸는 순서</tspan></text>
+    <text x="392" y="188" font-weight="700">⑪ 40분 실전 + 자가 채점</text>
+    <text x="392" y="212" fill="#7F8C8D">기출 30회분 풀이 시작</text>
+  </g>
+
+  <rect x="20" y="244" width="680" height="30" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.4"/>
+  <text x="360" y="264" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">어제 기준 미달 3문항 — 처리 속도 단위 54% · 매크로 Alt+F11 69% · 차트 F11 69%</text>
+</svg></div>
+          <figcaption>그림 1 · 필기는 «외우는 단원», 실기는 «속도 붙이는 구간»으로 들어섰습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>⏱ [복습] 처리 속도 단위 — 어제 <b class="r">54%</b>, 오늘 다시 짚은 것</h3>
+      <div class="step"><b>가장 많이 틀린 문항</b>이었고, 강사도 "외워야 풀 수 있는 문제"라고 오늘 다시 강조했습니다. 생각해서 푸는 문제가 아니라 <b class="k">순서를 외워야</b> 하는 문제예요.</div>
+      <div class="step"><b>외우는 말</b> <b class="k">밀 · 마 · 나 · 피 · 펨 · 아</b> — 밀리 → 마이크로 → 나노 → 피코 → 펨토 → 아토.</div>
+      <div class="step"><b>지수는 3씩</b> 10⁻³ → 10⁻⁶ → 10⁻⁹ → 10⁻¹² → 10⁻¹⁵ → 10⁻¹⁸. 숫자가 작아질수록 <b>빠릅니다.</b></div>
+      <div class="step"><b>문제 푸는 법</b> 「가장 빠른 것은?」이 나오면 보기에서 <b>뒤쪽 글자</b>를 찾습니다. as가 없으면 fs, 그것도 없으면 ps… 이렇게 내려오며 고르면 됩니다.</div>
+      <div class="step"><b>같이 나오는 것</b> 기억 용량 단위 <b>B → KB → MB → GB → TB → PB → EB</b>(한 칸마다 2¹⁰배)와 접근 속도 <b>레지스터 › 캐시 › 주기억 › 보조기억</b>. 세 줄 모두 «순서»를 묻습니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="처리 속도 단위 순서 다시 보기">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">어제 54% — 손으로 써서 외우는 수밖에 없습니다</text>
+
+  <g font-size="12">
+    <rect x="24" y="44" width="106" height="52" rx="7" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="77" y="66" text-anchor="middle" font-weight="700" fill="#1E8449">ms</text>
+    <text x="77" y="85" text-anchor="middle" font-size="10.5" fill="#1B5E20">밀리 · 10⁻³</text>
+    <rect x="138" y="44" width="106" height="52" rx="7" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="191" y="66" text-anchor="middle" font-weight="700" fill="#1E8449">μs</text>
+    <text x="191" y="85" text-anchor="middle" font-size="10.5" fill="#1B5E20">마이크로 · 10⁻⁶</text>
+    <rect x="252" y="44" width="106" height="52" rx="7" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="305" y="66" text-anchor="middle" font-weight="700" fill="#1E8449">ns</text>
+    <text x="305" y="85" text-anchor="middle" font-size="10.5" fill="#1B5E20">나노 · 10⁻⁹</text>
+    <rect x="366" y="44" width="106" height="52" rx="7" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="419" y="66" text-anchor="middle" font-weight="700" fill="#1E8449">ps</text>
+    <text x="419" y="85" text-anchor="middle" font-size="10.5" fill="#1B5E20">피코 · 10⁻¹²</text>
+    <rect x="480" y="44" width="106" height="52" rx="7" fill="#E8F6EF" stroke="#27AE60"/>
+    <text x="533" y="66" text-anchor="middle" font-weight="700" fill="#1E8449">fs</text>
+    <text x="533" y="85" text-anchor="middle" font-size="10.5" fill="#1B5E20">펨토 · 10⁻¹⁵</text>
+    <rect x="594" y="44" width="102" height="52" rx="7" fill="#D5F0E2" stroke="#27AE60" stroke-width="2"/>
+    <text x="645" y="66" text-anchor="middle" font-weight="700" fill="#1E8449">as</text>
+    <text x="645" y="85" text-anchor="middle" font-size="10.5" fill="#1B5E20">아토 · 10⁻¹⁸</text>
+  </g>
+
+  <g stroke="#E67E22" stroke-width="2.4" fill="none"><path d="M40 114 L680 114" marker-end="url(#sp15)"/></g>
+  <defs><marker id="sp15" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#E67E22"/></marker></defs>
+  <text x="360" y="134" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">뒤로 갈수록 빠름 — 지수는 3씩 작아집니다</text>
+
+  <rect x="120" y="152" width="480" height="40" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="360" y="178" text-anchor="middle" font-size="16" font-weight="700" fill="#B9770E">밀 · 마 · 나 · 피 · 펨 · 아</text>
+
+  <text x="360" y="218" text-anchor="middle" font-size="12" fill="#2C3E50">「가장 빠른 것은?」 → 보기에서 <tspan font-weight="700">뒤쪽 글자</tspan>부터 찾아 내려옵니다</text>
+</svg></div>
+          <figcaption>그림 2 · 노트에 기호·한글·지수를 나란히 세 번만 써 보면 외워집니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>⌨️ [복습] F 키 네 개 — 어제 <b class="r">69% 두 문항</b>이 여기서 갈렸습니다</h3>
+      <div class="step"><b>왜 틀렸나</b> 매크로의 <code>Alt+F8</code>·<code>Alt+F11</code>과 차트의 <code>Alt+F1</code>·<code>F11</code>이 <b class="k">서로 섞여서</b> 두 문항 모두 69%가 됐습니다. 네 개를 한 자리에 놓고 갈라 두면 헷갈리지 않습니다.</div>
+      <div class="step"><b class="k">Alt + F8</b> 매크로 <b>대화상자</b> — 실행·편집·삭제는 되지만 <b class="r">여기서 기록은 시작할 수 없습니다.</b> 기록은 <b>개발 도구(또는 보기) 탭의 「매크로 기록」 단추</b>로 시작하고, 이 단추에는 단축키가 없습니다.</div>
+      <div class="step"><b class="k">Alt + F11</b> <b>VBA 편집기</b> — 기록된 코드를 보고 고칩니다.</div>
+      <div class="step"><b class="k">Alt + F1</b> 선택한 범위로 <b>같은 워크시트 안에</b> 기본 차트를 넣습니다.</div>
+      <div class="step"><b class="k">F11</b> (Alt 없이) 선택한 범위로 <b>별도의 «차트 시트»</b>를 새로 만듭니다.</div>
+      <div class="step"><b>외우는 요령</b> <b>Alt가 붙은 셋은 «창이 열리거나 제자리»</b>, <b class="r">Alt 없는 F11만 «새 시트»</b>로 나갑니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="매크로와 차트의 F 키 네 개">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">어제 69% 두 문항 — F 키를 한 자리에 놓고 갈라 둡니다</text>
+
+  <rect x="20" y="42" width="330" height="106" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="185" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">매크로</text>
+  <rect x="40" y="76" width="140" height="56" rx="6" fill="#fff" stroke="#B9C7E2"/>
+  <text x="110" y="98" text-anchor="middle" font-size="13" font-family="monospace" font-weight="700" fill="#2C3E50">Alt + F8</text>
+  <text x="110" y="116" text-anchor="middle" font-size="11" fill="#5D6D7E">대화상자 (기록 ✕)</text>
+  <rect x="190" y="76" width="140" height="56" rx="6" fill="#fff" stroke="#B9C7E2"/>
+  <text x="260" y="98" text-anchor="middle" font-size="13" font-family="monospace" font-weight="700" fill="#2C3E50">Alt + F11</text>
+  <text x="260" y="116" text-anchor="middle" font-size="11" fill="#5D6D7E">VBA 편집기</text>
+
+  <rect x="370" y="42" width="330" height="106" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="535" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">차트</text>
+  <rect x="390" y="76" width="140" height="56" rx="6" fill="#fff" stroke="#B9C7E2"/>
+  <text x="460" y="98" text-anchor="middle" font-size="13" font-family="monospace" font-weight="700" fill="#2C3E50">Alt + F1</text>
+  <text x="460" y="116" text-anchor="middle" font-size="11" fill="#5D6D7E">같은 시트에 차트</text>
+  <rect x="540" y="76" width="140" height="56" rx="6" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.8"/>
+  <text x="610" y="98" text-anchor="middle" font-size="13" font-family="monospace" font-weight="700" fill="#C0392B">F11</text>
+  <text x="610" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">새 «차트 시트»</text>
+
+  <rect x="20" y="164" width="680" height="76" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="360" y="190" text-anchor="middle" font-size="13" font-weight="700" fill="#B9770E">Alt가 붙은 셋은 «창이 열리거나 제자리»</text>
+  <text x="360" y="214" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">Alt 없는 F11 하나만 «새 시트»로 나갑니다</text>
+  <text x="360" y="232" text-anchor="middle" font-size="11" fill="#B9770E">매크로 «기록 시작»에는 단축키가 없습니다 — 리본이나 상태 표시줄의 단추로</text>
+</svg></div>
+          <figcaption>그림 3 · 두 문항이 같은 원인에서 갈렸기 때문에 한 장으로 묶었습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔧 [필기] 바이오스 · CMOS 셋업 · 펌웨어</h3>
+      <div class="step"><b>바이오스(BIOS)</b> 컴퓨터를 켰을 때 <b>기본 입출력 장치와 하드웨어를 동작시키는 데 필요한 것들</b>을 모아 둔 프로그램입니다. <b class="k">ROM에 들어 있어 «ROM-BIOS»</b>라고도 불러요. 자가 진단 프로그램 <b>POST</b>도 여기에 들어 있습니다.</div>
+      <div class="step"><b class="k">펌웨어(Firmware)</b> 이처럼 <b>ROM(칩) 안에 프로그램이 함께 들어 있는 형태</b>를 말합니다. 하드웨어의 성격과 소프트웨어의 성격을 <b>모두</b> 가지고 있어요. 바이오스가 대표적인 펌웨어입니다.</div>
+      <div class="step"><b>펌웨어의 장점</b> <b class="r">하드웨어를 교체하지 않고 업그레이드만으로 성능을 높일 수</b> 있습니다. 스마트폰·냉장고·세탁기·밥솥의 「펌웨어 업데이트」가 그것이고, 펌웨어로 작성된 프로그램을 <b>마이크로 프로그램</b>이라고도 부릅니다.</div>
+      <div class="step"><b>CMOS 셋업</b> 바이오스의 설정값을 저장해 두는 곳으로, 전원을 켤 때 <code>Delete</code>나 <code>F2</code> 같은 키를 눌러 들어갑니다(기종마다 다름). 검은 화면에 영어만 나오는 그 화면이에요.</div>
+      <div class="step"><b>CMOS 셋업에서 바꾸는 것</b> 시스템 날짜·시간, <b class="k">부팅 순서</b>(CD나 USB를 먼저 읽게 바꿔 운영체제를 새로 설치할 때 씁니다), 전원 관리, 그리고 <b class="k">시스템 암호</b>. <b class="r">이 암호는 윈도우 로그인 암호가 아니라</b>, 컴퓨터를 켤 때 또는 이 셋업 화면에 들어갈 때 묻는 <b>본체 자체의 암호</b>입니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="바이오스 CMOS 셋업 펌웨어의 관계">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">ROM 안에 프로그램이 들어 있는 형태 = 펌웨어</text>
+
+  <rect x="150" y="42" width="420" height="120" rx="12" fill="#FDF3E3" stroke="#E67E22" stroke-width="2"/>
+  <text x="360" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">ROM (칩 = 하드웨어)</text>
+
+  <rect x="180" y="80" width="360" height="66" rx="8" fill="#fff" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="360" y="104" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">바이오스 (프로그램 = 소프트웨어)</text>
+  <text x="360" y="126" text-anchor="middle" font-size="11.5" fill="#5D6D7E">기본 입출력 · 글자 폰트 · POST(자가 진단)</text>
+  <text x="360" y="140" text-anchor="middle" font-size="11" fill="#7F8C8D">= ROM-BIOS</text>
+
+  <text x="610" y="106" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">둘이 합쳐져</text>
+  <text x="610" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">펌웨어</text>
+
+  <rect x="20" y="180" width="330" height="76" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="185" y="202" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">펌웨어의 장점</text>
+  <text x="185" y="224" text-anchor="middle" font-size="11.5" fill="#1B5E20">하드웨어를 바꾸지 않고</text>
+  <text x="185" y="244" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">업그레이드만으로 성능 향상</text>
+
+  <rect x="370" y="180" width="330" height="76" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="535" y="202" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">CMOS 셋업에서 바꾸는 것</text>
+  <text x="535" y="224" text-anchor="middle" font-size="11.5" fill="#2C3E50">날짜·시간 · <tspan font-weight="700">부팅 순서</tspan> · 전원 관리</text>
+  <text x="535" y="244" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">시스템 암호 — 윈도우 로그인 암호 ✕</text>
+</svg></div>
+          <figcaption>그림 4 · 「칩 안에 프로그램」이라는 그림 하나면 펌웨어 문제는 풀립니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔌 [필기] 하드디스크 연결 방식 — PATA와 SATA</h3>
+      <div class="step"><b>연결 방식 이름들</b> IDE → <b>EIDE</b>(앞에 E가 붙으면 «확장») → SCSI 등이 있습니다. 컴활 2급은 <b class="k">PATA와 SATA의 차이</b>만 확실히 알면 됩니다.</div>
+      <div class="step"><b>PATA (Parallel ATA)</b> <b>병렬</b> 방식. 케이블이 <b>넓어서</b> 데이터를 한꺼번에 보내지만, 본체 안에서 <b class="r">자리를 많이 차지하고 먼지가 쌓이며 통풍이 나빴습니다.</b></div>
+      <div class="step"><b class="k">SATA (Serial ATA)</b> <b>직렬</b> 방식. 선이 <b>얇고</b> 전송 속도는 오히려 <b>더 빠르며</b>, 통풍도 좋습니다. 요즘 쓰는 방식이 이것이고, <b>핫 플러그인</b>(전원이 켜진 상태에서 연결)도 지원합니다.</div>
+      <div class="step"><b>외우는 요령</b> <b class="k">S = Serial = 직렬</b>. USB의 S와 같습니다 — 「선이 얇은데 더 빠르다」가 핵심이에요.</div>
+      <div class="step"><b>파티션</b> 하나의 하드디스크를 여러 개로 나누는 것. 나누는 이유는 데이터 보관을 분리하고 <b class="r">서로 다른 운영체제를 설치</b>할 수 있게 하기 위해서입니다(「모든 파티션에 같은 운영체제만」은 틀린 보기). 파티션마다 <b>파일 시스템</b>(FAT·exFAT·NTFS)을 지정합니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PATA와 SATA 비교">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">넓은 케이블(PATA) vs 얇은 케이블(SATA)</text>
+
+  <rect x="20" y="42" width="330" height="140" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="185" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">PATA — 병렬</text>
+  <g fill="#95A5A6">
+    <rect x="60" y="78" width="250" height="6"/><rect x="60" y="88" width="250" height="6"/>
+    <rect x="60" y="98" width="250" height="6"/><rect x="60" y="108" width="250" height="6"/>
+    <rect x="60" y="118" width="250" height="6"/>
+  </g>
+  <text x="185" y="146" text-anchor="middle" font-size="11.5" fill="#5D6D7E">여러 비트를 한꺼번에</text>
+  <text x="185" y="166" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">넓다 · 먼지 · 통풍 불량</text>
+
+  <rect x="370" y="42" width="330" height="140" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+  <text x="535" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">SATA — 직렬 (요즘 방식)</text>
+  <rect x="410" y="96" width="250" height="8" fill="#C0392B"/>
+  <text x="535" y="130" text-anchor="middle" font-size="11.5" fill="#1B5E20">한 비트씩 보내는데</text>
+  <text x="535" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">더 빠르고 · 얇고 · 통풍 좋음</text>
+  <text x="535" y="170" text-anchor="middle" font-size="11.5" fill="#1B5E20">핫 플러그인 지원</text>
+
+  <text x="360" y="212" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">S = <tspan fill="#1E8449">Serial</tspan> = 직렬 — USB의 S와 같습니다</text>
+</svg></div>
+          <figcaption>그림 5 · 케이블 그림 하나로 병렬·직렬이 구분됩니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📦 [필기] 5장 ① — 소프트웨어 사용권에 따른 분류</h3>
+      <div class="step"><b>먼저 큰 분류</b> <b>시스템 소프트웨어</b>(운영체제·언어 번역 프로그램·<b>펌웨어</b>·라이브러리·부트로더·장치 드라이버)와 <b>응용 소프트웨어</b>(엑셀·한글 등)로 나뉩니다.</div>
+      <div class="step"><b class="r">사용권 분류 — 표 전체가 출제 범위</b>입니다. 최근까지 계속 나오고 있어요.</div>
+      <div class="step"><b>상용</b> 돈을 내고 사서 쓰는 것 · <b class="k">셰어웨어</b> 기능이나 기간을 <b>제한</b>해 배포하고 마음에 들면 구입 · <b class="k">트라이얼</b> 셰어웨어와 비슷하지만 <b class="r">일부 기능만</b> 맛보기로 제공 · <b>프리웨어</b> 무료로 쓸 수 있는 것(저작권은 제작자에게 있어 수정·재배포는 제한될 수 있습니다).</div>
+      <div class="step"><b>공개 소프트웨어(오픈 소스)</b> <b class="k">소스 코드까지 공개</b>한 것(리눅스 등) · <b>데모</b> <b class="k">홍보 목적</b>으로 잠깐 제공 · <b>번들</b> 다른 제품을 살 때 <b>끼워 주는</b> 것.</div>
+      <div class="step"><b class="k">알파 ↔ 베타 — 차이는 «장소»</b> <b>알파</b>는 <b>개발자(회사) 쪽에서</b>, <b>베타</b>는 <b>일반 사용자가 자기 자리에서</b> 테스트합니다. 「베타 테스터 모집」 광고를 떠올리세요.</div>
+      <div class="step"><b>패치</b> 오류 수정·성능 향상을 위해 <b>일부만 고쳐</b> 내놓는 것(반창고) · <b>벤치마크</b>는 성능을 비교·검사하는 것입니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="소프트웨어 사용권 분류">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">돈을 받나 · 무엇을 제한하나 · 왜 내놓나</text>
+
+  <g font-size="11.5">
+    <rect x="20" y="42" width="216" height="72" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.4"/>
+    <text x="128" y="64" text-anchor="middle" font-weight="700" fill="#C0392B">상용</text>
+    <text x="128" y="84" text-anchor="middle" fill="#C0392B">정상 대가를 내고 사용</text>
+    <text x="128" y="102" text-anchor="middle" font-size="10.5" fill="#7F8C8D">예) 미드저니</text>
+
+    <rect x="252" y="42" width="216" height="72" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.8"/>
+    <text x="360" y="64" text-anchor="middle" font-weight="700" fill="#B9770E">셰어웨어</text>
+    <text x="360" y="84" text-anchor="middle" fill="#B9770E">기능 또는 기간을 제한</text>
+    <text x="360" y="102" text-anchor="middle" font-size="10.5" fill="#7F8C8D">써 보고 마음에 들면 구입</text>
+
+    <rect x="484" y="42" width="216" height="72" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+    <text x="592" y="64" text-anchor="middle" font-weight="700" fill="#B9770E">트라이얼</text>
+    <text x="592" y="84" text-anchor="middle" font-weight="700" fill="#B9770E">일부 기능만 맛보기</text>
+    <text x="592" y="102" text-anchor="middle" font-size="10.5" fill="#7F8C8D">셰어웨어보다 더 적게</text>
+
+    <rect x="20" y="126" width="216" height="72" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.4"/>
+    <text x="128" y="148" text-anchor="middle" font-weight="700" fill="#1E8449">프리웨어</text>
+    <text x="128" y="168" text-anchor="middle" fill="#1B5E20">무료로 사용 가능</text>
+    <text x="128" y="186" text-anchor="middle" font-size="10.5" fill="#7F8C8D">소스 공개 ✕ · 저작권은 제작자</text>
+
+    <rect x="252" y="126" width="216" height="72" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+    <text x="360" y="148" text-anchor="middle" font-weight="700" fill="#1E8449">공개(오픈 소스)</text>
+    <text x="360" y="168" text-anchor="middle" font-weight="700" fill="#1E8449">소스 코드까지 공개</text>
+    <text x="360" y="186" text-anchor="middle" font-size="10.5" fill="#7F8C8D">예) 리눅스</text>
+
+    <rect x="484" y="126" width="216" height="72" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="592" y="148" text-anchor="middle" font-weight="700" fill="#2C3E50">데모 · 번들</text>
+    <text x="592" y="168" text-anchor="middle" fill="#5D6D7E">데모 = 홍보 목적</text>
+    <text x="592" y="186" text-anchor="middle" fill="#5D6D7E">번들 = 끼워 주는 것</text>
+  </g>
+
+  <rect x="20" y="212" width="330" height="72" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.8"/>
+  <text x="185" y="234" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">알파 ↔ 베타 — 차이는 «장소»</text>
+  <text x="185" y="256" text-anchor="middle" font-size="11.5" fill="#2C3E50">알파 = 개발자(회사) 쪽에서 테스트</text>
+  <text x="185" y="274" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F4E8C">베타 = 일반 사용자가 자기 자리에서</text>
+
+  <rect x="370" y="212" width="330" height="72" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="535" y="234" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">패치 · 벤치마크</text>
+  <text x="535" y="256" text-anchor="middle" font-size="11.5" fill="#5D6D7E">패치 = 오류 수정·성능 향상 (반창고)</text>
+  <text x="535" y="274" text-anchor="middle" font-size="11.5" fill="#5D6D7E">벤치마크 = 성능 비교·검사</text>
+</svg></div>
+          <figcaption>그림 6 · 셰어웨어와 트라이얼은 «얼마나 열어 주느냐»로 갈립니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🖥 [필기] 5장 ② — 운영체제의 구성 <span style="font-size:13px;font-weight:400;color:#c0392b">(외우지 않으면 못 풉니다)</span></h3>
+      <div class="step"><b>운영체제란</b> 컴퓨터 하드웨어를 <b>효율적으로 쓸 수 있게 도와주는</b> 소프트웨어입니다. 윈도우·macOS·유닉스·리눅스·MS-DOS, 그리고 스마트폰의 <b>iOS·안드로이드</b>도 운영체제예요.</div>
+      <div class="step"><b>운영체제의 목적 4가지</b> <b class="k">신뢰도 · 사용 가능도 · 처리 능력 향상 · 응답 시간 단축</b>. 앞 글자를 따 <b>「신·사·처·응」</b>으로 외웁니다.</div>
+      <div class="step"><b class="r">★ 구성 — 제어 프로그램과 처리 프로그램</b> <b>제어(ㅈ)가 먼저, 처리(ㅊ)가 나중</b>입니다.</div>
+      <div class="step"><b class="k">제어 프로그램 = 감 · 작 · 데</b> <b>감</b>시 프로그램 · <b>작</b>업 관리 프로그램 · <b>데</b>이터 관리 프로그램.</div>
+      <div class="step"><b class="k">처리 프로그램 = 언 · 서 · 문</b> <b>언</b>어 번역 프로그램 · <b>서</b>비스 프로그램 · <b>문</b>제(해결) 프로그램. 「다음 중 처리 프로그램이 아닌 것은?」에 <b>감시 프로그램</b>을 끼워 넣는 식으로 나옵니다.</div>
+      <div class="step"><b>유틸리티</b> 메모장·그림판·계산기처럼 <b>사용자의 편의를 위한</b> 프로그램. <b class="r">컴퓨터 동작에 «필수적»이지 않습니다</b> — 「필수적」이라는 말이 나오면 틀린 보기예요.</div>
+      <div class="step"><b>운영체제가 관리하는 자원</b> 기억장치·프로세스·주변장치·파일 등입니다. <b class="r">「보안」은 자원이 아니라</b>는 점이 작년에 출제됐습니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="운영체제의 구성 제어 프로그램과 처리 프로그램">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#C0392B">ㅈ이 먼저, ㅊ이 나중 — 감작데 / 언서문</text>
+
+  <rect x="260" y="40" width="200" height="40" rx="8" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+  <text x="360" y="65" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2C3E50">운영체제</text>
+
+  <g stroke="#95A5A6" stroke-width="1.6" fill="none">
+    <path d="M320 82 L200 108" marker-end="url(#os15)"/>
+    <path d="M400 82 L520 108" marker-end="url(#os15)"/>
+  </g>
+  <defs><marker id="os15" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="20" y="114" width="330" height="128" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.8"/>
+  <text x="185" y="138" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">제어 프로그램 (ㅈ)</text>
+  <text x="185" y="164" text-anchor="middle" font-size="18" font-weight="700" fill="#1F4E8C">감 · 작 · 데</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="185" y="190" text-anchor="middle"><tspan font-weight="700">감</tspan>시 프로그램</text>
+    <text x="185" y="210" text-anchor="middle"><tspan font-weight="700">작</tspan>업 관리 프로그램</text>
+    <text x="185" y="230" text-anchor="middle"><tspan font-weight="700">데</tspan>이터 관리 프로그램</text>
+  </g>
+
+  <rect x="370" y="114" width="330" height="128" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+  <text x="535" y="138" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">처리 프로그램 (ㅊ)</text>
+  <text x="535" y="164" text-anchor="middle" font-size="18" font-weight="700" fill="#1E8449">언 · 서 · 문</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="535" y="190" text-anchor="middle"><tspan font-weight="700">언</tspan>어 번역 프로그램</text>
+    <text x="535" y="210" text-anchor="middle"><tspan font-weight="700">서</tspan>비스 프로그램</text>
+    <text x="535" y="230" text-anchor="middle"><tspan font-weight="700">문</tspan>제(해결) 프로그램</text>
+  </g>
+
+  <text x="360" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">목적 4가지 — <tspan fill="#1F4E8C">신뢰도 · 사용 가능도 · 처리 능력 · 응답 시간</tspan> (신·사·처·응)</text>
+</svg></div>
+          <figcaption>그림 7 · 보기 순서를 바꿔 내기 때문에, 여섯 단어를 통째로 외워야 풀립니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>⚙️ [필기] 5장 ③ — 운영체제의 운영 기법</h3>
+      <div class="step"><b>일괄 처리</b> 자료를 <b>모았다가 한꺼번에</b> 처리. 급여 계산·공공요금처럼 지금도 씁니다. <b class="r">「오프라인에서만 가능」은 틀린 보기</b> — 온라인·오프라인 모두 됩니다.</div>
+      <div class="step"><b>실시간 처리</b> <b>즉시</b> 처리해야 하는 것 — 항공기·열차 좌석 예약, 은행 업무.</div>
+      <div class="step"><b>시분할</b> 컴퓨터는 한 대인데 사용자가 여럿일 때, <b>아주 짧은 시간으로 쪼개</b> 돌아가며 씁니다. 사용자는 혼자 쓰는 것처럼 느껴요.</div>
+      <div class="step"><b>분산 처리</b> 지역적으로 <b>떨어져 있는 컴퓨터들을 하나처럼</b> 연결해 처리합니다.</div>
+      <div class="step"><b class="k">★ 다중 프로그래밍 ↔ 다중 처리 — 차이는 CPU 개수</b> <b>다중 프로그래밍</b>은 CPU <b>한 개</b>로 여러 프로그램을 번갈아, <b>다중 처리</b>는 CPU <b>여러 개</b>로 처리합니다.</div>
+      <div class="step"><b class="k">★ 듀얼 ↔ 듀플렉스</b> 둘 다 컴퓨터가 두 대인데, <b>듀얼 시스템</b>은 <b>두 대가 동시에</b> 일하고, <b>듀플렉스 시스템</b>은 <b class="r">한 대만 일하고 다른 한 대는 대기</b>하다가 고장 나면 투입됩니다.</div>
+      <div class="step"><b>임베디드 시스템</b> 가전제품 등에 내장된 시스템. 일반 운영체제 대신 가벼운 것을 쓰는데, 대표가 <b class="k">Windows CE</b>입니다.</div>
+      <div class="step"><b>발달 순서</b> <b>일괄 처리</b>가 가장 먼저 → 다중 프로그래밍·다중 처리 → 시분할·실시간 → 다중 모드 → <b class="k">분산 처리</b>가 가장 나중. 처리할 데이터가 많아진 요즘 방식이 분산이라고 생각하면 순서가 잡힙니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="다중 프로그래밍과 다중 처리 듀얼과 듀플렉스">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">헷갈리는 두 쌍 — CPU 개수 / 동시에 일하나</text>
+
+  <rect x="20" y="42" width="330" height="104" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="185" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">다중 프로그래밍</text>
+  <rect x="150" y="76" width="70" height="30" rx="5" fill="#5B86C9"/><text x="185" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">CPU 1</text>
+  <g font-size="10.5" fill="#2C3E50">
+    <rect x="60" y="114" width="60" height="20" rx="3" fill="#fff" stroke="#B9C7E2"/><text x="90" y="128" text-anchor="middle">프로그램</text>
+    <rect x="130" y="114" width="60" height="20" rx="3" fill="#fff" stroke="#B9C7E2"/><text x="160" y="128" text-anchor="middle">프로그램</text>
+    <rect x="200" y="114" width="60" height="20" rx="3" fill="#fff" stroke="#B9C7E2"/><text x="230" y="128" text-anchor="middle">프로그램</text>
+  </g>
+
+  <rect x="370" y="42" width="330" height="104" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="535" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">다중 처리</text>
+  <g>
+    <rect x="430" y="76" width="60" height="30" rx="5" fill="#27AE60"/><text x="460" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">CPU</text>
+    <rect x="500" y="76" width="60" height="30" rx="5" fill="#27AE60"/><text x="530" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">CPU</text>
+    <rect x="570" y="76" width="60" height="30" rx="5" fill="#27AE60"/><text x="600" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">CPU</text>
+  </g>
+  <text x="535" y="128" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">CPU가 여러 개</text>
+
+  <rect x="20" y="160" width="330" height="104" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="185" y="182" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">듀얼 시스템</text>
+  <rect x="70" y="196" width="90" height="34" rx="5" fill="#E67E22"/><text x="115" y="218" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">일하는 중</text>
+  <rect x="210" y="196" width="90" height="34" rx="5" fill="#E67E22"/><text x="255" y="218" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">일하는 중</text>
+  <text x="185" y="250" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B9770E">두 대가 «동시에»</text>
+
+  <rect x="370" y="160" width="330" height="104" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="535" y="182" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">듀플렉스 시스템</text>
+  <rect x="420" y="196" width="90" height="34" rx="5" fill="#E74C3C"/><text x="465" y="218" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">일하는 중</text>
+  <rect x="560" y="196" width="90" height="34" rx="5" fill="#fff" stroke="#E74C3C" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="605" y="218" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">대기</text>
+  <text x="535" y="250" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">한 대는 «대기» — 고장 나면 투입</text>
+
+  <text x="360" y="282" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">발달 순서 — <tspan fill="#1F4E8C">일괄</tspan>이 처음, <tspan fill="#1E8449">분산</tspan>이 마지막</text>
+</svg></div>
+          <figcaption>그림 8 · 네 단어를 그림으로 붙여 두면 보기에서 바로 걸러집니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>💻 [필기] 5장 ④ — 프로그래밍 언어와 번역 프로그램</h3>
+      <div class="step"><b>저급 언어 ↔ 고급 언어</b> 기준은 <b class="k">사람이 이해하기 쉬운가</b>입니다. <b>저급</b>은 기계가 알아듣기 쉬운 쪽 — <b>기계어</b>(0과 1)와 <b>어셈블리어</b>. <b>고급</b>은 사람 말에 가까운 쪽 — C, 베이직, 코볼 등.</div>
+      <div class="step"><b>용도로 외우는 언어</b> <b class="k">LISP</b> 인공지능 · <b class="k">GPSS</b> 시뮬레이션 · <b class="k">SPSS·SAS</b> 확률·통계 처리. 이 네 개가 가장 많이 나옵니다.</div>
+      <div class="step"><b class="k">객체 지향</b> 관련된 것들을 <b>묶어서(객체) 재사용</b>하므로 코드가 짧아지고 유지·보수가 쉽습니다. 특징 <b>네 가지</b>는 <b class="r">추상화 · 캡슐화 · 상속성 · 다형성</b>(「그룹화」 같은 말이 보이면 틀린 보기). 대표 언어는 C++·Java·C#입니다.</div>
+      <div class="step"><b>언어 번역 프로그램</b> 사람이 쓴 코드를 기계가 알아듣게 바꿔 주는 «번역가»입니다. <b>어셈블러</b>는 어셈블리어 전용이고, 시험은 <b class="k">컴파일러와 인터프리터</b>의 차이를 묻습니다.</div>
+      <div class="step"><b class="k">컴파일러 = 통번역</b> 전체를 한꺼번에 번역합니다. 번역본에 해당하는 <b class="r">목적 프로그램이 생기고</b>, 번역 속도는 느리지만 <b>실행 속도가 빠릅니다.</b></div>
+      <div class="step"><b class="k">인터프리터 = 줄번역</b> 한 줄씩 번역해 바로 실행합니다. <b class="r">목적 프로그램이 없고</b>, 번역은 빠르지만 실행은 느립니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="컴파일러와 인터프리터 비교">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">번역가 두 사람 — 통번역 vs 줄번역</text>
+
+  <rect x="20" y="42" width="330" height="170" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.8"/>
+  <text x="185" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">컴파일러 — 통번역</text>
+  <g font-size="11.5">
+    <rect x="44" y="80" width="80" height="34" rx="5" fill="#fff" stroke="#B9C7E2"/><text x="84" y="102" text-anchor="middle" fill="#2C3E50">원시 코드</text>
+    <path d="M128 97 L156 97" stroke="#5B86C9" stroke-width="1.8" marker-end="url(#cp15)"/>
+    <rect x="160" y="80" width="90" height="34" rx="5" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/><text x="205" y="102" text-anchor="middle" font-weight="700" fill="#1F4E8C">전체 번역</text>
+    <path d="M254 97 L282 97" stroke="#5B86C9" stroke-width="1.8" marker-end="url(#cp15)"/>
+    <rect x="286" y="80" width="42" height="34" rx="5" fill="#fff" stroke="#B9C7E2"/><text x="307" y="102" text-anchor="middle" font-size="10" fill="#2C3E50">실행</text>
+  </g>
+  <defs><marker id="cp15" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#5B86C9"/></marker></defs>
+  <text x="185" y="140" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">목적 프로그램 생성 ○</text>
+  <text x="185" y="164" text-anchor="middle" font-size="11.5" fill="#2C3E50">번역 속도 느림</text>
+  <text x="185" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">실행 속도 빠름</text>
+
+  <rect x="370" y="42" width="330" height="170" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+  <text x="535" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">인터프리터 — 줄번역</text>
+  <g font-size="11.5">
+    <rect x="394" y="80" width="80" height="34" rx="5" fill="#fff" stroke="#B9C7E2"/><text x="434" y="102" text-anchor="middle" fill="#2C3E50">한 줄</text>
+    <path d="M478 97 L506 97" stroke="#27AE60" stroke-width="1.8" marker-end="url(#ip15)"/>
+    <rect x="510" y="80" width="80" height="34" rx="5" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/><text x="550" y="102" text-anchor="middle" font-weight="700" fill="#1E8449">번역·실행</text>
+    <path d="M594 97 L622 97" stroke="#27AE60" stroke-width="1.8" marker-end="url(#ip15)"/>
+    <rect x="626" y="80" width="54" height="34" rx="5" fill="#fff" stroke="#B9C7E2"/><text x="653" y="102" text-anchor="middle" font-size="10" fill="#2C3E50">다음 줄</text>
+  </g>
+  <defs><marker id="ip15" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#27AE60"/></marker></defs>
+  <text x="535" y="140" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">목적 프로그램 생성 ✕</text>
+  <text x="535" y="164" text-anchor="middle" font-size="11.5" fill="#1B5E20">번역 속도 빠름</text>
+  <text x="535" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">실행 속도 느림</text>
+
+  <text x="360" y="242" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">객체 지향 4특징 — <tspan fill="#C0392B">추상화 · 캡슐화 · 상속성 · 다형성</tspan> (그룹화 ✕)</text>
+</svg></div>
+          <figcaption>그림 9 · 「목적 프로그램이 생기나」 한 줄로 두 번역가를 가를 수 있습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🌐 [필기] 5장 ⑤ — 웹 프로그래밍 언어</h3>
+      <div class="step"><b>HTML</b> 웹 문서를 만드는 가장 기본 언어. <b>태그</b>가 미리 정해져 있습니다. (매일 받는 이 복습자료도 HTML 문서예요.)</div>
+      <div class="step"><b>DHTML</b> HTML에 <b>동적인 효과·애니메이션</b>을 더한 것. 「애니메이션 강화」가 보이면 DHTML입니다.</div>
+      <div class="step"><b class="k">HTML5</b> <b class="r">액티브X 같은 별도 프로그램을 설치하지 않고도</b> 웹 브라우저에서 동영상 등 멀티미디어를 재생할 수 있게 한 표준. 요즘 액티브X를 안 깔아도 되는 이유입니다.</div>
+      <div class="step"><b class="k">XML</b> HTML의 한계를 보완해 <b>사용자가 새로운 태그를 직접 정의</b>할 수 있는 언어. 그래서 데이터를 구분해 담기 좋습니다(한글의 <code>.hwpx</code>도 이 방식이라 AI가 더 잘 읽습니다). <b>SGML</b>은 전자 문서를 전송·처리하기 위한 언어입니다.</div>
+      <div class="step"><b class="k">VRML</b> <b>V = Virtual</b> — <b>가상현실</b> 모델링 언어. 「가상」이 보이면 앞에 V가 붙은 것을 고르세요.</div>
+      <div class="step"><b>서버에서 동작하는 웹 언어</b> <b>ASP · JSP · PHP</b>. 그리고 <b>자바스크립트·VB스크립트</b>처럼 «스크립트»가 붙은 것들도 웹 페이지용입니다.</div>
+      <div class="step"><b class="k">파이썬</b> 교재에는 없지만 <b class="r">작년부터 출제되고 있습니다.</b> 인공지능·빅데이터 분석에 가장 많이 쓰이고, 인스타그램·넷플릭스도 이 언어로 만들어졌습니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="웹 프로그래밍 언어 정리">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">키워드 하나로 언어를 고르는 문제입니다</text>
+
+  <g font-size="11.5">
+    <rect x="20" y="42" width="216" height="64" rx="8" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+    <text x="128" y="64" text-anchor="middle" font-weight="700" fill="#1F4E8C">HTML</text>
+    <text x="128" y="84" text-anchor="middle" fill="#5D6D7E">웹 문서 기본 · 태그 고정</text>
+
+    <rect x="252" y="42" width="216" height="64" rx="8" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+    <text x="360" y="64" text-anchor="middle" font-weight="700" fill="#1F4E8C">DHTML</text>
+    <text x="360" y="84" text-anchor="middle" fill="#5D6D7E">동적 효과 · 애니메이션</text>
+
+    <rect x="484" y="42" width="216" height="64" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.8"/>
+    <text x="592" y="64" text-anchor="middle" font-weight="700" fill="#C0392B">HTML5</text>
+    <text x="592" y="84" text-anchor="middle" font-weight="700" fill="#C0392B">액티브X 없이 멀티미디어</text>
+
+    <rect x="20" y="118" width="216" height="64" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+    <text x="128" y="140" text-anchor="middle" font-weight="700" fill="#1E8449">XML</text>
+    <text x="128" y="160" text-anchor="middle" font-weight="700" fill="#1B5E20">새 태그를 직접 정의</text>
+
+    <rect x="252" y="118" width="216" height="64" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.8"/>
+    <text x="360" y="140" text-anchor="middle" font-weight="700" fill="#B9770E">VRML</text>
+    <text x="360" y="160" text-anchor="middle" font-weight="700" fill="#B9770E">V = 가상현실</text>
+
+    <rect x="484" y="118" width="216" height="64" rx="8" fill="#F4F7FC" stroke="#B9C7E2"/>
+    <text x="592" y="140" text-anchor="middle" font-weight="700" fill="#2C3E50">ASP · JSP · PHP</text>
+    <text x="592" y="160" text-anchor="middle" fill="#5D6D7E">웹 페이지 제작 · 스크립트</text>
+  </g>
+
+  <rect x="20" y="194" width="680" height="44" rx="8" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.4"/>
+  <text x="360" y="214" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">파이썬 — 교재에 없지만 작년부터 출제</text>
+  <text x="360" y="232" text-anchor="middle" font-size="11.5" fill="#B9770E">인공지능 · 빅데이터 분석에 가장 많이 쓰이는 언어</text>
+</svg></div>
+          <figcaption>그림 10 · 「액티브X 없이」는 HTML5, 「태그를 정의」는 XML, 「가상」은 VRML.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 [실기] 차트 서식 — 작업창 세 칸에 다 있습니다</h3>
+      <div class="step"><b>차트 넣기</b> 데이터 범위를 선택하고 <code>Alt + F1</code> 또는 <code>F11</code>. 범위는 <b class="k">필드명(범례가 됩니다)과 가로 항목축이 될 열</b>을 함께 잡아야 하고, <b>Ctrl</b>을 누르면 <b>떨어져 있는 열</b>도 선택할 수 있습니다.</div>
+      <div class="step"><b>Alt를 누른 채 이동·크기 조절</b>하면 차트가 <b>셀에 꼭 맞게</b> 붙습니다(시험엔 안 나오지만 실무에서 깔끔합니다).</div>
+      <div class="step"><b class="k">요소를 더블클릭하면 오른쪽 작업창</b>이 열리고, 위쪽에 아이콘 세 칸이 있습니다 — 무엇이 어디 있는지만 알면 끝입니다.</div>
+      <div class="step"><b>① 채우기 및 선</b> 채우기 없음 / 단색 / <b class="k">그라데이션</b>(미리 설정·종류: 선형·방사형·사각형·경로형) / <b>그림 또는 질감</b>(데님·모래·파랑 박엽지 등) / 패턴. 그리고 <b>테두리</b> 항목 안에 <b class="r">「둥근 모서리」</b>가 숨어 있습니다 — 어디 있는지 묻는 문제가 나옵니다.</div>
+      <div class="step"><b>② 효과</b> <b class="k">그림자</b>(미리 설정 → 바깥쪽 → 오프셋: 오른쪽 아래), 네온, 부드러운 가장자리, 3차원 서식.</div>
+      <div class="step"><b>③ 축 옵션</b> (축을 더블클릭했을 때) <b>최소값·최대값·기본 단위</b>, 그리고 <b class="k">표시 단위</b>(천·백만 단위로 줄여 표시).</div>
+      <div class="step"><b>리본 쪽은</b> <b>차트 디자인</b>(차트 요소 추가·빠른 레이아웃·색 변경·스타일·행/열 전환·차트 종류 변경)과 <b>서식</b>(현재 선택 영역·도형 스타일) 두 개뿐입니다.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="차트 서식 작업창의 세 칸">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">요소를 더블클릭 → 오른쪽 작업창의 세 칸</text>
+
+  <rect x="20" y="42" width="216" height="200" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.8"/>
+  <text x="128" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">① 채우기 및 선</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="128" y="94" text-anchor="middle">채우기 없음 · 단색</text>
+    <text x="128" y="116" text-anchor="middle" font-weight="700" fill="#1F4E8C">그라데이션</text>
+    <text x="128" y="136" text-anchor="middle" font-size="10.5" fill="#7F8C8D">선형·방사형·사각형·경로형</text>
+    <text x="128" y="158" text-anchor="middle">그림 또는 질감 · 패턴</text>
+    <text x="128" y="186" text-anchor="middle" font-size="10.5" fill="#7F8C8D">— 테두리 —</text>
+    <text x="128" y="208" text-anchor="middle" font-weight="700" fill="#C0392B">둥근 모서리</text>
+    <text x="128" y="228" text-anchor="middle" font-size="10.5" fill="#7F8C8D">여기 있는 걸 묻습니다</text>
+  </g>
+
+  <rect x="252" y="42" width="216" height="200" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+  <text x="360" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">② 효과</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="360" y="100" text-anchor="middle" font-weight="700" fill="#1E8449">그림자</text>
+    <text x="360" y="122" text-anchor="middle" font-size="10.5" fill="#7F8C8D">미리 설정 → 바깥쪽</text>
+    <text x="360" y="142" text-anchor="middle" font-size="10.5" fill="#7F8C8D">오프셋: 오른쪽 아래</text>
+    <text x="360" y="172" text-anchor="middle">네온 · 부드러운 가장자리</text>
+    <text x="360" y="194" text-anchor="middle">3차원 서식</text>
+  </g>
+
+  <rect x="484" y="42" width="216" height="200" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.8"/>
+  <text x="592" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B9770E">③ 축 옵션</text>
+  <g font-size="11.5" fill="#B9770E">
+    <text x="592" y="100" text-anchor="middle">최소값 · 최대값</text>
+    <text x="592" y="122" text-anchor="middle" font-weight="700">기본 단위</text>
+    <text x="592" y="152" text-anchor="middle" font-weight="700">표시 단위</text>
+    <text x="592" y="172" text-anchor="middle" font-size="10.5" fill="#7F8C8D">천·백만 단위로 줄여 표시</text>
+    <text x="592" y="200" text-anchor="middle" font-size="10.5" fill="#7F8C8D">축을 더블클릭해야 나옵니다</text>
+  </g>
+
+  <text x="360" y="266" text-anchor="middle" font-size="12" font-weight="700" fill="#2C3E50">메뉴가 접혀 있으면 <tspan fill="#C0392B">전부 펼쳐서</tspan> 눈으로 찾는 연습을 해 두세요</text>
+</svg></div>
+          <figcaption>그림 11 · 항목이 접혀 있어 못 찾는 경우가 많습니다 — 한 번 다 펼쳐 보세요.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📈 [실기] 차트 — 혼합 차트 · 데이터 레이블 · 추세선</h3>
+      <div class="step"><b>혼합(콤보) 차트</b> 값의 크기가 크게 다른 계열이 있으면 작은 쪽이 보이지 않습니다. <b class="k">계열 하나를 먼저 선택하고</b> 차트 디자인 → 차트 종류 변경 → <b>혼합</b>으로 들어가세요. (그냥 들어가면 엑셀이 엉뚱한 계열을 마음대로 바꿔 놓습니다.)</div>
+      <div class="step"><b>거기서</b> 문제가 지정한 계열을 <b>표식이 있는 꺾은선형</b> 등으로 바꾸고 <b class="r">보조 축</b>에 체크합니다. 이름을 꼼꼼히 확인하세요 — 「생산량 계열을」이라고 했는데 엑셀이 불량률을 바꿔 놓은 채로 확인을 누르면 틀립니다.</div>
+      <div class="step"><b>데이터 레이블</b> 계열 전체가 아니라 <b class="k">특정 요소 하나만</b> 붙일 수 있습니다 — 막대를 <b>한 번 클릭(계열 전체) → 한 번 더 클릭(그 요소만)</b> 한 뒤 추가하세요.</div>
+      <div class="step"><b>내용·위치 바꾸기</b> <b class="k">오른쪽 버튼 → 데이터 레이블 서식</b>(레이블을 더블클릭해도 같은 작업창이 열립니다)으로 들어가면 «값·항목 이름» 선택과 위치(안쪽 끝·바깥쪽 끝·위쪽)를 지정할 수 있습니다. 수업에서는 오른쪽 버튼 쪽이 확실하다고 안내했습니다.</div>
+      <div class="step"><b>추세선</b> <b>특정 계열 하나를 선택한 뒤</b> 차트 요소 추가 → 추세선 → <b>선형</b> 또는 <b>지수</b>. 값이 어떤 흐름인지 선으로 보여 줍니다.</div>
+      <div class="step"><b>차트 제목</b> 직접 입력하거나, <b class="k">실선이 되도록 선택한 뒤 수식 입력줄에 <code>=</code>를 치고 셀을 클릭</b>해 연결합니다. 글꼴·크기를 바꿀 때도 <b class="r">블록을 잡지 말고 실선 상태</b>에서 바꾸세요 — 빠뜨리는 글자가 생기지 않습니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>⏱ [실기] 기출 문제 푸는 순서 — 40분에 70점</h3>
+      <div class="step"><b>시험 구성</b> 4개 파트를 <b class="k">40분</b> 안에 풀고 <b class="k">70점 이상</b>이면 합격입니다. 오늘부터 이 순서로 연습합니다.</div>
+      <div class="step"><b class="k">① 기본 작업 1-2, 1-3</b> 셀 서식·조건부 서식·고급 필터·텍스트 나누기처럼 <b>클릭으로 끝나는</b> 것부터. <b class="r">1-1(데이터 입력)은 건너뜁니다</b> — 시험장에서 손이 떨려 시간을 많이 먹습니다.</div>
+      <div class="step"><b class="k">② 분석 작업(3번)</b> 6가지 기능 중 2개가 나와 <b>20점</b>. 클릭 위주라 확실히 챙깁니다.</div>
+      <div class="step"><b class="k">③ 기타 작업(4번) — 매크로와 차트</b> 매크로 10점(5+5), 차트 10점(2점×5). <b>순서만 지키면</b> 확보되는 점수입니다.</div>
+      <div class="step"><b class="k">④ 계산 작업(함수)</b> <b class="r">맨 마지막에</b> 풉니다. 모르는 문제는 건너뛰고 풀 수 있는 것만 고르세요.</div>
+      <div class="step"><b class="k">⑤ 남는 시간에 1-1 입력</b> 5점이라도 건집니다.</div>
+      <div class="step"><b class="r">시험 중 반드시 지킬 두 가지</b> ① <b>시트를 확인</b>하세요 — 문제마다 「계산작업 시트」처럼 적혀 있습니다 ② <b class="k">Ctrl + S를 수시로</b> — 다 풀어 놓고 저장을 안 해 떨어지는 경우가 실제로 있습니다.</div>
+      <div class="step"><b>연습 자료</b> 기출 문제(작은 책자) 10회 → 기본 모의고사 10회 → 실전 모의고사 10회, 모두 <b>30회분</b>입니다. <b class="k">기출부터</b> 푸세요. 채점은 시나공 사이트에 로그인해 <b>온라인 채점</b>으로 하면 됩니다(실기책 12쪽 안내).</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="실기 시험 푸는 순서">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">40분 · 70점 — 이 순서로 풉니다</text>
+
+  <g font-size="11.5">
+    <rect x="20" y="44" width="130" height="80" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+    <text x="85" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#1E8449">①</text>
+    <text x="85" y="90" text-anchor="middle" font-weight="700" fill="#1E8449">기본 1-2 · 1-3</text>
+    <text x="85" y="110" text-anchor="middle" font-size="10.5" fill="#1B5E20">서식 · 조건부 · 필터</text>
+
+    <rect x="162" y="44" width="130" height="80" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+    <text x="227" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#1E8449">②</text>
+    <text x="227" y="90" text-anchor="middle" font-weight="700" fill="#1E8449">분석 작업</text>
+    <text x="227" y="110" text-anchor="middle" font-size="10.5" fill="#1B5E20">6개 중 2개 · 20점</text>
+
+    <rect x="304" y="44" width="130" height="80" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.8"/>
+    <text x="369" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#1E8449">③</text>
+    <text x="369" y="90" text-anchor="middle" font-weight="700" fill="#1E8449">매크로 · 차트</text>
+    <text x="369" y="110" text-anchor="middle" font-size="10.5" fill="#1B5E20">10점 + 10점</text>
+
+    <rect x="446" y="44" width="130" height="80" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.8"/>
+    <text x="511" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#B9770E">④</text>
+    <text x="511" y="90" text-anchor="middle" font-weight="700" fill="#B9770E">계산 작업(함수)</text>
+    <text x="511" y="110" text-anchor="middle" font-size="10.5" fill="#B9770E">풀 수 있는 것만</text>
+
+    <rect x="588" y="44" width="112" height="80" rx="9" fill="#F4F7FC" stroke="#B9C7E2" stroke-width="1.4"/>
+    <text x="644" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#2C3E50">⑤</text>
+    <text x="644" y="90" text-anchor="middle" font-weight="700" fill="#2C3E50">1-1 입력</text>
+    <text x="644" y="110" text-anchor="middle" font-size="10.5" fill="#5D6D7E">남는 시간에</text>
+  </g>
+
+  <g stroke="#95A5A6" stroke-width="1.6" fill="none">
+    <path d="M152 84 L160 84" marker-end="url(#q15)"/>
+    <path d="M294 84 L302 84" marker-end="url(#q15)"/>
+    <path d="M436 84 L444 84" marker-end="url(#q15)"/>
+    <path d="M578 84 L586 84" marker-end="url(#q15)"/>
+  </g>
+  <defs><marker id="q15" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="20" y="146" width="680" height="62" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="360" y="170" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">시험 중 반드시 — 문제마다 «시트»를 확인하고</text>
+  <text x="360" y="194" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">Ctrl + S 를 수시로 누릅니다</text>
+
+  <rect x="20" y="222" width="680" height="62" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="360" y="246" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">연습은 기출 10회 → 기본 모의고사 10회 → 실전 모의고사 10회 (총 30회분)</text>
+  <text x="360" y="268" text-anchor="middle" font-size="11.5" fill="#5D6D7E">채점은 시나공 사이트 로그인 후 «온라인 채점» — 실기책 12쪽 안내</text>
+</svg></div>
+          <figcaption>그림 12 · 순서만 지켜도 «클릭으로 끝나는 점수»를 먼저 확보할 수 있습니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🗓 남은 일정</h3>
+      <div class="step"><b>필기</b> 6·7·8장이 남았고, 내일은 6·7장(인터넷 활용·네트워크)을 나갈 예정입니다. 네트워크는 <b class="k">장비 이름과 주소 체계</b>를 외워야 해서 양이 많습니다.</div>
+      <div class="step"><b>스프레드시트 필기 보강</b>은 <b>추석 이후</b>에 따로 합니다(차트 종류 등).</div>
+      <div class="step"><b>실기</b> 진도는 끝났고 기출 30회분 풀이로 들어갑니다. 오늘 못 푼 차트 문제(실기책 193·205·206쪽)는 <b>집에서 풀어 보고</b>, 안 되는 것은 표시해 두었다가 여쭤보세요.</div>
+      <div class="step"><b>정리 노트</b> 강사가 여러 번 강조했습니다 — <b class="k">본인이 직접 정리해 들고 다니며 반복</b>하는 것 외에는 방법이 없습니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="남은 일정">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">20차시 중 15차시 — 4분의 3을 지났습니다</text>
+
+  <rect x="40" y="46" width="640" height="24" rx="12" fill="#E4E9F2"/>
+  <rect x="40" y="46" width="480" height="24" rx="12" fill="#1a56db"/>
+  <text x="280" y="63" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">1 ~ 15차시 완료</text>
+  <text x="600" y="63" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5D6D7E">16 ~ 20차시</text>
+
+  <rect x="40" y="90" width="200" height="76" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="140" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">필기</text>
+  <text x="140" y="134" text-anchor="middle" font-size="11.5" fill="#2C3E50">6 · 7 · 8장 남음</text>
+  <text x="140" y="154" text-anchor="middle" font-size="11" fill="#5D6D7E">내일 6·7장 예정</text>
+
+  <rect x="260" y="90" width="200" height="76" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="360" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">실기</text>
+  <text x="360" y="134" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">기출 30회분 풀이</text>
+  <text x="360" y="154" text-anchor="middle" font-size="11" fill="#1B5E20">기출 책자부터</text>
+
+  <rect x="480" y="90" width="200" height="76" rx="9" fill="#FDF3E3" stroke="#E67E22" stroke-width="1.6"/>
+  <text x="580" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#B9770E">추석 이후</text>
+  <text x="580" y="134" text-anchor="middle" font-size="11.5" fill="#B9770E">스프레드시트 필기 보강</text>
+  <text x="580" y="154" text-anchor="middle" font-size="11" fill="#B9770E">차트 종류 등</text>
+</svg></div>
+          <figcaption>그림 13 · 남은 5차시는 「외우기 + 기출 반복」입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+    <div class="mistake-grid">
+
+      <div class="mistake-card top">
+        <div class="mistake-label">⭐ 어제 54% · 다시 짚기</div>
+        <h3>처리 속도 단위의 순서를 헷갈립니다</h3>
+        <p>「가장 빠른 것」을 묻는데 ms나 μs를 고릅니다. 이해로 푸는 문제가 아니라 외우는 문제입니다.</p>
+        <div class="fix"><b>밀·마·나·피·펨·아</b> — 뒤로 갈수록 빠름(10⁻³ → 10⁻¹⁸)</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">어제 69% 두 문항</div>
+        <h3>Alt+F1과 F11, Alt+F8과 Alt+F11을 섞습니다</h3>
+        <p>매크로 키와 차트 키가 머릿속에서 합쳐집니다.</p>
+        <div class="fix">Alt 붙은 셋은 제자리, <b>Alt 없는 F11만 새 시트</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>처리 프로그램에 «감시 프로그램»을 넣습니다</h3>
+        <p>여섯 단어를 외우지 않으면 보기 순서를 바꿔 낼 때 걸립니다.</p>
+        <div class="fix">제어 = <b>감·작·데</b> / 처리 = <b>언·서·문</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>「유틸리티는 컴퓨터 동작에 필수적」에 O를 합니다</h3>
+        <p>늘 쓰니까 필수처럼 느껴지지만 아닙니다.</p>
+        <div class="fix">메모장·그림판을 떠올리세요 — <b>편의를 위한 것</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>「일괄 처리는 오프라인에서만 가능」에 O를 합니다</h3>
+        <p>가장 오래된 방식이라 그럴 것 같지만 아닙니다.</p>
+        <div class="fix">온라인·오프라인 <b>모두</b> 가능합니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>셰어웨어와 트라이얼을 바꿔 답합니다</h3>
+        <p>둘 다 «제한해서 배포»라 헷갈립니다.</p>
+        <div class="fix">트라이얼은 <b>일부 기능만</b> 맛보기 — 더 적게 열어 줍니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>객체 지향 특징에 «그룹화»를 고릅니다</h3>
+        <p>묶어서 쓴다는 설명 때문에 그럴듯해 보입니다.</p>
+        <div class="fix">추상화 · 캡슐화 · <b>상속성</b> · <b>다형성</b> 네 가지뿐</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>혼합 차트에서 엉뚱한 계열이 바뀝니다</h3>
+        <p>아무것도 선택하지 않고 들어가면 엑셀이 알아서 한 계열을 꺾은선으로 바꿔 놓습니다.</p>
+        <div class="fix"><b>계열 하나를 먼저 선택</b>하고 차트 종류 변경으로 들어가기</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">자주 하는 실수</div>
+        <h3>데이터 레이블 내용을 못 바꿉니다</h3>
+        <p>더블클릭해서 들어가면 서식만 나와 «항목 이름» 선택지를 못 찾습니다.</p>
+        <div class="fix"><b>오른쪽 버튼 → 데이터 레이블 서식</b>으로 들어가세요</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">실기 시험</div>
+        <h3>다 풀고 저장을 안 합니다</h3>
+        <p>문제를 잘 풀어 놓고 Ctrl+S를 누르지 않아 점수를 못 받는 경우가 실제로 있습니다.</p>
+        <div class="fix">한 문제 끝낼 때마다 <b>Ctrl + S</b> — 연습할 때부터 습관으로</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·기능 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>구분</th><th>단축키/기능</th><th>하는 일</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>필기</td><td>바이오스(BIOS)</td><td>부팅에 필요한 기본 입출력·POST</td><td>ROM에 저장 = ROM-BIOS</td></tr>
+          <tr><td>필기</td><td><b>펌웨어</b></td><td>ROM 안에 든 프로그램</td><td>하드웨어 교체 없이 <b>업그레이드로 성능 향상</b></td></tr>
+          <tr><td>필기</td><td>CMOS 셋업</td><td>날짜·<b>부팅 순서</b>·전원·암호</td><td>윈도우 로그인 암호가 <b class="r">아님</b></td></tr>
+          <tr><td>필기</td><td><b>SATA</b></td><td>하드디스크 직렬 연결</td><td>얇고 빠름 · 핫 플러그인 (PATA=병렬)</td></tr>
+          <tr><td>필기</td><td>셰어웨어 / 트라이얼</td><td>기능·기간 제한 / <b>일부 기능만</b></td><td>트라이얼이 더 적게 열어 줌</td></tr>
+          <tr><td>필기</td><td>공개(오픈 소스) / 번들</td><td>소스까지 공개 / 끼워 주는 것</td><td>데모 = 홍보 목적</td></tr>
+          <tr><td>필기</td><td>알파 / 베타</td><td>개발자 쪽 / 사용자 쪽 테스트</td><td>차이는 <b>장소</b></td></tr>
+          <tr><td>필기</td><td><b>제어 프로그램</b></td><td>감시·작업 관리·데이터 관리</td><td><b>감·작·데</b> (ㅈ이 먼저)</td></tr>
+          <tr><td>필기</td><td><b>처리 프로그램</b></td><td>언어 번역·서비스·문제 해결</td><td><b>언·서·문</b> (ㅊ이 나중)</td></tr>
+          <tr><td>필기</td><td>운영체제의 목적</td><td>신뢰도·사용 가능도·처리 능력·응답 시간</td><td>신·사·처·응</td></tr>
+          <tr><td>필기</td><td>다중 프로그래밍 / 다중 처리</td><td>CPU 1개 / CPU 여러 개</td><td>차이는 <b>CPU 개수</b></td></tr>
+          <tr><td>필기</td><td>듀얼 / 듀플렉스</td><td>동시에 / 한 대는 대기</td><td>듀플렉스는 고장 시 투입</td></tr>
+          <tr><td>필기</td><td>임베디드 시스템</td><td>가전제품 내장 시스템</td><td>대표 운영체제 <b>Windows CE</b></td></tr>
+          <tr><td>필기</td><td>컴파일러 / 인터프리터</td><td>통번역 / 줄번역</td><td>목적 프로그램 <b>있음 / 없음</b></td></tr>
+          <tr><td>필기</td><td>LISP / GPSS / SPSS·SAS</td><td>인공지능 / 시뮬레이션 / 통계</td><td>용도로 외웁니다</td></tr>
+          <tr><td>필기</td><td>객체 지향 4특징</td><td>추상화·캡슐화·상속성·다형성</td><td>C++ · Java · C#</td></tr>
+          <tr><td>필기</td><td><b>HTML5</b></td><td>액티브X 없이 멀티미디어</td><td>DHTML = 애니메이션 강화</td></tr>
+          <tr><td>필기</td><td><b>XML</b> / VRML</td><td>새 태그 정의 / 가상현실</td><td>V = Virtual</td></tr>
+          <tr><td>필기</td><td>ASP · JSP · PHP · 파이썬</td><td>웹 페이지 · AI/빅데이터</td><td>파이썬은 작년부터 출제</td></tr>
+          <tr><td>실기</td><td><code>Alt + F1</code> / <code>F11</code></td><td>같은 시트 차트 / <b>새 차트 시트</b></td><td>어제 69% 문항</td></tr>
+          <tr><td>실기</td><td><code>Alt + F8</code> / <code>Alt + F11</code></td><td>매크로 대화상자 / VBA 편집기</td><td>기록 시작에는 단축키가 없음</td></tr>
+          <tr><td>실기</td><td>작업창 — 채우기 및 선</td><td>그라데이션·질감·패턴</td><td><b>둥근 모서리</b>는 테두리 항목 안</td></tr>
+          <tr><td>실기</td><td>작업창 — 효과</td><td>그림자(오프셋 오른쪽 아래)</td><td>네온·3차원 서식</td></tr>
+          <tr><td>실기</td><td>작업창 — 축 옵션</td><td>최소·최대·기본 단위</td><td><b>표시 단위</b>로 0 줄이기</td></tr>
+          <tr><td>실기</td><td>차트 종류 변경 → 혼합</td><td>보조 축 + 꺾은선형</td><td><b>계열 먼저 선택</b>하고 들어가기</td></tr>
+          <tr><td>실기</td><td>데이터 레이블 서식</td><td>표시 내용(값·항목 이름)·위치</td><td>오른쪽 버튼 또는 더블클릭</td></tr>
+          <tr><td>실기</td><td><code>Ctrl + S</code></td><td>저장</td><td><b class="r">수시로</b> — 시험 중 필수 습관</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월 과정 수강생임을 확인하는 용도입니다.</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">ROM에 저장되어 하드웨어를 제어하며, <b>하드웨어를 교체하지 않고 업그레이드만으로 성능을 높일 수 있는</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">유틸리티</button>
+      <button class="quiz-opt" data-correct="true">펌웨어</button>
+      <button class="quiz-opt" data-correct="false">셰어웨어</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">요즘 하드디스크 연결에 쓰는 <b>SATA 방식</b>의 특징으로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="true">직렬 방식이며 케이블이 얇고 전송 속도가 빠르다</button>
+      <button class="quiz-opt" data-correct="false">병렬 방식이라 넓은 케이블로 한꺼번에 많이 보낸다</button>
+      <button class="quiz-opt" data-correct="false">전원을 끈 상태에서만 연결할 수 있다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext"><b>기능이나 사용 기간을 제한</b>해 배포하고, 써 본 뒤 마음에 들면 구입하도록 하는 소프트웨어는?</p>
+      <button class="quiz-opt" data-correct="false">번들 소프트웨어</button>
+      <button class="quiz-opt" data-correct="false">공개 소프트웨어</button>
+      <button class="quiz-opt" data-correct="true">셰어웨어</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext">운영체제의 <b>처리 프로그램</b>에 해당하지 <b>않는</b> 것은?</p>
+      <button class="quiz-opt" data-correct="false">언어 번역 프로그램</button>
+      <button class="quiz-opt" data-correct="true">감시 프로그램</button>
+      <button class="quiz-opt" data-correct="false">서비스 프로그램</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext"><b>다중 프로그래밍</b>과 <b>다중 처리</b>를 가르는 기준은?</p>
+      <button class="quiz-opt" data-correct="true">사용하는 CPU의 개수</button>
+      <button class="quiz-opt" data-correct="false">처리하는 데이터의 양</button>
+      <button class="quiz-opt" data-correct="false">온라인인지 오프라인인지</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">두 대의 컴퓨터 중 <b>한 대만 일을 하고 다른 한 대는 대기하다가</b>, 고장이 나면 대신 투입되는 시스템은?</p>
+      <button class="quiz-opt" data-correct="false">시분할 시스템</button>
+      <button class="quiz-opt" data-correct="false">듀얼 시스템</button>
+      <button class="quiz-opt" data-correct="true">듀플렉스 시스템</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext"><b>컴파일러</b>에 대한 설명으로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">한 줄씩 번역해 바로 실행하므로 목적 프로그램이 없다</button>
+      <button class="quiz-opt" data-correct="true">전체를 한꺼번에 번역해 목적 프로그램을 만들고, 실행 속도가 빠르다</button>
+      <button class="quiz-opt" data-correct="false">어셈블리어만 번역할 수 있다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext"><b>액티브X 같은 별도 프로그램을 설치하지 않고도</b> 웹 브라우저에서 동영상 등 멀티미디어를 재생할 수 있게 한 언어는?</p>
+      <button class="quiz-opt" data-correct="true">HTML5</button>
+      <button class="quiz-opt" data-correct="false">VRML</button>
+      <button class="quiz-opt" data-correct="false">SGML</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext">처리 속도 단위를 <b>빠른 것부터</b> 바르게 나열한 것은?</p>
+      <button class="quiz-opt" data-correct="false">ms → μs → ns → ps</button>
+      <button class="quiz-opt" data-correct="false">ns → ms → μs → ps</button>
+      <button class="quiz-opt" data-correct="true">ps → ns → μs → ms</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext">데이터 범위를 선택한 뒤 <b>Alt + F1</b>을 눌렀을 때 만들어지는 것은?</p>
+      <button class="quiz-opt" data-correct="false">차트만 들어 있는 별도의 «차트 시트»</button>
+      <button class="quiz-opt" data-correct="true">데이터가 있는 워크시트 안에 삽입되는 기본 차트</button>
+      <button class="quiz-opt" data-correct="false">매크로를 기록하는 대화상자</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-submit-box">
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">10문제를 모두 고른 뒤 <b>채점하기</b>를 누르면 정답이 공개돼요. 여러 번 풀어봐도 좋아요!</p>
+      <button class="submit-btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button class="retry-all-btn" id="retryAllBtn" onclick="retryQuiz()" style="display:none;">🔄 다시 풀기</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </div>
+
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="check-grid">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">필기: <b>밀·마·나·피·펨·아</b>를 기호·한글·지수까지 세 번 쓰기(어제 54%)</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">실기: Alt+F8 / Alt+F11 / Alt+F1 / F11 네 개를 눌러 차이 확인</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">필기: 바이오스·CMOS 셋업·펌웨어를 한 문장씩 설명해 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">필기: PATA와 SATA 차이를 «케이블 그림»으로 그려보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">필기: 사용권 분류 10가지를 백지에 써 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">필기: <b>감·작·데 / 언·서·문</b> 소리 내어 다섯 번 말하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">필기: 다중 프로그래밍·다중 처리·듀얼·듀플렉스 구분해 적기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">필기: 컴파일러와 인터프리터를 «목적 프로그램»으로 갈라 보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">필기: HTML5 · XML · VRML의 키워드 한 단어씩 붙여 외우기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">실기: 차트 작업창을 열어 세 칸(채우기·효과·축 옵션) 다 펼쳐보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">실기: 둥근 모서리·그림자(오프셋 오른쪽 아래) 직접 적용해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">실기: 혼합 차트를 «계열 먼저 선택»하고 만들어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">실기: 숙제 — 실기책 193 · 205 · 206쪽 차트 문제 풀기</label></div>
+      <div class="check-item"><input type="checkbox" id="c14"><label for="c14">실기: 기출 1회를 <b>푸는 순서대로</b> 40분 재고 풀어 온라인 채점</label></div>
+      <div class="check-item"><input type="checkbox" id="c15"><label for="c15">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '15차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
