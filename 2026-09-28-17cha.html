@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컴활2급 17차시 복습자료 — 멀티미디어·정보 보안 / 수식 오류·함수·분석 작업</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#F8FAFC;
+  --bg2:#EFF2F7;
+  --border:#D1D9E0;
+  --text:#1A202C;
+  --muted:#5A6A7E;
+  --blue:#1D6FE8;
+  --blue-bg:#EBF2FF;
+  --green:#0A8A68;
+  --green-bg:#E6F7F1;
+  --gold:#92680A;
+  --gold-bg:#FFF8E1;
+  --red:#C0392B;
+  --red-bg:#FDEDEC;
+  --navy:#0F172A;
+  --white:#FFFFFF;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{ overflow-x:hidden; scroll-behavior:smooth; }
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  width:100%;
+  word-break:break-word;
+  overflow-wrap:break-word;
+  line-height:1.6;
+}
+code, .mono{ font-family:'JetBrains Mono', monospace; word-break:break-all; white-space:normal; }
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* ===== 모바일 상단바 ===== */
+.mobile-bar{
+  display:none;
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:var(--white); border-bottom:1px solid var(--border);
+  align-items:center; padding:0 16px; z-index:50;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.mobile-bar .hamburger{
+  width:38px; height:38px; border:none; background:var(--bg2);
+  border-radius:10px; display:flex; flex-direction:column; justify-content:center;
+  align-items:center; gap:4px; cursor:pointer;
+}
+.mobile-bar .hamburger span{ width:18px; height:2px; background:var(--text); border-radius:2px; }
+.mobile-bar .title{ margin-left:12px; font-weight:700; font-size:14px; color:var(--blue); }
+
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,.45);
+  z-index:40;
+}
+.overlay.show{ display:block; }
+
+/* ===== 사이드바 ===== */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:268px;
+  background:var(--white); border-right:1px solid var(--border);
+  padding:28px 20px; overflow-y:auto; z-index:45;
+}
+.sidebar .badge{
+  display:inline-block; background:var(--blue-bg); color:var(--blue);
+  font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+  margin-bottom:14px;
+}
+.sidebar h1{ font-size:18px; font-weight:900; margin-bottom:4px; }
+.sidebar .meta{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.sidebar .meta b{ color:var(--text); }
+
+.sidebar nav .nav-title{
+  font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em;
+  margin-bottom:10px; text-transform:uppercase;
+}
+.sidebar nav li{ margin-bottom:4px; }
+.sidebar nav a{
+  display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+  font-size:13.5px; font-weight:500; color:var(--muted); transition:.15s;
+}
+.sidebar nav a:hover{ background:var(--bg2); color:var(--text); }
+.sidebar nav a .num{
+  width:20px; height:20px; border-radius:6px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;
+  color:var(--muted); flex-shrink:0;
+}
+
+.sidebar .teacher-box{
+  margin-top:28px; padding:14px; background:var(--bg2); border-radius:12px;
+  font-size:12.5px; color:var(--muted);
+}
+.sidebar .teacher-box b{ display:block; color:var(--text); font-size:13.5px; margin-bottom:2px; }
+
+/* ===== 메인 ===== */
+.main{ margin-left:268px; padding:48px 40px 60px; max-width:880px; }
+
+.hero{
+  background:linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 50%, #EBF2FF 100%);
+  border-radius:24px; padding:40px 36px; position:relative; overflow:hidden;
+  margin-bottom:36px;
+}
+.hero::before{
+  content:''; position:absolute; top:-60px; right:-60px; width:220px; height:220px;
+  background:radial-gradient(circle, rgba(29,111,232,.12), transparent 70%);
+  border-radius:50%;
+}
+.hero .tag-row{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.hero .tag{ font-size:12px; font-weight:700; padding:5px 12px; border-radius:20px; background:var(--white); }
+.hero .tag.b{ color:var(--blue); }
+.hero .tag.g{ color:var(--green); }
+.hero h1{ font-size:24px; font-weight:900; line-height:1.45; margin-bottom:14px; position:relative; }
+.hero p.sub{ font-size:14.5px; color:var(--muted); margin-bottom:20px; position:relative; }
+.hero .key-badges{ display:flex; gap:8px; flex-wrap:wrap; position:relative; }
+.hero .key-badge{
+  background:var(--white); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:12.5px; font-weight:600; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+
+h2.section-title{
+  font-size:19px; font-weight:800; margin-bottom:18px; display:flex; align-items:center; gap:8px;
+}
+h2.section-title .si{ font-size:18px; }
+section{ margin-bottom:44px; }
+
+.card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:.18s;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.08); }
+.card.exam-type{ border-left:4px solid var(--blue); }
+.card.prac-type{ border-left:4px solid var(--green); }
+.card .ctag{
+  font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:8px; display:inline-block;
+}
+.card.exam-type .ctag{ background:var(--blue-bg); color:var(--blue); }
+.card.prac-type .ctag{ background:var(--green-bg); color:var(--green); }
+.card h3{ font-size:15px; font-weight:700; margin-bottom:6px; }
+.card p{ font-size:13.5px; color:var(--muted); margin-bottom:6px; }
+.card .use{ font-size:12.5px; color:var(--text); background:var(--bg2); padding:8px 10px; border-radius:8px; }
+
+.concept-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.concept-box.exam-type{ border-left:4px solid var(--blue); }
+.concept-box.prac-type{ border-left:4px solid var(--green); }
+.concept-box h3{ font-size:15.5px; font-weight:700; margin-bottom:10px; }
+.concept-box .step{ margin-bottom:8px; font-size:13.5px; }
+.concept-box .step b{ color:var(--blue); margin-right:4px; }
+.concept-box.prac-type .step b{ color:var(--green); }
+.concept-box .exam-ex{
+  margin-top:10px; background:var(--bg2); border-radius:8px; padding:10px 12px; font-size:12.5px; color:var(--muted);
+}
+
+.shock{
+  background:var(--gold-bg); border:1px solid #F0DDA0; border-radius:14px; padding:18px 20px; margin-bottom:14px;
+}
+.shock.top-priority{ background:var(--red-bg); border:1.5px solid #F1B0A5; }
+.shock-tag{
+  display:inline-block; background:var(--red); color:var(--white); font-size:11px; font-weight:700;
+  padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.shock.top-priority .shock-tag{ background:var(--red); }
+.shock h3{ font-size:15px; font-weight:700; margin-bottom:8px; }
+.shock p{ font-size:13.5px; color:var(--text); margin-bottom:6px; }
+.shock .fix{ font-size:13px; color:var(--green); font-weight:600; }
+.shock .fix::before{ content:'✓ '; }
+
+.table-wrap{ overflow-x:auto; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+table{ width:100%; border-collapse:collapse; background:var(--white); font-size:13.5px; min-width:520px; }
+table th{
+  background:var(--bg2); text-align:left; padding:11px 14px; font-weight:700; font-size:12.5px;
+  border-bottom:1px solid var(--border); white-space:nowrap;
+}
+table td{ padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+table td code{ background:var(--bg2); padding:2px 6px; border-radius:6px; font-size:12px; }
+table tr:last-child td{ border-bottom:none; }
+
+/* ===== 퀴즈 ===== */
+.quiz-item{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.quiz-item .qnum{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--blue);
+  background:var(--blue-bg); padding:4px 10px; border-radius:20px; margin-bottom:10px;
+}
+.quiz-item .qtext{ font-size:14.5px; font-weight:700; margin-bottom:14px; }
+.quiz-opt{
+  display:block; width:100%; text-align:left; padding:11px 14px; margin-bottom:8px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--white);
+  font-size:13.5px; cursor:pointer; transition:.15s; font-family:inherit; color:var(--text);
+}
+.quiz-opt:hover{ background:var(--bg2); }
+.quiz-opt.selected{ background:var(--blue-bg); border-color:var(--blue); color:var(--blue); font-weight:700; }
+.quiz-opt.correct{ background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:700; }
+.quiz-opt.wrong{ background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:700; }
+.quiz-opt:disabled{ cursor:default; }
+.quiz-feedback{
+  margin-top:10px; padding:11px 14px; border-radius:10px; font-size:13px; display:none;
+}
+.quiz-feedback.show{ display:block; }
+.quiz-feedback.ok{ background:var(--green-bg); color:var(--green); }
+.quiz-feedback.no{ background:var(--red-bg); color:var(--red); }
+.retry-btn{
+  margin-top:10px; display:none; background:var(--bg2); border:1px solid var(--border);
+  border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text);
+  cursor:pointer; font-family:inherit;
+}
+.retry-btn.show{ display:inline-block; }
+.retry-btn:hover{ background:var(--border); }
+
+.name-gate{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:24px; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center;
+}
+.name-gate p{ font-size:14px; color:var(--muted); margin-bottom:14px; }
+.name-gate input{
+  width:100%; max-width:280px; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:10px; font-size:14px; font-family:inherit; margin-bottom:12px; text-align:center;
+}
+.name-gate button{
+  background:var(--blue); color:var(--white); border:none; border-radius:10px;
+  padding:11px 22px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.name-gate button:hover{ opacity:.9; }
+
+.quiz-submit-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-top:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.submit-btn{
+  background:var(--green); color:var(--white); border:none; border-radius:10px;
+  padding:13px 28px; font-size:14.5px; font-weight:700; cursor:pointer; font-family:inherit;
+}
+.submit-btn:hover{ opacity:.9; }
+.submit-btn:disabled{ background:var(--border); cursor:default; }
+.retry-all-btn{
+  background:var(--white); color:var(--text); border:1.5px solid var(--border); border-radius:10px;
+  padding:13px 24px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; margin-left:8px;
+}
+.retry-all-btn:hover{ background:var(--bg2); }
+.submit-status{ margin-top:12px; font-size:13.5px; color:var(--green); font-weight:600; min-height:18px; }
+
+/* ===== 체크리스트 ===== */
+.checks{ background:var(--white); border:1px solid var(--border); border-radius:14px; padding:8px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.check-item{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:10px; transition:.15s; }
+.check-item:hover{ background:var(--bg2); }
+.check-item input[type="checkbox"]{ width:19px; height:19px; accent-color:var(--green); cursor:pointer; flex-shrink:0; }
+.check-item label{ font-size:14px; cursor:pointer; }
+
+footer{
+  margin-top:50px; padding:24px; text-align:center; border-top:1px solid var(--border);
+  font-size:12.5px; color:var(--muted);
+}
+footer b{ color:var(--text); }
+footer .school{ font-size:14px; font-weight:800; color:var(--blue); margin-bottom:4px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px){
+  .mobile-bar{ display:flex; }
+  .sidebar{
+    top:54px; width:78%; max-width:300px; height:auto;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:4px 0 24px rgba(0,0,0,.12);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .main{ margin-left:0; padding:70px 18px 50px; max-width:100%; }
+  .card-grid{ grid-template-columns:1fr; }
+  .hero{ padding:28px 22px; }
+  .hero h1{ font-size:19px; }
+  table{ font-size:12.5px; min-width:420px; }
+}
+
+@media (max-width: 480px){
+  .hero h1{ font-size:17px; line-height:1.5; }
+  h2.section-title{ font-size:17px; }
+  table{ font-size:11.5px; min-width:380px; }
+  .main{ padding:66px 14px 40px; }
+  .quiz-item{ padding:16px; }
+}
+/* ===== 필기 도식 ===== */
+.vis-box{
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.vis-box.exam-type{ border-left:4px solid var(--blue); }
+.vis-box h3{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.vis-box .lead{ font-size:13px; color:var(--muted); margin-bottom:16px; }
+figure{ margin:0; text-align:center; }
+figcaption{ font-size:12.5px; color:var(--muted); margin-top:10px; text-align:center; }
+.figno{ background:none; border:none; font-weight:700; color:var(--blue); }
+
+.svg-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.svg-wrap svg{ width:100%; height:auto; display:block; margin:0 auto; }
+.svg-hint{ display:none; font-size:11.5px; color:var(--muted); text-align:center; margin-top:6px; }
+@media (max-width: 760px){
+  /* 도식은 축소하면 글자가 안 읽혀서, 원래 크기를 유지하고 좌우로 밀어 보게 한다 */
+  .svg-wrap svg{ width:660px; max-width:none; }
+  .svg-hint{ display:block; }
+  .vis-box{ padding:14px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">
+  <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  <div class="title">17차시 복습자료</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <span class="badge">컴활2급 · 필기+실기</span>
+  <h1>17차시 복습자료</h1>
+  <p class="meta"><b>2026-09-28</b><br>추석 뒤 첫 수업. 오전 필기는 <b>멀티미디어</b>와 <b>정보 보안</b>, 오후 실기는 <b>함수·기본 작업·분석 작업</b>. 배운 순서 그대로 실었습니다.</p>
+
+  <nav>
+    <p class="nav-title">오늘의 목차</p>
+    <ul>
+      <li><a href="#hero" onclick="closeSidebar()"><span class="num">1</span>한 줄 요약</a></li>
+      <li><a href="#summary" onclick="closeSidebar()"><span class="num">2</span>핵심 요약</a></li>
+      <li><a href="#concept" onclick="closeSidebar()"><span class="num">3</span>개념 다시 보기 (그림 13)</a></li>
+      <li><a href="#mistakes" onclick="closeSidebar()"><span class="num">4</span>자주 하는 실수</a></li>
+      <li><a href="#shortcut" onclick="closeSidebar()"><span class="num">5</span>단축키·기능 정리표</a></li>
+      <li><a href="#quiz" onclick="closeSidebar()"><span class="num">6</span>미니 퀴즈 10</a></li>
+      <li><a href="#checklist" onclick="closeSidebar()"><span class="num">7</span>체크리스트</a></li>
+    </ul>
+  </nav>
+
+  <div class="teacher-box">
+    <b>김태희 강사</b>
+    우리컴퓨터학원<br>052)258-3388
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero" id="hero">
+    <div class="tag-row">
+      <span class="tag">필기 · 멀티미디어</span>
+      <span class="tag">필기 · 정보 보안</span>
+      <span class="tag">실기 · 오류와 차트</span>
+      <span class="tag">실기 · 함수·분석 작업</span>
+    </div>
+    <h1>오늘은 <b>이름과 역할을 짝짓는 문제</b>가 계속 나왔습니다. 멀티미디어 용어와 보안 공격 이름은 <b>한 단어씩 붙여서 외우세요.</b></h1>
+    <p class="sub">2026-09-28 · 17차시 · 추석 뒤 첫 수업. 오전에는 <b>멀티미디어</b>(그래픽 기법·파일 형식·오디오와 비디오·활용 용어)를 끝내고 <b>정보 보안</b>(바이러스·보안 위협 3형태·공격 기법)으로 넘어갔습니다. 오후 실기는 <b>수식 오류와 차트 종류</b>를 정리한 뒤 함수 문제와 기본 작업·분석 작업을 풀었습니다.</p>
+    <div class="key-badges">
+      <span class="key-badge">🎨 그래픽 기법</span>
+      <span class="key-badge">🖼 파일 형식</span>
+      <span class="key-badge">🔒 보안 3요건</span>
+      <span class="key-badge">🧮 함수 문제</span>
+      <span class="key-badge">🖼️ 그림 13장</span>
+    </div>
+  </section>
+
+  <section id="summary">
+    <h2 class="section-title"><span class="si">📌</span>오늘 배운 핵심 요약</h2>
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>★[필기] 모델링과 렌더링</h3>
+        <p><b>모델링</b>은 3차원 물체의 <b class="k">뼈대를 세우는</b> 작업, <b>렌더링</b>은 거기에 <b class="k">색·명암·농도를 입히는</b> 작업입니다. 순서도 모델링이 먼저입니다.</p>
+        <div class="use">「명암을 입힌다」가 나오면 렌더링</div>
+      </div>
+
+      <div class="card">
+        <h3>★[필기] 계단 현상은 «앨리어싱»</h3>
+        <p>비트맵을 확대하면 가장자리가 계단처럼 보입니다. 그 현상이 <b>앨리어싱</b>, 그걸 부드럽게 없애는 작업이 <b class="k">안티앨리어싱</b>입니다.</p>
+        <div class="use">앞에 «안티»가 붙으면 없애는 쪽</div>
+      </div>
+
+      <div class="card">
+        <h3>[필기] 비트맵과 벡터</h3>
+        <p><b>비트맵</b>=픽셀(래스터), 사실적이지만 확대하면 깨지고 용량이 큽니다. <b>벡터</b>=선과 곡선, <b class="k">확대해도 안 깨집니다.</b> 로고·현수막에 씁니다.</p>
+        <div class="use">확대해도 깨지지 않으면 벡터</div>
+      </div>
+
+      <div class="card">
+        <h3>[필기] 파일 형식은 한 단어씩</h3>
+        <p><b>BMP</b>=윈도우 표준·용량 큼 · <b>JPG</b>=국제 표준 압축 · <b>GIF</b>=<b class="k">애니메이션</b> · <b>PNG</b>=<b class="k">투명</b>. 네 글자만 붙여 두면 됩니다.</p>
+        <div class="use">애니메이션은 GIF, 투명은 PNG</div>
+      </div>
+
+      <div class="card">
+        <h3>[필기] WAV는 소리, MIDI는 악보</h3>
+        <p><b>WAV</b>는 실제 소리를 녹음해 담아 <b>용량이 큽니다.</b> <b>MIDI</b>는 「어떤 악기로 어떤 음을」이라는 <b class="k">연주 정보</b>만 담아 <b>용량이 작습니다.</b></p>
+        <div class="use">용량을 물으면 WAV와 MIDI를 비교하세요</div>
+      </div>
+
+      <div class="card">
+        <h3>★[필기] 보안 위협 3형태 ↔ 3요건</h3>
+        <p><b>가로막기</b>→가용성, <b>가로채기</b>→비밀성, <b>수정·위조·변조</b>→무결성. 세 쌍을 통째로 외웁니다.</p>
+        <div class="use">이 연결만 묻는 문제가 따로 나옵니다</div>
+      </div>
+
+      <div class="card">
+        <h3>[필기] 바이러스에 «치료»는 없습니다</h3>
+        <p>바이러스의 기능은 복제·은폐·파괴입니다. <b class="r">치료는 백신이 하는 일</b>이에요. 보기에 「치료 기능」이 끼어 있으면 그게 답입니다.</p>
+        <div class="use">감염 경로 — 인터넷·내려받은 파일·외부 저장장치</div>
+      </div>
+
+      <div class="card">
+        <h3>[실기] 찾기 함수에는 «*1»</h3>
+        <p><b>MID·LEFT·RIGHT</b>의 결과는 <b class="k">문자</b>입니다. 기준표의 숫자와 맞춰야 하는 <b>VLOOKUP</b>에 그냥 넣으면 <code>#N/A</code>가 납니다. 뒤에 <code>*1</code>을 붙입니다.</p>
+        <div class="use">기준표가 숫자일 때만 붙입니다</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept">
+    <h2 class="section-title"><span class="si">💡</span>개념 다시 보기</h2>
+
+    <div class="concept-box">
+      <h3>먼저 — 오늘 배운 순서</h3>
+      <div class="step"><b>1교시</b> 멀티미디어 마무리 — 그래픽 기법(모델링·렌더링·디더링·모핑·인터레이싱·안티앨리어싱) → 비트맵과 벡터 → 그래픽 파일 형식 → 오디오·비디오 형식 → 활용 용어(VOD·VR·AR·메타버스 등) → <b>문제 풀이</b>.</div>
+      <div class="step"><b>2교시</b> <b class="k">정보 보안</b> — 정보 사회의 문제점 · 컴퓨터 범죄 예방 → 바이러스(기능·감염 경로) → <b>보안 위협 3형태와 보안 3요건</b> → 공격 기법 14가지 → 이어서 실기 <b>수식 오류 8종</b>과 <b>차트 종류별 특징</b>.</div>
+      <div class="step"><b>3교시</b> 실기 문제 풀이 — 시간 함수(HOUR·MINUTE·SECOND) → <b class="k">MID와 VLOOKUP의 «*1»</b> → WEEKDAY 반납 예정일 → 누적 합계 → DMAX+MATCH+INDEX → 기본 작업(선택 영역의 가운데로·텍스트 나누기) → 분석 작업(부분합·통합).</div>
+      <div class="step"><b class="k">지난 퀴즈는 전 문항 86% 이상</b>이었습니다. 다시 짚을 문항이 없어 오늘은 <b>새 내용에 전부 배정</b>했습니다.</div>
+      <div class="step"><b class="r">알려 드릴 것</b> — 오늘 녹음이 <b>3개만</b> 올라왔고 첫 파일도 앞부분이 잘려 있습니다. 1교시 앞머리에서 다룬 내용이 빠졌을 수 있으니, 빠진 대목이 있으면 말씀해 주세요.</div>
+      <div class="vis-box exam-type">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="오늘 배운 순서">
+  <text x="360" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">오늘 배운 순서</text>
+
+  <rect x="20" y="42" width="330" height="192" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="185" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">오전 · 필기</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="40" y="92">① 그래픽 기법 6가지</text>
+    <text x="40" y="116">② 비트맵 vs 벡터</text>
+    <text x="40" y="140">③ 파일 형식 — 그림 · 소리 · 동영상</text>
+    <text x="40" y="164">④ 활용 용어 (VOD · VR · AR …)</text>
+    <text x="40" y="188">⑤ 바이러스 · 컴퓨터 범죄</text>
+    <text x="40" y="212">⑥ <tspan font-weight="700">보안 위협 3형태 ↔ 3요건</tspan> · 공격 기법</text>
+  </g>
+
+  <g stroke="#95A5A6" stroke-width="1.8" fill="none"><path d="M352 138 L368 138" marker-end="url(#o17)"/></g>
+  <defs><marker id="o17" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="372" y="42" width="328" height="192" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="536" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">오후 · 실기</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="392" y="92">⑦ 수식 오류 8종 · 표시 형식 「?」</text>
+    <text x="392" y="116">⑧ 차트 종류별 특징</text>
+    <text x="392" y="140">⑨ 시간 함수 · <tspan font-weight="700">MID와 «*1»</tspan></text>
+    <text x="392" y="164">⑩ WEEKDAY 반납 예정일</text>
+    <text x="392" y="188">⑪ 누적 합계 · DMAX+MATCH+INDEX</text>
+    <text x="392" y="212">⑫ 기본 작업 · 부분합 · 통합</text>
+  </g>
+
+  <rect x="20" y="246" width="680" height="28" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.4"/>
+  <text x="360" y="265" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">지난 퀴즈 전 문항 86% 이상 — 다시 짚을 문항 없음</text>
+</svg></div>
+          <figcaption>그림 1 · 오전은 외우는 단원, 오후는 기출 문제 풀이입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>★🎨 [필기] 그래픽 기법 여섯 개</h3>
+      <div class="step"><b>모델링</b> 3차원 물체의 <b class="k">뼈대</b>를 만드는 작업. 아직 색이 없습니다.</div>
+      <div class="step"><b>렌더링</b> 그 뼈대에 <b class="k">색·명암·농도</b>를 입혀 실물처럼 만드는 작업. 모델링 다음에 합니다.</div>
+      <div class="step"><b>디더링</b> 가진 색이 부족할 때 <b class="k">있는 색을 섞어</b> 없는 색처럼 보이게 하는 작업.</div>
+      <div class="step"><b>모핑</b> 한 이미지가 다른 이미지로 <b class="k">서서히 변하는</b> 효과. 얼굴이 동물로 변하는 장면이 이것입니다.</div>
+      <div class="step"><b>인터레이싱</b> 그림을 <b class="k">흐리게 먼저</b> 보여 주고 점점 선명해지게 하는 방식.</div>
+      <div class="step"><b>안티앨리어싱</b> 확대했을 때 생기는 <b class="k">계단 현상을 부드럽게</b> 다듬는 작업. 계단 현상 자체는 <b>앨리어싱</b>입니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="그래픽 기법 여섯 가지">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">그래픽 기법 — 한 단어로 외우기</text>
+
+  <rect x="20" y="40" width="216" height="72" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="128" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">모델링</text>
+  <text x="128" y="88" text-anchor="middle" font-size="11.5" fill="#2C3E50">3차원 <tspan font-weight="700">뼈대</tspan> 만들기</text>
+
+  <rect x="252" y="40" width="216" height="72" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="360" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">렌더링</text>
+  <text x="360" y="88" text-anchor="middle" font-size="11.5" fill="#2C3E50"><tspan font-weight="700">색 · 명암 · 농도</tspan> 입히기</text>
+
+  <rect x="484" y="40" width="216" height="72" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="592" y="64" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">디더링</text>
+  <text x="592" y="88" text-anchor="middle" font-size="11.5" fill="#2C3E50">있는 색을 <tspan font-weight="700">섞어서</tspan></text>
+
+  <path d="M240 76 L248 76" stroke="#C0392B" stroke-width="2.2" marker-end="url(#g1)"/>
+  <defs><marker id="g1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#C0392B"/></marker></defs>
+  <text x="244" y="126" text-anchor="middle" font-size="10.5" font-weight="700" fill="#C0392B">순서</text>
+
+  <rect x="20" y="140" width="216" height="72" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="128" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">모핑</text>
+  <text x="128" y="188" text-anchor="middle" font-size="11.5" fill="#2C3E50">A가 B로 <tspan font-weight="700">서서히 변함</tspan></text>
+
+  <rect x="252" y="140" width="216" height="72" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="360" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1F4E8C">인터레이싱</text>
+  <text x="360" y="188" text-anchor="middle" font-size="11.5" fill="#2C3E50"><tspan font-weight="700">흐리게 → 선명하게</tspan></text>
+
+  <rect x="484" y="140" width="216" height="72" rx="9" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.6"/>
+  <text x="592" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#7D6608">안티앨리어싱</text>
+  <text x="592" y="188" text-anchor="middle" font-size="11.5" fill="#2C3E50"><tspan font-weight="700">계단 현상</tspan>을 부드럽게</text>
+
+  <rect x="20" y="226" width="680" height="44" rx="9" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.5"/>
+  <text x="360" y="246" text-anchor="middle" font-size="12.5" font-weight="700" fill="#7D6608">앨리어싱 ↔ 안티앨리어싱</text>
+  <text x="360" y="264" text-anchor="middle" font-size="11.5" fill="#2C3E50">계단 현상 «그 자체»가 앨리어싱, 그걸 «없애는 작업»이 안티앨리어싱</text>
+</svg></div>
+          <figcaption>그림 2 · 빨간 두 칸은 순서까지 묻습니다. 모델링이 먼저입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🖼 [필기] 비트맵과 벡터 — 확대해서 비교하세요</h3>
+      <div class="step"><b>비트맵</b>(= <b class="k">래스터</b>) 점(픽셀)을 찍어 만듭니다. 사진처럼 <b>사실적</b>이지만 <b class="r">확대하면 계단처럼 깨지고</b> 용량이 큽니다. BMP·JPG·GIF·PNG가 여기 속합니다.</div>
+      <div class="step"><b>벡터</b> 점과 점을 잇는 <b class="k">선·곡선의 수식</b>으로 만듭니다. <b class="k">확대해도 깨지지 않아</b> 로고나 현수막처럼 크게 뽑는 것에 씁니다. WMF·AI·SVG가 여기 속합니다.</div>
+      <div class="step"><b>시험에서는</b> 「확대해도 깨지지 않는 것」, 「점의 집합인 것」, 「래스터 방식의 다른 이름」으로 갈라 묻습니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="비트맵과 벡터 비교">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">비트맵 vs 벡터 — 확대했을 때</text>
+
+  <rect x="20" y="40" width="330" height="190" rx="10" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="185" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">비트맵 (래스터)</text>
+  <g fill="#E74C3C">
+    <rect x="70" y="86" width="16" height="16"/><rect x="86" y="102" width="16" height="16"/>
+    <rect x="102" y="118" width="16" height="16"/><rect x="118" y="134" width="16" height="16"/>
+    <rect x="134" y="150" width="16" height="16"/>
+  </g>
+  <text x="240" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">계단 현상</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="40" y="190">점(픽셀)의 집합 · 사실적 표현</text>
+    <text x="40" y="212">확대하면 깨짐 · 용량 큼 · BMP JPG GIF PNG</text>
+  </g>
+
+  <rect x="370" y="40" width="330" height="190" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="535" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1E8449">벡터</text>
+  <path d="M420 166 L500 86" stroke="#27AE60" stroke-width="7" stroke-linecap="round"/>
+  <text x="590" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">그대로 매끈</text>
+  <g font-size="11.5" fill="#1B5E20">
+    <text x="390" y="190">선과 곡선의 수식 · 로고 · 현수막</text>
+    <text x="390" y="212">확대해도 안 깨짐 · 용량 작음 · WMF AI SVG</text>
+  </g>
+</svg></div>
+          <figcaption>그림 3 · 확대해도 깨지지 않으면 벡터입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🖼 [필기] 그래픽 파일 형식 — 네 글자에 한 단어씩</h3>
+      <div class="step"><b>BMP</b> 윈도우 <b class="k">표준</b> 비트맵. 일반적으로 압축하지 않아 화질은 좋지만 <b>용량이 큽니다.</b></div>
+      <div class="step"><b>JPG(JPEG)</b> 정지 화상 압축의 <b class="k">국제 표준</b>. 압축률을 조절할 수 있어 인터넷 사진에 많이 씁니다. <b class="r">기본은 손실 압축</b>이라 저장을 반복하면 화질이 떨어집니다.</div>
+      <div class="step"><b>GIF</b> <b class="k">애니메이션</b>이 됩니다. 색은 256가지로 제한됩니다.</div>
+      <div class="step"><b>PNG</b> <b class="k">투명</b> 배경을 표현할 수 있고, 글자나 선처럼 경계가 뚜렷한 그림에서 JPG보다 선명합니다.</div>
+      <div class="step"><b>WMF</b> 윈도우에서 쓰는 <b class="k">벡터</b> 형식. 위 넷과 달리 비트맵이 아닙니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="그래픽 파일 형식">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">그래픽 파일 형식 — 대표 단어 하나씩</text>
+
+  <rect x="20" y="40" width="130" height="84" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="85" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1F4E8C">BMP</text>
+  <text x="85" y="88" text-anchor="middle" font-size="11.5" fill="#2C3E50">윈도우 표준</text>
+  <text x="85" y="108" text-anchor="middle" font-size="11" fill="#C0392B">용량 큼</text>
+
+  <rect x="162" y="40" width="130" height="84" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="227" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1F4E8C">JPG</text>
+  <text x="227" y="88" text-anchor="middle" font-size="11.5" fill="#2C3E50">국제 표준 압축</text>
+  <text x="227" y="108" text-anchor="middle" font-size="11" fill="#C0392B">손실 압축</text>
+
+  <rect x="304" y="40" width="130" height="84" rx="9" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.6"/>
+  <text x="369" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#7D6608">GIF</text>
+  <text x="369" y="88" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7D6608">애니메이션</text>
+  <text x="369" y="108" text-anchor="middle" font-size="11" fill="#2C3E50">색 256가지</text>
+
+  <rect x="446" y="40" width="130" height="84" rx="9" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.6"/>
+  <text x="511" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#7D6608">PNG</text>
+  <text x="511" y="88" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7D6608">투명</text>
+  <text x="511" y="108" text-anchor="middle" font-size="11" fill="#2C3E50">경계가 선명</text>
+
+  <rect x="588" y="40" width="112" height="84" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="644" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1E8449">WMF</text>
+  <text x="644" y="88" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">벡터</text>
+  <text x="644" y="108" text-anchor="middle" font-size="11" fill="#2C3E50">혼자 다름</text>
+
+  <rect x="20" y="140" width="680" height="30" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.4"/>
+  <text x="360" y="160" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">「PNG는 애니메이션이 된다」 → 틀린 보기. 애니메이션은 GIF입니다</text>
+
+  <rect x="20" y="176" width="680" height="28" rx="8" fill="#F4F7FC" stroke="#D5DDE9" stroke-width="1.2"/>
+  <text x="360" y="195" text-anchor="middle" font-size="11.5" fill="#2C3E50">트루 컬러 = R·G·B 각 8비트 → 합쳐서 <tspan font-weight="700">24비트</tspan> (계산 문제로 나옵니다)</text>
+</svg></div>
+          <figcaption>그림 4 · 애니메이션은 GIF, 투명은 PNG로 구분하세요.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔊 [필기] 소리와 동영상 형식</h3>
+      <div class="step"><b>WAV</b> 실제 소리를 그대로 담습니다(샘플링). <b class="r">용량이 큽니다.</b></div>
+      <div class="step"><b>MIDI</b> 소리가 아니라 <b class="k">「어떤 악기로 어떤 음을 얼마나」라는 연주 정보</b>만 담습니다. 그래서 <b class="k">용량이 아주 작습니다.</b> 사람 목소리를 그대로 담지는 못합니다.</div>
+      <div class="step"><b>MP3</b> MPEG 계열의 <b class="k">오디오 압축</b> 형식. <b>MPEG</b>은 <b class="k">동영상 압축의 국제 표준</b>입니다.</div>
+      <div class="step"><b>AVI</b> 마이크로소프트가 만든 윈도우 표준 동영상. <b>ASF·WMV</b> <b class="k">스트리밍</b>(내려받으면서 바로 재생)을 위한 형식.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="오디오 비디오 형식">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">소리와 동영상 — 용량이 갈리는 이유</text>
+
+  <rect x="20" y="40" width="330" height="96" rx="10" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="185" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#C0392B">WAV — 소리 그 자체</text>
+  <path d="M50 100 Q70 76 90 100 T130 100 T170 100 T210 100 T250 100 T290 100 T320 100" stroke="#E74C3C" stroke-width="2.2" fill="none"/>
+  <text x="185" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">파형을 통째로 저장 → 용량 큼</text>
+
+  <rect x="370" y="40" width="330" height="96" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="535" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1E8449">MIDI — 연주 정보</text>
+  <g fill="#27AE60">
+    <rect x="410" y="94" width="10" height="14" rx="2"/><rect x="440" y="86" width="10" height="22" rx="2"/>
+    <rect x="470" y="98" width="10" height="10" rx="2"/><rect x="500" y="82" width="10" height="26" rx="2"/>
+    <rect x="530" y="92" width="10" height="16" rx="2"/><rect x="560" y="88" width="10" height="20" rx="2"/>
+    <rect x="590" y="96" width="10" height="12" rx="2"/><rect x="620" y="84" width="10" height="24" rx="2"/>
+  </g>
+  <text x="535" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">악기·음높이·길이만 저장 → 용량 작음</text>
+
+  <rect x="20" y="150" width="216" height="56" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="128" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">MPEG</text>
+  <text x="128" y="192" text-anchor="middle" font-size="11.5" fill="#2C3E50">동영상 압축 <tspan font-weight="700">국제 표준</tspan></text>
+
+  <rect x="252" y="150" width="216" height="56" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="360" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">AVI</text>
+  <text x="360" y="192" text-anchor="middle" font-size="11.5" fill="#2C3E50">MS · <tspan font-weight="700">윈도우 표준</tspan> 동영상</text>
+
+  <rect x="484" y="150" width="216" height="56" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.4"/>
+  <text x="592" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">ASF · WMV</text>
+  <text x="592" y="192" text-anchor="middle" font-size="11.5" fill="#2C3E50"><tspan font-weight="700">스트리밍</tspan>용</text>
+</svg></div>
+          <figcaption>그림 5 · 용량을 묻는 문제는 WAV와 MIDI를 비교합니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📺 [필기] 멀티미디어 활용 용어</h3>
+      <div class="step"><b>VOD</b> 보고 싶을 때 골라 보는 주문형 비디오 · <b>VCS</b> 화상 회의 · <b>MOD</b> 주문형 음악.</div>
+      <div class="step"><b>VR</b> 화면 전체가 <b class="k">가상 세계</b> · <b>AR</b> <b class="k">실제 화면 위에</b> 정보를 겹쳐 보여 줌. 핵심 기술은 <b>인터랙션 · 렌더링 · 트래킹</b>입니다.</div>
+      <div class="step"><b>CAI</b> 컴퓨터를 이용한 교육 · <b>홀로그램</b> 입체 영상 · <b>메타버스</b> 현실처럼 활동하는 3차원 가상 세계.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="멀티미디어 활용 용어">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">VR과 AR — 가장 자주 갈라 묻습니다</text>
+
+  <rect x="20" y="40" width="330" height="112" rx="10" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="185" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1F4E8C">VR · 가상현실</text>
+  <rect x="90" y="78" width="190" height="52" rx="6" fill="#5B86C9"/>
+  <text x="185" y="109" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">화면 전체가 가상</text>
+  <text x="185" y="146" text-anchor="middle" font-size="11.5" fill="#2C3E50">현실은 보이지 않습니다</text>
+
+  <rect x="370" y="40" width="330" height="112" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="535" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#1E8449">AR · 증강현실</text>
+  <rect x="440" y="78" width="190" height="52" rx="6" fill="#fff" stroke="#27AE60" stroke-width="1.4"/>
+  <text x="500" y="100" text-anchor="middle" font-size="11" fill="#7F8C8D">실제 화면</text>
+  <rect x="540" y="86" width="80" height="26" rx="4" fill="#27AE60"/>
+  <text x="580" y="104" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff">가상 정보</text>
+  <text x="535" y="146" text-anchor="middle" font-size="11.5" fill="#2C3E50">현실 위에 «겹쳐» 보여 줍니다</text>
+
+  <rect x="20" y="164" width="680" height="28" rx="8" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.4"/>
+  <text x="360" y="183" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7D6608">AR·VR 핵심 기술 3가지 — 인터랙션 · 렌더링 · 트래킹</text>
+</svg></div>
+          <figcaption>그림 6 · 현실이 보이면 AR, 안 보이면 VR입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🦠 [필기] 바이러스 — 기능 세 가지와 감염 경로</h3>
+      <div class="step"><b>바이러스가 하는 일</b> <b class="k">복제 · 은폐 · 파괴</b>. 부트 영역이나 프로그램에 붙어 삽니다.</div>
+      <div class="step"><b class="r">「치료 기능」은 바이러스에 없습니다.</b> 치료는 <b>백신</b>이 하는 일입니다. 보기 네 개 중에 치료가 섞여 있으면 그게 답이에요.</div>
+      <div class="step"><b>감염 경로</b> 인터넷 · 내려받은 파일 · <b class="k">외부 저장장치로 복사한 파일</b>. 게시판에서 받은 파일도 검사한 뒤 실행합니다.</div>
+      <div class="step"><b>예방 대책</b> 의심스러운 메일과 첨부 파일은 열지 않기 · 비밀번호는 <b>주기적으로 변경</b> · 백신 <b>최신 상태 유지</b>. <b class="r">DNS 설정을 함부로 바꾸는 것은 예방 대책이 아닙니다</b> — 이게 「옳지 않은 것」 문제의 답으로 나옵니다.</div>
+      <div class="step"><b>매크로 바이러스</b> 문서의 매크로를 이용하는 바이러스. <b>멜리사</b>가 대표 사례로 나옵니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>★🔒 [필기] 보안 위협 3형태 ↔ 보안 3요건</h3>
+      <div class="step">셋을 <b class="k">짝으로 통째로</b> 외웁니다. 위협 하나를 주고 「무엇을 해치는가」를 묻는 문제가 그대로 나옵니다.</div>
+      <div class="step"><b>가로막기(차단)</b> 자료가 <b class="k">아예 못 가게</b> 막습니다 → 쓸 수 없게 되니 <b>가용성</b>을 해칩니다.</div>
+      <div class="step"><b>가로채기</b> 몰래 <b class="k">훔쳐봅니다</b>. 자료는 그대로 갑니다 → 남이 봤으니 <b>비밀성</b>을 해칩니다.</div>
+      <div class="step"><b>수정 · 위조 · 변조</b> 내용을 <b class="k">바꿔서</b> 보냅니다 → 내용이 달라졌으니 <b>무결성</b>을 해칩니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="보안 위협과 보안 요건">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">보안 위협 3형태 ↔ 보안 3요건</text>
+
+  <text x="60" y="56" text-anchor="middle" font-size="11" fill="#7F8C8D">보내는 쪽</text>
+  <text x="300" y="56" text-anchor="middle" font-size="11" fill="#7F8C8D">받는 쪽</text>
+
+  <circle cx="60" cy="88" r="15" fill="#fff" stroke="#5B86C9" stroke-width="1.5"/>
+  <circle cx="300" cy="88" r="15" fill="#fff" stroke="#5B86C9" stroke-width="1.5"/>
+  <path d="M80 88 L150 88" stroke="#5B86C9" stroke-width="2.2"/>
+  <line x1="162" y1="70" x2="182" y2="106" stroke="#E74C3C" stroke-width="3.5"/>
+  <line x1="182" y1="70" x2="162" y2="106" stroke="#E74C3C" stroke-width="3.5"/>
+  <text x="172" y="128" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">가로막기</text>
+  <rect x="380" y="70" width="300" height="36" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="530" y="94" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">가용성 — 쓸 수 없게 됨</text>
+
+  <circle cx="60" cy="168" r="15" fill="#fff" stroke="#5B86C9" stroke-width="1.5"/>
+  <circle cx="300" cy="168" r="15" fill="#fff" stroke="#5B86C9" stroke-width="1.5"/>
+  <path d="M80 168 L280 168" stroke="#5B86C9" stroke-width="2.2" marker-end="url(#sec1)"/>
+  <circle cx="180" cy="196" r="13" fill="#fff" stroke="#D4AC0D" stroke-width="1.6"/>
+  <text x="180" y="201" text-anchor="middle" font-size="12">👁</text>
+  <path d="M180 182 L180 174" stroke="#D4AC0D" stroke-width="1.8" stroke-dasharray="3 2"/>
+  <text x="240" y="201" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7D6608">가로채기</text>
+  <rect x="380" y="150" width="300" height="36" rx="8" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.6"/>
+  <text x="530" y="174" text-anchor="middle" font-size="12.5" font-weight="700" fill="#7D6608">비밀성 — 남이 봄</text>
+
+  <circle cx="60" cy="248" r="15" fill="#fff" stroke="#5B86C9" stroke-width="1.5"/>
+  <circle cx="300" cy="248" r="15" fill="#fff" stroke="#5B86C9" stroke-width="1.5"/>
+  <path d="M80 248 L158 248" stroke="#5B86C9" stroke-width="2.2"/>
+  <rect x="158" y="234" width="30" height="28" rx="5" fill="#8E44AD"/>
+  <text x="173" y="253" text-anchor="middle" font-size="12" fill="#fff">✎</text>
+  <path d="M190 248 L280 248" stroke="#8E44AD" stroke-width="2.2" marker-end="url(#sec2)"/>
+  <text x="235" y="278" text-anchor="middle" font-size="11.5" font-weight="700" fill="#6C3483">수정·위조·변조</text>
+  <rect x="380" y="230" width="300" height="36" rx="8" fill="#F4ECF7" stroke="#8E44AD" stroke-width="1.6"/>
+  <text x="530" y="254" text-anchor="middle" font-size="12.5" font-weight="700" fill="#6C3483">무결성 — 내용이 달라짐</text>
+
+  <defs>
+    <marker id="sec1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#5B86C9"/></marker>
+    <marker id="sec2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#8E44AD"/></marker>
+  </defs>
+</svg></div>
+          <figcaption>그림 7 · 막으면 가용성, 훔쳐보면 비밀성, 고치면 무결성입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🛡 [필기] 공격 기법 — 이름과 수법을 짝짓습니다</h3>
+      <div class="step"><b>스니핑</b> 오가는 <b class="k">패킷을 몰래 엿봐</b> 계정과 비밀번호를 알아냅니다. <b>스푸핑</b> 정상인 척 <b class="k">속입니다</b>(눈속임).</div>
+      <div class="step"><b>피싱</b> 은행·기관을 사칭해 개인정보를 입력하게 합니다. 매체에 따라 <b>스미싱</b>(문자) · <b>큐싱</b>(QR 코드)으로 갈립니다.</div>
+      <div class="step"><b>웜</b> 스스로 복제해 퍼지며 시스템에 부하를 줍니다. <b>DDoS</b> 여러 컴퓨터를 동원해 서버에 <b class="k">한꺼번에 요청을 퍼부어</b> 마비시킵니다. <b class="r">둘은 다른 분류입니다</b> — 웜에 감염된 PC가 DDoS에 동원될 수는 있지만, DDoS가 웜의 한 종류는 아닙니다.</div>
+      <div class="step"><b>트로이 목마</b> 정상 프로그램인 척 숨어 있다가 피해를 줍니다. 바이러스와 달리 <b class="k">스스로 복제하지는 않습니다.</b></div>
+      <div class="step"><b>백도어</b> 몰래 드나드는 뒷문 · <b>키로거</b> 키보드 입력을 훔침 · <b>피기백</b> 로그아웃 안 한 <b class="k">남의 자리에서</b> 이어서 작업 · <b>랜섬웨어</b> 파일을 <b class="k">암호화하고 돈을 요구</b>.</div>
+      <div class="step"><b>막는 쪽</b> <b>허니팟</b> 침입자를 <b class="k">일부러 유인해</b> 수법을 관찰하는 미끼 시스템 · <b>디지털 워터마킹</b> 저작권 정보를 콘텐츠에 <b class="k">몰래 새겨</b> 둠.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="공격 기법 분류">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">공격 기법 — 수법으로 묶어 외우기</text>
+
+  <rect x="20" y="38" width="216" height="104" rx="9" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.5"/>
+  <text x="128" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#7D6608">몰래 본다</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="40" y="84"><tspan font-weight="700">스니핑</tspan> — 패킷 엿보기</text>
+    <text x="40" y="106"><tspan font-weight="700">키로거</tspan> — 키보드 훔치기</text>
+    <text x="40" y="128"><tspan font-weight="700">백도어</tspan> — 뒷문</text>
+  </g>
+
+  <rect x="252" y="38" width="216" height="104" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.5"/>
+  <text x="360" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">속인다</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="272" y="84"><tspan font-weight="700">스푸핑</tspan> — 정상인 척</text>
+    <text x="272" y="106"><tspan font-weight="700">피싱</tspan> — 기관 사칭</text>
+    <text x="272" y="128">스미싱(문자) · 큐싱(QR)</text>
+  </g>
+
+  <rect x="484" y="38" width="216" height="104" rx="9" fill="#F4ECF7" stroke="#8E44AD" stroke-width="1.5"/>
+  <text x="592" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#6C3483">망가뜨린다</text>
+  <g font-size="11.5" fill="#2C3E50">
+    <text x="504" y="84"><tspan font-weight="700">DDoS</tspan> — 요청 퍼붓기</text>
+    <text x="504" y="106"><tspan font-weight="700">웜</tspan> — 스스로 복제</text>
+    <text x="504" y="128"><tspan font-weight="700">랜섬웨어</tspan> — 암호화 후 금전</text>
+  </g>
+
+  <rect x="20" y="156" width="448" height="56" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.5"/>
+  <text x="244" y="178" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">숨어든다</text>
+  <text x="244" y="199" text-anchor="middle" font-size="11.5" fill="#2C3E50"><tspan font-weight="700">트로이 목마</tspan> 정상인 척 숨음(복제 안 함) · <tspan font-weight="700">피기백</tspan> 남의 자리 이어쓰기</text>
+
+  <rect x="484" y="156" width="216" height="56" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="592" y="178" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">막는 쪽</text>
+  <text x="592" y="199" text-anchor="middle" font-size="11.5" fill="#1B5E20"><tspan font-weight="700">허니팟</tspan> · <tspan font-weight="700">워터마킹</tspan></text>
+
+  <rect x="20" y="226" width="680" height="44" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="360" y="246" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">가장 많이 섞이는 둘 — 스니핑 vs 스푸핑</text>
+  <text x="360" y="264" text-anchor="middle" font-size="11.5" fill="#2C3E50">스<tspan font-weight="700">니</tspan>핑 = 엿보기(들여다봄) · 스<tspan font-weight="700">푸</tspan>핑 = 속이기(눈속임)</text>
+</svg></div>
+          <figcaption>그림 8 · 수법이 「본다·속인다·망가뜨린다」 중 어느 쪽인지 먼저 정합니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>⚠️ [실기] 수식 오류 여덟 가지</h3>
+      <div class="step"><code>#####</code> 값이 <b class="k">열 너비보다 길어서</b> 못 보여 주는 경우. 열을 넓히면 됩니다. 오류라기보다 표시 문제예요.</div>
+      <div class="step"><code>#DIV/0!</code> <b class="k">0이나 빈 셀로 나누었을 때.</b></div>
+      <div class="step"><code>#N/A</code> <b class="k">찾는 값이 없을 때.</b> VLOOKUP에서 가장 많이 봅니다.</div>
+      <div class="step"><code>#NAME?</code> <b class="k">함수 이름이나 정의된 이름을 잘못 썼을 때.</b></div>
+      <div class="step"><code>#NULL!</code> 두 범위를 공백으로 이었는데 <b class="k">겹치는 부분이 없을 때.</b></div>
+      <div class="step"><code>#NUM!</code> 숫자가 <b class="k">표현할 수 있는 범위를 벗어났을 때</b> · <code>#REF!</code> 참조하던 <b class="k">셀이나 시트가 지워졌을 때</b> · <code>#VALUE!</code> <b class="k">인수의 형식이 맞지 않을 때</b>(숫자 자리에 문자).</div>
+      <div class="step"><b>표시 형식 <code>?</code></b> 빈 자리를 <b class="k">0이 아니라 공백</b>으로 채웁니다. 소수점 위치를 세로로 맞출 때 씁니다. <code>0</code>은 없는 자리에 0을 찍습니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="수식 오류 종류">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">오류 메시지 — 원인 한 줄씩</text>
+
+  <g font-size="11.5">
+    <rect x="20" y="38" width="216" height="46" rx="8" fill="#F4F7FC" stroke="#D5DDE9" stroke-width="1.2"/>
+    <text x="40" y="58" font-family="monospace" font-weight="700" fill="#2C3E50">#####</text>
+    <text x="40" y="76" fill="#2C3E50">열 너비가 좁음</text>
+
+    <rect x="252" y="38" width="216" height="46" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.3"/>
+    <text x="272" y="58" font-family="monospace" font-weight="700" fill="#C0392B">#DIV/0!</text>
+    <text x="272" y="76" fill="#2C3E50">0 또는 빈 셀로 나눔</text>
+
+    <rect x="484" y="38" width="216" height="46" rx="8" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.3"/>
+    <text x="504" y="58" font-family="monospace" font-weight="700" fill="#C0392B">#N/A</text>
+    <text x="504" y="76" fill="#2C3E50">찾는 값이 없음</text>
+
+    <rect x="20" y="96" width="216" height="46" rx="8" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.3"/>
+    <text x="40" y="116" font-family="monospace" font-weight="700" fill="#7D6608">#NAME?</text>
+    <text x="40" y="134" fill="#2C3E50">함수·이름을 잘못 씀</text>
+
+    <rect x="252" y="96" width="216" height="46" rx="8" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.3"/>
+    <text x="272" y="116" font-family="monospace" font-weight="700" fill="#7D6608">#NULL!</text>
+    <text x="272" y="134" fill="#2C3E50">겹치는 범위가 없음</text>
+
+    <rect x="484" y="96" width="216" height="46" rx="8" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.3"/>
+    <text x="504" y="116" font-family="monospace" font-weight="700" fill="#7D6608">#NUM!</text>
+    <text x="504" y="134" fill="#2C3E50">숫자 범위를 벗어남</text>
+
+    <rect x="20" y="154" width="216" height="46" rx="8" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.3"/>
+    <text x="40" y="174" font-family="monospace" font-weight="700" fill="#1F4E8C">#REF!</text>
+    <text x="40" y="192" fill="#2C3E50">참조 셀·시트가 지워짐</text>
+
+    <rect x="252" y="154" width="216" height="46" rx="8" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.3"/>
+    <text x="272" y="174" font-family="monospace" font-weight="700" fill="#1F4E8C">#VALUE!</text>
+    <text x="272" y="192" fill="#2C3E50">인수 형식이 안 맞음</text>
+
+    <rect x="484" y="154" width="216" height="46" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.3"/>
+    <text x="504" y="174" font-family="monospace" font-weight="700" fill="#1E8449">순환 참조</text>
+    <text x="504" y="192" fill="#2C3E50">자기 셀을 자기가 참조</text>
+  </g>
+
+  <rect x="20" y="212" width="680" height="30" rx="8" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.4"/>
+  <text x="360" y="232" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7D6608">표시 형식 「?」 = 빈 자리를 «공백»으로 / 「0」 = 빈 자리에 «0»을 찍음</text>
+</svg></div>
+          <figcaption>그림 9 · 원인 한 줄을 같이 외우세요.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📊 [실기] 차트 종류별 특징</h3>
+      <div class="step"><b>원형 차트</b> <b class="r">데이터 계열이 하나만</b> 들어갑니다. 조각을 떼어 낼 수 있고 <b class="k">360도 회전</b>이 됩니다.</div>
+      <div class="step"><b>도넛형</b> 원형과 비슷하지만 <b class="k">여러 계열</b>을 넣을 수 있습니다. 고리 분리와 회전도 됩니다.</div>
+      <div class="step"><b>추세선</b> 분산형·거품형·막대형·꺾은선형 등에는 넣을 수 있지만, <b class="r">3차원 차트에는 넣을 수 없습니다.</b></div>
+      <div class="step"><b>스파크라인</b> <b class="k">셀 한 칸 안에</b> 들어가는 아주 작은 차트입니다. 별도의 차트 개체가 아닙니다.</div>
+    </div>
+
+    <div class="concept-box">
+      <h3>★🧮 [실기] MID·LEFT·RIGHT에 «*1»을 붙이는 자리</h3>
+      <div class="step"><b>문제</b> 수험번호에서 한 글자를 떼어 내 기준표에서 찾아오는 문제였습니다. 그대로 넣으면 <code>#N/A</code>가 났습니다.</div>
+      <div class="step"><b>이유</b> <b class="k">MID·LEFT·RIGHT의 결과는 숫자처럼 보여도 «문자»</b>입니다. 기준표 왼쪽 열이 <b>숫자</b>면 문자 "1"과 숫자 1이 달라서 못 찾습니다.</div>
+      <div class="step"><b>해결</b> 뒤에 <code>*1</code>을 붙이면 숫자로 바뀝니다. <code>+0</code>도 같은 효과입니다.</div>
+      <div class="step"><b class="r">언제 붙이나</b> — <b>기준표가 숫자일 때만</b>입니다. 기준표도 문자면 붙이지 않습니다. 그리고 <b>SUM·AVERAGE 같은 계산 함수에는 필요 없습니다</b> — 엑셀이 알아서 숫자로 봅니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MID와 VLOOKUP의 별1">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">MID 결과는 «문자» — 기준표가 숫자면 못 찾습니다</text>
+
+  <rect x="20" y="40" width="320" height="88" rx="10" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="180" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">✗ 그냥 넣으면</text>
+  <text x="180" y="86" text-anchor="middle" font-size="11" font-family="monospace" fill="#2C3E50">=VLOOKUP(MID(A2,5,1), 표, 2, 0)</text>
+  <rect x="120" y="96" width="120" height="24" rx="5" fill="#fff" stroke="#E74C3C" stroke-width="1.3"/>
+  <text x="180" y="113" text-anchor="middle" font-size="12" font-weight="700" font-family="monospace" fill="#C0392B">#N/A</text>
+
+  <rect x="380" y="40" width="320" height="88" rx="10" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="540" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">○ *1을 붙이면</text>
+  <text x="540" y="86" text-anchor="middle" font-size="11" font-family="monospace" fill="#2C3E50">=VLOOKUP(MID(A2,5,1)<tspan font-weight="700" fill="#1E8449">*1</tspan>, 표, 2, 0)</text>
+  <rect x="480" y="96" width="120" height="24" rx="5" fill="#fff" stroke="#27AE60" stroke-width="1.3"/>
+  <text x="540" y="113" text-anchor="middle" font-size="12" font-weight="700" fill="#1E8449">제대로 찾아옴</text>
+
+  <rect x="20" y="144" width="320" height="82" rx="9" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.5"/>
+  <text x="180" y="166" text-anchor="middle" font-size="12" font-weight="700" fill="#7D6608">붙이는 경우</text>
+  <text x="180" y="188" text-anchor="middle" font-size="11.5" fill="#2C3E50">기준표 왼쪽 열이 <tspan font-weight="700">숫자</tspan>일 때</text>
+  <text x="180" y="210" text-anchor="middle" font-size="11.5" fill="#2C3E50">VLOOKUP · HLOOKUP · MATCH</text>
+
+  <rect x="380" y="144" width="320" height="82" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.5"/>
+  <text x="540" y="166" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">안 붙이는 경우</text>
+  <text x="540" y="188" text-anchor="middle" font-size="11.5" fill="#2C3E50">기준표가 <tspan font-weight="700">문자</tspan>일 때</text>
+  <text x="540" y="210" text-anchor="middle" font-size="11.5" fill="#2C3E50">SUM · AVERAGE 같은 계산 함수</text>
+</svg></div>
+          <figcaption>그림 10 · 기준표가 숫자인지부터 보고 «*1»을 결정합니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>📅 [실기] WEEKDAY로 푸는 반납 예정일</h3>
+      <div class="step"><b>문제</b> 대여일부터 <b>5일 뒤</b>가 반납일인데, 그날이 주말이면 <b class="k">다음 월요일</b>로 미룹니다.</div>
+      <div class="step"><b class="r">주의</b> — 요일을 보는 건 <b>대여일이 아니라 «대여일+5»</b>입니다. 여기서 많이 틀립니다.</div>
+      <div class="step"><b>옵션 2</b>를 쓰면 월=1 … <b>토=6, 일=7</b>이 됩니다. 그래서 <b>6이면 7일</b>을 더하고(토 → 다음 월), <b>7이면 6일</b>을 더하고(일 → 다음 월), 아니면 <b>5일</b>만 더합니다.</div>
+      <div class="step"><code>=IF(WEEKDAY(대여일+5,2)=6, 대여일+7, IF(WEEKDAY(대여일+5,2)=7, 대여일+6, 대여일+5))</code></div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="반납 예정일 세 갈래">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">대여일 + 5 가 무슨 요일인가</text>
+
+  <rect x="240" y="38" width="240" height="40" rx="8" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.6"/>
+  <text x="360" y="63" text-anchor="middle" font-size="12" font-weight="700" font-family="monospace" fill="#1F4E8C">WEEKDAY(대여일+5, 2)</text>
+
+  <path d="M300 82 L160 104" stroke="#95A5A6" stroke-width="1.6" marker-end="url(#w1)"/>
+  <path d="M360 82 L360 104" stroke="#95A5A6" stroke-width="1.6" marker-end="url(#w1)"/>
+  <path d="M420 82 L560 104" stroke="#95A5A6" stroke-width="1.6" marker-end="url(#w1)"/>
+  <defs><marker id="w1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="40" y="112" width="220" height="92" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.6"/>
+  <text x="150" y="134" text-anchor="middle" font-size="12.5" font-weight="700" fill="#C0392B">6 = 토요일</text>
+  <text x="150" y="158" text-anchor="middle" font-size="11.5" fill="#2C3E50">이틀 뒤가 월요일</text>
+  <rect x="80" y="168" width="140" height="26" rx="5" fill="#fff" stroke="#E74C3C" stroke-width="1.3"/>
+  <text x="150" y="186" text-anchor="middle" font-size="12" font-weight="700" font-family="monospace" fill="#C0392B">대여일 + 7</text>
+
+  <rect x="280" y="112" width="160" height="92" rx="9" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.6"/>
+  <text x="360" y="134" text-anchor="middle" font-size="12.5" font-weight="700" fill="#7D6608">7 = 일요일</text>
+  <text x="360" y="158" text-anchor="middle" font-size="11.5" fill="#2C3E50">하루 뒤가 월요일</text>
+  <rect x="300" y="168" width="120" height="26" rx="5" fill="#fff" stroke="#D4AC0D" stroke-width="1.3"/>
+  <text x="360" y="186" text-anchor="middle" font-size="12" font-weight="700" font-family="monospace" fill="#7D6608">대여일 + 6</text>
+
+  <rect x="460" y="112" width="220" height="92" rx="9" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.6"/>
+  <text x="570" y="134" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1E8449">그 외 = 평일</text>
+  <text x="570" y="158" text-anchor="middle" font-size="11.5" fill="#1B5E20">미룰 필요 없음</text>
+  <rect x="500" y="168" width="140" height="26" rx="5" fill="#fff" stroke="#27AE60" stroke-width="1.3"/>
+  <text x="570" y="186" text-anchor="middle" font-size="12" font-weight="700" font-family="monospace" fill="#1E8449">대여일 + 5</text>
+</svg></div>
+          <figcaption>그림 11 · 요일을 보는 건 대여일이 아니라 «대여일+5»입니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🔢 [실기] 누적 합계와 «조건부 최대값의 이름 찾기»</h3>
+      <div class="step"><b>누적 합계</b> 시작 셀만 고정하고 끝 셀은 따라가게 합니다 — <code>=SUM($B$41:B41)</code>. 아래로 끌면 범위가 저절로 늘어납니다.</div>
+      <div class="step"><b>조건에 맞는 최대값의 «이름»</b> 세 단계입니다. <b>①DMAX</b>로 조건에 맞는 최대값을 구하고 → <b>②MATCH</b>로 그 값이 몇 번째 줄인지 찾고 → <b>③INDEX</b>로 그 줄의 이름을 꺼냅니다.</div>
+      <div class="step"><b>시간 나누기</b> 시간값에서 <b>HOUR · MINUTE · SECOND</b>로 각각 떼어 내고 <code>&amp;</code>로 "시간" "분" "초"를 붙입니다. 세 칸이 같은 모양이라 <b class="k">하나 만들고 복사해서 함수 이름과 글자만</b> 바꾸면 됩니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="누적 합계 절대참조">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">누적 합계 — 시작만 고정</text>
+
+  <rect x="120" y="38" width="480" height="34" rx="7" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.5"/>
+  <text x="360" y="61" text-anchor="middle" font-size="13" font-family="monospace" fill="#2C3E50">=SUM(<tspan font-weight="700" fill="#C0392B">$B$41</tspan>:<tspan font-weight="700" fill="#1E8449">B41</tspan>)</text>
+  <text x="250" y="92" text-anchor="middle" font-size="11" font-weight="700" fill="#C0392B">고정 (절대참조)</text>
+  <text x="470" y="92" text-anchor="middle" font-size="11" font-weight="700" fill="#1E8449">따라감 (상대참조)</text>
+
+  <g font-size="11.5" font-family="monospace" fill="#2C3E50">
+    <rect x="180" y="112" width="360" height="22" rx="4" fill="#F4F7FC" stroke="#D5DDE9"/>
+    <text x="360" y="128" text-anchor="middle">1행 → SUM($B$41:B41)</text>
+    <rect x="180" y="138" width="360" height="22" rx="4" fill="#F4F7FC" stroke="#D5DDE9"/>
+    <text x="360" y="154" text-anchor="middle">2행 → SUM($B$41:B42)</text>
+    <rect x="180" y="164" width="360" height="22" rx="4" fill="#F4F7FC" stroke="#D5DDE9"/>
+    <text x="360" y="180" text-anchor="middle">3행 → SUM($B$41:B43)</text>
+  </g>
+</svg></div>
+          <figcaption>그림 12 · 아래로 끌면 범위가 한 칸씩 늘어납니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h3>🗂 [실기] 기본 작업과 분석 작업에서 자주 틀린 부분</h3>
+      <div class="step"><b class="r">「선택 영역의 가운데로」와 「병합하고 가운데 맞춤」은 다릅니다.</b> 화면으로는 똑같아 보이지만, 앞의 것은 <b class="k">셀을 합치지 않고</b> 글자만 가운데로 보이게 합니다. 지시문에 적힌 대로 골라야 합니다.</div>
+      <div class="step"><b class="r">「이중 실선」은 테두리가 아니라 «글꼴의 이중 밑줄»</b>이었습니다. 지시문이 글꼴 항목에 있으면 밑줄 쪽입니다.</div>
+      <div class="step"><b>텍스트 나누기</b> 데이터 탭 → 구분 기호(세미콜론 등) 선택 → 필요 없는 열은 <b class="k">「열 가져오지 않음(건너뜀)」</b>으로 지정합니다.</div>
+      <div class="step"><b>부분합</b> 그룹 기준 열로 <b class="k">먼저 정렬</b>해야 같은 항목끼리 묶입니다. 두 번째 부분합을 얹을 때는 <b class="r">「새로운 값으로 대체」 체크를 풀어야</b> 앞의 결과가 남습니다.</div>
+      <div class="step"><b>통합</b> 결과가 들어갈 범위를 먼저 선택합니다. 원본의 <b class="k">항목 이름이 첫 행과 왼쪽 열에 있으면</b> 「사용할 레이블 — 첫 행 · 왼쪽 열」을 체크합니다.</div>
+      <div class="vis-box">
+        <figure>
+          <div class="svg-wrap"><svg viewBox="0 0 720 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="부분합 누적">
+  <text x="360" y="22" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2C3E50">부분합을 두 번 할 때</text>
+
+  <rect x="20" y="38" width="200" height="72" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.5"/>
+  <text x="120" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">① 먼저 정렬</text>
+  <text x="120" y="82" text-anchor="middle" font-size="11.5" fill="#2C3E50">그룹 기준 열로</text>
+  <text x="120" y="100" text-anchor="middle" font-size="11" fill="#C0392B">정렬 안 하면 결과가 흩어짐</text>
+
+  <rect x="240" y="38" width="200" height="72" rx="9" fill="#EEF3FB" stroke="#5B86C9" stroke-width="1.5"/>
+  <text x="340" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#1F4E8C">② 첫 부분합</text>
+  <text x="340" y="82" text-anchor="middle" font-size="11.5" fill="#2C3E50">예: 최대값</text>
+  <text x="340" y="100" text-anchor="middle" font-size="11" fill="#7F8C8D">체크는 그대로 둠</text>
+
+  <rect x="460" y="38" width="240" height="72" rx="9" fill="#FDECEA" stroke="#E74C3C" stroke-width="1.8"/>
+  <text x="580" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#C0392B">③ 두 번째 부분합</text>
+  <text x="580" y="82" text-anchor="middle" font-size="11.5" fill="#2C3E50">예: 합계</text>
+  <text x="580" y="100" text-anchor="middle" font-size="11.5" font-weight="700" fill="#C0392B">「새로운 값으로 대체」 해제</text>
+
+  <path d="M224 74 L236 74" stroke="#95A5A6" stroke-width="1.8" marker-end="url(#p1)"/>
+  <path d="M444 74 L456 74" stroke="#95A5A6" stroke-width="1.8" marker-end="url(#p1)"/>
+  <defs><marker id="p1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#95A5A6"/></marker></defs>
+
+  <rect x="20" y="126" width="680" height="34" rx="8" fill="#FDF6E3" stroke="#D4AC0D" stroke-width="1.5"/>
+  <text x="360" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#7D6608">체크를 안 풀면 — 앞에서 만든 최대값 부분합이 지워지고 합계만 남습니다</text>
+
+  <rect x="20" y="168" width="680" height="32" rx="8" fill="#E8F6EF" stroke="#27AE60" stroke-width="1.4"/>
+  <text x="360" y="189" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1E8449">통합 — 결과 범위 먼저 선택 → 레이블이 첫 행·왼쪽 열에 있으면 체크</text>
+</svg></div>
+          <figcaption>그림 13 · 두 번째 부분합에서 체크 하나를 풉니다.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="mistakes">
+    <h2 class="section-title"><span class="si">🚨</span>자주 하는 실수</h2>
+    <div class="mistake-grid">
+
+      <div class="mistake-card top">
+        <div class="mistake-label">⭐ 오늘 가장 중요</div>
+        <h3>보안 위협과 보안 요건을 연결하지 못합니다</h3>
+        <p>이름은 외웠는데 「무엇을 해치는가」를 물으면 막힙니다. 세 쌍을 따로 외우면 안 됩니다.</p>
+        <div class="fix">막기=<b>가용성</b> · 훔쳐보기=<b>비밀성</b> · 고치기=<b>무결성</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>모델링과 렌더링을 바꿔 씁니다</h3>
+        <p>「명암과 농도를 입힌다」를 모델링으로 고릅니다.</p>
+        <div class="fix">뼈대=모델링 → <b>색 입히기=렌더링</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>앨리어싱과 안티앨리어싱을 반대로 봅니다</h3>
+        <p>계단 현상 자체를 안티앨리어싱이라고 답합니다.</p>
+        <div class="fix">계단 현상=앨리어싱 · <b>없애는 작업=안티앨리어싱</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>PNG가 애니메이션이 된다고 고릅니다</h3>
+        <p>둘 다 인터넷에서 흔해 섞입니다.</p>
+        <div class="fix">애니메이션=<b>GIF</b> · 투명=<b>PNG</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>MIDI를 용량이 큰 파일로 봅니다</h3>
+        <p>소리 파일이라고 생각하면 그렇게 고르게 됩니다.</p>
+        <div class="fix">MIDI는 <b>연주 정보</b>만 담아 용량이 작습니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>바이러스에 «치료» 기능이 있다고 고릅니다</h3>
+        <p>복제·은폐·파괴 사이에 치료를 끼워 넣습니다.</p>
+        <div class="fix">치료는 <b>백신</b>이 하는 일</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">필기 함정</div>
+        <h3>스니핑과 스푸핑을 섞습니다</h3>
+        <p>이름이 비슷해 매번 헷갈립니다.</p>
+        <div class="fix">스<b>니</b>핑=엿보기 · 스<b>푸</b>핑=속이기</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">실기 사고</div>
+        <h3>MID 결과를 그대로 VLOOKUP에 넣습니다</h3>
+        <p>숫자처럼 보여도 문자라 기준표에서 못 찾고 <code>#N/A</code>가 납니다.</p>
+        <div class="fix">기준표가 숫자면 뒤에 <b><code>*1</code></b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">실기 사고</div>
+        <h3>반납일 문제에서 «대여일»의 요일을 봅니다</h3>
+        <p>5일을 더하기 전 날짜로 요일을 판단해 답이 어긋납니다.</p>
+        <div class="fix">요일은 <b>대여일+5</b>로 봅니다</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">실기 사고</div>
+        <h3>병합하고 가운데 맞춤으로 처리합니다</h3>
+        <p>「선택 영역의 가운데로」는 셀을 합치지 않습니다.</p>
+        <div class="fix">지시문의 <b>기능 이름 그대로</b> 고를 것</div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">실기 사고</div>
+        <h3>이중 실선을 테두리로 넣습니다</h3>
+        <p>글꼴 항목에 있는 지시는 밑줄 쪽입니다.</p>
+        <div class="fix">글꼴의 <b>이중 밑줄</b></div>
+      </div>
+
+      <div class="mistake-card">
+        <div class="mistake-label">실기 사고</div>
+        <h3>두 번째 부분합에서 앞 결과가 사라집니다</h3>
+        <p>「새로운 값으로 대체」가 켜져 있으면 덮어씁니다.</p>
+        <div class="fix">두 번째부터는 <b>체크 해제</b></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="shortcut">
+    <h2 class="section-title"><span class="si">📋</span>오늘의 단축키·기능 정리표</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>구분</th><th>단축키/기능</th><th>하는 일</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>필기</td><td><b>모델링 / 렌더링</b></td><td>뼈대 만들기 / 색·명암 입히기</td><td>모델링이 먼저</td></tr>
+          <tr><td>필기</td><td>디더링 / 모핑</td><td>있는 색 섞기 / 서서히 변하기</td><td>없는 색처럼 «보이게» 함</td></tr>
+          <tr><td>필기</td><td>인터레이싱</td><td>흐리게 → 선명하게</td><td>웹에서 그림 뜰 때</td></tr>
+          <tr><td>필기</td><td><b>앨리어싱 / 안티앨리어싱</b></td><td>계단 현상 / 계단 제거</td><td>앞에 «안티»가 붙으면 없애는 쪽</td></tr>
+          <tr><td>필기</td><td>비트맵(래스터)</td><td>점의 집합 · 사실적</td><td>확대 시 깨짐 · 용량 큼</td></tr>
+          <tr><td>필기</td><td><b>벡터</b></td><td>선·곡선의 수식</td><td><b>확대해도 안 깨짐</b> · 로고</td></tr>
+          <tr><td>필기</td><td>BMP / JPG</td><td>윈도우 표준 / 국제 표준 압축</td><td>JPG는 손실 압축</td></tr>
+          <tr><td>필기</td><td><b>GIF / PNG</b></td><td><b>애니메이션</b> / <b>투명</b></td><td>가장 자주 섞임</td></tr>
+          <tr><td>필기</td><td>WMF</td><td>윈도우 벡터 형식</td><td>혼자 비트맵이 아님</td></tr>
+          <tr><td>필기</td><td>트루 컬러</td><td>R·G·B 각 8비트</td><td>합쳐서 <b>24비트</b></td></tr>
+          <tr><td>필기</td><td><b>WAV / MIDI</b></td><td>소리 자체 / 연주 정보</td><td>용량 <b>큼 / 작음</b></td></tr>
+          <tr><td>필기</td><td>MPEG / AVI / ASF·WMV</td><td>동영상 국제 표준 / 윈도우 표준 / 스트리밍</td><td>용도로 구분</td></tr>
+          <tr><td>필기</td><td>VOD / VCS / MOD</td><td>주문형 비디오 / 화상 회의 / 주문형 음악</td><td>앞 글자로 기억</td></tr>
+          <tr><td>필기</td><td><b>VR / AR</b></td><td>전부 가상 / 현실 위에 겹침</td><td>핵심 기술 = 인터랙션·렌더링·트래킹</td></tr>
+          <tr><td>필기</td><td>바이러스의 기능</td><td>복제 · 은폐 · 파괴</td><td><b class="r">치료는 백신</b></td></tr>
+          <tr><td>필기</td><td><b>가로막기</b></td><td>못 가게 막음</td><td>→ <b>가용성</b></td></tr>
+          <tr><td>필기</td><td><b>가로채기</b></td><td>몰래 훔쳐봄</td><td>→ <b>비밀성</b></td></tr>
+          <tr><td>필기</td><td><b>수정·위조·변조</b></td><td>내용을 바꿈</td><td>→ <b>무결성</b></td></tr>
+          <tr><td>필기</td><td>스니핑 / 스푸핑</td><td>패킷 엿보기 / 정상인 척 속이기</td><td>니=눈으로, 푸=속임</td></tr>
+          <tr><td>필기</td><td>피싱 / 스미싱 / 큐싱</td><td>사칭 / 문자 / QR 코드</td><td>매체만 다름</td></tr>
+          <tr><td>필기</td><td>웜 / DDoS</td><td>자기 복제 / 요청 퍼붓기</td><td>서로 다른 분류</td></tr>
+          <tr><td>필기</td><td>트로이 목마</td><td>정상 프로그램인 척 숨음</td><td>스스로 복제하지 않음</td></tr>
+          <tr><td>필기</td><td>랜섬웨어 / 키로거</td><td>암호화 후 금전 요구 / 키보드 훔치기</td><td>피해 방식으로 구분</td></tr>
+          <tr><td>필기</td><td>허니팟 / 워터마킹</td><td>침입자 유인 / 저작권 정보 삽입</td><td>막는 쪽 기술</td></tr>
+          <tr><td>실기</td><td><code>#####</code></td><td>열 너비가 좁음</td><td>열을 넓히면 해결</td></tr>
+          <tr><td>실기</td><td><code>#N/A</code> / <code>#NAME?</code></td><td>찾는 값 없음 / 이름 잘못</td><td>VLOOKUP에서 자주</td></tr>
+          <tr><td>실기</td><td><code>#REF!</code> / <code>#VALUE!</code></td><td>참조 삭제 / 형식 불일치</td><td>셀을 지우면 #REF!</td></tr>
+          <tr><td>실기</td><td>표시 형식 <code>?</code></td><td>빈 자리를 공백으로</td><td><code>0</code>은 0을 찍음</td></tr>
+          <tr><td>실기</td><td><b>원형 차트</b></td><td>계열 <b>하나만</b></td><td>조각 분리 · 360도 회전</td></tr>
+          <tr><td>실기</td><td>도넛형</td><td>여러 계열 가능</td><td>고리 분리 · 회전</td></tr>
+          <tr><td>실기</td><td>추세선</td><td>분산형·거품형 등에 가능</td><td><b class="r">3차원 차트는 불가</b></td></tr>
+          <tr><td>실기</td><td>스파크라인</td><td>셀 한 칸짜리 미니 차트</td><td>차트 개체가 아님</td></tr>
+          <tr><td>실기</td><td>HOUR / MINUTE / SECOND</td><td>시 / 분 / 초 떼어내기</td><td><code>&amp;</code>로 글자 붙이기</td></tr>
+          <tr><td>실기</td><td><b>MID·LEFT·RIGHT + <code>*1</code></b></td><td>문자를 숫자로</td><td><b>기준표가 숫자일 때만</b></td></tr>
+          <tr><td>실기</td><td>WEEKDAY(날짜, 2)</td><td>월=1 … 토=6, 일=7</td><td>요일은 <b>대여일+5</b>로</td></tr>
+          <tr><td>실기</td><td><code>=SUM($B$41:B41)</code></td><td>누적 합계</td><td>시작만 고정</td></tr>
+          <tr><td>실기</td><td>DMAX → MATCH → INDEX</td><td>조건부 최대값의 이름 찾기</td><td>안쪽부터 작성</td></tr>
+          <tr><td>실기</td><td>선택 영역의 가운데로</td><td>셀을 합치지 않고 가운데 정렬</td><td>병합과 <b class="r">다름</b></td></tr>
+          <tr><td>실기</td><td>텍스트 나누기</td><td>구분 기호로 열 분리</td><td>필요 없는 열은 «가져오지 않음»</td></tr>
+          <tr><td>실기</td><td><b>부분합</b></td><td>그룹 기준 열로 정렬 후 실행</td><td>두 번째는 «새로운 값으로 대체» <b>해제</b></td></tr>
+          <tr><td>실기</td><td>통합</td><td>여러 범위를 합쳐 계산</td><td>레이블이 첫 행·왼쪽 열에 있으면 체크</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title"><span class="si">✏️</span>미니 퀴즈 (10문제)</h2>
+
+    <div class="name-gate" id="nameGate">
+      <p>이름은 컴활2급 9월 과정 수강생임을 확인하는 용도입니다.</p>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요">
+      <div><button onclick="startQuiz()">퀴즈 시작하기</button></div>
+    </div>
+
+    <div id="quizBody" style="display:none;">
+
+    <div class="quiz-item" data-q="1">
+      <span class="qnum">Q1</span>
+      <p class="qtext">비트맵 이미지를 확대했을 때 생기는 <b>계단 현상을 부드럽게 처리</b>하는 기법은?</p>
+      <button class="quiz-opt" data-correct="false">디더링</button>
+      <button class="quiz-opt" data-correct="true">안티앨리어싱</button>
+      <button class="quiz-opt" data-correct="false">인터레이싱</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="2">
+      <span class="qnum">Q2</span>
+      <p class="qtext">점과 점을 잇는 <b>선·곡선의 수식</b>으로 그림을 표현해 <b>확대해도 깨지지 않는</b> 방식은?</p>
+      <button class="quiz-opt" data-correct="true">벡터 방식</button>
+      <button class="quiz-opt" data-correct="false">비트맵 방식</button>
+      <button class="quiz-opt" data-correct="false">래스터 방식</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="3">
+      <span class="qnum">Q3</span>
+      <p class="qtext">그래픽 파일 형식 중 <b>애니메이션 표현이 가능</b>한 것은?</p>
+      <button class="quiz-opt" data-correct="false">PNG</button>
+      <button class="quiz-opt" data-correct="false">BMP</button>
+      <button class="quiz-opt" data-correct="true">GIF</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="4">
+      <span class="qnum">Q4</span>
+      <p class="qtext"><b>MIDI 파일</b>에 대한 설명으로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">실제 소리를 샘플링해 저장하므로 용량이 크다</button>
+      <button class="quiz-opt" data-correct="true">악기·음높이 같은 연주 정보를 저장하므로 용량이 작다</button>
+      <button class="quiz-opt" data-correct="false">동영상 압축을 위한 국제 표준 규격이다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="5">
+      <span class="qnum">Q5</span>
+      <p class="qtext">컴퓨터 바이러스의 기능으로 <b>볼 수 없는</b> 것은?</p>
+      <button class="quiz-opt" data-correct="true">감염된 파일을 치료하는 기능</button>
+      <button class="quiz-opt" data-correct="false">자기 자신을 복제하는 기능</button>
+      <button class="quiz-opt" data-correct="false">자신을 숨기는 은폐 기능</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="6">
+      <span class="qnum">Q6</span>
+      <p class="qtext">자료가 목적지에 <b>도달하지 못하도록 막는</b> 「가로막기」 공격이 해치는 보안 요건은?</p>
+      <button class="quiz-opt" data-correct="false">비밀성</button>
+      <button class="quiz-opt" data-correct="false">무결성</button>
+      <button class="quiz-opt" data-correct="true">가용성</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="7">
+      <span class="qnum">Q7</span>
+      <p class="qtext">네트워크에 오가는 <b>패킷을 몰래 엿보아</b> 계정과 비밀번호를 알아내는 공격은?</p>
+      <button class="quiz-opt" data-correct="false">스푸핑</button>
+      <button class="quiz-opt" data-correct="true">스니핑</button>
+      <button class="quiz-opt" data-correct="false">피기백</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="8">
+      <span class="qnum">Q8</span>
+      <p class="qtext">셀에 <code>#REF!</code> 오류가 표시되는 원인으로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="true">수식이 참조하던 셀이나 시트가 삭제되었다</button>
+      <button class="quiz-opt" data-correct="false">열 너비가 좁아 값을 다 표시하지 못한다</button>
+      <button class="quiz-opt" data-correct="false">0이나 빈 셀로 나누었다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="9">
+      <span class="qnum">Q9</span>
+      <p class="qtext"><b>원형 차트</b>에 대한 설명으로 옳은 것은?</p>
+      <button class="quiz-opt" data-correct="false">여러 개의 데이터 계열을 한 번에 표시할 수 있다</button>
+      <button class="quiz-opt" data-correct="false">3차원으로 만들면 추세선을 추가할 수 있다</button>
+      <button class="quiz-opt" data-correct="true">데이터 계열을 하나만 사용하며 조각을 떼어 낼 수 있다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    <div class="quiz-item" data-q="10">
+      <span class="qnum">Q10</span>
+      <p class="qtext"><code>MID</code>로 뽑은 값을 <code>VLOOKUP</code>에 넣었더니 <code>#N/A</code>가 났고, 기준표의 첫 열은 <b>숫자</b>였다. 올바른 해결 방법은?</p>
+      <button class="quiz-opt" data-correct="false">VLOOKUP의 마지막 인수를 1로 바꾼다</button>
+      <button class="quiz-opt" data-correct="true">MID 뒤에 <code>*1</code>을 붙여 문자를 숫자로 바꾼다</button>
+      <button class="quiz-opt" data-correct="false">기준표 범위에 절대참조를 건다</button>
+      <div class="quiz-feedback"></div>
+      <button class="retry-btn">🔄 다시 풀기</button>
+    </div>
+
+    </div>
+
+    <div class="quiz-submit-box">
+      <button id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+      <button id="retryAllBtn" onclick="retryQuiz()">전체 다시 풀기</button>
+      <div id="submitStatus"></div>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2 class="section-title"><span class="si">✅</span>복습 체크리스트</h2>
+    <div class="check-grid">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">필기: 그래픽 기법 여섯 개에 한 단어씩 붙여 말해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">필기: 모델링 → 렌더링 <b>순서</b>까지 적어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">필기: 비트맵과 벡터를 «확대했을 때»로 구분해 설명하기</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">필기: BMP·JPG·GIF·PNG·WMF에 대표 단어 하나씩 붙이기</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">필기: WAV와 MIDI의 <b>용량 차이 이유</b> 말해보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">필기: VR과 AR의 차이를 한 문장으로 적기</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">필기: <b>가로막기·가로채기·수정</b>과 3요건을 짝지어 세 번 쓰기</label></div>
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">필기: 바이러스의 기능 세 가지 말하고 «치료» 빼기</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">필기: 공격 기법을 «본다·속인다·망가뜨린다»로 묶어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">실기: 오류 여덟 가지에 원인 한 줄씩 붙이기</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">실기: MID+VLOOKUP에 <code>*1</code> 붙여 직접 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">실기: WEEKDAY 반납 예정일 수식을 직접 써보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">실기: 누적 합계 <code>=SUM($B$41:B41)</code> 만들어 아래로 끌어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c14"><label for="c14">실기: 부분합 두 번 얹고 «새로운 값으로 대체» 풀어보기</label></div>
+      <div class="check-item"><input type="checkbox" id="c15"><label for="c15">오늘 미니 퀴즈 10문제 다시 풀어보기</label></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="school">우리컴퓨터학원</div>
+    <div>📞 052)258-3388 · 컴퓨터활용능력2급 · <b>김태희 강사</b></div>
+  </footer>
+
+</main>
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '17차시';
+let studentName = '';
+const quizAnswers = new Array(10).fill(null);
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'ed2f517a29176e57',
+  'cdf7e83608640dcd',
+  '85eb1a188b5040ed',
+  'e734df04c7ce6779',
+  '3391e58348d170ba',
+  'a73da2081dec8690',
+  '52b3d9bcf253cee2',
+  'b5f2bb3b59c4dd91',
+  'b275905ee699e042',
+  '9d12fcc356e5a561',
+  'd9b9bcad75686032',
+  '615769d1937eec96',
+  '9a5f5217e152169a',
+  '1b50a77ca3ec722e',
+  'f5273c7495dd751f',
+  'c03fd0743bdd79bd',
+  '8f61b7edb378ac9b',
+  'c331bcf08533fdc6',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 오픈채팅으로 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
