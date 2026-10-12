@@ -172,6 +172,11 @@ td:first-child{font-weight:600; white-space:nowrap;}
   .card.active .draw{stroke-dashoffset:0;}
 }
 
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot img{display:block; width:640px; max-width:none; height:auto; border-radius:8px; border:1px solid var(--line);}
+@media (min-width:700px){.shot img{width:100%;}}
+
 @media (min-width:700px){
   h1{font-size:36px;} h2{font-size:26px;}
   .card{padding:34px 24px;}
@@ -206,41 +211,18 @@ td:first-child{font-weight:600; white-space:nowrap;}
 <section class="card"><div class="card-inner">
   <span class="kicker pilgi reveal">필기 · 화면 구성</span>
   <h2 class="reveal" style="--d:.06s">화면의 자리마다<br>이름이 정해져 있습니다</h2>
-  <p class="reveal" style="--d:.12s">시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 그림을 보면서 위치와 이름을 같이 외워 두세요.</p>
-  <figure class="fig reveal" style="--d:.18s">
-    <div class="svg-wrap">
-    <svg width="660" height="300" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="298" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="14" y="14" width="632" height="26" rx="6" fill="#EFF4FF"/>
-      <text x="26" y="32" font-size="13" fill="#1D4ED8" font-weight="700">빠른 실행 도구 모음</text>
-      <text x="200" y="32" font-size="13" fill="#6B7280">저장 · 실행 취소 · 다시 실행</text>
-      <text x="470" y="32" font-size="13" fill="#111827">통합 문서1 − Excel</text>
-      <rect x="14" y="48" width="632" height="60" rx="6" fill="#F8FAFF" stroke="#DBEAFE"/>
-      <text x="26" y="68" font-size="13" fill="#1D4ED8" font-weight="700">리본 메뉴</text>
-      <text x="110" y="68" font-size="13" fill="#111827">파일 · 홈 · 삽입 · 페이지 레이아웃 · 수식 · 데이터 · 검토 · 보기</text>
-      <rect x="110" y="78" width="150" height="22" rx="4" fill="#fff" stroke="#CBD5E1"/>
-      <text x="120" y="93" font-size="12" fill="#334155">글꼴 그룹</text>
-      <circle cx="250" cy="96" r="5" fill="#2563EB" class="pulse"/>
-      <text x="272" y="93" font-size="12" fill="#B45309" font-weight="700">◀ 이 작은 버튼 = 대화 상자 열기</text>
-      <rect x="14" y="118" width="130" height="26" rx="5" fill="#fff" stroke="#2563EB"/>
-      <text x="24" y="136" font-size="13" fill="#1D4ED8" font-weight="700">이름 상자</text>
-      <rect x="150" y="118" width="496" height="26" rx="5" fill="#fff" stroke="#CBD5E1"/>
-      <text x="160" y="136" font-size="13" fill="#047857" font-weight="700">수식 입력줄</text>
-      <text x="268" y="136" font-size="13" fill="#6B7280">= 4 + 6</text>
-      <rect x="14" y="154" width="632" height="100" rx="5" fill="#fff" stroke="#E5E7EB"/>
-      <text x="26" y="172" font-size="12" fill="#6B7280">A</text><text x="96" y="172" font-size="12" fill="#6B7280">B</text><text x="166" y="172" font-size="12" fill="#6B7280">C</text>
-      <text x="22" y="196" font-size="12" fill="#6B7280">1</text><text x="22" y="222" font-size="12" fill="#6B7280">2</text>
-      <rect x="66" y="206" width="66" height="22" rx="2" fill="#EFF4FF" stroke="#2563EB" stroke-width="2"/>
-      <text x="78" y="222" font-size="12" fill="#1D4ED8" font-weight="700">B2</text>
-      <text x="150" y="222" font-size="12" fill="#2563EB" font-weight="700">◀ 셀 포인터</text>
-      <text x="150" y="244" font-size="12" fill="#6B7280">열(B) + 행(2) = 셀 주소 B2</text>
-      <rect x="14" y="262" width="632" height="24" rx="5" fill="#F3F6FB" stroke="#E5E7EB"/>
-      <text x="26" y="279" font-size="13" fill="#B45309" font-weight="700">상태 표시줄</text>
-      <text x="130" y="279" font-size="12" fill="#6B7280">평균 · 개수 · 합계가 여기에 나타납니다</text>
-    </svg>
-    </div>
-    <figcaption>엑셀 화면 각 부분의 이름</figcaption>
+  <p class="reveal" style="--d:.12s">시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 화면의 위치와 이름을 같이 외워 두세요.</p>
+  <figure class="fig shot reveal" style="--d:.16s">
+    <div class="svg-wrap"><img src="shots/01-screen.png" alt="엑셀 화면 구성" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <figcaption>엑셀 화면 각 부분의 이름 (한글 Windows · Excel 2021)</figcaption>
   </figure>
+  <div class="panel reveal" style="--d:.2s">
+    <div class="row"><span class="n">1</span><span class="b"><b>빠른 실행 도구 모음</b> — 저장·실행 취소·다시 실행이 기본으로 있습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>리본 메뉴</b> — 탭으로 나뉘고, 탭 안은 그룹으로 나뉩니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>이름 상자</b> — 지금 선택한 셀의 위치</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>수식 입력줄</b> — 셀에 실제로 들어 있는 값이나 수식</span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>상태 표시줄</b> — 범위를 선택하면 합계·평균·개수</span></div>
+  </div>
   <div class="callout tip reveal" style="--d:.26s"><b>명령을 찾아가는 방법</b>먼저 <b>탭</b>을 고르고, 그 안의 <b>그룹</b>에서 아이콘을 찾습니다. 아이콘이 무엇인지 모르겠으면 마우스를 올려 설명(스크린 팁)을 보고, 더 자세한 설정이 필요하면 그룹 오른쪽 아래 작은 버튼으로 대화 상자를 엽니다.</div>
 </div></section>
 
@@ -248,41 +230,17 @@ td:first-child{font-weight:600; white-space:nowrap;}
 <section class="card"><div class="card-inner">
   <span class="kicker pilgi reveal">필기 · 용어</span>
   <h2 class="reveal" style="--d:.06s">헷갈리기 쉬운<br>네 가지 이름</h2>
-  <figure class="fig reveal" style="--d:.14s">
-    <div class="svg-wrap">
-    <svg width="660" height="250" viewBox="0 0 660 250" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="248" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <text x="22" y="28" font-size="13" font-weight="700" fill="#1D4ED8">① 그룹의 작은 버튼 → 대화 상자</text>
-      <rect x="22" y="40" width="150" height="46" rx="6" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <text x="32" y="60" font-size="12" fill="#334155">글꼴</text>
-      <circle cx="162" cy="78" r="5" fill="#2563EB" class="pulse"/>
-      <path d="M176 76 L212 66" stroke="#2563EB" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
-      <rect x="218" y="40" width="150" height="80" rx="6" fill="#fff" stroke="#2563EB" stroke-width="1.6"/>
-      <rect x="218" y="40" width="150" height="20" rx="6" fill="#EFF4FF"/>
-      <text x="228" y="55" font-size="11" fill="#1D4ED8" font-weight="700">셀 서식</text>
-      <text x="228" y="80" font-size="11" fill="#6B7280">표시 형식 · 맞춤 · 글꼴</text>
-      <text x="228" y="100" font-size="11" fill="#6B7280">테두리 · 채우기</text>
-      <text x="382" y="70" font-size="12" font-weight="700" fill="#B45309">= 대화 상자</text>
-      <text x="22" y="150" font-size="13" font-weight="700" fill="#1D4ED8">② 마우스 오른쪽 → 바로 가기 메뉴</text>
-      <rect x="22" y="162" width="60" height="56" rx="8" fill="#fff" stroke="#CBD5E1"/>
-      <path d="M52 162 L52 186" stroke="#CBD5E1"/>
-      <rect x="52" y="162" width="30" height="24" rx="0" fill="#FEE2E2"/>
-      <text x="22" y="236" font-size="11" fill="#DC2626">오른쪽 버튼</text>
-      <path d="M90 190 L126 182" stroke="#2563EB" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
-      <rect x="132" y="156" width="130" height="72" rx="6" fill="#fff" stroke="#2563EB" stroke-width="1.6"/>
-      <text x="142" y="174" font-size="11" fill="#111827">잘라내기</text>
-      <text x="142" y="192" font-size="11" fill="#111827">복사</text>
-      <text x="142" y="210" font-size="11" fill="#111827">붙여넣기 옵션</text>
-      <text x="276" y="192" font-size="12" font-weight="700" fill="#B45309">= 바로 가기 메뉴</text>
-      <text x="410" y="150" font-size="13" font-weight="700" fill="#1D4ED8">③ 마우스를 올리면 → 스크린 팁</text>
-      <rect x="410" y="162" width="56" height="26" rx="5" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <text x="422" y="180" font-size="12" fill="#334155">굵게</text>
-      <rect x="410" y="196" width="180" height="30" rx="5" fill="#111827"/>
-      <text x="420" y="215" font-size="11" fill="#fff">굵게 (Ctrl+B) — 글자를 굵게</text>
-      <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2563EB"/></marker></defs>
-    </svg>
-    </div>
-    <figcaption>같은 리본에서 나오지만 이름이 다른 세 가지</figcaption>
+  <figure class="fig shot reveal" style="--d:.14s">
+    <div class="svg-wrap"><img src="shots/02-dialog.png" alt="셀 서식 대화 상자" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <figcaption>그룹 오른쪽 아래 작은 버튼을 누르면 뜨는 창 = 대화 상자</figcaption>
+  </figure>
+  <figure class="fig shot reveal" style="--d:.18s">
+    <div class="svg-wrap"><img src="shots/03-context-menu.png" alt="바로 가기 메뉴" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <figcaption>마우스 오른쪽 버튼을 누르면 나오는 메뉴 = 바로 가기 메뉴</figcaption>
+  </figure>
+  <figure class="fig shot reveal" style="--d:.22s">
+    <div class="svg-wrap"><img src="shots/04-screentip.png" alt="스크린 팁" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <figcaption>명령 위에 마우스를 올리면 뜨는 설명 = 스크린 팁</figcaption>
   </figure>
   <table class="reveal" style="--d:.22s">
     <tr><th>이름</th><th>어떤 것인가</th></tr>
@@ -306,35 +264,13 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <kbd style="--i:3">A</kbd>
     <span class="res">모든 테두리 완성</span>
   </div>
-  <figure class="fig reveal" style="--d:.2s">
-    <div class="svg-wrap">
-    <svg width="660" height="200" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="198" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="20" y="18" width="620" height="34" rx="6" fill="#F8FAFF" stroke="#DBEAFE"/>
-      <text x="34" y="40" font-size="13" fill="#111827">파일</text>
-      <text x="84" y="40" font-size="13" fill="#111827">홈</text>
-      <rect x="106" y="25" width="20" height="16" rx="3" fill="#FDE68A"/>
-      <text x="116" y="38" font-size="11" fill="#92400E" font-weight="700" text-anchor="middle">H</text>
-      <text x="146" y="40" font-size="13" fill="#111827">삽입</text>
-      <rect x="180" y="25" width="20" height="16" rx="3" fill="#F3F4F6"/>
-      <text x="190" y="38" font-size="11" fill="#6B7280" font-weight="700" text-anchor="middle">N</text>
-      <text x="220" y="40" font-size="13" fill="#111827">수식</text>
-      <rect x="254" y="25" width="20" height="16" rx="3" fill="#F3F4F6"/>
-      <text x="264" y="38" font-size="11" fill="#6B7280" font-weight="700" text-anchor="middle">M</text>
-      <text x="296" y="40" font-size="12" fill="#B45309" font-weight="700">◀ Alt 를 누르면 글자가 나타납니다</text>
-      <text x="34" y="86" font-size="12" fill="#6B7280">선택한 범위</text>
-      <rect x="34" y="96" width="140" height="70" fill="#fff" stroke="#CBD5E1"/>
-      <line x1="34" y1="96" x2="174" y2="96" class="draw" style="--len:140;--d:2.5s" stroke="#2563EB" stroke-width="3"/>
-      <line x1="34" y1="166" x2="174" y2="166" class="draw" style="--len:140;--d:2.6s" stroke="#2563EB" stroke-width="3"/>
-      <line x1="34" y1="96" x2="34" y2="166" class="draw" style="--len:70;--d:2.7s" stroke="#2563EB" stroke-width="3"/>
-      <line x1="174" y1="96" x2="174" y2="166" class="draw" style="--len:70;--d:2.8s" stroke="#2563EB" stroke-width="3"/>
-      <line x1="34" y1="131" x2="174" y2="131" class="draw" style="--len:140;--d:2.9s" stroke="#2563EB" stroke-width="2"/>
-      <line x1="104" y1="96" x2="104" y2="166" class="draw" style="--len:70;--d:3s" stroke="#2563EB" stroke-width="2"/>
-      <text x="200" y="124" font-size="13" fill="#047857" font-weight="700">Alt H B A → 모든 테두리</text>
-      <text x="200" y="146" font-size="12" fill="#6B7280">자주 쓰는 명령은 순서를 적어 두고 외웁니다</text>
-    </svg>
-    </div>
-    <figcaption>Alt 로 리본을 따라 들어가 테두리를 그리는 순서</figcaption>
+  <figure class="fig shot reveal" style="--d:.2s">
+    <div class="svg-wrap"><img src="shots/05-alt-keytips.png" alt="Alt를 눌렀을 때 리본" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <figcaption>Alt 를 한 번 누르면 리본에 알파벳이 나타납니다</figcaption>
+  </figure>
+  <figure class="fig shot reveal" style="--d:.24s">
+    <div class="svg-wrap"><img src="shots/06-border-result.png" alt="모든 테두리 적용 결과" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <figcaption>Alt → H → B → A 를 차례로 누르면 선택한 범위에 모든 테두리가 그려집니다</figcaption>
   </figure>
   <div class="callout tip reveal" style="--d:.28s"><b>Alt 대신 써도 되는 키</b><kbd>/</kbd> (슬래시) 를 눌러도 똑같이 글자가 나타납니다.</div>
   <table class="reveal" style="--d:.34s">
