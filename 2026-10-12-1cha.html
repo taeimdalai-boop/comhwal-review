@@ -173,6 +173,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
 }
 
 /* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
 .shot .svg-wrap{overflow-x:auto;}
 .shot img{display:block; width:640px; max-width:none; height:auto; border-radius:8px; border:1px solid var(--line);}
 @media (min-width:700px){.shot img{width:100%;}}
@@ -213,7 +214,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h2 class="reveal" style="--d:.06s">화면의 자리마다<br>이름이 정해져 있습니다</h2>
   <p class="reveal" style="--d:.12s">시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 화면의 위치와 이름을 같이 외워 두세요.</p>
   <figure class="fig shot reveal" style="--d:.16s">
-    <div class="svg-wrap"><img src="shots/01-screen.png" alt="엑셀 화면 구성" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <div class="svg-wrap"><img src="shots/01-screen.png" alt="엑셀 화면 구성" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>엑셀 화면 각 부분의 이름 (한글 Windows · Excel 2021)</figcaption>
   </figure>
   <div class="panel reveal" style="--d:.2s">
@@ -231,15 +232,15 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker pilgi reveal">필기 · 용어</span>
   <h2 class="reveal" style="--d:.06s">헷갈리기 쉬운<br>네 가지 이름</h2>
   <figure class="fig shot reveal" style="--d:.14s">
-    <div class="svg-wrap"><img src="shots/02-dialog.png" alt="셀 서식 대화 상자" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <div class="svg-wrap"><img src="shots/02-dialog.png" alt="셀 서식 대화 상자" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>그룹 오른쪽 아래 작은 버튼을 누르면 뜨는 창 = 대화 상자</figcaption>
   </figure>
   <figure class="fig shot reveal" style="--d:.18s">
-    <div class="svg-wrap"><img src="shots/03-context-menu.png" alt="바로 가기 메뉴" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <div class="svg-wrap"><img src="shots/03-context-menu.png" alt="바로 가기 메뉴" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>마우스 오른쪽 버튼을 누르면 나오는 메뉴 = 바로 가기 메뉴</figcaption>
   </figure>
   <figure class="fig shot reveal" style="--d:.22s">
-    <div class="svg-wrap"><img src="shots/04-screentip.png" alt="스크린 팁" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <div class="svg-wrap"><img src="shots/04-screentip.png" alt="스크린 팁" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>명령 위에 마우스를 올리면 뜨는 설명 = 스크린 팁</figcaption>
   </figure>
   <table class="reveal" style="--d:.22s">
@@ -265,11 +266,11 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <span class="res">모든 테두리 완성</span>
   </div>
   <figure class="fig shot reveal" style="--d:.2s">
-    <div class="svg-wrap"><img src="shots/05-alt-keytips.png" alt="Alt를 눌렀을 때 리본" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <div class="svg-wrap"><img src="shots/05-alt-keytips.png" alt="Alt를 눌렀을 때 리본" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>Alt 를 한 번 누르면 리본에 알파벳이 나타납니다</figcaption>
   </figure>
   <figure class="fig shot reveal" style="--d:.24s">
-    <div class="svg-wrap"><img src="shots/06-border-result.png" alt="모든 테두리 적용 결과" loading="lazy" onerror="this.closest('figure').remove()"></div>
+    <div class="svg-wrap"><img src="shots/06-border-result.png" alt="모든 테두리 적용 결과" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>Alt → H → B → A 를 차례로 누르면 선택한 범위에 모든 테두리가 그려집니다</figcaption>
   </figure>
   <div class="callout tip reveal" style="--d:.28s"><b>Alt 대신 써도 되는 키</b><kbd>/</kbd> (슬래시) 를 눌러도 똑같이 글자가 나타납니다.</div>
