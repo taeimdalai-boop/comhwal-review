@@ -136,52 +136,38 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 .foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
 
-/* ── 등장 모션 ── */
-.reveal{opacity:0; transform:translateY(14px);}
-.card.active .reveal{animation:rise .52s cubic-bezier(.22,.9,.3,1) forwards; animation-delay:var(--d,0s);}
-@keyframes rise{to{opacity:1; transform:none;}}
+/* ── 등장 모션 ──
+   기본값은 «보이는 상태»다. 숨겨 두면 활성 카드가 아닐 때 본문이 통째로 사라진다
+   (2026-10-12 실측 사고). 움직임은 보고 있는 카드에서만 재생한다. */
+.reveal{opacity:1;}
+.card.active .reveal{animation:rise .52s cubic-bezier(.22,.9,.3,1) both; animation-delay:var(--d,0s);}
+@keyframes rise{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
 
-/* 키보드 키 눌림 */
+/* 키보드 키가 차례로 눌리는 모습 */
 .keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
-.keyseq kbd{opacity:.35; transform:translateY(0);}
-.card.active .keyseq kbd{animation:press .5s ease-out forwards; animation-delay:calc(var(--i,0)*.45s + .5s);}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
 @keyframes press{
   0%{opacity:.35; transform:translateY(0) scale(1);}
   35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
   100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
 }
 .keyseq .arw{color:var(--mute); font-size:13px;}
-.keyseq .res{opacity:0; font-size:14px; font-weight:700; color:var(--green);}
-.card.active .keyseq .res{animation:rise .4s ease-out forwards; animation-delay:2.4s;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
 
 /* 테두리가 그려지는 모습 */
 .card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
   animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
 @keyframes drawline{to{stroke-dashoffset:0;}}
 
-/* 깜빡이며 주의를 끄는 요소 */
+/* 눈길을 끌어야 하는 한 곳만 깜빡인다 */
 .card.active .pulse{animation:pulse 1.8s ease-in-out .9s 3;}
 @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.25;}}
 
-/* 셀 포인터가 이동하는 모습 */
-.card.active .movecell{animation:movecell 3.4s ease-in-out 1s infinite;}
-@keyframes movecell{
-  0%,22%{transform:translate(0,0);}
-  33%,55%{transform:translate(0,26px);}
-  66%,88%{transform:translate(70px,26px);}
-  100%{transform:translate(0,0);}
-}
-
-/* 줄바꿈 비교 */
-.card.active .typeline{animation:typeline 2.6s steps(12) 1s infinite;}
-@keyframes typeline{0%,10%{width:0;} 55%,100%{width:92px;}}
-
 @media (prefers-reduced-motion: reduce){
-  .reveal{opacity:1; transform:none;}
-  .card.active .reveal,.card.active .keyseq kbd,.card.active .draw,
-  .card.active .pulse,.card.active .movecell,.card.active .typeline{animation:none;}
-  .keyseq kbd{opacity:1;}
-  .keyseq .res{opacity:1;}
+  .card.active .reveal,.card.active .keyseq kbd,.card.active .keyseq .res,
+  .card.active .draw,.card.active .pulse{animation:none;}
   .card.active .draw{stroke-dashoffset:0;}
 }
 
@@ -325,16 +311,16 @@ td:first-child{font-weight:600; white-space:nowrap;}
       <rect x="1" y="1" width="658" height="198" rx="10" fill="#fff" stroke="#E5E7EB"/>
       <rect x="20" y="18" width="620" height="34" rx="6" fill="#F8FAFF" stroke="#DBEAFE"/>
       <text x="34" y="40" font-size="13" fill="#111827">파일</text>
-      <text x="90" y="40" font-size="13" fill="#111827">홈</text>
-      <rect x="84" y="24" width="22" height="16" rx="3" fill="#FDE68A"/>
-      <text x="90" y="37" font-size="11" fill="#92400E" font-weight="700">H</text>
-      <text x="150" y="40" font-size="13" fill="#111827">삽입</text>
-      <rect x="146" y="24" width="22" height="16" rx="3" fill="#F3F4F6"/>
-      <text x="152" y="37" font-size="11" fill="#6B7280" font-weight="700">N</text>
-      <text x="215" y="40" font-size="13" fill="#111827">수식</text>
-      <rect x="211" y="24" width="22" height="16" rx="3" fill="#F3F4F6"/>
-      <text x="217" y="37" font-size="11" fill="#6B7280" font-weight="700">M</text>
-      <text x="290" y="40" font-size="12" fill="#B45309" font-weight="700">◀ Alt 를 누르면 글자가 나타납니다</text>
+      <text x="84" y="40" font-size="13" fill="#111827">홈</text>
+      <rect x="106" y="25" width="20" height="16" rx="3" fill="#FDE68A"/>
+      <text x="116" y="38" font-size="11" fill="#92400E" font-weight="700" text-anchor="middle">H</text>
+      <text x="146" y="40" font-size="13" fill="#111827">삽입</text>
+      <rect x="180" y="25" width="20" height="16" rx="3" fill="#F3F4F6"/>
+      <text x="190" y="38" font-size="11" fill="#6B7280" font-weight="700" text-anchor="middle">N</text>
+      <text x="220" y="40" font-size="13" fill="#111827">수식</text>
+      <rect x="254" y="25" width="20" height="16" rx="3" fill="#F3F4F6"/>
+      <text x="264" y="38" font-size="11" fill="#6B7280" font-weight="700" text-anchor="middle">M</text>
+      <text x="296" y="40" font-size="12" fill="#B45309" font-weight="700">◀ Alt 를 누르면 글자가 나타납니다</text>
       <text x="34" y="86" font-size="12" fill="#6B7280">선택한 범위</text>
       <rect x="34" y="96" width="140" height="70" fill="#fff" stroke="#CBD5E1"/>
       <line x1="34" y1="96" x2="174" y2="96" class="draw" style="--len:140;--d:2.5s" stroke="#2563EB" stroke-width="3"/>
