@@ -126,7 +126,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
   padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
   display:flex; align-items:center; gap:12px;
 }
-.nav button{font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
   background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
 .nav button:disabled{opacity:.35; cursor:default;}
 .dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
@@ -135,6 +135,55 @@ td:first-child{font-weight:600; white-space:nowrap;}
 .counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
 
 .foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 등장 모션 ── */
+.reveal{opacity:0; transform:translateY(14px);}
+.card.active .reveal{animation:rise .52s cubic-bezier(.22,.9,.3,1) forwards; animation-delay:var(--d,0s);}
+@keyframes rise{to{opacity:1; transform:none;}}
+
+/* 키보드 키 눌림 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:.35; transform:translateY(0);}
+.card.active .keyseq kbd{animation:press .5s ease-out forwards; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{opacity:0; font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out forwards; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+/* 깜빡이며 주의를 끄는 요소 */
+.card.active .pulse{animation:pulse 1.8s ease-in-out .9s 3;}
+@keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.25;}}
+
+/* 셀 포인터가 이동하는 모습 */
+.card.active .movecell{animation:movecell 3.4s ease-in-out 1s infinite;}
+@keyframes movecell{
+  0%,22%{transform:translate(0,0);}
+  33%,55%{transform:translate(0,26px);}
+  66%,88%{transform:translate(70px,26px);}
+  100%{transform:translate(0,0);}
+}
+
+/* 줄바꿈 비교 */
+.card.active .typeline{animation:typeline 2.6s steps(12) 1s infinite;}
+@keyframes typeline{0%,10%{width:0;} 55%,100%{width:92px;}}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1; transform:none;}
+  .card.active .reveal,.card.active .keyseq kbd,.card.active .draw,
+  .card.active .pulse,.card.active .movecell,.card.active .typeline{animation:none;}
+  .keyseq kbd{opacity:1;}
+  .keyseq .res{opacity:1;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
 
 @media (min-width:700px){
   h1{font-size:36px;} h2{font-size:26px;}
@@ -153,25 +202,25 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <!-- 1 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker">1차시 복습카드</span>
-  <h1>엑셀 화면을 읽고,<br>데이터를 넣는 날</h1>
-  <p class="lead">오늘은 엑셀을 처음 켜고 화면의 각 자리에 붙은 이름을 익혔습니다. 그리고 문자·숫자·날짜를 직접 넣어 보면서 엑셀이 데이터를 어떻게 구분하는지 확인했습니다.</p>
+  <span class="kicker reveal">1차시 복습카드</span>
+  <h1 class="reveal" style="--d:.06s">엑셀 화면을 읽고,<br>데이터를 넣는 날</h1>
+  <p class="lead reveal" style="--d:.14s">오늘은 엑셀을 처음 켜고 화면의 각 자리에 붙은 이름을 익혔습니다. 그리고 문자·숫자·날짜를 직접 넣어 보면서 엑셀이 데이터를 어떻게 구분하는지 확인했습니다.</p>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b">리본 메뉴와 화면 각 부분의 <b>이름</b></span></div>
-    <div class="row"><span class="n">2</span><span class="b">행·열·셀, 그리고 <b>셀 주소</b></span></div>
-    <div class="row"><span class="n">3</span><span class="b">문자·숫자·날짜 <b>데이터 구분</b></span></div>
-    <div class="row"><span class="n">4</span><span class="b">입력을 빠르게 하는 <b>단축키</b></span></div>
-    <div class="row"><span class="n">5</span><span class="b">셀에 설명을 붙이는 <b>메모</b></span></div>
+    <div class="row reveal" style="--d:.22s"><span class="n">1</span><span class="b">리본 메뉴와 화면 각 부분의 <b>이름</b></span></div>
+    <div class="row reveal" style="--d:.30s"><span class="n">2</span><span class="b">행·열·셀, 그리고 <b>셀 주소</b></span></div>
+    <div class="row reveal" style="--d:.38s"><span class="n">3</span><span class="b">문자·숫자·날짜 <b>데이터 구분</b></span></div>
+    <div class="row reveal" style="--d:.46s"><span class="n">4</span><span class="b">입력을 빠르게 하는 <b>단축키</b></span></div>
+    <div class="row reveal" style="--d:.54s"><span class="n">5</span><span class="b">셀에 설명을 붙이는 <b>메모</b></span></div>
   </div>
-  <p class="mute">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
+  <p class="mute reveal" style="--d:.62s">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
 </div></section>
 
 <!-- 2 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi">필기 · 화면 구성</span>
-  <h2>화면의 자리마다<br>이름이 정해져 있습니다</h2>
-  <p>시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 그림을 보면서 위치와 이름을 같이 외워 두세요.</p>
-  <figure class="fig">
+  <span class="kicker pilgi reveal">필기 · 화면 구성</span>
+  <h2 class="reveal" style="--d:.06s">화면의 자리마다<br>이름이 정해져 있습니다</h2>
+  <p class="reveal" style="--d:.12s">시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 그림을 보면서 위치와 이름을 같이 외워 두세요.</p>
+  <figure class="fig reveal" style="--d:.18s">
     <div class="svg-wrap">
     <svg width="660" height="300" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="298" rx="10" fill="#fff" stroke="#E5E7EB"/>
@@ -182,10 +231,9 @@ td:first-child{font-weight:600; white-space:nowrap;}
       <rect x="14" y="48" width="632" height="60" rx="6" fill="#F8FAFF" stroke="#DBEAFE"/>
       <text x="26" y="68" font-size="13" fill="#1D4ED8" font-weight="700">리본 메뉴</text>
       <text x="110" y="68" font-size="13" fill="#111827">파일 · 홈 · 삽입 · 페이지 레이아웃 · 수식 · 데이터 · 검토 · 보기</text>
-      <text x="110" y="68" font-size="13" fill="#111827"></text>
       <rect x="110" y="78" width="150" height="22" rx="4" fill="#fff" stroke="#CBD5E1"/>
       <text x="120" y="93" font-size="12" fill="#334155">글꼴 그룹</text>
-      <circle cx="250" cy="96" r="5" fill="#2563EB"/>
+      <circle cx="250" cy="96" r="5" fill="#2563EB" class="pulse"/>
       <text x="272" y="93" font-size="12" fill="#B45309" font-weight="700">◀ 이 작은 버튼 = 대화 상자 열기</text>
       <rect x="14" y="118" width="130" height="26" rx="5" fill="#fff" stroke="#2563EB"/>
       <text x="24" y="136" font-size="13" fill="#1D4ED8" font-weight="700">이름 상자</text>
@@ -206,36 +254,103 @@ td:first-child{font-weight:600; white-space:nowrap;}
     </div>
     <figcaption>엑셀 화면 각 부분의 이름</figcaption>
   </figure>
-  <div class="callout tip"><b>시험에 자주 나오는 한 줄</b>리본 메뉴는 <b>탭</b>으로 나뉘고, 탭 안은 다시 <b>그룹</b>으로 나뉩니다.</div>
+  <div class="callout tip reveal" style="--d:.26s"><b>시험에 자주 나오는 한 줄</b>리본 메뉴는 <b>탭</b>으로 나뉘고, 탭 안은 다시 <b>그룹</b>으로 나뉩니다.</div>
 </div></section>
 
 <!-- 3 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi">필기 · 용어</span>
-  <h2>헷갈리기 쉬운<br>네 가지 이름</h2>
-  <table>
+  <span class="kicker pilgi reveal">필기 · 용어</span>
+  <h2 class="reveal" style="--d:.06s">헷갈리기 쉬운<br>네 가지 이름</h2>
+  <figure class="fig reveal" style="--d:.14s">
+    <div class="svg-wrap">
+    <svg width="660" height="250" viewBox="0 0 660 250" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="248" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="22" y="28" font-size="13" font-weight="700" fill="#1D4ED8">① 그룹의 작은 버튼 → 대화 상자</text>
+      <rect x="22" y="40" width="150" height="46" rx="6" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <text x="32" y="60" font-size="12" fill="#334155">글꼴</text>
+      <circle cx="162" cy="78" r="5" fill="#2563EB" class="pulse"/>
+      <path d="M176 76 L212 66" stroke="#2563EB" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+      <rect x="218" y="40" width="150" height="80" rx="6" fill="#fff" stroke="#2563EB" stroke-width="1.6"/>
+      <rect x="218" y="40" width="150" height="20" rx="6" fill="#EFF4FF"/>
+      <text x="228" y="55" font-size="11" fill="#1D4ED8" font-weight="700">셀 서식</text>
+      <text x="228" y="80" font-size="11" fill="#6B7280">표시 형식 · 맞춤 · 글꼴</text>
+      <text x="228" y="100" font-size="11" fill="#6B7280">테두리 · 채우기</text>
+      <text x="382" y="70" font-size="12" font-weight="700" fill="#B45309">= 대화 상자</text>
+      <text x="22" y="150" font-size="13" font-weight="700" fill="#1D4ED8">② 마우스 오른쪽 → 바로 가기 메뉴</text>
+      <rect x="22" y="162" width="60" height="56" rx="8" fill="#fff" stroke="#CBD5E1"/>
+      <path d="M52 162 L52 186" stroke="#CBD5E1"/>
+      <rect x="52" y="162" width="30" height="24" rx="0" fill="#FEE2E2"/>
+      <text x="22" y="236" font-size="11" fill="#DC2626">오른쪽 버튼</text>
+      <path d="M90 190 L126 182" stroke="#2563EB" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+      <rect x="132" y="156" width="130" height="72" rx="6" fill="#fff" stroke="#2563EB" stroke-width="1.6"/>
+      <text x="142" y="174" font-size="11" fill="#111827">잘라내기</text>
+      <text x="142" y="192" font-size="11" fill="#111827">복사</text>
+      <text x="142" y="210" font-size="11" fill="#111827">붙여넣기 옵션</text>
+      <text x="276" y="192" font-size="12" font-weight="700" fill="#B45309">= 바로 가기 메뉴</text>
+      <text x="410" y="150" font-size="13" font-weight="700" fill="#1D4ED8">③ 마우스를 올리면 → 스크린 팁</text>
+      <rect x="410" y="162" width="56" height="26" rx="5" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <text x="422" y="180" font-size="12" fill="#334155">굵게</text>
+      <rect x="410" y="196" width="180" height="30" rx="5" fill="#111827"/>
+      <text x="420" y="215" font-size="11" fill="#fff">굵게 (Ctrl+B) — 글자를 굵게</text>
+      <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2563EB"/></marker></defs>
+    </svg>
+    </div>
+    <figcaption>같은 리본에서 나오지만 이름이 다른 세 가지</figcaption>
+  </figure>
+  <table class="reveal" style="--d:.22s">
     <tr><th>이름</th><th>어떤 것인가</th></tr>
-    <tr><td>대화 상자</td><td>그룹 오른쪽 아래의 작은 버튼을 눌렀을 때 뜨는 창 (예: 셀 서식)</td></tr>
+    <tr><td>대화 상자</td><td>그룹 오른쪽 아래의 작은 버튼을 눌렀을 때 뜨는 창</td></tr>
     <tr><td>바로 가기 메뉴</td><td>마우스 <b>오른쪽</b> 버튼을 눌렀을 때 나오는 메뉴</td></tr>
     <tr><td>스크린 팁</td><td>명령 위에 마우스를 올려 두면 뜨는 설명 풍선</td></tr>
-    <tr><td>빠른 실행 도구 모음</td><td>저장·실행 취소·다시 실행이 기본으로 있는 줄. 자주 쓰는 명령을 추가할 수 있습니다</td></tr>
+    <tr><td>빠른 실행 도구 모음</td><td>저장·실행 취소·다시 실행이 기본으로 있는 줄</td></tr>
   </table>
-  <div class="callout note"><b>실무에서 쓰는 요령</b>빠른 실행 도구 모음은 리본 <b>아래쪽으로 내릴 수</b> 있습니다. 「기타 명령」에서 순서도 바꿉니다.</div>
+  <div class="callout note reveal" style="--d:.3s"><b>실무에서 쓰는 요령</b>빠른 실행 도구 모음은 리본 <b>아래쪽으로 내릴 수</b> 있습니다. 「기타 명령」에서 순서도 바꿉니다.</div>
 </div></section>
 
 <!-- 4 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi">실기 · 단축키</span>
-  <h2>Alt를 한 번 누르면<br>리본에 글자가 뜹니다</h2>
-  <p>마우스로 찾아 들어가는 것보다 키보드가 빠릅니다. <kbd>Alt</kbd> 또는 <kbd>/</kbd> 를 한 번 누르면 탭마다 알파벳이 나타납니다.</p>
-  <div class="panel flat">
-    <div class="row"><span class="n">1</span><span class="b"><kbd>Alt</kbd> → 리본에 글자 표시</span></div>
-    <div class="row"><span class="n">2</span><span class="b"><kbd>H</kbd> → 홈 탭</span></div>
-    <div class="row"><span class="n">3</span><span class="b"><kbd>B</kbd> → 테두리</span></div>
-    <div class="row"><span class="n">4</span><span class="b"><kbd>A</kbd> → 모든 테두리 적용</span></div>
+  <span class="kicker silgi reveal">실기 · 단축키</span>
+  <h2 class="reveal" style="--d:.06s">Alt를 한 번 누르면<br>리본에 글자가 뜹니다</h2>
+  <p class="reveal" style="--d:.12s">마우스로 찾아 들어가는 것보다 키보드가 빠릅니다. 아래 순서대로 눌러 보세요.</p>
+  <div class="keyseq">
+    <kbd style="--i:0">Alt</kbd><span class="arw">→</span>
+    <kbd style="--i:1">H</kbd><span class="arw">→</span>
+    <kbd style="--i:2">B</kbd><span class="arw">→</span>
+    <kbd style="--i:3">A</kbd>
+    <span class="res">모든 테두리 완성</span>
   </div>
-  <div class="callout tip"><b>묶어서 외우기</b><kbd>Alt</kbd> <kbd>H</kbd> <kbd>B</kbd> <kbd>A</kbd> = 모든 테두리. 자주 쓰는 명령은 이렇게 순서를 적어 두고 외우면 훨씬 빨라집니다.</div>
-  <table>
+  <figure class="fig reveal" style="--d:.2s">
+    <div class="svg-wrap">
+    <svg width="660" height="200" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="198" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="20" y="18" width="620" height="34" rx="6" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="34" y="40" font-size="13" fill="#111827">파일</text>
+      <text x="90" y="40" font-size="13" fill="#111827">홈</text>
+      <rect x="84" y="24" width="22" height="16" rx="3" fill="#FDE68A"/>
+      <text x="90" y="37" font-size="11" fill="#92400E" font-weight="700">H</text>
+      <text x="150" y="40" font-size="13" fill="#111827">삽입</text>
+      <rect x="146" y="24" width="22" height="16" rx="3" fill="#F3F4F6"/>
+      <text x="152" y="37" font-size="11" fill="#6B7280" font-weight="700">N</text>
+      <text x="215" y="40" font-size="13" fill="#111827">수식</text>
+      <rect x="211" y="24" width="22" height="16" rx="3" fill="#F3F4F6"/>
+      <text x="217" y="37" font-size="11" fill="#6B7280" font-weight="700">M</text>
+      <text x="290" y="40" font-size="12" fill="#B45309" font-weight="700">◀ Alt 를 누르면 글자가 나타납니다</text>
+      <text x="34" y="86" font-size="12" fill="#6B7280">선택한 범위</text>
+      <rect x="34" y="96" width="140" height="70" fill="#fff" stroke="#CBD5E1"/>
+      <line x1="34" y1="96" x2="174" y2="96" class="draw" style="--len:140;--d:2.5s" stroke="#2563EB" stroke-width="3"/>
+      <line x1="34" y1="166" x2="174" y2="166" class="draw" style="--len:140;--d:2.6s" stroke="#2563EB" stroke-width="3"/>
+      <line x1="34" y1="96" x2="34" y2="166" class="draw" style="--len:70;--d:2.7s" stroke="#2563EB" stroke-width="3"/>
+      <line x1="174" y1="96" x2="174" y2="166" class="draw" style="--len:70;--d:2.8s" stroke="#2563EB" stroke-width="3"/>
+      <line x1="34" y1="131" x2="174" y2="131" class="draw" style="--len:140;--d:2.9s" stroke="#2563EB" stroke-width="2"/>
+      <line x1="104" y1="96" x2="104" y2="166" class="draw" style="--len:70;--d:3s" stroke="#2563EB" stroke-width="2"/>
+      <text x="200" y="124" font-size="13" fill="#047857" font-weight="700">Alt H B A → 모든 테두리</text>
+      <text x="200" y="146" font-size="12" fill="#6B7280">자주 쓰는 명령은 순서를 적어 두고 외웁니다</text>
+    </svg>
+    </div>
+    <figcaption>Alt 로 리본을 따라 들어가 테두리를 그리는 순서</figcaption>
+  </figure>
+  <div class="callout tip reveal" style="--d:.28s"><b>Alt 대신 써도 되는 키</b><kbd>/</kbd> (슬래시) 를 눌러도 똑같이 글자가 나타납니다.</div>
+  <table class="reveal" style="--d:.34s">
     <tr><th>단축키</th><th>하는 일</th></tr>
     <tr><td><kbd>Win</kbd>+<kbd>R</kbd></td><td>실행 창 → <code>excel</code> 입력해서 실행</td></tr>
     <tr><td><kbd>Ctrl</kbd>+<kbd>F4</kbd></td><td>현재 <b>문서만</b> 닫기</td></tr>
@@ -247,27 +362,57 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <!-- 5 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi">필기 · 구조</span>
-  <h2>행은 숫자, 열은 영어</h2>
-  <p>워크시트는 가로줄과 세로줄이 만나는 격자입니다. 한 칸이 <b>셀</b>이고, 셀의 이름은 <b>열을 먼저, 행을 나중에</b> 붙입니다.</p>
-  <div class="vs">
-    <div class="l"><h4>행 (行)</h4><p><b>가로</b> 방향<br>번호는 <b>숫자</b> 1, 2, 3 …</p></div>
-    <div class="r"><h4>열 (列)</h4><p><b>세로</b> 방향<br>번호는 <b>영어</b> A, B, C …</p></div>
-  </div>
-  <div class="callout warn"><b>순서를 거꾸로 쓰지 마세요</b><code>B2</code> 는 <b>B열 2행</b>입니다. 「2행 B열」이라고 읽어도 쓸 때는 항상 열이 먼저입니다.</div>
-  <div class="panel flat">
-    <div class="row"><span class="n">!</span><span class="b"><b>이름 상자</b>에 <code>A100</code> 을 입력하면 그 셀로 바로 이동합니다.</span></div>
-    <div class="row"><span class="n">!</span><span class="b">셀을 둘러싼 초록 테두리가 <b>셀 포인터</b>입니다. 모든 작업의 기준점입니다.</span></div>
-    <div class="row"><span class="n">!</span><span class="b">숫자 범위를 선택하면 <b>상태 표시줄</b>에 합계·평균·개수가 나타납니다. 오른쪽 버튼으로 항목을 고릅니다.</span></div>
+  <span class="kicker pilgi reveal">필기 · 구조</span>
+  <h2 class="reveal" style="--d:.06s">행은 숫자, 열은 영어</h2>
+  <figure class="fig reveal" style="--d:.12s">
+    <div class="svg-wrap">
+    <svg width="660" height="260" viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="258" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="60" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="130" y="40" width="70" height="24" fill="#EFF4FF" stroke="#2563EB"/>
+      <rect x="200" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="270" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <text x="90" y="57" font-size="13" fill="#334155" font-weight="700">A</text>
+      <text x="160" y="57" font-size="13" fill="#1D4ED8" font-weight="700">B</text>
+      <text x="230" y="57" font-size="13" fill="#334155" font-weight="700">C</text>
+      <text x="300" y="57" font-size="13" fill="#334155" font-weight="700">D</text>
+      <rect x="20" y="64" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="20" y="90" width="40" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="20" y="116" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <text x="36" y="82" font-size="13" fill="#334155" font-weight="700">1</text>
+      <text x="36" y="108" font-size="13" fill="#B45309" font-weight="700">2</text>
+      <text x="36" y="134" font-size="13" fill="#334155" font-weight="700">3</text>
+      <rect x="60" y="64" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="60" y="90" width="280" height="26" fill="#FFFBEB" stroke="#FDE68A"/>
+      <rect x="60" y="116" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="130" y="64" width="70" height="78" fill="#2563EB" opacity="0.08"/>
+      <rect x="130" y="90" width="70" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="2.5"/>
+      <text x="152" y="108" font-size="13" fill="#1D4ED8" font-weight="700">B2</text>
+      <text x="360" y="82" font-size="13" fill="#B45309" font-weight="700">가로 한 줄 = 행 (숫자)</text>
+      <text x="360" y="108" font-size="13" fill="#1D4ED8" font-weight="700">세로 한 줄 = 열 (영어)</text>
+      <text x="360" y="134" font-size="13" fill="#047857" font-weight="700">둘이 만나는 칸 = 셀</text>
+      <rect x="20" y="170" width="620" height="70" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="36" y="196" font-size="14" fill="#111827" font-weight="700">셀 이름은 열을 먼저 씁니다</text>
+      <text x="36" y="222" font-size="14" fill="#047857" font-weight="700">B2 ○</text>
+      <text x="100" y="222" font-size="13" fill="#6B7280">B열 2행</text>
+      <text x="220" y="222" font-size="14" fill="#DC2626" font-weight="700">2B ✗</text>
+      <text x="290" y="222" font-size="13" fill="#6B7280">행을 먼저 쓰지 않습니다</text>
+    </svg>
+    </div>
+    <figcaption>행·열·셀, 그리고 셀 주소를 읽는 순서</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row reveal" style="--d:.2s"><span class="n">!</span><span class="b"><b>이름 상자</b>에 <code>A100</code> 을 입력하면 그 셀로 바로 이동합니다.</span></div>
+    <div class="row reveal" style="--d:.27s"><span class="n">!</span><span class="b">셀을 둘러싼 초록 테두리가 <b>셀 포인터</b>입니다. 모든 작업의 기준점입니다.</span></div>
+    <div class="row reveal" style="--d:.34s"><span class="n">!</span><span class="b">숫자 범위를 선택하면 <b>상태 표시줄</b>에 합계·평균·개수가 나타납니다.</span></div>
   </div>
 </div></section>
 
 <!-- 6 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi">실기 · 데이터</span>
-  <h2>정렬만 봐도<br>문자인지 숫자인지 압니다</h2>
-  <p>서식을 건드리지 않은 상태에서 엑셀은 데이터 종류에 따라 자동으로 다르게 정렬합니다.</p>
-  <figure class="fig">
+  <span class="kicker silgi reveal">실기 · 데이터</span>
+  <h2 class="reveal" style="--d:.06s">정렬만 봐도<br>문자인지 숫자인지 압니다</h2>
+  <figure class="fig reveal" style="--d:.12s">
     <div class="svg-wrap">
     <svg width="660" height="230" viewBox="0 0 660 230" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="228" rx="10" fill="#fff" stroke="#E5E7EB"/>
@@ -290,103 +435,219 @@ td:first-child{font-weight:600; white-space:nowrap;}
       <text x="622" y="122" font-size="14" fill="#111827" text-anchor="end">10:30</text>
       <text x="362" y="156" font-size="13" fill="#6B7280">날짜와 시간은 기호가 들어 있어도</text>
       <text x="362" y="176" font-size="13" fill="#6B7280"><tspan font-weight="700" fill="#B45309">숫자</tspan>로 처리합니다.</text>
-      <text x="362" y="200" font-size="12" fill="#DC2626">← 오른쪽에 붙으면 숫자라는 뜻</text>
+      <text x="362" y="200" font-size="12" fill="#DC2626" class="pulse">← 오른쪽에 붙으면 숫자라는 뜻</text>
     </svg>
     </div>
     <figcaption>기본 정렬로 구분하는 문자 데이터와 숫자 데이터</figcaption>
   </figure>
-  <div class="callout warn"><b>가장 많이 틀리는 곳</b>날짜·시간은 <code>-</code> <code>/</code> <code>:</code> 같은 기호나 AM/PM이 들어 있어도 <b>숫자 데이터</b>입니다. 그래서 더하고 뺄 수 있습니다.</div>
+  <div class="callout warn reveal" style="--d:.2s"><b>가장 많이 틀리는 곳</b>날짜·시간은 <code>-</code> <code>/</code> <code>:</code> 같은 기호나 AM/PM이 들어 있어도 <b>숫자 데이터</b>입니다. 그래서 더하고 뺄 수 있습니다.</div>
 </div></section>
 
 <!-- 7 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi">실기 · 데이터</span>
-  <h2>화면에 이상하게<br>보일 때의 이유</h2>
-  <table>
-    <tr><th>이런 모습</th><th>왜 그런가</th></tr>
-    <tr><td>글자가 옆 칸까지</td><td>오른쪽 셀이 <b>비어 있으면</b> 넘겨서 보여 줍니다. 값이 있으면 잘려 보입니다</td></tr>
-    <tr><td><code>######</code></td><td>표시 형식이 지정된 숫자가 <b>열 너비보다 길 때</b>. 너비를 넓히면 사라집니다</td></tr>
-    <tr><td><code>1.23E+15</code></td><td>자릿수가 아주 긴 숫자는 <b>지수 형식</b>으로 바뀝니다</td></tr>
-    <tr><td><code>010</code> → <code>10</code></td><td>숫자로 보고 앞의 0을 지웁니다</td></tr>
-  </table>
-  <div class="callout tip"><b>앞의 0을 살리려면</b>앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력합니다. 문자 데이터가 되어 0이 남습니다.</div>
-  <div class="panel flat">
-    <div class="row"><span class="n">+</span><span class="b">분수는 <code>0 1/2</code> 처럼 <b>0과 공백을 먼저</b> 써야 날짜로 바뀌지 않습니다.</span></div>
-    <div class="row"><span class="n">+</span><span class="b">한자는 글자를 쓴 뒤 <kbd>한자</kbd> 키, 특수 문자는 <b>한글 자음</b>(ㅁ, ㅇ …) 을 쓴 뒤 <kbd>한자</kbd> 키로 찾습니다.</span></div>
+  <span class="kicker silgi reveal">실기 · 데이터</span>
+  <h2 class="reveal" style="--d:.06s">화면에 이상하게<br>보일 때의 이유</h2>
+  <figure class="fig reveal" style="--d:.12s">
+    <div class="svg-wrap">
+    <svg width="660" height="250" viewBox="0 0 660 250" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="248" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="22" y="28" font-size="13" font-weight="700" fill="#1D4ED8">오른쪽 칸이 비어 있으면 넘겨서 보여 줍니다</text>
+      <rect x="22" y="38" width="120" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <rect x="142" y="38" width="120" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text x="30" y="57" font-size="13" fill="#111827">우리컴퓨터학원 복습</text>
+      <text x="280" y="57" font-size="12" fill="#047857" font-weight="700">← 다 보입니다</text>
+      <text x="22" y="98" font-size="13" font-weight="700" fill="#DC2626">오른쪽 칸에 값이 있으면 잘려 보입니다</text>
+      <rect x="22" y="108" width="120" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <rect x="142" y="108" width="120" height="28" fill="#FEF2F2" stroke="#CBD5E1"/>
+      <clipPath id="cp1"><rect x="23" y="109" width="118" height="26"/></clipPath>
+      <text x="30" y="127" font-size="13" fill="#111827" clip-path="url(#cp1)">우리컴퓨터학원 복습</text>
+      <text x="152" y="127" font-size="13" fill="#111827">10월</text>
+      <text x="280" y="127" font-size="12" fill="#DC2626" font-weight="700">← 가려집니다 (지워진 게 아닙니다)</text>
+      <text x="22" y="168" font-size="13" font-weight="700" fill="#B45309">숫자가 열 너비보다 길면</text>
+      <rect x="22" y="178" width="100" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text x="114" y="197" font-size="14" fill="#DC2626" text-anchor="end" font-weight="700" class="pulse">########</text>
+      <path d="M130 192 L176 192" stroke="#2563EB" stroke-width="1.6" marker-end="url(#ar2)"/>
+      <rect x="182" y="178" width="160" height="28" fill="#fff" stroke="#2563EB"/>
+      <text x="334" y="197" font-size="14" fill="#111827" text-anchor="end">1,250,000</text>
+      <text x="356" y="197" font-size="12" fill="#047857" font-weight="700">열 너비를 넓히면 됩니다</text>
+      <text x="420" y="168" font-size="13" font-weight="700" fill="#1D4ED8">아주 긴 숫자는</text>
+      <rect x="420" y="38" width="210" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text x="622" y="57" font-size="13" fill="#111827" text-anchor="end">1.23457E+15</text>
+      <text x="420" y="88" font-size="12" fill="#6B7280">= 지수 형식으로 바뀝니다</text>
+      <defs><marker id="ar2" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2563EB"/></marker></defs>
+    </svg>
+    </div>
+    <figcaption>화면이 이상해 보이는 세 가지 경우와 그 이유</figcaption>
+  </figure>
+  <div class="callout tip reveal" style="--d:.2s"><b>앞의 0을 살리려면</b><code>010</code> 을 그냥 넣으면 <code>10</code> 이 됩니다. 앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력하면 문자가 되어 0이 남습니다.</div>
+  <div class="panel">
+    <div class="row reveal" style="--d:.27s"><span class="n">+</span><span class="b">분수는 <code>0 1/2</code> 처럼 <b>0과 공백을 먼저</b> 써야 날짜로 바뀌지 않습니다.</span></div>
+    <div class="row reveal" style="--d:.34s"><span class="n">+</span><span class="b">한자는 글자를 쓴 뒤 <kbd>한자</kbd> 키, 특수 문자는 <b>한글 자음</b>(ㅁ, ㅇ …) 을 쓴 뒤 <kbd>한자</kbd> 키로 찾습니다.</span></div>
   </div>
 </div></section>
 <!-- 8 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi">실기 · 날짜</span>
-  <h2>날짜는 숫자 1번부터<br>세어 나갑니다</h2>
-  <div class="panel flat">
-    <div class="row"><span class="n">1</span><span class="b">엑셀은 <b>1900년 1월 1일</b>을 일련번호 <code>1</code> 로 두고 하루에 1씩 더해 갑니다.</span></div>
-    <div class="row"><span class="n">2</span><span class="b">시간은 하루를 <code>1</code> 로 보고 <b>0과 1 사이의 소수</b>로 셉니다. 정오는 <code>0.5</code> 입니다.</span></div>
-    <div class="row"><span class="n">3</span><span class="b">표시 형식을 <b>일반</b>으로 바꾸면 그 숫자가 그대로 드러납니다.</span></div>
-  </div>
-  <table>
+  <span class="kicker silgi reveal">실기 · 날짜</span>
+  <h2 class="reveal" style="--d:.06s">날짜는 숫자 1번부터<br>세어 나갑니다</h2>
+  <figure class="fig reveal" style="--d:.12s">
+    <div class="svg-wrap">
+    <svg width="660" height="220" viewBox="0 0 660 220" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="218" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <line x1="40" y1="70" x2="620" y2="70" stroke="#CBD5E1" stroke-width="2"/>
+      <line x1="40" y1="70" x2="620" y2="70" class="draw" style="--len:580;--d:.4s" stroke="#2563EB" stroke-width="3"/>
+      <circle cx="60" cy="70" r="6" fill="#2563EB"/>
+      <text x="60" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">1</text>
+      <text x="60" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-01</text>
+      <circle cx="200" cy="70" r="6" fill="#2563EB"/>
+      <text x="200" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">2</text>
+      <text x="200" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-02</text>
+      <text x="340" y="76" font-size="14" fill="#6B7280" text-anchor="middle">· · · 하루에 1씩 · · ·</text>
+      <circle cx="500" cy="70" r="6" fill="#B45309"/>
+      <text x="500" y="54" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">46,322</text>
+      <text x="500" y="94" font-size="12" fill="#6B7280" text-anchor="middle">2026-10-12</text>
+      <rect x="40" y="120" width="580" height="78" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="56" y="144" font-size="13" fill="#111827" font-weight="700">시간은 하루를 1로 보고 소수로 셉니다</text>
+      <rect x="56" y="156" width="300" height="18" rx="9" fill="#fff" stroke="#CBD5E1"/>
+      <rect x="56" y="156" width="150" height="18" rx="9" fill="#2563EB" opacity="0.25"/>
+      <line x1="206" y1="150" x2="206" y2="180" stroke="#2563EB" stroke-width="2"/>
+      <text x="56" y="190" font-size="11" fill="#6B7280">0시 = 0</text>
+      <text x="206" y="190" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">정오 = 0.5</text>
+      <text x="356" y="190" font-size="11" fill="#6B7280" text-anchor="end">24시 = 1</text>
+      <text x="390" y="168" font-size="12" fill="#047857" font-weight="700">표시 형식을 「일반」으로 바꾸면</text>
+      <text x="390" y="188" font-size="12" fill="#047857" font-weight="700">이 숫자가 그대로 보입니다</text>
+    </svg>
+    </div>
+    <figcaption>엑셀이 날짜와 시간을 숫자로 세는 방법</figcaption>
+  </figure>
+  <table class="reveal" style="--d:.2s">
     <tr><th>이렇게 입력하면</th><th>이렇게 들어갑니다</th></tr>
     <tr><td>연도를 빼고</td><td><b>올해</b> 연도가 붙습니다</td></tr>
     <tr><td>연도와 월만</td><td>일자는 <b>1일</b>이 됩니다</td></tr>
     <tr><td><kbd>Ctrl</kbd>+<kbd>;</kbd></td><td>오늘 <b>날짜</b></td></tr>
     <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd></td><td>현재 <b>시간</b></td></tr>
   </table>
-  <div class="callout warn"><b>두 자리 연도는 시험 기준으로 외우세요</b>연도를 두 자리로 입력하면 <b>00~29는 2000년대</b>, <b>30~99는 1900년대</b>로 해석됩니다. 교재와 기출의 기준이 이것입니다.<br><span class="mute">수업 중 교실 PC에서 <code>39</code>가 2039로 보인 것은 그 PC의 Windows 「두 자리 연도」 설정이 달라서입니다. 시험은 위 기준으로 채점합니다.</span></div>
+  <div class="callout warn reveal" style="--d:.28s"><b>두 자리 연도는 시험 기준으로 외우세요</b>연도를 두 자리로 입력하면 <b>00~29는 2000년대</b>, <b>30~99는 1900년대</b>로 해석됩니다. 교재와 기출의 기준이 이것입니다.<br><span class="mute">수업 중 교실 PC에서 <code>39</code>가 2039로 보인 것은 그 PC의 Windows 「두 자리 연도」 설정이 달라서입니다. 시험은 위 기준으로 채점합니다.</span></div>
 </div></section>
 
 <!-- 9 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi">실기 · 입력</span>
-  <h2>Alt+Enter와 Ctrl+Enter는<br>전혀 다릅니다</h2>
-  <div class="vs">
-    <div class="l"><h4>Alt + Enter</h4><p><b>한 셀 안에서</b> 줄을 바꿉니다. 셀은 그대로 하나입니다.</p></div>
-    <div class="r"><h4>Ctrl + Enter</h4><p>선택해 둔 <b>여러 셀 전부</b>에 같은 값을 한 번에 넣습니다.</p></div>
+  <span class="kicker silgi reveal">실기 · 입력</span>
+  <h2 class="reveal" style="--d:.06s">Alt+Enter와 Ctrl+Enter는<br>전혀 다릅니다</h2>
+  <figure class="fig reveal" style="--d:.12s">
+    <div class="svg-wrap">
+    <svg width="660" height="240" viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="238" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="24" y="30" font-size="14" fill="#1D4ED8" font-weight="700">Alt + Enter — 한 셀 안에서 줄바꿈</text>
+      <rect x="24" y="44" width="180" height="56" fill="#fff" stroke="#2563EB" stroke-width="2"/>
+      <text x="36" y="66" font-size="13" fill="#111827">우리컴퓨터학원</text>
+      <text x="36" y="88" font-size="13" fill="#111827">엑셀 1차시</text>
+      <text x="220" y="64" font-size="12" fill="#6B7280">셀은 그대로 하나입니다.</text>
+      <text x="220" y="86" font-size="12" fill="#6B7280">줄만 아래로 내려갑니다.</text>
+      <text x="24" y="140" font-size="14" fill="#B45309" font-weight="700">Ctrl + Enter — 선택한 셀 전부에 같은 값</text>
+      <rect x="24" y="154" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="114" y="154" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="24" y="180" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="114" y="180" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <text x="36" y="172" font-size="12" fill="#111827">미정</text>
+      <text x="126" y="172" font-size="12" fill="#111827">미정</text>
+      <text x="36" y="198" font-size="12" fill="#111827">미정</text>
+      <text x="126" y="198" font-size="12" fill="#111827">미정</text>
+      <text x="220" y="178" font-size="12" fill="#6B7280">네 칸을 먼저 선택해 두고</text>
+      <text x="220" y="198" font-size="12" fill="#6B7280">한 번만 입력하면 전부 채워집니다.</text>
+      <rect x="420" y="40" width="210" height="166" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="436" y="66" font-size="13" fill="#111827" font-weight="700">입력을 마친 뒤 이동</text>
+      <text x="436" y="94" font-size="12" fill="#334155">Enter ↓ 아래</text>
+      <text x="436" y="118" font-size="12" fill="#334155">Shift+Enter ↑ 위</text>
+      <text x="436" y="142" font-size="12" fill="#334155">Tab → 오른쪽</text>
+      <text x="436" y="166" font-size="12" fill="#334155">Shift+Tab ← 왼쪽</text>
+      <text x="436" y="192" font-size="12" fill="#DC2626" font-weight="700">Esc — 입력을 취소</text>
+    </svg>
+    </div>
+    <figcaption>이름이 비슷하지만 하는 일이 다른 두 단축키</figcaption>
+  </figure>
+  <div class="callout tip reveal" style="--d:.2s"><b>범위를 먼저 잡아 두면</b>범위를 선택한 채 <kbd>Enter</kbd>를 누르면 셀 포인터가 <b>그 범위 안에서만</b> 돕니다. 표에 값을 채워 넣을 때 편합니다.</div>
+  <div class="panel">
+    <div class="row reveal" style="--d:.27s"><span class="n">+</span><span class="b">잘못 눌렀으면 <kbd>Ctrl</kbd>+<kbd>Z</kbd> 로 되돌리고, <kbd>Ctrl</kbd>+<kbd>Y</kbd> 로 다시 실행합니다.</span></div>
   </div>
-  <table>
-    <tr><th>키</th><th>입력을 마치면</th></tr>
-    <tr><td><kbd>Enter</kbd></td><td>아래 셀로 이동</td></tr>
-    <tr><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td><td>위 셀로 이동</td></tr>
-    <tr><td><kbd>Tab</kbd></td><td>오른쪽 셀로 이동</td></tr>
-    <tr><td><kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>왼쪽 셀로 이동</td></tr>
-    <tr><td><kbd>Esc</kbd></td><td>입력하던 것을 <b>취소</b></td></tr>
-    <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td>실행 취소 / 다시 실행</td></tr>
-  </table>
-  <div class="callout tip"><b>범위를 먼저 잡아 두면</b>범위를 선택한 채 <kbd>Enter</kbd>를 누르면 셀 포인터가 <b>그 범위 안에서만</b> 돕니다. 표에 값을 채워 넣을 때 편합니다.</div>
 </div></section>
 
 <!-- 10 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi">필기 · 메모</span>
-  <h2>메모는 지워도<br>따라 지워지지 않습니다</h2>
-  <p>메모는 셀에 설명을 붙여 두는 기능입니다. 데이터와는 <b>따로</b> 붙어 있다는 점이 시험 포인트입니다.</p>
-  <div class="panel flat">
-    <div class="row"><span class="n">1</span><span class="b">삽입: <b>검토 탭 → 새 메모</b> 또는 <kbd>Shift</kbd>+<kbd>F2</kbd></span></div>
-    <div class="row"><span class="n">2</span><span class="b">메모가 있는 셀을 <kbd>Delete</kbd> 로 지우면 <b>값만</b> 지워지고 메모는 남습니다.</span></div>
-    <div class="row"><span class="n">3</span><span class="b">표시 여부는 <b>검토 탭 → 메모 모두 표시</b> 로 켜고 끕니다.</span></div>
-    <div class="row"><span class="n">4</span><span class="b">인쇄는 <b>페이지 설정 → 시트 → 메모</b> 에서 「시트에 표시된 대로」 또는 「시트 끝」을 고릅니다.</span></div>
-    <div class="row"><span class="n">5</span><span class="b">위치 이동·크기 조절·글꼴 변경이 모두 됩니다.</span></div>
+  <span class="kicker pilgi reveal">필기 · 메모</span>
+  <h2 class="reveal" style="--d:.06s">메모는 지워도<br>따라 지워지지 않습니다</h2>
+  <figure class="fig reveal" style="--d:.12s">
+    <div class="svg-wrap">
+    <svg width="660" height="200" viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="198" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="30" y="32" font-size="13" fill="#111827" font-weight="700">메모가 있는 셀</text>
+      <rect x="30" y="44" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
+      <text x="42" y="66" font-size="14" fill="#111827">1,250,000</text>
+      <path d="M170 44 L160 44 L170 54 Z" fill="#DC2626" class="pulse"/>
+      <rect x="30" y="86" width="160" height="50" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
+      <text x="40" y="106" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
+      <text x="40" y="124" font-size="11" fill="#92400E">작성자: 김태희</text>
+      <text x="220" y="70" font-size="16" fill="#DC2626" font-weight="700">Delete</text>
+      <path d="M212 80 L300 80" stroke="#DC2626" stroke-width="2" marker-end="url(#ar3)"/>
+      <text x="340" y="32" font-size="13" fill="#111827" font-weight="700">값만 지워집니다</text>
+      <rect x="340" y="44" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
+      <path d="M480 44 L470 44 L480 54 Z" fill="#DC2626"/>
+      <rect x="340" y="86" width="160" height="50" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
+      <text x="350" y="106" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
+      <text x="350" y="124" font-size="11" fill="#92400E">작성자: 김태희</text>
+      <text x="516" y="106" font-size="13" fill="#047857" font-weight="700">메모는</text>
+      <text x="516" y="126" font-size="13" fill="#047857" font-weight="700">그대로 남습니다</text>
+      <text x="30" y="166" font-size="12" fill="#6B7280">메모까지 지우려면 — 홈 탭 → 지우기 → 메모 지우기, 또는 바로 가기 메뉴의 「메모 삭제」</text>
+      <defs><marker id="ar3" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#DC2626"/></marker></defs>
+    </svg>
+    </div>
+    <figcaption>Delete 키는 값만 지웁니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row reveal" style="--d:.2s"><span class="n">1</span><span class="b">삽입: <b>검토 탭 → 새 메모</b> 또는 <kbd>Shift</kbd>+<kbd>F2</kbd></span></div>
+    <div class="row reveal" style="--d:.26s"><span class="n">2</span><span class="b">표시 여부는 <b>검토 탭 → 메모 모두 표시</b> 로 켜고 끕니다.</span></div>
+    <div class="row reveal" style="--d:.32s"><span class="n">3</span><span class="b">인쇄는 <b>페이지 설정 → 시트 → 메모</b> 에서 「시트에 표시된 대로」 또는 「시트 끝」을 고릅니다.</span></div>
+    <div class="row reveal" style="--d:.38s"><span class="n">4</span><span class="b">위치 이동·크기 조절·글꼴 변경이 모두 됩니다.</span></div>
   </div>
-  <div class="callout note"><b>자동 크기가 안 보일 때</b>메모 <b>안에 커서가 들어가 있으면</b> 글꼴 탭만 나옵니다. 메모 <b>테두리를 눌러 개체로 선택</b>한 뒤 메모 서식 → 맞춤에서 「자동 크기」를 찾으세요.</div>
+  <div class="callout note reveal" style="--d:.44s"><b>자동 크기가 안 보일 때</b>메모 <b>안에 커서가 들어가 있으면</b> 글꼴 탭만 나옵니다. 메모 <b>테두리를 눌러 개체로 선택</b>한 뒤 메모 서식 → 맞춤에서 「자동 크기」를 찾으세요.</div>
 </div></section>
 
 <!-- 11 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker">오늘의 함정</span>
-  <h2>여기서 많이 틀립니다</h2>
+  <span class="kicker reveal">오늘의 함정</span>
+  <h2 class="reveal" style="--d:.06s">여기서 많이 틀립니다</h2>
+  <figure class="fig reveal" style="--d:.12s">
+    <div class="svg-wrap">
+    <svg width="660" height="170" viewBox="0 0 660 170" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="168" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="20" y="20" width="300" height="130" rx="8" fill="#FEF2F2" stroke="#FCA5A5"/>
+      <text x="36" y="44" font-size="14" fill="#DC2626" font-weight="700">이렇게 알고 있으면 틀립니다</text>
+      <text x="36" y="72" font-size="13" fill="#991B1B">· 날짜는 기호가 있으니 문자다</text>
+      <text x="36" y="96" font-size="13" fill="#991B1B">· 셀 주소는 행을 먼저 쓴다</text>
+      <text x="36" y="120" font-size="13" fill="#991B1B">· Delete 하면 메모도 사라진다</text>
+      <text x="36" y="144" font-size="13" fill="#991B1B">· 줄바꿈은 Ctrl+Enter</text>
+      <path d="M330 85 L356 85" stroke="#6B7280" stroke-width="2" marker-end="url(#ar4)"/>
+      <rect x="366" y="20" width="274" height="130" rx="8" fill="#ECFDF5" stroke="#A7F3D0"/>
+      <text x="382" y="44" font-size="14" fill="#047857" font-weight="700">이게 맞습니다</text>
+      <text x="382" y="72" font-size="13" fill="#065F46">· 날짜·시간은 숫자다</text>
+      <text x="382" y="96" font-size="13" fill="#065F46">· 열을 먼저 — B2</text>
+      <text x="382" y="120" font-size="13" fill="#065F46">· 값만 지워지고 메모는 남는다</text>
+      <text x="382" y="144" font-size="13" fill="#065F46">· 줄바꿈은 Alt+Enter</text>
+      <defs><marker id="ar4" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#6B7280"/></marker></defs>
+    </svg>
+    </div>
+    <figcaption>틀린 기억과 맞는 내용을 나란히 보기</figcaption>
+  </figure>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>행과 열을 바꿔 읽기</b><br><span class="mute">행=가로·숫자, 열=세로·영어. 셀 주소는 열이 먼저입니다.</span></span></div>
-    <div class="row"><span class="n">2</span><span class="b"><b>날짜를 문자로 착각하기</b><br><span class="mute">기호가 있어도 날짜·시간은 숫자 데이터입니다.</span></span></div>
-    <div class="row"><span class="n">3</span><span class="b"><b>Alt+Enter와 Ctrl+Enter 혼동</b><br><span class="mute">줄바꿈은 Alt, 여러 셀 한꺼번에는 Ctrl입니다.</span></span></div>
-    <div class="row"><span class="n">4</span><span class="b"><b>앞의 0이 사라지는 것</b><br><span class="mute">작은따옴표를 먼저 붙여야 남습니다.</span></span></div>
-    <div class="row"><span class="n">5</span><span class="b"><b>메모가 지워졌다고 생각하기</b><br><span class="mute">Delete는 값만 지웁니다.</span></span></div>
+    <div class="row reveal" style="--d:.2s"><span class="n">5</span><span class="b"><b>앞의 0이 사라지는 것</b><br><span class="mute">작은따옴표를 먼저 붙여야 남습니다. <code>'010</code></span></span></div>
+    <div class="row reveal" style="--d:.27s"><span class="n">6</span><span class="b"><b>######는 오류가 아닙니다</b><br><span class="mute">열 너비가 좁을 뿐입니다. 넓히면 사라집니다.</span></span></div>
   </div>
 </div></section>
 <!-- 12 · 이름 게이트 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈</span>
-  <h2>10문제로<br>오늘 것을 확인합니다</h2>
-  <p class="lead">한 카드에 한 문제씩 나옵니다. 모두 고른 뒤 마지막 카드에서 채점하세요.</p>
-  <div class="gate" id="nameGate">
+  <span class="kicker reveal">미니 퀴즈</span>
+  <h2 class="reveal" style="--d:.06s">10문제로<br>오늘 것을 확인합니다</h2>
+  <p class="lead reveal" style="--d:.12s">한 카드에 한 문제씩 나옵니다. 모두 고른 뒤 마지막 카드에서 채점하세요.</p>
+  <div class="gate reveal" id="nameGate" style="--d:.18s">
     <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
     <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
     <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
@@ -396,108 +657,108 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <div id="quizBody" style="display:none">
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 1 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 1 / 10</span>
   <div class="quiz-item">
-    <p class="q">리본 메뉴에서 그룹 오른쪽 아래의 작은 버튼을 눌렀을 때 나타나는 창을 무엇이라고 하나요?</p>
-      <button class="quiz-opt">바로 가기 메뉴</button>
-      <button class="quiz-opt" data-correct="true">대화 상자</button>
-      <button class="quiz-opt">스크린 팁</button>
+    <p class="q reveal" style="--d:.06s">리본 메뉴에서 그룹 오른쪽 아래의 작은 버튼을 눌렀을 때 나타나는 창을 무엇이라고 하나요?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s">바로 가기 메뉴</button>
+      <button class="quiz-opt reveal" style="--d:0.21s" data-correct="true">대화 상자</button>
+      <button class="quiz-opt reveal" style="--d:0.28s">스크린 팁</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 2 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 2 / 10</span>
   <div class="quiz-item">
-    <p class="q">마우스 오른쪽 버튼을 눌렀을 때 나오는 메뉴의 이름은 무엇인가요?</p>
-      <button class="quiz-opt" data-correct="true">바로 가기 메뉴</button>
-      <button class="quiz-opt">대화 상자</button>
-      <button class="quiz-opt">빠른 실행 도구 모음</button>
+    <p class="q reveal" style="--d:.06s">마우스 오른쪽 버튼을 눌렀을 때 나오는 메뉴의 이름은 무엇인가요?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s" data-correct="true">바로 가기 메뉴</button>
+      <button class="quiz-opt reveal" style="--d:0.21s">대화 상자</button>
+      <button class="quiz-opt reveal" style="--d:0.28s">빠른 실행 도구 모음</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 3 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 3 / 10</span>
   <div class="quiz-item">
-    <p class="q">셀 주소 <code>B2</code> 가 가리키는 위치로 옳은 것은?</p>
-      <button class="quiz-opt">B행 2열</button>
-      <button class="quiz-opt">2열 B행</button>
-      <button class="quiz-opt" data-correct="true">B열 2행</button>
+    <p class="q reveal" style="--d:.06s">셀 주소 <code>B2</code> 가 가리키는 위치로 옳은 것은?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s">B행 2열</button>
+      <button class="quiz-opt reveal" style="--d:0.21s">2열 B행</button>
+      <button class="quiz-opt reveal" style="--d:0.28s" data-correct="true">B열 2행</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 4 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 4 / 10</span>
   <div class="quiz-item">
-    <p class="q">서식을 바꾸지 않은 상태에서 데이터의 기본 정렬로 옳은 것은?</p>
-      <button class="quiz-opt">문자와 숫자 모두 왼쪽으로 정렬된다</button>
-      <button class="quiz-opt" data-correct="true">문자는 왼쪽, 숫자는 오른쪽으로 정렬된다</button>
-      <button class="quiz-opt">문자는 오른쪽, 숫자는 왼쪽으로 정렬된다</button>
+    <p class="q reveal" style="--d:.06s">서식을 바꾸지 않은 상태에서 데이터의 기본 정렬로 옳은 것은?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s">문자와 숫자 모두 왼쪽으로 정렬된다</button>
+      <button class="quiz-opt reveal" style="--d:0.21s" data-correct="true">문자는 왼쪽, 숫자는 오른쪽으로 정렬된다</button>
+      <button class="quiz-opt reveal" style="--d:0.28s">문자는 오른쪽, 숫자는 왼쪽으로 정렬된다</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 5 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 5 / 10</span>
   <div class="quiz-item">
-    <p class="q">한 셀 안에서 줄을 바꾸어 입력하려면 어떤 키를 누르나요?</p>
-      <button class="quiz-opt" data-correct="true">Alt + Enter</button>
-      <button class="quiz-opt">Ctrl + Enter</button>
-      <button class="quiz-opt">Shift + Enter</button>
+    <p class="q reveal" style="--d:.06s">한 셀 안에서 줄을 바꾸어 입력하려면 어떤 키를 누르나요?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s" data-correct="true">Alt + Enter</button>
+      <button class="quiz-opt reveal" style="--d:0.21s">Ctrl + Enter</button>
+      <button class="quiz-opt reveal" style="--d:0.28s">Shift + Enter</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 6 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 6 / 10</span>
   <div class="quiz-item">
-    <p class="q">여러 셀을 선택한 뒤 같은 값을 한 번에 넣으려면 어떤 키를 누르나요?</p>
-      <button class="quiz-opt">Alt + Enter</button>
-      <button class="quiz-opt">Enter</button>
-      <button class="quiz-opt" data-correct="true">Ctrl + Enter</button>
+    <p class="q reveal" style="--d:.06s">여러 셀을 선택한 뒤 같은 값을 한 번에 넣으려면 어떤 키를 누르나요?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s">Alt + Enter</button>
+      <button class="quiz-opt reveal" style="--d:0.21s">Enter</button>
+      <button class="quiz-opt reveal" style="--d:0.28s" data-correct="true">Ctrl + Enter</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 7 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 7 / 10</span>
   <div class="quiz-item">
-    <p class="q">오늘 날짜를 입력하는 단축키로 옳은 것은?</p>
-      <button class="quiz-opt">Ctrl + Shift + ;</button>
-      <button class="quiz-opt" data-correct="true">Ctrl + ;</button>
-      <button class="quiz-opt">Shift + F2</button>
+    <p class="q reveal" style="--d:.06s">오늘 날짜를 입력하는 단축키로 옳은 것은?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s">Ctrl + Shift + ;</button>
+      <button class="quiz-opt reveal" style="--d:0.21s" data-correct="true">Ctrl + ;</button>
+      <button class="quiz-opt reveal" style="--d:0.28s">Shift + F2</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 8 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 8 / 10</span>
   <div class="quiz-item">
-    <p class="q"><code>010</code> 을 입력했더니 <code>10</code> 으로 바뀌었습니다. 앞의 0을 남기려면?</p>
-      <button class="quiz-opt" data-correct="true">앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력한다</button>
-      <button class="quiz-opt">앞에 공백을 한 칸 넣고 입력한다</button>
-      <button class="quiz-opt">열 너비를 넓힌 뒤 다시 입력한다</button>
+    <p class="q reveal" style="--d:.06s"><code>010</code> 을 입력했더니 <code>10</code> 으로 바뀌었습니다. 앞의 0을 남기려면?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s" data-correct="true">앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력한다</button>
+      <button class="quiz-opt reveal" style="--d:0.21s">앞에 공백을 한 칸 넣고 입력한다</button>
+      <button class="quiz-opt reveal" style="--d:0.28s">열 너비를 넓힌 뒤 다시 입력한다</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 9 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 9 / 10</span>
   <div class="quiz-item">
-    <p class="q">메모가 들어 있는 셀에서 <b>Delete</b> 키를 눌렀을 때의 결과로 옳은 것은?</p>
-      <button class="quiz-opt">값과 메모가 함께 지워진다</button>
-      <button class="quiz-opt">메모만 지워지고 값은 남는다</button>
-      <button class="quiz-opt" data-correct="true">값만 지워지고 메모는 그대로 남는다</button>
+    <p class="q reveal" style="--d:.06s">메모가 들어 있는 셀에서 <b>Delete</b> 키를 눌렀을 때의 결과로 옳은 것은?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s">값과 메모가 함께 지워진다</button>
+      <button class="quiz-opt reveal" style="--d:0.21s">메모만 지워지고 값은 남는다</button>
+      <button class="quiz-opt reveal" style="--d:0.28s" data-correct="true">값만 지워지고 메모는 그대로 남는다</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <section class="card"><div class="card-inner">
-  <span class="kicker">미니 퀴즈 · 10 / 10</span>
+  <span class="kicker reveal">미니 퀴즈 · 10 / 10</span>
   <div class="quiz-item">
-    <p class="q">날짜와 시간 데이터에 대한 설명으로 옳은 것은?</p>
-      <button class="quiz-opt">하이픈이나 콜론이 들어 있으므로 문자 데이터로 처리된다</button>
-      <button class="quiz-opt" data-correct="true">숫자 데이터로 처리되어 기본적으로 오른쪽에 정렬된다</button>
-      <button class="quiz-opt">문자 데이터여서 더하기·빼기 계산에 쓸 수 없다</button>
+    <p class="q reveal" style="--d:.06s">날짜와 시간 데이터에 대한 설명으로 옳은 것은?</p>
+      <button class="quiz-opt reveal" style="--d:0.14s">하이픈이나 콜론이 들어 있으므로 문자 데이터로 처리된다</button>
+      <button class="quiz-opt reveal" style="--d:0.21s" data-correct="true">숫자 데이터로 처리되어 기본적으로 오른쪽에 정렬된다</button>
+      <button class="quiz-opt reveal" style="--d:0.28s">문자 데이터여서 더하기·빼기 계산에 쓸 수 없다</button>
       <div class="quiz-feedback"></div>
   </div>
 </div></section>
 <!-- 채점 -->
 <section class="card"><div class="card-inner" id="quiz">
-  <span class="kicker">미니 퀴즈 · 채점</span>
+  <span class="kicker reveal">미니 퀴즈 · 채점</span>
   <h2>다 고르셨나요?</h2>
   <p>채점을 누르면 정답과 해설이 각 문제 카드에 표시됩니다. 틀린 문제는 카드를 되돌려 확인해 보세요.</p>
   <div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
@@ -510,16 +771,16 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <!-- 체크리스트 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker">복습 체크리스트</span>
+  <span class="kicker reveal">복습 체크리스트</span>
   <h2>내일 오기 전에<br>이것만 확인하세요</h2>
   <div class="panel">
-    <div class="row"><span class="n">&#10003;</span><span class="b">리본 메뉴 · 탭 · 그룹 · 대화 상자 · 바로 가기 메뉴를 말로 설명할 수 있다</span></div>
-    <div class="row"><span class="n">&#10003;</span><span class="b">이름 상자와 수식 입력줄이 각각 무엇을 보여 주는지 안다</span></div>
-    <div class="row"><span class="n">&#10003;</span><span class="b">행·열 방향과 셀 주소 쓰는 순서를 헷갈리지 않는다</span></div>
-    <div class="row"><span class="n">&#10003;</span><span class="b">문자·숫자·날짜를 정렬만 보고 구분할 수 있다</span></div>
-    <div class="row"><span class="n">&#10003;</span><span class="b">Alt+Enter와 Ctrl+Enter를 구분해서 쓸 수 있다</span></div>
-    <div class="row"><span class="n">&#10003;</span><span class="b">메모를 넣고, 표시하고, 인쇄 설정을 바꿀 수 있다</span></div>
-    <div class="row"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
+    <div class="row reveal"><span class="n">&#10003;</span><span class="b">리본 메뉴 · 탭 · 그룹 · 대화 상자 · 바로 가기 메뉴를 말로 설명할 수 있다</span></div>
+    <div class="row reveal"><span class="n">&#10003;</span><span class="b">이름 상자와 수식 입력줄이 각각 무엇을 보여 주는지 안다</span></div>
+    <div class="row reveal"><span class="n">&#10003;</span><span class="b">행·열 방향과 셀 주소 쓰는 순서를 헷갈리지 않는다</span></div>
+    <div class="row reveal"><span class="n">&#10003;</span><span class="b">문자·숫자·날짜를 정렬만 보고 구분할 수 있다</span></div>
+    <div class="row reveal"><span class="n">&#10003;</span><span class="b">Alt+Enter와 Ctrl+Enter를 구분해서 쓸 수 있다</span></div>
+    <div class="row reveal"><span class="n">&#10003;</span><span class="b">메모를 넣고, 표시하고, 인쇄 설정을 바꿀 수 있다</span></div>
+    <div class="row reveal"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
   </div>
   <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
 </div></section>
@@ -566,6 +827,8 @@ function sync(){
   document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
   const dots = document.getElementById('dots').children;
   for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
 }
 function jump(i){
   if(i < 0 || i >= cards.length) return;
