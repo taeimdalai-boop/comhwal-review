@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 1차시 복습카드</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.6;
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout b{display:block; margin-bottom:5px; font-size:14px;}
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 1차시</span>
+  <span class="d">2026.10.12 (월)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">1차시 복습카드</span>
+  <h1>엑셀 화면을 읽고,<br>데이터를 넣는 날</h1>
+  <p class="lead">오늘은 엑셀을 처음 켜고 화면의 각 자리에 붙은 이름을 익혔습니다. 그리고 문자·숫자·날짜를 직접 넣어 보면서 엑셀이 데이터를 어떻게 구분하는지 확인했습니다.</p>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">리본 메뉴와 화면 각 부분의 <b>이름</b></span></div>
+    <div class="row"><span class="n">2</span><span class="b">행·열·셀, 그리고 <b>셀 주소</b></span></div>
+    <div class="row"><span class="n">3</span><span class="b">문자·숫자·날짜 <b>데이터 구분</b></span></div>
+    <div class="row"><span class="n">4</span><span class="b">입력을 빠르게 하는 <b>단축키</b></span></div>
+    <div class="row"><span class="n">5</span><span class="b">셀에 설명을 붙이는 <b>메모</b></span></div>
+  </div>
+  <p class="mute">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
+</div></section>
+
+<!-- 2 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker pilgi">필기 · 화면 구성</span>
+  <h2>화면의 자리마다<br>이름이 정해져 있습니다</h2>
+  <p>시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 그림을 보면서 위치와 이름을 같이 외워 두세요.</p>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="660" height="300" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="298" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="14" y="14" width="632" height="26" rx="6" fill="#EFF4FF"/>
+      <text x="26" y="32" font-size="13" fill="#1D4ED8" font-weight="700">빠른 실행 도구 모음</text>
+      <text x="200" y="32" font-size="13" fill="#6B7280">저장 · 실행 취소 · 다시 실행</text>
+      <text x="470" y="32" font-size="13" fill="#111827">통합 문서1 − Excel</text>
+      <rect x="14" y="48" width="632" height="60" rx="6" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="26" y="68" font-size="13" fill="#1D4ED8" font-weight="700">리본 메뉴</text>
+      <text x="110" y="68" font-size="13" fill="#111827">파일 · 홈 · 삽입 · 페이지 레이아웃 · 수식 · 데이터 · 검토 · 보기</text>
+      <text x="110" y="68" font-size="13" fill="#111827"></text>
+      <rect x="110" y="78" width="150" height="22" rx="4" fill="#fff" stroke="#CBD5E1"/>
+      <text x="120" y="93" font-size="12" fill="#334155">글꼴 그룹</text>
+      <circle cx="250" cy="96" r="5" fill="#2563EB"/>
+      <text x="272" y="93" font-size="12" fill="#B45309" font-weight="700">◀ 이 작은 버튼 = 대화 상자 열기</text>
+      <rect x="14" y="118" width="130" height="26" rx="5" fill="#fff" stroke="#2563EB"/>
+      <text x="24" y="136" font-size="13" fill="#1D4ED8" font-weight="700">이름 상자</text>
+      <rect x="150" y="118" width="496" height="26" rx="5" fill="#fff" stroke="#CBD5E1"/>
+      <text x="160" y="136" font-size="13" fill="#047857" font-weight="700">수식 입력줄</text>
+      <text x="268" y="136" font-size="13" fill="#6B7280">= 4 + 6</text>
+      <rect x="14" y="154" width="632" height="100" rx="5" fill="#fff" stroke="#E5E7EB"/>
+      <text x="26" y="172" font-size="12" fill="#6B7280">A</text><text x="96" y="172" font-size="12" fill="#6B7280">B</text><text x="166" y="172" font-size="12" fill="#6B7280">C</text>
+      <text x="22" y="196" font-size="12" fill="#6B7280">1</text><text x="22" y="222" font-size="12" fill="#6B7280">2</text>
+      <rect x="66" y="206" width="66" height="22" rx="2" fill="#EFF4FF" stroke="#2563EB" stroke-width="2"/>
+      <text x="78" y="222" font-size="12" fill="#1D4ED8" font-weight="700">B2</text>
+      <text x="150" y="222" font-size="12" fill="#2563EB" font-weight="700">◀ 셀 포인터</text>
+      <text x="150" y="244" font-size="12" fill="#6B7280">열(B) + 행(2) = 셀 주소 B2</text>
+      <rect x="14" y="262" width="632" height="24" rx="5" fill="#F3F6FB" stroke="#E5E7EB"/>
+      <text x="26" y="279" font-size="13" fill="#B45309" font-weight="700">상태 표시줄</text>
+      <text x="130" y="279" font-size="12" fill="#6B7280">평균 · 개수 · 합계가 여기에 나타납니다</text>
+    </svg>
+    </div>
+    <figcaption>엑셀 화면 각 부분의 이름</figcaption>
+  </figure>
+  <div class="callout tip"><b>시험에 자주 나오는 한 줄</b>리본 메뉴는 <b>탭</b>으로 나뉘고, 탭 안은 다시 <b>그룹</b>으로 나뉩니다.</div>
+</div></section>
+
+<!-- 3 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker pilgi">필기 · 용어</span>
+  <h2>헷갈리기 쉬운<br>네 가지 이름</h2>
+  <table>
+    <tr><th>이름</th><th>어떤 것인가</th></tr>
+    <tr><td>대화 상자</td><td>그룹 오른쪽 아래의 작은 버튼을 눌렀을 때 뜨는 창 (예: 셀 서식)</td></tr>
+    <tr><td>바로 가기 메뉴</td><td>마우스 <b>오른쪽</b> 버튼을 눌렀을 때 나오는 메뉴</td></tr>
+    <tr><td>스크린 팁</td><td>명령 위에 마우스를 올려 두면 뜨는 설명 풍선</td></tr>
+    <tr><td>빠른 실행 도구 모음</td><td>저장·실행 취소·다시 실행이 기본으로 있는 줄. 자주 쓰는 명령을 추가할 수 있습니다</td></tr>
+  </table>
+  <div class="callout note"><b>실무에서 쓰는 요령</b>빠른 실행 도구 모음은 리본 <b>아래쪽으로 내릴 수</b> 있습니다. 「기타 명령」에서 순서도 바꿉니다.</div>
+</div></section>
+
+<!-- 4 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker silgi">실기 · 단축키</span>
+  <h2>Alt를 한 번 누르면<br>리본에 글자가 뜹니다</h2>
+  <p>마우스로 찾아 들어가는 것보다 키보드가 빠릅니다. <kbd>Alt</kbd> 또는 <kbd>/</kbd> 를 한 번 누르면 탭마다 알파벳이 나타납니다.</p>
+  <div class="panel flat">
+    <div class="row"><span class="n">1</span><span class="b"><kbd>Alt</kbd> → 리본에 글자 표시</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><kbd>H</kbd> → 홈 탭</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><kbd>B</kbd> → 테두리</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><kbd>A</kbd> → 모든 테두리 적용</span></div>
+  </div>
+  <div class="callout tip"><b>묶어서 외우기</b><kbd>Alt</kbd> <kbd>H</kbd> <kbd>B</kbd> <kbd>A</kbd> = 모든 테두리. 자주 쓰는 명령은 이렇게 순서를 적어 두고 외우면 훨씬 빨라집니다.</div>
+  <table>
+    <tr><th>단축키</th><th>하는 일</th></tr>
+    <tr><td><kbd>Win</kbd>+<kbd>R</kbd></td><td>실행 창 → <code>excel</code> 입력해서 실행</td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>F4</kbd></td><td>현재 <b>문서만</b> 닫기</td></tr>
+    <tr><td><kbd>Alt</kbd>+<kbd>F4</kbd></td><td>프로그램 <b>전체</b> 닫기</td></tr>
+    <tr><td><kbd>Shift</kbd>+<kbd>F11</kbd></td><td>새 워크시트 삽입</td></tr>
+    <tr><td><kbd>Ctrl</kbd>+휠</td><td>화면 확대 / 축소</td></tr>
+  </table>
+</div></section>
+
+<!-- 5 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker pilgi">필기 · 구조</span>
+  <h2>행은 숫자, 열은 영어</h2>
+  <p>워크시트는 가로줄과 세로줄이 만나는 격자입니다. 한 칸이 <b>셀</b>이고, 셀의 이름은 <b>열을 먼저, 행을 나중에</b> 붙입니다.</p>
+  <div class="vs">
+    <div class="l"><h4>행 (行)</h4><p><b>가로</b> 방향<br>번호는 <b>숫자</b> 1, 2, 3 …</p></div>
+    <div class="r"><h4>열 (列)</h4><p><b>세로</b> 방향<br>번호는 <b>영어</b> A, B, C …</p></div>
+  </div>
+  <div class="callout warn"><b>순서를 거꾸로 쓰지 마세요</b><code>B2</code> 는 <b>B열 2행</b>입니다. 「2행 B열」이라고 읽어도 쓸 때는 항상 열이 먼저입니다.</div>
+  <div class="panel flat">
+    <div class="row"><span class="n">!</span><span class="b"><b>이름 상자</b>에 <code>A100</code> 을 입력하면 그 셀로 바로 이동합니다.</span></div>
+    <div class="row"><span class="n">!</span><span class="b">셀을 둘러싼 초록 테두리가 <b>셀 포인터</b>입니다. 모든 작업의 기준점입니다.</span></div>
+    <div class="row"><span class="n">!</span><span class="b">숫자 범위를 선택하면 <b>상태 표시줄</b>에 합계·평균·개수가 나타납니다. 오른쪽 버튼으로 항목을 고릅니다.</span></div>
+  </div>
+</div></section>
+
+<!-- 6 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker silgi">실기 · 데이터</span>
+  <h2>정렬만 봐도<br>문자인지 숫자인지 압니다</h2>
+  <p>서식을 건드리지 않은 상태에서 엑셀은 데이터 종류에 따라 자동으로 다르게 정렬합니다.</p>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="660" height="230" viewBox="0 0 660 230" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="658" height="228" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="24" y="30" font-size="14" fill="#1D4ED8" font-weight="700">문자 데이터 → 왼쪽</text>
+      <rect x="24" y="42" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
+      <text x="34" y="62" font-size="14" fill="#111827">우리컴퓨터</text>
+      <rect x="24" y="72" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
+      <text x="34" y="92" font-size="14" fill="#111827">컴활2급</text>
+      <rect x="24" y="102" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
+      <text x="34" y="122" font-size="14" fill="#111827">604호</text>
+      <text x="24" y="156" font-size="13" fill="#6B7280">글자만 있어도, 글자+숫자가 섞여 있어도</text>
+      <text x="24" y="176" font-size="13" fill="#6B7280">모두 <tspan font-weight="700" fill="#1D4ED8">문자</tspan>로 봅니다.</text>
+      <line x1="330" y1="20" x2="330" y2="210" stroke="#E5E7EB" stroke-dasharray="4 4"/>
+      <text x="362" y="30" font-size="14" fill="#B45309" font-weight="700">숫자 데이터 → 오른쪽</text>
+      <rect x="362" y="42" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
+      <text x="622" y="62" font-size="14" fill="#111827" text-anchor="end">604</text>
+      <rect x="362" y="72" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
+      <text x="622" y="92" font-size="14" fill="#111827" text-anchor="end">2026-10-12</text>
+      <rect x="362" y="102" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
+      <text x="622" y="122" font-size="14" fill="#111827" text-anchor="end">10:30</text>
+      <text x="362" y="156" font-size="13" fill="#6B7280">날짜와 시간은 기호가 들어 있어도</text>
+      <text x="362" y="176" font-size="13" fill="#6B7280"><tspan font-weight="700" fill="#B45309">숫자</tspan>로 처리합니다.</text>
+      <text x="362" y="200" font-size="12" fill="#DC2626">← 오른쪽에 붙으면 숫자라는 뜻</text>
+    </svg>
+    </div>
+    <figcaption>기본 정렬로 구분하는 문자 데이터와 숫자 데이터</figcaption>
+  </figure>
+  <div class="callout warn"><b>가장 많이 틀리는 곳</b>날짜·시간은 <code>-</code> <code>/</code> <code>:</code> 같은 기호나 AM/PM이 들어 있어도 <b>숫자 데이터</b>입니다. 그래서 더하고 뺄 수 있습니다.</div>
+</div></section>
+
+<!-- 7 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker silgi">실기 · 데이터</span>
+  <h2>화면에 이상하게<br>보일 때의 이유</h2>
+  <table>
+    <tr><th>이런 모습</th><th>왜 그런가</th></tr>
+    <tr><td>글자가 옆 칸까지</td><td>오른쪽 셀이 <b>비어 있으면</b> 넘겨서 보여 줍니다. 값이 있으면 잘려 보입니다</td></tr>
+    <tr><td><code>######</code></td><td>표시 형식이 지정된 숫자가 <b>열 너비보다 길 때</b>. 너비를 넓히면 사라집니다</td></tr>
+    <tr><td><code>1.23E+15</code></td><td>자릿수가 아주 긴 숫자는 <b>지수 형식</b>으로 바뀝니다</td></tr>
+    <tr><td><code>010</code> → <code>10</code></td><td>숫자로 보고 앞의 0을 지웁니다</td></tr>
+  </table>
+  <div class="callout tip"><b>앞의 0을 살리려면</b>앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력합니다. 문자 데이터가 되어 0이 남습니다.</div>
+  <div class="panel flat">
+    <div class="row"><span class="n">+</span><span class="b">분수는 <code>0 1/2</code> 처럼 <b>0과 공백을 먼저</b> 써야 날짜로 바뀌지 않습니다.</span></div>
+    <div class="row"><span class="n">+</span><span class="b">한자는 글자를 쓴 뒤 <kbd>한자</kbd> 키, 특수 문자는 <b>한글 자음</b>(ㅁ, ㅇ …) 을 쓴 뒤 <kbd>한자</kbd> 키로 찾습니다.</span></div>
+  </div>
+</div></section>
+<!-- 8 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker silgi">실기 · 날짜</span>
+  <h2>날짜는 숫자 1번부터<br>세어 나갑니다</h2>
+  <div class="panel flat">
+    <div class="row"><span class="n">1</span><span class="b">엑셀은 <b>1900년 1월 1일</b>을 일련번호 <code>1</code> 로 두고 하루에 1씩 더해 갑니다.</span></div>
+    <div class="row"><span class="n">2</span><span class="b">시간은 하루를 <code>1</code> 로 보고 <b>0과 1 사이의 소수</b>로 셉니다. 정오는 <code>0.5</code> 입니다.</span></div>
+    <div class="row"><span class="n">3</span><span class="b">표시 형식을 <b>일반</b>으로 바꾸면 그 숫자가 그대로 드러납니다.</span></div>
+  </div>
+  <table>
+    <tr><th>이렇게 입력하면</th><th>이렇게 들어갑니다</th></tr>
+    <tr><td>연도를 빼고</td><td><b>올해</b> 연도가 붙습니다</td></tr>
+    <tr><td>연도와 월만</td><td>일자는 <b>1일</b>이 됩니다</td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>;</kbd></td><td>오늘 <b>날짜</b></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd></td><td>현재 <b>시간</b></td></tr>
+  </table>
+  <div class="callout warn"><b>두 자리 연도는 시험 기준으로 외우세요</b>연도를 두 자리로 입력하면 <b>00~29는 2000년대</b>, <b>30~99는 1900년대</b>로 해석됩니다. 교재와 기출의 기준이 이것입니다.<br><span class="mute">수업 중 교실 PC에서 <code>39</code>가 2039로 보인 것은 그 PC의 Windows 「두 자리 연도」 설정이 달라서입니다. 시험은 위 기준으로 채점합니다.</span></div>
+</div></section>
+
+<!-- 9 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker silgi">실기 · 입력</span>
+  <h2>Alt+Enter와 Ctrl+Enter는<br>전혀 다릅니다</h2>
+  <div class="vs">
+    <div class="l"><h4>Alt + Enter</h4><p><b>한 셀 안에서</b> 줄을 바꿉니다. 셀은 그대로 하나입니다.</p></div>
+    <div class="r"><h4>Ctrl + Enter</h4><p>선택해 둔 <b>여러 셀 전부</b>에 같은 값을 한 번에 넣습니다.</p></div>
+  </div>
+  <table>
+    <tr><th>키</th><th>입력을 마치면</th></tr>
+    <tr><td><kbd>Enter</kbd></td><td>아래 셀로 이동</td></tr>
+    <tr><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td><td>위 셀로 이동</td></tr>
+    <tr><td><kbd>Tab</kbd></td><td>오른쪽 셀로 이동</td></tr>
+    <tr><td><kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>왼쪽 셀로 이동</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>입력하던 것을 <b>취소</b></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td>실행 취소 / 다시 실행</td></tr>
+  </table>
+  <div class="callout tip"><b>범위를 먼저 잡아 두면</b>범위를 선택한 채 <kbd>Enter</kbd>를 누르면 셀 포인터가 <b>그 범위 안에서만</b> 돕니다. 표에 값을 채워 넣을 때 편합니다.</div>
+</div></section>
+
+<!-- 10 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker pilgi">필기 · 메모</span>
+  <h2>메모는 지워도<br>따라 지워지지 않습니다</h2>
+  <p>메모는 셀에 설명을 붙여 두는 기능입니다. 데이터와는 <b>따로</b> 붙어 있다는 점이 시험 포인트입니다.</p>
+  <div class="panel flat">
+    <div class="row"><span class="n">1</span><span class="b">삽입: <b>검토 탭 → 새 메모</b> 또는 <kbd>Shift</kbd>+<kbd>F2</kbd></span></div>
+    <div class="row"><span class="n">2</span><span class="b">메모가 있는 셀을 <kbd>Delete</kbd> 로 지우면 <b>값만</b> 지워지고 메모는 남습니다.</span></div>
+    <div class="row"><span class="n">3</span><span class="b">표시 여부는 <b>검토 탭 → 메모 모두 표시</b> 로 켜고 끕니다.</span></div>
+    <div class="row"><span class="n">4</span><span class="b">인쇄는 <b>페이지 설정 → 시트 → 메모</b> 에서 「시트에 표시된 대로」 또는 「시트 끝」을 고릅니다.</span></div>
+    <div class="row"><span class="n">5</span><span class="b">위치 이동·크기 조절·글꼴 변경이 모두 됩니다.</span></div>
+  </div>
+  <div class="callout note"><b>자동 크기가 안 보일 때</b>메모 <b>안에 커서가 들어가 있으면</b> 글꼴 탭만 나옵니다. 메모 <b>테두리를 눌러 개체로 선택</b>한 뒤 메모 서식 → 맞춤에서 「자동 크기」를 찾으세요.</div>
+</div></section>
+
+<!-- 11 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">오늘의 함정</span>
+  <h2>여기서 많이 틀립니다</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>행과 열을 바꿔 읽기</b><br><span class="mute">행=가로·숫자, 열=세로·영어. 셀 주소는 열이 먼저입니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>날짜를 문자로 착각하기</b><br><span class="mute">기호가 있어도 날짜·시간은 숫자 데이터입니다.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>Alt+Enter와 Ctrl+Enter 혼동</b><br><span class="mute">줄바꿈은 Alt, 여러 셀 한꺼번에는 Ctrl입니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>앞의 0이 사라지는 것</b><br><span class="mute">작은따옴표를 먼저 붙여야 남습니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>메모가 지워졌다고 생각하기</b><br><span class="mute">Delete는 값만 지웁니다.</span></span></div>
+  </div>
+</div></section>
+<!-- 12 · 이름 게이트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>10문제로<br>오늘 것을 확인합니다</h2>
+  <p class="lead">한 카드에 한 문제씩 나옵니다. 모두 고른 뒤 마지막 카드에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 1 / 10</span>
+  <div class="quiz-item">
+    <p class="q">리본 메뉴에서 그룹 오른쪽 아래의 작은 버튼을 눌렀을 때 나타나는 창을 무엇이라고 하나요?</p>
+      <button class="quiz-opt">바로 가기 메뉴</button>
+      <button class="quiz-opt" data-correct="true">대화 상자</button>
+      <button class="quiz-opt">스크린 팁</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 2 / 10</span>
+  <div class="quiz-item">
+    <p class="q">마우스 오른쪽 버튼을 눌렀을 때 나오는 메뉴의 이름은 무엇인가요?</p>
+      <button class="quiz-opt" data-correct="true">바로 가기 메뉴</button>
+      <button class="quiz-opt">대화 상자</button>
+      <button class="quiz-opt">빠른 실행 도구 모음</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 3 / 10</span>
+  <div class="quiz-item">
+    <p class="q">셀 주소 <code>B2</code> 가 가리키는 위치로 옳은 것은?</p>
+      <button class="quiz-opt">B행 2열</button>
+      <button class="quiz-opt">2열 B행</button>
+      <button class="quiz-opt" data-correct="true">B열 2행</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 4 / 10</span>
+  <div class="quiz-item">
+    <p class="q">서식을 바꾸지 않은 상태에서 데이터의 기본 정렬로 옳은 것은?</p>
+      <button class="quiz-opt">문자와 숫자 모두 왼쪽으로 정렬된다</button>
+      <button class="quiz-opt" data-correct="true">문자는 왼쪽, 숫자는 오른쪽으로 정렬된다</button>
+      <button class="quiz-opt">문자는 오른쪽, 숫자는 왼쪽으로 정렬된다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 5 / 10</span>
+  <div class="quiz-item">
+    <p class="q">한 셀 안에서 줄을 바꾸어 입력하려면 어떤 키를 누르나요?</p>
+      <button class="quiz-opt" data-correct="true">Alt + Enter</button>
+      <button class="quiz-opt">Ctrl + Enter</button>
+      <button class="quiz-opt">Shift + Enter</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 6 / 10</span>
+  <div class="quiz-item">
+    <p class="q">여러 셀을 선택한 뒤 같은 값을 한 번에 넣으려면 어떤 키를 누르나요?</p>
+      <button class="quiz-opt">Alt + Enter</button>
+      <button class="quiz-opt">Enter</button>
+      <button class="quiz-opt" data-correct="true">Ctrl + Enter</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 7 / 10</span>
+  <div class="quiz-item">
+    <p class="q">오늘 날짜를 입력하는 단축키로 옳은 것은?</p>
+      <button class="quiz-opt">Ctrl + Shift + ;</button>
+      <button class="quiz-opt" data-correct="true">Ctrl + ;</button>
+      <button class="quiz-opt">Shift + F2</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 8 / 10</span>
+  <div class="quiz-item">
+    <p class="q"><code>010</code> 을 입력했더니 <code>10</code> 으로 바뀌었습니다. 앞의 0을 남기려면?</p>
+      <button class="quiz-opt" data-correct="true">앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력한다</button>
+      <button class="quiz-opt">앞에 공백을 한 칸 넣고 입력한다</button>
+      <button class="quiz-opt">열 너비를 넓힌 뒤 다시 입력한다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 9 / 10</span>
+  <div class="quiz-item">
+    <p class="q">메모가 들어 있는 셀에서 <b>Delete</b> 키를 눌렀을 때의 결과로 옳은 것은?</p>
+      <button class="quiz-opt">값과 메모가 함께 지워진다</button>
+      <button class="quiz-opt">메모만 지워지고 값은 남는다</button>
+      <button class="quiz-opt" data-correct="true">값만 지워지고 메모는 그대로 남는다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈 · 10 / 10</span>
+  <div class="quiz-item">
+    <p class="q">날짜와 시간 데이터에 대한 설명으로 옳은 것은?</p>
+      <button class="quiz-opt">하이픈이나 콜론이 들어 있으므로 문자 데이터로 처리된다</button>
+      <button class="quiz-opt" data-correct="true">숫자 데이터로 처리되어 기본적으로 오른쪽에 정렬된다</button>
+      <button class="quiz-opt">문자 데이터여서 더하기·빼기 계산에 쓸 수 없다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+</div></section>
+<!-- 채점 -->
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 채점</span>
+  <h2>다 고르셨나요?</h2>
+  <p>채점을 누르면 정답과 해설이 각 문제 카드에 표시됩니다. 틀린 문제는 카드를 되돌려 확인해 보세요.</p>
+  <div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<!-- 체크리스트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">복습 체크리스트</span>
+  <h2>내일 오기 전에<br>이것만 확인하세요</h2>
+  <div class="panel">
+    <div class="row"><span class="n">&#10003;</span><span class="b">리본 메뉴 · 탭 · 그룹 · 대화 상자 · 바로 가기 메뉴를 말로 설명할 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">이름 상자와 수식 입력줄이 각각 무엇을 보여 주는지 안다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">행·열 방향과 셀 주소 쓰는 순서를 헷갈리지 않는다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">문자·숫자·날짜를 정렬만 보고 구분할 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">Alt+Enter와 Ctrl+Enter를 구분해서 쓸 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">메모를 넣고, 표시하고, 인쇄 설정을 바꿀 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
+  </div>
+  <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
+</div></section>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div><script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-10 1차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'da60285334c56b35',
+  '578050a83a19f390',
+  '6925037ff152d413',
+  '19d88c67f8a00342',
+  '54d036f6bff3f8e8',
+  'a78fbd1162753619',
+  '7f1bb29d16ac97f2',
+  'a2d73d51bb1a45bd',
+  'c750eb7e893d05c9',
+  '4a875acff589c148',
+  '46e46b761985be32',
+  'fd86df3d9b145b44',
+  '3850b8dc8edf37c1',
+  'a5043dc870197576',
+  '6b352062738e1800',
+  '746b4d15189cdc4e',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  quizItems.forEach(item => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect) selected.classList.add('wrong');
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+}
+</script>
+
+</body>
+</html>
