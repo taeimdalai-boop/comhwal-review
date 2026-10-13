@@ -137,13 +137,11 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 .foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
 
-/* ── 등장 모션 ──
-   기본값은 «보이는 상태»다. 숨겨 두면 활성 카드가 아닐 때 본문이 통째로 사라진다
-   (2026-10-12 실측 사고). 움직임은 보고 있는 카드에서만 재생한다. */
-.reveal{opacity:1;}
-.card.active .reveal{animation:rise .52s cubic-bezier(.22,.9,.3,1) both; animation-delay:var(--d,0s);}
-@keyframes rise{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
-
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
 /* 키보드 키가 차례로 눌리는 모습 */
 .keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
 .keyseq kbd{opacity:1;}
@@ -162,13 +160,40 @@ td:first-child{font-weight:600; white-space:nowrap;}
   animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
 @keyframes drawline{to{stroke-dashoffset:0;}}
 
-/* 눈길을 끌어야 하는 한 곳만 깜빡인다 */
-.card.active .pulse{animation:pulse 1.8s ease-in-out .9s 3;}
-@keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.25;}}
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
 
 @media (prefers-reduced-motion: reduce){
-  .card.active .reveal,.card.active .keyseq kbd,.card.active .keyseq .res,
-  .card.active .draw,.card.active .pulse{animation:none;}
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
   .card.active .draw{stroke-dashoffset:0;}
 }
 
@@ -195,69 +220,69 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <!-- 1 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker reveal">1차시 복습카드</span>
-  <h1 class="reveal" style="--d:.06s">엑셀 화면을 읽고,<br>데이터를 넣는 날</h1>
-  <p class="lead reveal" style="--d:.14s">오늘은 엑셀을 처음 켜고 화면의 각 자리에 붙은 이름을 익혔습니다. 그리고 문자·숫자·날짜를 직접 넣어 보면서 엑셀이 데이터를 어떻게 구분하는지 확인했습니다.</p>
+  <span class="kicker">1차시 복습카드</span>
+  <h1>엑셀 화면을 읽고,<br>데이터를 넣는 날</h1>
+  <p class="lead">오늘은 엑셀을 처음 켜고 화면의 각 자리에 붙은 이름을 익혔습니다. 그리고 문자·숫자·날짜를 직접 넣어 보면서 엑셀이 데이터를 어떻게 구분하는지 확인했습니다.</p>
   <div class="panel">
-    <div class="row reveal" style="--d:.22s"><span class="n">1</span><span class="b">리본 메뉴와 화면 각 부분의 <b>이름</b></span></div>
-    <div class="row reveal" style="--d:.30s"><span class="n">2</span><span class="b">행·열·셀, 그리고 <b>셀 주소</b></span></div>
-    <div class="row reveal" style="--d:.38s"><span class="n">3</span><span class="b">문자·숫자·날짜 <b>데이터 구분</b></span></div>
-    <div class="row reveal" style="--d:.46s"><span class="n">4</span><span class="b">입력을 빠르게 하는 <b>단축키</b></span></div>
-    <div class="row reveal" style="--d:.54s"><span class="n">5</span><span class="b">셀에 설명을 붙이는 <b>메모</b></span></div>
+    <div class="row"><span class="n">1</span><span class="b">리본 메뉴와 화면 각 부분의 <b>이름</b></span></div>
+    <div class="row"><span class="n">2</span><span class="b">행·열·셀, 그리고 <b>셀 주소</b></span></div>
+    <div class="row"><span class="n">3</span><span class="b">문자·숫자·날짜 <b>데이터 구분</b></span></div>
+    <div class="row"><span class="n">4</span><span class="b">입력을 빠르게 하는 <b>단축키</b></span></div>
+    <div class="row"><span class="n">5</span><span class="b">셀에 설명을 붙이는 <b>메모</b></span></div>
   </div>
-  <p class="mute reveal" style="--d:.62s">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
+  <p class="mute">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
 </div></section>
 
 <!-- 2 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi reveal">필기 · 화면 구성</span>
-  <h2 class="reveal" style="--d:.06s">화면의 자리마다<br>이름이 정해져 있습니다</h2>
-  <p class="reveal" style="--d:.12s">시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 화면의 위치와 이름을 같이 외워 두세요.</p>
-  <figure class="fig shot reveal" style="--d:.16s">
+  <span class="kicker pilgi">필기 · 화면 구성</span>
+  <h2>화면의 자리마다<br>이름이 정해져 있습니다</h2>
+  <p>시험 문제는 기능이 아니라 <b>이름</b>을 묻습니다. 화면의 위치와 이름을 같이 외워 두세요.</p>
+  <figure class="fig shot">
     <div class="svg-wrap"><img src="shots/01-screen.png" alt="엑셀 화면 구성" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>엑셀 화면 각 부분의 이름 (한글 Windows · Excel 2021)</figcaption>
   </figure>
-  <div class="panel reveal" style="--d:.2s">
+  <div class="panel">
     <div class="row"><span class="n">1</span><span class="b"><b>빠른 실행 도구 모음</b> — 저장·실행 취소·다시 실행이 기본으로 있습니다</span></div>
     <div class="row"><span class="n">2</span><span class="b"><b>리본 메뉴</b> — 탭으로 나뉘고, 탭 안은 그룹으로 나뉩니다</span></div>
     <div class="row"><span class="n">3</span><span class="b"><b>이름 상자</b> — 지금 선택한 셀의 위치</span></div>
     <div class="row"><span class="n">4</span><span class="b"><b>수식 입력줄</b> — 셀에 실제로 들어 있는 값이나 수식</span></div>
     <div class="row"><span class="n">5</span><span class="b"><b>상태 표시줄</b> — 범위를 선택하면 합계·평균·개수</span></div>
   </div>
-  <div class="callout tip reveal" style="--d:.26s"><b>명령을 찾아가는 방법</b>먼저 <b>탭</b>을 고르고, 그 안의 <b>그룹</b>에서 아이콘을 찾습니다. 아이콘이 무엇인지 모르겠으면 마우스를 올려 설명(스크린 팁)을 보고, 더 자세한 설정이 필요하면 그룹 오른쪽 아래 작은 버튼으로 대화 상자를 엽니다.</div>
+  <div class="callout tip"><b>명령을 찾아가는 방법</b>먼저 <b>탭</b>을 고르고, 그 안의 <b>그룹</b>에서 아이콘을 찾습니다. 아이콘이 무엇인지 모르겠으면 마우스를 올려 설명(스크린 팁)을 보고, 더 자세한 설정이 필요하면 그룹 오른쪽 아래 작은 버튼으로 대화 상자를 엽니다.</div>
 </div></section>
 
 <!-- 3 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi reveal">필기 · 용어</span>
-  <h2 class="reveal" style="--d:.06s">헷갈리기 쉬운<br>네 가지 이름</h2>
-  <figure class="fig shot reveal" style="--d:.14s">
+  <span class="kicker pilgi">필기 · 용어</span>
+  <h2>헷갈리기 쉬운<br>네 가지 이름</h2>
+  <figure class="fig shot">
     <div class="svg-wrap"><img src="shots/02-dialog.png" alt="셀 서식 대화 상자" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>그룹 오른쪽 아래 작은 버튼을 누르면 뜨는 창 = 대화 상자</figcaption>
   </figure>
-  <figure class="fig shot reveal" style="--d:.18s">
+  <figure class="fig shot">
     <div class="svg-wrap"><img src="shots/03-context-menu.png" alt="바로 가기 메뉴" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>마우스 오른쪽 버튼을 누르면 나오는 메뉴 = 바로 가기 메뉴</figcaption>
   </figure>
-  <figure class="fig shot reveal" style="--d:.22s">
+  <figure class="fig shot">
     <div class="svg-wrap"><img src="shots/04-screentip.png" alt="스크린 팁" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>명령 위에 마우스를 올리면 뜨는 설명 = 스크린 팁</figcaption>
   </figure>
-  <table class="reveal" style="--d:.22s">
+  <table>
     <tr><th>이름</th><th>어떤 것인가</th></tr>
     <tr><td>대화 상자</td><td>그룹 오른쪽 아래의 작은 버튼을 눌렀을 때 뜨는 창</td></tr>
     <tr><td>바로 가기 메뉴</td><td>마우스 <b>오른쪽</b> 버튼을 눌렀을 때 나오는 메뉴</td></tr>
     <tr><td>스크린 팁</td><td>명령 위에 마우스를 올려 두면 뜨는 설명 풍선</td></tr>
     <tr><td>빠른 실행 도구 모음</td><td>저장·실행 취소·다시 실행이 기본으로 있는 줄</td></tr>
   </table>
-  <div class="callout note reveal" style="--d:.3s"><b>실무에서 쓰는 요령</b>빠른 실행 도구 모음은 리본 <b>아래쪽으로 내릴 수</b> 있습니다. 「기타 명령」에서 순서도 바꿉니다.</div>
+  <div class="callout note"><b>실무에서 쓰는 요령</b>빠른 실행 도구 모음은 리본 <b>아래쪽으로 내릴 수</b> 있습니다. 「기타 명령」에서 순서도 바꿉니다.</div>
 </div></section>
 
 <!-- 4 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi reveal">실기 · 단축키</span>
-  <h2 class="reveal" style="--d:.06s">Alt를 한 번 누르면<br>리본에 글자가 뜹니다</h2>
-  <p class="reveal" style="--d:.12s">마우스로 찾아 들어가는 것보다 키보드가 빠릅니다. 아래 순서대로 눌러 보세요.</p>
+  <span class="kicker silgi">실기 · 단축키</span>
+  <h2>Alt를 한 번 누르면<br>리본에 글자가 뜹니다</h2>
+  <p>마우스로 찾아 들어가는 것보다 키보드가 빠릅니다. 아래 순서대로 눌러 보세요.</p>
   <div class="keyseq">
     <kbd style="--i:0">Alt</kbd><span class="arw">→</span>
     <kbd style="--i:1">H</kbd><span class="arw">→</span>
@@ -265,16 +290,16 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <kbd style="--i:3">A</kbd>
     <span class="res">모든 테두리 완성</span>
   </div>
-  <figure class="fig shot reveal" style="--d:.2s">
+  <figure class="fig shot">
     <div class="svg-wrap"><img src="shots/05-alt-keytips.png" alt="Alt를 눌렀을 때 리본" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>Alt 를 한 번 누르면 리본에 알파벳이 나타납니다</figcaption>
   </figure>
-  <figure class="fig shot reveal" style="--d:.24s">
+  <figure class="fig shot">
     <div class="svg-wrap"><img src="shots/06-border-result.png" alt="모든 테두리 적용 결과" onload="this.closest('figure').style.display='block'" onerror="this.closest('figure').remove()"></div>
     <figcaption>Alt → H → B → A 를 차례로 누르면 선택한 범위에 모든 테두리가 그려집니다</figcaption>
   </figure>
-  <div class="callout tip reveal" style="--d:.28s"><b>Alt 대신 써도 되는 키</b><kbd>/</kbd> (슬래시) 를 눌러도 똑같이 글자가 나타납니다.</div>
-  <table class="reveal" style="--d:.34s">
+  <div class="callout tip"><b>Alt 대신 써도 되는 키</b><kbd>/</kbd> (슬래시) 를 눌러도 똑같이 글자가 나타납니다.</div>
+  <table>
     <tr><th>단축키</th><th>하는 일</th></tr>
     <tr><td><kbd>Win</kbd>+<kbd>R</kbd></td><td>실행 창 → <code>excel</code> 입력해서 실행</td></tr>
     <tr><td><kbd>Ctrl</kbd>+<kbd>F4</kbd></td><td>현재 <b>문서만</b> 닫기</td></tr>
@@ -286,189 +311,207 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <!-- 5 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi reveal">필기 · 구조</span>
-  <h2 class="reveal" style="--d:.06s">행은 숫자, 열은 영어</h2>
-  <figure class="fig reveal" style="--d:.12s">
+  <span class="kicker pilgi">필기 · 구조</span>
+  <h2>행은 숫자, 열은 영어</h2>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="660" height="260" viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="258" rx="10" fill="#fff" stroke="#E5E7EB"/>
       <rect x="60" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="130" y="40" width="70" height="24" fill="#EFF4FF" stroke="#2563EB"/>
+      <rect x="130" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
       <rect x="200" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
       <rect x="270" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <text x="90" y="57" font-size="13" fill="#334155" font-weight="700">A</text>
-      <text x="160" y="57" font-size="13" fill="#1D4ED8" font-weight="700">B</text>
-      <text x="230" y="57" font-size="13" fill="#334155" font-weight="700">C</text>
-      <text x="300" y="57" font-size="13" fill="#334155" font-weight="700">D</text>
       <rect x="20" y="64" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="20" y="90" width="40" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="20" y="90" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
       <rect x="20" y="116" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <text x="36" y="82" font-size="13" fill="#334155" font-weight="700">1</text>
-      <text x="36" y="108" font-size="13" fill="#B45309" font-weight="700">2</text>
-      <text x="36" y="134" font-size="13" fill="#334155" font-weight="700">3</text>
       <rect x="60" y="64" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="60" y="90" width="280" height="26" fill="#FFFBEB" stroke="#FDE68A"/>
+      <rect x="60" y="90" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
       <rect x="60" y="116" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="130" y="64" width="70" height="78" fill="#2563EB" opacity="0.08"/>
-      <rect x="130" y="90" width="70" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="2.5"/>
-      <text x="152" y="108" font-size="13" fill="#1D4ED8" font-weight="700">B2</text>
-      <text x="360" y="82" font-size="13" fill="#B45309" font-weight="700">가로 한 줄 = 행 (숫자)</text>
-      <text x="360" y="108" font-size="13" fill="#1D4ED8" font-weight="700">세로 한 줄 = 열 (영어)</text>
-      <text x="360" y="134" font-size="13" fill="#047857" font-weight="700">둘이 만나는 칸 = 셀</text>
+
+      <!-- ① 행: 가로 한 줄이 깜박이며 강조된다 -->
+      <g class="a-flash" style="--d:.3s">
+        <rect x="20" y="90" width="40" height="26" fill="#FDE68A" stroke="#B45309" stroke-width="2"/>
+        <rect x="60" y="90" width="280" height="26" fill="#FDE68A" fill-opacity=".55" stroke="#B45309" stroke-width="2"/>
+      </g>
+      <!-- ② 열: 세로 한 줄이 깜박이며 강조된다 -->
+      <g class="a-flash" style="--d:2.2s">
+        <rect x="130" y="40" width="70" height="24" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
+        <rect x="130" y="64" width="70" height="78" fill="#BFDBFE" fill-opacity=".5" stroke="#2563EB" stroke-width="2"/>
+      </g>
+      <!-- ③ 셀: 둘이 만나는 칸이 튀어나온다 -->
+      <rect class="a-pop" style="--d:4.1s" x="130" y="90" width="70" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="3"/>
+
+      <text x="90" y="57" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">A</text>
+      <text x="160" y="57" font-size="13" fill="#1D4ED8" font-weight="700" text-anchor="middle">B</text>
+      <text x="230" y="57" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">C</text>
+      <text x="300" y="57" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">D</text>
+      <text x="40" y="82" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">1</text>
+      <text x="40" y="108" font-size="13" fill="#B45309" font-weight="700" text-anchor="middle">2</text>
+      <text x="40" y="134" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">3</text>
+      <text class="a-in" style="--d:4.1s" x="165" y="108" font-size="13" fill="#1D4ED8" font-weight="700" text-anchor="middle">B2</text>
+
+      <text class="a-in" style="--d:.3s" x="360" y="82" font-size="13" fill="#B45309" font-weight="700">가로 한 줄 = 행 (숫자)</text>
+      <text class="a-in" style="--d:2.2s" x="360" y="108" font-size="13" fill="#1D4ED8" font-weight="700">세로 한 줄 = 열 (영어)</text>
+      <text class="a-in" style="--d:4.1s" x="360" y="134" font-size="13" fill="#047857" font-weight="700">둘이 만나는 칸 = 셀</text>
+
       <rect x="20" y="170" width="620" height="70" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
       <text x="36" y="196" font-size="14" fill="#111827" font-weight="700">셀 이름은 열을 먼저 씁니다</text>
-      <text x="36" y="222" font-size="14" fill="#047857" font-weight="700">B2 ○</text>
-      <text x="100" y="222" font-size="13" fill="#6B7280">B열 2행</text>
-      <text x="220" y="222" font-size="14" fill="#DC2626" font-weight="700">2B ✗</text>
-      <text x="290" y="222" font-size="13" fill="#6B7280">행을 먼저 쓰지 않습니다</text>
+      <text class="a-in" style="--d:4.8s" x="36" y="222" font-size="14" fill="#047857" font-weight="700">B2 ○</text>
+      <text class="a-in" style="--d:4.8s" x="100" y="222" font-size="13" fill="#6B7280">B열 2행</text>
+      <text class="a-in" style="--d:5.1s" x="220" y="222" font-size="14" fill="#DC2626" font-weight="700">2B ✗</text>
+      <text class="a-in" style="--d:5.1s" x="290" y="222" font-size="13" fill="#6B7280">행을 먼저 쓰지 않습니다</text>
     </svg>
     </div>
     <figcaption>행·열·셀, 그리고 셀 주소를 읽는 순서</figcaption>
   </figure>
   <div class="panel">
-    <div class="row reveal" style="--d:.2s"><span class="n">!</span><span class="b"><b>이름 상자</b>에 <code>A100</code> 을 입력하면 그 셀로 바로 이동합니다.</span></div>
-    <div class="row reveal" style="--d:.27s"><span class="n">!</span><span class="b">셀을 둘러싼 초록 테두리가 <b>셀 포인터</b>입니다. 모든 작업의 기준점입니다.</span></div>
-    <div class="row reveal" style="--d:.34s"><span class="n">!</span><span class="b">숫자 범위를 선택하면 <b>상태 표시줄</b>에 합계·평균·개수가 나타납니다.</span></div>
+    <div class="row"><span class="n">!</span><span class="b"><b>이름 상자</b>에 <code>A100</code> 을 입력하면 그 셀로 바로 이동합니다.</span></div>
+    <div class="row"><span class="n">!</span><span class="b">셀을 둘러싼 초록 테두리가 <b>셀 포인터</b>입니다. 모든 작업의 기준점입니다.</span></div>
+    <div class="row"><span class="n">!</span><span class="b">숫자 범위를 선택하면 <b>상태 표시줄</b>에 합계·평균·개수가 나타납니다.</span></div>
   </div>
 </div></section>
 
 <!-- 6 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi reveal">실기 · 데이터</span>
-  <h2 class="reveal" style="--d:.06s">정렬만 봐도<br>문자인지 숫자인지 압니다</h2>
-  <figure class="fig reveal" style="--d:.12s">
+  <span class="kicker silgi">실기 · 데이터</span>
+  <h2>정렬만 봐도<br>문자인지 숫자인지 압니다</h2>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="660" height="230" viewBox="0 0 660 230" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="228" rx="10" fill="#fff" stroke="#E5E7EB"/>
       <text x="24" y="30" font-size="14" fill="#1D4ED8" font-weight="700">문자 데이터 → 왼쪽</text>
       <rect x="24" y="42" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text x="34" y="62" font-size="14" fill="#111827">우리컴퓨터</text>
       <rect x="24" y="72" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text x="34" y="92" font-size="14" fill="#111827">컴활2급</text>
       <rect x="24" y="102" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text x="34" y="122" font-size="14" fill="#111827">604호</text>
-      <text x="24" y="156" font-size="13" fill="#6B7280">글자만 있어도, 글자+숫자가 섞여 있어도</text>
-      <text x="24" y="176" font-size="13" fill="#6B7280">모두 <tspan font-weight="700" fill="#1D4ED8">문자</tspan>로 봅니다.</text>
+      <text class="a-fromr" style="--d:.4s" x="34" y="62" font-size="14" fill="#111827">우리컴퓨터</text>
+      <text class="a-fromr" style="--d:.7s" x="34" y="92" font-size="14" fill="#111827">컴활2급</text>
+      <text class="a-fromr" style="--d:1s" x="34" y="122" font-size="14" fill="#111827">604호</text>
+      <text class="a-in" style="--d:1.6s" x="24" y="156" font-size="13" fill="#6B7280">글자만 있어도, 글자+숫자가 섞여 있어도</text>
+      <text class="a-in" style="--d:1.6s" x="24" y="176" font-size="13" fill="#6B7280">모두 <tspan font-weight="700" fill="#1D4ED8">문자</tspan>로 봅니다.</text>
       <line x1="330" y1="20" x2="330" y2="210" stroke="#E5E7EB" stroke-dasharray="4 4"/>
       <text x="362" y="30" font-size="14" fill="#B45309" font-weight="700">숫자 데이터 → 오른쪽</text>
       <rect x="362" y="42" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text x="622" y="62" font-size="14" fill="#111827" text-anchor="end">604</text>
       <rect x="362" y="72" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text x="622" y="92" font-size="14" fill="#111827" text-anchor="end">2026-10-12</text>
       <rect x="362" y="102" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text x="622" y="122" font-size="14" fill="#111827" text-anchor="end">10:30</text>
-      <text x="362" y="156" font-size="13" fill="#6B7280">날짜와 시간은 기호가 들어 있어도</text>
-      <text x="362" y="176" font-size="13" fill="#6B7280"><tspan font-weight="700" fill="#B45309">숫자</tspan>로 처리합니다.</text>
-      <text x="362" y="200" font-size="12" fill="#DC2626" class="pulse">← 오른쪽에 붙으면 숫자라는 뜻</text>
+      <text class="a-froml" style="--d:.4s" x="622" y="62" font-size="14" fill="#111827" text-anchor="end">604</text>
+      <text class="a-froml" style="--d:.7s" x="622" y="92" font-size="14" fill="#111827" text-anchor="end">2026-10-12</text>
+      <text class="a-froml" style="--d:1s" x="622" y="122" font-size="14" fill="#111827" text-anchor="end">10:30</text>
+      <text class="a-in" style="--d:1.6s" x="362" y="156" font-size="13" fill="#6B7280">날짜와 시간은 기호가 들어 있어도</text>
+      <text class="a-in" style="--d:1.6s" x="362" y="176" font-size="13" fill="#6B7280"><tspan font-weight="700" fill="#B45309">숫자</tspan>로 처리합니다.</text>
     </svg>
     </div>
     <figcaption>기본 정렬로 구분하는 문자 데이터와 숫자 데이터</figcaption>
   </figure>
-  <div class="callout warn reveal" style="--d:.2s"><b>가장 많이 틀리는 곳</b>날짜·시간은 <code>-</code> <code>/</code> <code>:</code> 같은 기호나 AM/PM이 들어 있어도 <b>숫자 데이터</b>입니다. 그래서 더하고 뺄 수 있습니다.</div>
+  <div class="callout warn"><b>가장 많이 틀리는 곳</b>날짜·시간은 <code>-</code> <code>/</code> <code>:</code> 같은 기호나 AM/PM이 들어 있어도 <b>숫자 데이터</b>입니다. 그래서 더하고 뺄 수 있습니다.</div>
 </div></section>
 
 <!-- 7 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi reveal">실기 · 데이터</span>
-  <h2 class="reveal" style="--d:.06s">화면에 이상하게<br>보일 때의 이유</h2>
-  <figure class="fig reveal" style="--d:.12s">
+  <span class="kicker silgi">실기 · 데이터</span>
+  <h2>화면에 이상하게<br>보일 때의 이유</h2>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="300" height="392" viewBox="0 0 300 392" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="298" height="390" rx="10" fill="#fff" stroke="#E5E7EB"/>
 
       <text x="14" y="22" font-size="13" font-weight="700" fill="#1D4ED8">① 문자 · 오른쪽 칸이 비어 있을 때</text>
-      <rect x="14" y="32" width="80" height="28" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="94" y="32" width="80" height="28" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="92.5" y="33" width="3" height="26" fill="#fff"/>
+      <rect class="a-shrinkb" vector-effect="non-scaling-stroke" x="14" y="32" width="80" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <g class="a-slide60">
+        <rect x="94" y="32" width="80" height="28" fill="none" stroke="#CBD5E1" vector-effect="non-scaling-stroke"/>
+        <rect class="a-in" style="--d:2s" x="92.5" y="33" width="3" height="26" fill="#fff"/>
+        <text x="94" y="72" font-size="10" fill="#9CA3AF">C2 (비어 있음)</text>
+      </g>
       <text x="20" y="51" font-size="13" fill="#111827">우리컴퓨터학원 복습</text>
       <text x="14" y="72" font-size="10" fill="#9CA3AF">B2</text>
-      <text x="94" y="72" font-size="10" fill="#9CA3AF">C2 (비어 있음)</text>
       <text x="14" y="90" font-size="12" fill="#374151">열이 좁아도 <tspan font-weight="700" fill="#047857">잘리지 않고</tspan> 옆 칸에 걸쳐 보입니다</text>
 
       <line x1="14" y1="104" x2="286" y2="104" stroke="#F1F3F7"/>
 
       <text x="14" y="124" font-size="13" font-weight="700" fill="#B45309">② 문자 · 오른쪽 칸에 값이 있을 때</text>
-      <clipPath id="cpB"><rect x="15" y="135" width="78" height="26"/></clipPath>
-      <rect x="14" y="134" width="80" height="28" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="94" y="134" width="80" height="28" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <text x="20" y="153" font-size="13" fill="#111827" clip-path="url(#cpB)">우리컴퓨터학원 복습</text>
-      <text x="102" y="153" font-size="13" fill="#111827">10월</text>
+      <rect class="a-shrinkb" vector-effect="non-scaling-stroke" x="14" y="134" width="80" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text x="20" y="153" font-size="13" fill="#111827">우리컴퓨터학원 복습</text>
+      <g class="a-slide60">
+        <rect x="94" y="134" width="80" height="28" fill="#F8FAFF" stroke="#CBD5E1" vector-effect="non-scaling-stroke"/>
+        <text x="102" y="153" font-size="13" fill="#111827">10월</text>
+        <text x="94" y="174" font-size="10" fill="#9CA3AF">C2 (값 있음)</text>
+      </g>
       <text x="14" y="174" font-size="10" fill="#9CA3AF">B2</text>
-      <text x="94" y="174" font-size="10" fill="#9CA3AF">C2 (값 있음)</text>
       <text x="14" y="192" font-size="12" fill="#374151">열 너비만큼만 보이고 나머지는 <tspan font-weight="700" fill="#DC2626">가려집니다</tspan></text>
 
       <line x1="14" y1="206" x2="286" y2="206" stroke="#F1F3F7"/>
 
       <text x="14" y="226" font-size="13" font-weight="700" fill="#1D4ED8">③ 셀 서식을 지정하지 않은 숫자(일반)</text>
-      <rect x="14" y="236" width="100" height="28" fill="#fff" stroke="#CBD5E1"/>
-      <text x="108" y="255" font-size="13" fill="#111827" text-anchor="end" font-family="JetBrains Mono, monospace">1.23457E+15</text>
+      <rect class="a-shrinkn" vector-effect="non-scaling-stroke" x="14" y="236" width="100" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text class="a-wideout" x="158" y="255" font-size="13" fill="#111827" text-anchor="end" font-family="JetBrains Mono, monospace">123456789012345</text>
+      <text class="a-narrowin" x="108" y="255" font-size="13" fill="#111827" text-anchor="end" font-family="JetBrains Mono, monospace">1.23457E+15</text>
       <text x="14" y="284" font-size="12" fill="#374151">자리가 좁으면 <tspan font-weight="700" fill="#B45309">지수 형태</tspan>로 바뀝니다</text>
 
       <line x1="14" y1="298" x2="286" y2="298" stroke="#F1F3F7"/>
 
       <text x="14" y="318" font-size="13" font-weight="700" fill="#B45309">④ 셀 서식을 지정한 숫자(쉼표 등)</text>
-      <rect x="14" y="328" width="100" height="28" fill="#fff" stroke="#CBD5E1"/>
-      <text x="108" y="347" font-size="14" fill="#DC2626" text-anchor="end" font-weight="700" class="pulse">########</text>
+      <rect class="a-shrinkn" vector-effect="non-scaling-stroke" x="14" y="328" width="100" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text class="a-wideout" x="158" y="347" font-size="13" fill="#111827" text-anchor="end" font-family="JetBrains Mono, monospace">1,234,567,890</text>
+      <text class="a-narrowin" x="108" y="347" font-size="14" fill="#DC2626" text-anchor="end" font-weight="700" font-family="JetBrains Mono, monospace">########</text>
       <text x="14" y="376" font-size="12" fill="#374151">자리가 좁으면 <tspan font-weight="700" fill="#DC2626">###</tspan> 으로 나타납니다</text>
     </svg>
     </div>
-    <figcaption>같은 「좁은 열」에서도 데이터 종류에 따라 다르게 보입니다</figcaption>
+    <figcaption>열 너비를 좁히면 데이터 종류에 따라 다르게 보입니다</figcaption>
   </figure>
-  <table class="wrapfirst reveal" style="--d:.2s">
+  <table class="wrapfirst">
     <tr><th>상황</th><th>화면에 보이는 모습</th></tr>
     <tr><td>문자 · 오른쪽 셀이 비어 있음</td><td>열의 너비가 좁아도 <b>잘리지 않고</b> 오른쪽 셀에 걸쳐서 내용이 보입니다</td></tr>
     <tr><td>문자 · 오른쪽 셀에 값이 있음</td><td>열 너비만큼만 보이고 나머지는 <b>가려집니다</b></td></tr>
     <tr><td>숫자 · 셀 서식을 지정하지 않음 (기본값 「일반」)</td><td>자리가 좁으면 <b>지수 형태</b>로 바뀝니다</td></tr>
     <tr><td>숫자 · 셀 서식을 지정함 (쉼표·회계 등)</td><td>자리가 좁으면 <b>###</b> 으로 나타납니다</td></tr>
   </table>
-  <div class="callout tip reveal" style="--d:.28s"><b>앞의 0을 살리려면</b><code>010</code> 을 그냥 넣으면 <code>10</code> 이 됩니다. 앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력하면 문자가 되어 0이 남습니다.</div>
+  <div class="callout tip"><b>앞의 0을 살리려면</b><code>010</code> 을 그냥 넣으면 <code>10</code> 이 됩니다. 앞에 작은따옴표를 붙여 <code>'010</code> 으로 입력하면 문자가 되어 0이 남습니다.</div>
   <div class="panel">
-    <div class="row reveal" style="--d:.34s"><span class="n">+</span><span class="b">분수는 <code>0 1/2</code> 처럼 <b>0과 공백을 먼저</b> 써야 날짜로 바뀌지 않습니다.</span></div>
+    <div class="row"><span class="n">+</span><span class="b">분수는 <code>0 1/2</code> 처럼 <b>0과 공백을 먼저</b> 써야 날짜로 바뀌지 않습니다.</span></div>
   </div>
 </div></section>
 <!-- 8 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi reveal">실기 · 날짜</span>
-  <h2 class="reveal" style="--d:.06s">날짜는 숫자 1번부터<br>세어 나갑니다</h2>
-  <figure class="fig reveal" style="--d:.12s">
+  <span class="kicker silgi">실기 · 날짜</span>
+  <h2>날짜는 숫자 1번부터<br>세어 나갑니다</h2>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="660" height="220" viewBox="0 0 660 220" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="218" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <line x1="40" y1="70" x2="620" y2="70" stroke="#CBD5E1" stroke-width="2"/>
-      <line x1="40" y1="70" x2="620" y2="70" class="draw" style="--len:580;--d:.4s" stroke="#2563EB" stroke-width="3"/>
-      <circle cx="60" cy="70" r="6" fill="#2563EB"/>
-      <text x="60" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">1</text>
-      <text x="60" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-01</text>
-      <circle cx="200" cy="70" r="6" fill="#2563EB"/>
-      <text x="200" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">2</text>
-      <text x="200" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-02</text>
-      <text x="340" y="76" font-size="14" fill="#6B7280" text-anchor="middle">· · · 하루에 1씩 · · ·</text>
-      <circle cx="500" cy="70" r="6" fill="#B45309"/>
-      <text x="500" y="54" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">46,322</text>
-      <text x="500" y="94" font-size="12" fill="#6B7280" text-anchor="middle">2026-10-12</text>
+      <line x1="40" y1="70" x2="620" y2="70" stroke="#E5E7EB" stroke-width="3"/>
+      <line class="draw" style="--len:580;--d:.4s" x1="40" y1="70" x2="620" y2="70" stroke="#2563EB" stroke-width="3"/>
+      <circle class="a-pop" style="--d:.4s" cx="60" cy="70" r="6" fill="#2563EB"/>
+      <text class="a-in" style="--d:.4s" x="60" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">1</text>
+      <text class="a-in" style="--d:.4s" x="60" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-01</text>
+      <circle class="a-pop" style="--d:.7s" cx="200" cy="70" r="6" fill="#2563EB"/>
+      <text class="a-in" style="--d:.7s" x="200" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">2</text>
+      <text class="a-in" style="--d:.7s" x="200" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-02</text>
+      <text class="a-in" style="--d:1s" x="340" y="76" font-size="14" fill="#6B7280" text-anchor="middle">· · · 하루에 1씩 · · ·</text>
+      <circle class="a-pop" style="--d:1.25s" cx="500" cy="70" r="6" fill="#B45309"/>
+      <text class="a-in" style="--d:1.25s" x="500" y="54" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">46,322</text>
+      <text class="a-in" style="--d:1.25s" x="500" y="94" font-size="12" fill="#6B7280" text-anchor="middle">2026-10-12</text>
       <rect x="40" y="120" width="580" height="78" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
       <text x="56" y="144" font-size="13" fill="#111827" font-weight="700">시간은 하루를 1로 보고 소수로 셉니다</text>
       <rect x="56" y="156" width="300" height="18" rx="9" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="56" y="156" width="150" height="18" rx="9" fill="#2563EB" opacity="0.25"/>
-      <line x1="206" y1="150" x2="206" y2="180" stroke="#2563EB" stroke-width="2"/>
+      <rect class="a-growx" style="--d:2s" x="56" y="156" width="150" height="18" rx="9" fill="#2563EB" fill-opacity=".3"/>
+      <g class="a-in" style="--d:2.6s"><line x1="206" y1="150" x2="206" y2="180" stroke="#2563EB" stroke-width="2"/></g>
       <text x="56" y="190" font-size="11" fill="#6B7280">0시 = 0</text>
-      <text x="206" y="190" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">정오 = 0.5</text>
+      <text class="a-in" style="--d:2.6s" x="206" y="190" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">정오 = 0.5</text>
       <text x="356" y="190" font-size="11" fill="#6B7280" text-anchor="end">24시 = 1</text>
-      <text x="390" y="168" font-size="12" fill="#047857" font-weight="700">표시 형식을 「일반」으로 바꾸면</text>
-      <text x="390" y="188" font-size="12" fill="#047857" font-weight="700">이 숫자가 그대로 보입니다</text>
+      <text class="a-in" style="--d:3s" x="390" y="168" font-size="12" fill="#047857" font-weight="700">표시 형식을 「일반」으로 바꾸면</text>
+      <text class="a-in" style="--d:3s" x="390" y="188" font-size="12" fill="#047857" font-weight="700">이 숫자가 그대로 보입니다</text>
     </svg>
     </div>
     <figcaption>엑셀이 날짜와 시간을 숫자로 세는 방법</figcaption>
   </figure>
-  <table class="reveal" style="--d:.2s">
+  <table>
     <tr><th>이렇게 입력하면</th><th>이렇게 들어갑니다</th></tr>
     <tr><td>연도를 빼고</td><td><b>올해</b> 연도가 붙습니다</td></tr>
     <tr><td>연도와 월만</td><td>일자는 <b>1일</b>이 됩니다</td></tr>
     <tr><td><kbd>Ctrl</kbd>+<kbd>;</kbd></td><td>오늘 <b>날짜</b></td></tr>
     <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd></td><td>현재 <b>시간</b></td></tr>
   </table>
-  <div class="callout warn reveal" style="--d:.28s"><b>두 자리 연도 — 교재를 고쳐 적으세요</b>연도를 두 자리로 입력하면 <b>00~49는 2000년대</b>, <b>50~99는 1900년대</b>로 들어갑니다.<br><span class="mute">교재에 <code>00~29</code> · <code>30~99</code>로 되어 있으면 <b>29를 49로</b>, <b>30을 50으로</b> 고쳐 두세요. 예전 기준이고, 업데이트되면서 바뀐 부분입니다.</span></div>
-  <figure class="fig reveal" style="--d:.34s">
+  <div class="callout warn"><b>두 자리 연도 — 교재를 고쳐 적으세요</b>연도를 두 자리로 입력하면 <b>00~49는 2000년대</b>, <b>50~99는 1900년대</b>로 들어갑니다.<br><span class="mute">교재에 <code>00~29</code> · <code>30~99</code>로 되어 있으면 <b>29를 49로</b>, <b>30을 50으로</b> 고쳐 두세요. 예전 기준이고, 업데이트되면서 바뀐 부분입니다.</span></div>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="660" height="130" viewBox="0 0 660 130" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="128" rx="10" fill="#fff" stroke="#E5E7EB"/>
@@ -488,29 +531,29 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <!-- 9 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker silgi reveal">실기 · 입력</span>
-  <h2 class="reveal" style="--d:.06s">Alt+Enter와 Ctrl+Enter는<br>전혀 다릅니다</h2>
-  <figure class="fig reveal" style="--d:.12s">
+  <span class="kicker silgi">실기 · 입력</span>
+  <h2>Alt+Enter와 Ctrl+Enter는<br>전혀 다릅니다</h2>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="660" height="240" viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="238" rx="10" fill="#fff" stroke="#E5E7EB"/>
       <text x="24" y="30" font-size="14" fill="#1D4ED8" font-weight="700">Alt + Enter — 한 셀 안에서 줄바꿈</text>
       <rect x="24" y="44" width="180" height="56" fill="#fff" stroke="#2563EB" stroke-width="2"/>
-      <text x="36" y="66" font-size="13" fill="#111827">우리컴퓨터학원</text>
-      <text x="36" y="88" font-size="13" fill="#111827">엑셀 1차시</text>
-      <text x="220" y="64" font-size="12" fill="#6B7280">셀은 그대로 하나입니다.</text>
-      <text x="220" y="86" font-size="12" fill="#6B7280">줄만 아래로 내려갑니다.</text>
+      <text class="a-in" style="--d:.4s" x="36" y="66" font-size="13" fill="#111827">우리컴퓨터학원</text>
+      <text class="a-in" style="--d:1.4s" x="36" y="88" font-size="13" fill="#111827">엑셀 1차시</text>
+      <text class="a-in" style="--d:1.8s" x="220" y="64" font-size="12" fill="#6B7280">셀은 그대로 하나입니다.</text>
+      <text class="a-in" style="--d:1.8s" x="220" y="86" font-size="12" fill="#6B7280">줄만 아래로 내려갑니다.</text>
       <text x="24" y="140" font-size="14" fill="#B45309" font-weight="700">Ctrl + Enter — 선택한 셀 전부에 같은 값</text>
       <rect x="24" y="154" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
       <rect x="114" y="154" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
       <rect x="24" y="180" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
       <rect x="114" y="180" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
-      <text x="36" y="172" font-size="12" fill="#111827">미정</text>
-      <text x="126" y="172" font-size="12" fill="#111827">미정</text>
-      <text x="36" y="198" font-size="12" fill="#111827">미정</text>
-      <text x="126" y="198" font-size="12" fill="#111827">미정</text>
-      <text x="220" y="178" font-size="12" fill="#6B7280">네 칸을 먼저 선택해 두고</text>
-      <text x="220" y="198" font-size="12" fill="#6B7280">한 번만 입력하면 전부 채워집니다.</text>
+      <text class="a-in" style="--d:1.4s" x="36" y="172" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.4s" x="126" y="172" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.4s" x="36" y="198" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.4s" x="126" y="198" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.8s" x="220" y="178" font-size="12" fill="#6B7280">네 칸을 먼저 선택해 두고</text>
+      <text class="a-in" style="--d:1.8s" x="220" y="198" font-size="12" fill="#6B7280">한 번만 입력하면 전부 채워집니다.</text>
       <rect x="420" y="40" width="210" height="166" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
       <text x="436" y="66" font-size="13" fill="#111827" font-weight="700">입력을 마친 뒤 이동</text>
       <text x="436" y="94" font-size="12" fill="#334155">Enter ↓ 아래</text>
@@ -522,56 +565,58 @@ td:first-child{font-weight:600; white-space:nowrap;}
     </div>
     <figcaption>이름이 비슷하지만 하는 일이 다른 두 단축키</figcaption>
   </figure>
-  <div class="callout tip reveal" style="--d:.2s"><b>범위를 먼저 잡아 두면</b>범위를 선택한 채 <kbd>Enter</kbd>를 누르면 셀 포인터가 <b>그 범위 안에서만</b> 돕니다. 표에 값을 채워 넣을 때 편합니다.</div>
+  <div class="callout tip"><b>범위를 먼저 잡아 두면</b>범위를 선택한 채 <kbd>Enter</kbd>를 누르면 셀 포인터가 <b>그 범위 안에서만</b> 돕니다. 표에 값을 채워 넣을 때 편합니다.</div>
   <div class="panel">
-    <div class="row reveal" style="--d:.27s"><span class="n">+</span><span class="b">잘못 눌렀으면 <kbd>Ctrl</kbd>+<kbd>Z</kbd> 로 되돌리고, <kbd>Ctrl</kbd>+<kbd>Y</kbd> 로 다시 실행합니다.</span></div>
+    <div class="row"><span class="n">+</span><span class="b">잘못 눌렀으면 <kbd>Ctrl</kbd>+<kbd>Z</kbd> 로 되돌리고, <kbd>Ctrl</kbd>+<kbd>Y</kbd> 로 다시 실행합니다.</span></div>
   </div>
 </div></section>
 
 <!-- 10 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker pilgi reveal">필기 · 메모</span>
-  <h2 class="reveal" style="--d:.06s">셀 내용이 지워져도<br>메모는 지워지지 않습니다</h2>
-  <figure class="fig reveal" style="--d:.12s">
+  <span class="kicker pilgi">필기 · 메모</span>
+  <h2>셀 내용이 지워져도<br>메모는 지워지지 않습니다</h2>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="660" height="156" viewBox="0 0 660 156" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="154" rx="10" fill="#fff" stroke="#E5E7EB"/>
       <text x="30" y="32" font-size="13" fill="#111827" font-weight="700">메모가 있는 셀</text>
       <rect x="30" y="44" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
       <text x="42" y="66" font-size="14" fill="#111827">1,250,000</text>
-      <path d="M170 44 L160 44 L170 54 Z" fill="#DC2626" class="pulse"/>
+      <path d="M170 44 L160 44 L170 54 Z" fill="#DC2626"/>
       <rect x="30" y="86" width="160" height="50" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
       <text x="40" y="106" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
       <text x="40" y="124" font-size="11" fill="#92400E">작성자: 김태희</text>
-      <text x="220" y="70" font-size="16" fill="#DC2626" font-weight="700">Delete</text>
-      <path d="M212 80 L300 80" stroke="#DC2626" stroke-width="2" marker-end="url(#ar3)"/>
-      <text x="340" y="32" font-size="13" fill="#111827" font-weight="700">값만 지워집니다</text>
-      <rect x="340" y="44" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
-      <path d="M480 44 L470 44 L480 54 Z" fill="#DC2626"/>
-      <rect x="340" y="86" width="160" height="50" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
-      <text x="350" y="106" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
-      <text x="350" y="124" font-size="11" fill="#92400E">작성자: 김태희</text>
-      <text x="516" y="106" font-size="13" fill="#047857" font-weight="700">메모는</text>
-      <text x="516" y="126" font-size="13" fill="#047857" font-weight="700">그대로 남습니다</text>
+      <text class="a-pop" style="--d:.8s" x="220" y="70" font-size="16" fill="#DC2626" font-weight="700">Delete</text>
+      <path class="a-growx" style="--d:1.3s" d="M212 80 L300 80" stroke="#DC2626" stroke-width="2" fill="none" marker-end="url(#ar3)"/>
+      <g class="a-in" style="--d:2s">
+        <text x="340" y="32" font-size="13" fill="#111827" font-weight="700">값만 지워집니다</text>
+        <rect x="340" y="44" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
+        <path d="M480 44 L470 44 L480 54 Z" fill="#DC2626"/>
+        <rect x="340" y="86" width="160" height="50" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
+        <text x="350" y="106" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
+        <text x="350" y="124" font-size="11" fill="#92400E">작성자: 김태희</text>
+        <text x="516" y="106" font-size="13" fill="#047857" font-weight="700">메모는</text>
+        <text x="516" y="126" font-size="13" fill="#047857" font-weight="700">그대로 남습니다</text>
+      </g>
       <defs><marker id="ar3" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#DC2626"/></marker></defs>
     </svg>
     </div>
     <figcaption>Delete 키는 값만 지웁니다</figcaption>
   </figure>
   <div class="panel">
-    <div class="row reveal" style="--d:.2s"><span class="n">1</span><span class="b">삽입: <b>검토 탭 → 새 메모</b> 또는 <kbd>Shift</kbd>+<kbd>F2</kbd></span></div>
-    <div class="row reveal" style="--d:.26s"><span class="n">2</span><span class="b">표시 여부는 <b>검토 탭 → 메모 모두 표시</b> 로 켜고 끕니다.</span></div>
-    <div class="row reveal" style="--d:.32s"><span class="n">3</span><span class="b">인쇄는 <b>페이지 설정 → 시트 → 메모</b> 에서 「시트에 표시된 대로」 또는 「시트 끝」을 고릅니다.</span></div>
-    <div class="row reveal" style="--d:.38s"><span class="n">4</span><span class="b">위치 이동·크기 조절·글꼴 변경이 모두 됩니다.</span></div>
+    <div class="row"><span class="n">1</span><span class="b">삽입: <b>검토 탭 → 새 메모</b> 또는 <kbd>Shift</kbd>+<kbd>F2</kbd></span></div>
+    <div class="row"><span class="n">2</span><span class="b">표시 여부는 <b>검토 탭 → 메모 모두 표시</b> 로 켜고 끕니다.</span></div>
+    <div class="row"><span class="n">3</span><span class="b">인쇄는 <b>페이지 설정 → 시트 → 메모</b> 에서 「시트에 표시된 대로」 또는 「시트 끝」을 고릅니다.</span></div>
+    <div class="row"><span class="n">4</span><span class="b">위치 이동·크기 조절·글꼴 변경이 모두 됩니다.</span></div>
   </div>
-  <div class="callout note reveal" style="--d:.44s"><b>자동 크기가 안 보일 때</b>메모 <b>안에 커서가 들어가 있으면</b> 글꼴 탭만 나옵니다. 메모 <b>테두리를 눌러 개체로 선택</b>한 뒤 메모 서식 → 맞춤에서 「자동 크기」를 찾으세요.</div>
+  <div class="callout note"><b>자동 크기가 안 보일 때</b>메모 <b>안에 커서가 들어가 있으면</b> 글꼴 탭만 나옵니다. 메모 <b>테두리를 눌러 개체로 선택</b>한 뒤 메모 서식 → 맞춤에서 「자동 크기」를 찾으세요.</div>
 </div></section>
 
 <!-- 11 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker reveal">오늘의 함정</span>
-  <h2 class="reveal" style="--d:.06s">여기서 많이 틀립니다</h2>
-  <figure class="fig reveal" style="--d:.12s">
+  <span class="kicker">오늘의 함정</span>
+  <h2>여기서 많이 틀립니다</h2>
+  <figure class="fig">
     <div class="svg-wrap">
     <svg width="660" height="170" viewBox="0 0 660 170" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="658" height="168" rx="10" fill="#fff" stroke="#E5E7EB"/>
@@ -594,8 +639,8 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <figcaption>틀린 기억과 맞는 내용을 나란히 보기</figcaption>
   </figure>
   <div class="panel">
-    <div class="row reveal" style="--d:.2s"><span class="n">5</span><span class="b"><b>앞의 0이 사라지는 것</b><br><span class="mute">작은따옴표를 먼저 붙여야 남습니다. <code>'010</code></span></span></div>
-    <div class="row reveal" style="--d:.27s"><span class="n">6</span><span class="b"><b>######는 오류가 아닙니다</b><br><span class="mute">열 너비가 좁을 뿐입니다. 넓히면 사라집니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>앞의 0이 사라지는 것</b><br><span class="mute">작은따옴표를 먼저 붙여야 남습니다. <code>'010</code></span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><b>######는 오류가 아닙니다</b><br><span class="mute">열 너비가 좁을 뿐입니다. 넓히면 사라집니다.</span></span></div>
   </div>
 </div></section>
 <!-- 12 · 이름 게이트 -->
@@ -727,16 +772,16 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 <!-- 체크리스트 -->
 <section class="card"><div class="card-inner">
-  <span class="kicker reveal">복습 체크리스트</span>
+  <span class="kicker">복습 체크리스트</span>
   <h2>내일 오기 전에<br>이것만 확인하세요</h2>
   <div class="panel">
-    <div class="row reveal"><span class="n">&#10003;</span><span class="b">리본 메뉴 · 탭 · 그룹 · 대화 상자 · 바로 가기 메뉴를 말로 설명할 수 있다</span></div>
-    <div class="row reveal"><span class="n">&#10003;</span><span class="b">이름 상자와 수식 입력줄이 각각 무엇을 보여 주는지 안다</span></div>
-    <div class="row reveal"><span class="n">&#10003;</span><span class="b">행·열 방향과 셀 주소 쓰는 순서를 헷갈리지 않는다</span></div>
-    <div class="row reveal"><span class="n">&#10003;</span><span class="b">문자·숫자·날짜를 정렬만 보고 구분할 수 있다</span></div>
-    <div class="row reveal"><span class="n">&#10003;</span><span class="b">Alt+Enter와 Ctrl+Enter를 구분해서 쓸 수 있다</span></div>
-    <div class="row reveal"><span class="n">&#10003;</span><span class="b">메모를 넣고, 표시하고, 인쇄 설정을 바꿀 수 있다</span></div>
-    <div class="row reveal"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">리본 메뉴 · 탭 · 그룹 · 대화 상자 · 바로 가기 메뉴를 말로 설명할 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">이름 상자와 수식 입력줄이 각각 무엇을 보여 주는지 안다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">행·열 방향과 셀 주소 쓰는 순서를 헷갈리지 않는다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">문자·숫자·날짜를 정렬만 보고 구분할 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">Alt+Enter와 Ctrl+Enter를 구분해서 쓸 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">메모를 넣고, 표시하고, 인쇄 설정을 바꿀 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
   </div>
   <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
 </div></section>
