@@ -215,6 +215,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
 
 .quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
 .quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
 .qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
 #wrongList{margin:12px 0 0;}
 #wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
@@ -646,70 +647,70 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker">미니 퀴즈 · 10문제</span>
   <h2>모두 고른 뒤<br>맨 아래에서 채점하세요</h2>
   <div class="quiz-item">
-    <p class="q"><span class="qn">1</span><b>현재 시간</b>을 입력하는 단축키는 무엇인가요?</p>
+    <p class="q"><span class="qn">1</span><span class="qt"><b>현재 시간</b>을 입력하는 단축키는 무엇인가요?</span></p>
       <button class="quiz-opt">Ctrl + ;</button>
       <button class="quiz-opt" data-correct="true">Ctrl + Shift + ;</button>
       <button class="quiz-opt">Shift + F2</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">2</span><b>윗주</b>에 대한 설명으로 옳은 것은?</p>
+    <p class="q"><span class="qn">2</span><span class="qt"><b>윗주</b>에 대한 설명으로 옳은 것은?</span></p>
       <button class="quiz-opt" data-correct="true">문자 데이터에만 표시된다</button>
       <button class="quiz-opt">숫자 데이터에도 표시된다</button>
       <button class="quiz-opt">입력만 하면 자동으로 표시된다</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">3</span>숫자 <b>1</b> 하나를 입력하고 <b>Ctrl</b>을 누른 채 채우기 핸들을 아래로 끌면 어떻게 되나요?</p>
+    <p class="q"><span class="qn">3</span><span class="qt">숫자 <b>1</b> 하나를 입력하고 <b>Ctrl</b>을 누른 채 채우기 핸들을 아래로 끌면 어떻게 되나요?</span></p>
       <button class="quiz-opt">1, 1, 1, 1 (복사)</button>
       <button class="quiz-opt">2, 4, 6, 8</button>
       <button class="quiz-opt" data-correct="true">1, 2, 3, 4 (1씩 증가)</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">4</span>날짜의 자동 채우기 옵션에 <b>없는</b> 것은?</p>
+    <p class="q"><span class="qn">4</span><span class="qt">날짜의 자동 채우기 옵션에 <b>없는</b> 것은?</span></p>
       <button class="quiz-opt">월 단위 채우기</button>
       <button class="quiz-opt" data-correct="true">주 단위 채우기</button>
       <button class="quiz-opt">평일 단위 채우기</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">5</span>셀 항목 <b>자동 완성</b> 기능이 적용되지 <b>않는</b> 데이터는?</p>
+    <p class="q"><span class="qn">5</span><span class="qt">셀 항목 <b>자동 완성</b> 기능이 적용되지 <b>않는</b> 데이터는?</span></p>
       <button class="quiz-opt" data-correct="true">숫자나 날짜만으로 구성된 데이터</button>
       <button class="quiz-opt">한글로 구성된 데이터</button>
       <button class="quiz-opt">한글과 숫자가 섞인 데이터</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">6</span>데이터 유효성 검사를 설정하기 전에 <b>가장 먼저</b> 해야 할 일은?</p>
+    <p class="q"><span class="qn">6</span><span class="qt">데이터 유효성 검사를 설정하기 전에 <b>가장 먼저</b> 해야 할 일은?</span></p>
       <button class="quiz-opt">오류 메시지를 입력한다</button>
       <button class="quiz-opt">잘못된 데이터를 표시한다</button>
       <button class="quiz-opt" data-correct="true">적용할 범위를 먼저 선택한다</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">7</span>와일드카드 <code>?</code> 의 의미는?</p>
+    <p class="q"><span class="qn">7</span><span class="qt">와일드카드 <code>?</code> 의 의미는?</span></p>
       <button class="quiz-opt">글자 수 제한 없이 여러 글자를 대신한다</button>
       <button class="quiz-opt" data-correct="true">딱 한 글자를 대신한다</button>
       <button class="quiz-opt">숫자만 찾는다</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">8</span>셀에 <code>=100+30</code> 이 입력되어 있습니다. 찾기에서 찾는 위치를 <b>값</b>으로 하고 <b>100</b>을 찾으면?</p>
+    <p class="q"><span class="qn">8</span><span class="qt">셀에 <code>=100+30</code> 이 입력되어 있습니다. 찾기에서 찾는 위치를 <b>값</b>으로 하고 <b>100</b>을 찾으면?</span></p>
       <button class="quiz-opt" data-correct="true">찾지 못한다 (결과값이 130이므로)</button>
       <button class="quiz-opt">찾는다</button>
       <button class="quiz-opt">오류가 발생한다</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">9</span><b>연속된 데이터 범위 안의 셀</b>에서 <b>Ctrl + Shift + 방향키</b>를 누르면?</p>
+    <p class="q"><span class="qn">9</span><span class="qt"><b>연속된 데이터 범위 안의 셀</b>에서 <b>Ctrl + Shift + 방향키</b>를 누르면?</span></p>
       <button class="quiz-opt">한 칸씩 범위를 선택한다</button>
       <button class="quiz-opt">데이터 끝으로 이동만 한다</button>
       <button class="quiz-opt" data-correct="true">데이터 끝까지 한 번에 선택한다</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">10</span>리본의 그룹 <b>오른쪽 아래에 있는 작은 버튼</b>을 누르면 무엇이 열리나요?</p>
+    <p class="q"><span class="qn">10</span><span class="qt">리본의 그룹 <b>오른쪽 아래에 있는 작은 버튼</b>을 누르면 무엇이 열리나요?</span></p>
       <button class="quiz-opt">바로 가기 메뉴</button>
       <button class="quiz-opt" data-correct="true">대화 상자</button>
       <button class="quiz-opt">스크린 팁</button>
