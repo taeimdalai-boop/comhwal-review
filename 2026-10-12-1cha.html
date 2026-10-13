@@ -315,51 +315,52 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h2>행은 숫자, 열은 영어</h2>
   <figure class="fig">
     <div class="svg-wrap">
-    <svg width="660" height="260" viewBox="0 0 660 260" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="258" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="60" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="130" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="200" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="270" y="40" width="70" height="24" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="20" y="64" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="20" y="90" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="20" y="116" width="40" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
-      <rect x="60" y="64" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="60" y="90" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="60" y="116" width="280" height="26" fill="#fff" stroke="#E5E7EB"/>
+    <svg width="300" height="322" viewBox="0 0 300 322" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="320" rx="10" fill="#fff" stroke="#E5E7EB"/>
 
-      <!-- ① 행: 가로 한 줄이 깜박이며 강조된다 -->
+      <rect x="44" y="24" width="60" height="22" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="104" y="24" width="60" height="22" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="164" y="24" width="60" height="22" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="224" y="24" width="60" height="22" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="14" y="46" width="30" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="14" y="72" width="30" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="14" y="98" width="30" height="26" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <rect x="44" y="46" width="240" height="26" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="44" y="72" width="240" height="26" fill="#fff" stroke="#E5E7EB"/>
+      <rect x="44" y="98" width="240" height="26" fill="#fff" stroke="#E5E7EB"/>
+
+      <!-- ① 행을 설명할 때: 가로 한 줄이 깜박이며 강조된다 -->
       <g class="a-flash" style="--d:.3s">
-        <rect x="20" y="90" width="40" height="26" fill="#FDE68A" stroke="#B45309" stroke-width="2"/>
-        <rect x="60" y="90" width="280" height="26" fill="#FDE68A" fill-opacity=".55" stroke="#B45309" stroke-width="2"/>
+        <rect x="14" y="72" width="30" height="26" fill="#FDE68A" stroke="#B45309" stroke-width="2"/>
+        <rect x="44" y="72" width="240" height="26" fill="#FDE68A" fill-opacity=".55" stroke="#B45309" stroke-width="2"/>
       </g>
-      <!-- ② 열: 세로 한 줄이 깜박이며 강조된다 -->
+      <!-- ② 열을 설명할 때: 세로 한 줄이 깜박이며 강조된다 -->
       <g class="a-flash" style="--d:2.2s">
-        <rect x="130" y="40" width="70" height="24" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
-        <rect x="130" y="64" width="70" height="78" fill="#BFDBFE" fill-opacity=".5" stroke="#2563EB" stroke-width="2"/>
+        <rect x="104" y="24" width="60" height="22" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
+        <rect x="104" y="46" width="60" height="78" fill="#BFDBFE" fill-opacity=".5" stroke="#2563EB" stroke-width="2"/>
       </g>
-      <!-- ③ 셀: 둘이 만나는 칸이 튀어나온다 -->
-      <rect class="a-pop" style="--d:4.1s" x="130" y="90" width="70" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="3"/>
+      <!-- ③ 둘이 만나는 칸 -->
+      <rect class="a-pop" style="--d:4.1s" x="104" y="72" width="60" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="3"/>
 
-      <text x="90" y="57" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">A</text>
-      <text x="160" y="57" font-size="13" fill="#1D4ED8" font-weight="700" text-anchor="middle">B</text>
-      <text x="230" y="57" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">C</text>
-      <text x="300" y="57" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">D</text>
-      <text x="40" y="82" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">1</text>
-      <text x="40" y="108" font-size="13" fill="#B45309" font-weight="700" text-anchor="middle">2</text>
-      <text x="40" y="134" font-size="13" fill="#334155" font-weight="700" text-anchor="middle">3</text>
-      <text class="a-in" style="--d:4.1s" x="165" y="108" font-size="13" fill="#1D4ED8" font-weight="700" text-anchor="middle">B2</text>
+      <text x="74" y="39" font-size="12" fill="#334155" font-weight="700" text-anchor="middle">A</text>
+      <text x="134" y="39" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">B</text>
+      <text x="194" y="39" font-size="12" fill="#334155" font-weight="700" text-anchor="middle">C</text>
+      <text x="254" y="39" font-size="12" fill="#334155" font-weight="700" text-anchor="middle">D</text>
+      <text x="29" y="63" font-size="12" fill="#334155" font-weight="700" text-anchor="middle">1</text>
+      <text x="29" y="89" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">2</text>
+      <text x="29" y="115" font-size="12" fill="#334155" font-weight="700" text-anchor="middle">3</text>
+      <text class="a-in" style="--d:4.1s" x="134" y="89" font-size="13" fill="#1D4ED8" font-weight="700" text-anchor="middle">B2</text>
 
-      <text class="a-in" style="--d:.3s" x="360" y="82" font-size="13" fill="#B45309" font-weight="700">가로 한 줄 = 행 (숫자)</text>
-      <text class="a-in" style="--d:2.2s" x="360" y="108" font-size="13" fill="#1D4ED8" font-weight="700">세로 한 줄 = 열 (영어)</text>
-      <text class="a-in" style="--d:4.1s" x="360" y="134" font-size="13" fill="#047857" font-weight="700">둘이 만나는 칸 = 셀</text>
+      <text class="a-in" style="--d:.3s" x="14" y="152" font-size="13" fill="#B45309" font-weight="700">가로 한 줄 = 행 (숫자)</text>
+      <text class="a-in" style="--d:2.2s" x="14" y="178" font-size="13" fill="#1D4ED8" font-weight="700">세로 한 줄 = 열 (영어)</text>
+      <text class="a-in" style="--d:4.1s" x="14" y="204" font-size="13" fill="#047857" font-weight="700">둘이 만나는 칸 = 셀</text>
 
-      <rect x="20" y="170" width="620" height="70" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
-      <text x="36" y="196" font-size="14" fill="#111827" font-weight="700">셀 이름은 열을 먼저 씁니다</text>
-      <text class="a-in" style="--d:4.8s" x="36" y="222" font-size="14" fill="#047857" font-weight="700">B2 ○</text>
-      <text class="a-in" style="--d:4.8s" x="100" y="222" font-size="13" fill="#6B7280">B열 2행</text>
-      <text class="a-in" style="--d:5.1s" x="220" y="222" font-size="14" fill="#DC2626" font-weight="700">2B ✗</text>
-      <text class="a-in" style="--d:5.1s" x="290" y="222" font-size="13" fill="#6B7280">행을 먼저 쓰지 않습니다</text>
+      <rect x="14" y="220" width="272" height="88" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="28" y="244" font-size="13" fill="#111827" font-weight="700">셀 이름은 열을 먼저 씁니다</text>
+      <text class="a-in" style="--d:4.8s" x="28" y="270" font-size="14" fill="#047857" font-weight="700">B2 ○</text>
+      <text class="a-in" style="--d:4.8s" x="90" y="270" font-size="12" fill="#6B7280">B열 2행</text>
+      <text class="a-in" style="--d:5.1s" x="28" y="294" font-size="14" fill="#DC2626" font-weight="700">2B ✗</text>
+      <text class="a-in" style="--d:5.1s" x="90" y="294" font-size="12" fill="#6B7280">행을 먼저 쓰지 않습니다</text>
     </svg>
     </div>
     <figcaption>행·열·셀, 그리고 셀 주소를 읽는 순서</figcaption>
@@ -377,27 +378,30 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h2>정렬만 봐도<br>문자인지 숫자인지 압니다</h2>
   <figure class="fig">
     <div class="svg-wrap">
-    <svg width="660" height="230" viewBox="0 0 660 230" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="228" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <text x="24" y="30" font-size="14" fill="#1D4ED8" font-weight="700">문자 데이터 → 왼쪽</text>
-      <rect x="24" y="42" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="24" y="72" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="24" y="102" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text class="a-fromr" style="--d:.4s" x="34" y="62" font-size="14" fill="#111827">우리컴퓨터</text>
-      <text class="a-fromr" style="--d:.7s" x="34" y="92" font-size="14" fill="#111827">컴활2급</text>
-      <text class="a-fromr" style="--d:1s" x="34" y="122" font-size="14" fill="#111827">604호</text>
-      <text class="a-in" style="--d:1.6s" x="24" y="156" font-size="13" fill="#6B7280">글자만 있어도, 글자+숫자가 섞여 있어도</text>
-      <text class="a-in" style="--d:1.6s" x="24" y="176" font-size="13" fill="#6B7280">모두 <tspan font-weight="700" fill="#1D4ED8">문자</tspan>로 봅니다.</text>
-      <line x1="330" y1="20" x2="330" y2="210" stroke="#E5E7EB" stroke-dasharray="4 4"/>
-      <text x="362" y="30" font-size="14" fill="#B45309" font-weight="700">숫자 데이터 → 오른쪽</text>
-      <rect x="362" y="42" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="362" y="72" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <rect x="362" y="102" width="270" height="30" fill="#fff" stroke="#CBD5E1"/>
-      <text class="a-froml" style="--d:.4s" x="622" y="62" font-size="14" fill="#111827" text-anchor="end">604</text>
-      <text class="a-froml" style="--d:.7s" x="622" y="92" font-size="14" fill="#111827" text-anchor="end">2026-10-12</text>
-      <text class="a-froml" style="--d:1s" x="622" y="122" font-size="14" fill="#111827" text-anchor="end">10:30</text>
-      <text class="a-in" style="--d:1.6s" x="362" y="156" font-size="13" fill="#6B7280">날짜와 시간은 기호가 들어 있어도</text>
-      <text class="a-in" style="--d:1.6s" x="362" y="176" font-size="13" fill="#6B7280"><tspan font-weight="700" fill="#B45309">숫자</tspan>로 처리합니다.</text>
+    <svg width="300" height="340" viewBox="0 0 300 340" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="338" rx="10" fill="#fff" stroke="#E5E7EB"/>
+
+      <text x="14" y="22" font-size="13" fill="#1D4ED8" font-weight="700">문자 데이터 → 왼쪽</text>
+      <rect x="14" y="32" width="272" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <rect x="14" y="60" width="272" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <rect x="14" y="88" width="272" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text class="a-fromr" style="--d:.4s" x="24" y="51" font-size="13" fill="#111827">우리컴퓨터</text>
+      <text class="a-fromr" style="--d:.7s" x="24" y="79" font-size="13" fill="#111827">컴활2급</text>
+      <text class="a-fromr" style="--d:1s" x="24" y="107" font-size="13" fill="#111827">604호</text>
+      <text class="a-in" style="--d:1.6s" x="14" y="138" font-size="12" fill="#374151">글자만 있어도, 글자+숫자가 섞여 있어도</text>
+      <text class="a-in" style="--d:1.6s" x="14" y="156" font-size="12" fill="#374151">모두 <tspan font-weight="700" fill="#1D4ED8">문자</tspan>로 봅니다.</text>
+
+      <line x1="14" y1="172" x2="286" y2="172" stroke="#F1F3F7"/>
+
+      <text x="14" y="194" font-size="13" fill="#B45309" font-weight="700">숫자 데이터 → 오른쪽</text>
+      <rect x="14" y="204" width="272" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <rect x="14" y="232" width="272" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <rect x="14" y="260" width="272" height="28" fill="#fff" stroke="#CBD5E1"/>
+      <text class="a-froml" style="--d:.4s" x="276" y="223" font-size="13" fill="#111827" text-anchor="end">604</text>
+      <text class="a-froml" style="--d:.7s" x="276" y="251" font-size="13" fill="#111827" text-anchor="end">2026-10-12</text>
+      <text class="a-froml" style="--d:1s" x="276" y="279" font-size="13" fill="#111827" text-anchor="end">10:30</text>
+      <text class="a-in" style="--d:1.6s" x="14" y="310" font-size="12" fill="#374151">날짜와 시간은 기호가 들어 있어도</text>
+      <text class="a-in" style="--d:1.6s" x="14" y="328" font-size="12" fill="#374151"><tspan font-weight="700" fill="#B45309">숫자</tspan>로 처리합니다.</text>
     </svg>
     </div>
     <figcaption>기본 정렬로 구분하는 문자 데이터와 숫자 데이터</figcaption>
@@ -475,30 +479,32 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h2>날짜는 숫자 1번부터<br>세어 나갑니다</h2>
   <figure class="fig">
     <div class="svg-wrap">
-    <svg width="660" height="220" viewBox="0 0 660 220" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="218" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <line x1="40" y1="70" x2="620" y2="70" stroke="#E5E7EB" stroke-width="3"/>
-      <line class="draw" style="--len:580;--d:.4s" x1="40" y1="70" x2="620" y2="70" stroke="#2563EB" stroke-width="3"/>
-      <circle class="a-pop" style="--d:.4s" cx="60" cy="70" r="6" fill="#2563EB"/>
-      <text class="a-in" style="--d:.4s" x="60" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">1</text>
-      <text class="a-in" style="--d:.4s" x="60" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-01</text>
-      <circle class="a-pop" style="--d:.7s" cx="200" cy="70" r="6" fill="#2563EB"/>
-      <text class="a-in" style="--d:.7s" x="200" y="54" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">2</text>
-      <text class="a-in" style="--d:.7s" x="200" y="94" font-size="12" fill="#6B7280" text-anchor="middle">1900-01-02</text>
-      <text class="a-in" style="--d:1s" x="340" y="76" font-size="14" fill="#6B7280" text-anchor="middle">· · · 하루에 1씩 · · ·</text>
-      <circle class="a-pop" style="--d:1.25s" cx="500" cy="70" r="6" fill="#B45309"/>
-      <text class="a-in" style="--d:1.25s" x="500" y="54" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">46,322</text>
-      <text class="a-in" style="--d:1.25s" x="500" y="94" font-size="12" fill="#6B7280" text-anchor="middle">2026-10-12</text>
-      <rect x="40" y="120" width="580" height="78" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
-      <text x="56" y="144" font-size="13" fill="#111827" font-weight="700">시간은 하루를 1로 보고 소수로 셉니다</text>
-      <rect x="56" y="156" width="300" height="18" rx="9" fill="#fff" stroke="#CBD5E1"/>
-      <rect class="a-growx" style="--d:2s" x="56" y="156" width="150" height="18" rx="9" fill="#2563EB" fill-opacity=".3"/>
-      <g class="a-in" style="--d:2.6s"><line x1="206" y1="150" x2="206" y2="180" stroke="#2563EB" stroke-width="2"/></g>
-      <text x="56" y="190" font-size="11" fill="#6B7280">0시 = 0</text>
-      <text class="a-in" style="--d:2.6s" x="206" y="190" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">정오 = 0.5</text>
-      <text x="356" y="190" font-size="11" fill="#6B7280" text-anchor="end">24시 = 1</text>
-      <text class="a-in" style="--d:3s" x="390" y="168" font-size="12" fill="#047857" font-weight="700">표시 형식을 「일반」으로 바꾸면</text>
-      <text class="a-in" style="--d:3s" x="390" y="188" font-size="12" fill="#047857" font-weight="700">이 숫자가 그대로 보입니다</text>
+    <svg width="300" height="250" viewBox="0 0 300 250" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="248" rx="10" fill="#fff" stroke="#E5E7EB"/>
+
+      <line x1="20" y1="56" x2="280" y2="56" stroke="#E5E7EB" stroke-width="3"/>
+      <line class="draw" style="--len:260;--d:.4s" x1="20" y1="56" x2="280" y2="56" stroke="#2563EB" stroke-width="3"/>
+      <circle class="a-pop" style="--d:.45s" cx="40" cy="56" r="6" fill="#2563EB"/>
+      <text class="a-in" style="--d:.45s" x="40" y="38" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">1</text>
+      <text class="a-in" style="--d:.45s" x="40" y="78" font-size="10" fill="#6B7280" text-anchor="middle">1900-01-01</text>
+      <circle class="a-pop" style="--d:.7s" cx="110" cy="56" r="6" fill="#2563EB"/>
+      <text class="a-in" style="--d:.7s" x="110" y="38" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">2</text>
+      <text class="a-in" style="--d:.7s" x="110" y="78" font-size="10" fill="#6B7280" text-anchor="middle">1900-01-02</text>
+      <text class="a-in" style="--d:.95s" x="178" y="47" font-size="11" fill="#6B7280" text-anchor="middle">하루에 1씩</text>
+      <circle class="a-pop" style="--d:1.2s" cx="250" cy="56" r="6" fill="#B45309"/>
+      <text class="a-in" style="--d:1.2s" x="250" y="38" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">46,322</text>
+      <text class="a-in" style="--d:1.2s" x="250" y="78" font-size="10" fill="#6B7280" text-anchor="middle">2026-10-12</text>
+
+      <rect x="14" y="100" width="272" height="136" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="26" y="124" font-size="12" fill="#111827" font-weight="700">시간은 하루를 1로 보고 소수로 셉니다</text>
+      <rect x="26" y="136" width="248" height="18" rx="9" fill="#fff" stroke="#CBD5E1"/>
+      <rect class="a-growx" style="--d:2s" x="26" y="136" width="124" height="18" rx="9" fill="#2563EB" fill-opacity=".3"/>
+      <g class="a-in" style="--d:2.6s"><line x1="150" y1="130" x2="150" y2="160" stroke="#2563EB" stroke-width="2"/></g>
+      <text x="26" y="176" font-size="11" fill="#6B7280">0시 = 0</text>
+      <text class="a-in" style="--d:2.6s" x="150" y="176" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">정오 = 0.5</text>
+      <text x="274" y="176" font-size="11" fill="#6B7280" text-anchor="end">24시 = 1</text>
+      <text class="a-in" style="--d:3s" x="26" y="204" font-size="12" fill="#047857" font-weight="700">표시 형식을 「일반」으로 바꾸면</text>
+      <text class="a-in" style="--d:3s" x="26" y="222" font-size="12" fill="#047857" font-weight="700">이 숫자가 그대로 보입니다</text>
     </svg>
     </div>
     <figcaption>엑셀이 날짜와 시간을 숫자로 세는 방법</figcaption>
@@ -513,16 +519,17 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <div class="callout warn"><b>두 자리 연도 — 교재를 고쳐 적으세요</b>연도를 두 자리로 입력하면 <b>00~49는 2000년대</b>, <b>50~99는 1900년대</b>로 들어갑니다.<br><span class="mute">교재에 <code>00~29</code> · <code>30~99</code>로 되어 있으면 <b>29를 49로</b>, <b>30을 50으로</b> 고쳐 두세요. 예전 기준이고, 업데이트되면서 바뀐 부분입니다.</span></div>
   <figure class="fig">
     <div class="svg-wrap">
-    <svg width="660" height="130" viewBox="0 0 660 130" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="128" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="24" y="22" width="300" height="86" rx="8" fill="#EFF4FF" stroke="#2563EB"/>
-      <text x="40" y="46" font-size="13" fill="#1D4ED8" font-weight="700">00 ~ 49 입력 → 2000년대</text>
-      <text x="40" y="74" font-size="14" fill="#111827">39-10-12 입력</text>
-      <text x="40" y="96" font-size="14" fill="#1D4ED8" font-weight="700">→ 2039-10-12</text>
-      <rect x="336" y="22" width="300" height="86" rx="8" fill="#FFFBEB" stroke="#B45309"/>
-      <text x="352" y="46" font-size="13" fill="#B45309" font-weight="700">50 ~ 99 입력 → 1900년대</text>
-      <text x="352" y="74" font-size="14" fill="#111827">50-10-12 입력</text>
-      <text x="352" y="96" font-size="14" fill="#B45309" font-weight="700">→ 1950-10-12</text>
+    <svg width="300" height="200" viewBox="0 0 300 200" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="198" rx="10" fill="#fff" stroke="#E5E7EB"/>
+
+      <rect x="14" y="14" width="272" height="78" rx="8" fill="#EFF4FF" stroke="#2563EB"/>
+      <text x="28" y="38" font-size="13" fill="#1D4ED8" font-weight="700">00 ~ 49 입력 → 2000년대</text>
+      <text x="28" y="62" font-size="13" fill="#111827">39-10-12 입력</text>
+      <text x="28" y="82" font-size="13" fill="#1D4ED8" font-weight="700">→ 2039-10-12</text>
+      <rect x="14" y="106" width="272" height="78" rx="8" fill="#FFFBEB" stroke="#B45309"/>
+      <text x="28" y="130" font-size="13" fill="#B45309" font-weight="700">50 ~ 99 입력 → 1900년대</text>
+      <text x="28" y="154" font-size="13" fill="#111827">50-10-12 입력</text>
+      <text x="28" y="174" font-size="13" fill="#B45309" font-weight="700">→ 1950-10-12</text>
     </svg>
     </div>
     <figcaption>두 자리 연도가 갈리는 지점은 49와 50 사이입니다</figcaption>
@@ -535,32 +542,38 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h2>Alt+Enter와 Ctrl+Enter는<br>전혀 다릅니다</h2>
   <figure class="fig">
     <div class="svg-wrap">
-    <svg width="660" height="240" viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="238" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <text x="24" y="30" font-size="14" fill="#1D4ED8" font-weight="700">Alt + Enter — 한 셀 안에서 줄바꿈</text>
-      <rect x="24" y="44" width="180" height="56" fill="#fff" stroke="#2563EB" stroke-width="2"/>
-      <text class="a-in" style="--d:.4s" x="36" y="66" font-size="13" fill="#111827">우리컴퓨터학원</text>
-      <text class="a-in" style="--d:1.4s" x="36" y="88" font-size="13" fill="#111827">엑셀 1차시</text>
-      <text class="a-in" style="--d:1.8s" x="220" y="64" font-size="12" fill="#6B7280">셀은 그대로 하나입니다.</text>
-      <text class="a-in" style="--d:1.8s" x="220" y="86" font-size="12" fill="#6B7280">줄만 아래로 내려갑니다.</text>
-      <text x="24" y="140" font-size="14" fill="#B45309" font-weight="700">Ctrl + Enter — 선택한 셀 전부에 같은 값</text>
-      <rect x="24" y="154" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
-      <rect x="114" y="154" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
-      <rect x="24" y="180" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
-      <rect x="114" y="180" width="90" height="26" fill="#FFFBEB" stroke="#B45309"/>
-      <text class="a-in" style="--d:1.4s" x="36" y="172" font-size="12" fill="#111827">미정</text>
-      <text class="a-in" style="--d:1.4s" x="126" y="172" font-size="12" fill="#111827">미정</text>
-      <text class="a-in" style="--d:1.4s" x="36" y="198" font-size="12" fill="#111827">미정</text>
-      <text class="a-in" style="--d:1.4s" x="126" y="198" font-size="12" fill="#111827">미정</text>
-      <text class="a-in" style="--d:1.8s" x="220" y="178" font-size="12" fill="#6B7280">네 칸을 먼저 선택해 두고</text>
-      <text class="a-in" style="--d:1.8s" x="220" y="198" font-size="12" fill="#6B7280">한 번만 입력하면 전부 채워집니다.</text>
-      <rect x="420" y="40" width="210" height="166" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
-      <text x="436" y="66" font-size="13" fill="#111827" font-weight="700">입력을 마친 뒤 이동</text>
-      <text x="436" y="94" font-size="12" fill="#334155">Enter ↓ 아래</text>
-      <text x="436" y="118" font-size="12" fill="#334155">Shift+Enter ↑ 위</text>
-      <text x="436" y="142" font-size="12" fill="#334155">Tab → 오른쪽</text>
-      <text x="436" y="166" font-size="12" fill="#334155">Shift+Tab ← 왼쪽</text>
-      <text x="436" y="192" font-size="12" fill="#DC2626" font-weight="700">Esc — 입력을 취소</text>
+    <svg width="300" height="384" viewBox="0 0 300 384" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="382" rx="10" fill="#fff" stroke="#E5E7EB"/>
+
+      <text x="14" y="22" font-size="13" fill="#1D4ED8" font-weight="700">Alt + Enter — 한 셀 안에서 줄바꿈</text>
+      <rect x="14" y="32" width="160" height="56" fill="#fff" stroke="#2563EB" stroke-width="2"/>
+      <text class="a-in" style="--d:.4s" x="24" y="54" font-size="13" fill="#111827">우리컴퓨터학원</text>
+      <text class="a-in" style="--d:1.4s" x="24" y="76" font-size="13" fill="#111827">엑셀 1차시</text>
+      <text class="a-in" style="--d:1.8s" x="14" y="108" font-size="12" fill="#374151">셀은 그대로 하나이고 줄만 아래로 내려갑니다</text>
+
+      <line x1="14" y1="122" x2="286" y2="122" stroke="#F1F3F7"/>
+
+      <text x="14" y="144" font-size="13" fill="#B45309" font-weight="700">Ctrl + Enter — 선택한 셀에 같은 값</text>
+      <rect x="14" y="154" width="80" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="94" y="154" width="80" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="14" y="180" width="80" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <rect x="94" y="180" width="80" height="26" fill="#FFFBEB" stroke="#B45309"/>
+      <text class="a-in" style="--d:1.4s" x="24" y="172" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.4s" x="104" y="172" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.4s" x="24" y="198" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.4s" x="104" y="198" font-size="12" fill="#111827">미정</text>
+      <text class="a-in" style="--d:1.8s" x="14" y="228" font-size="12" fill="#374151">네 칸을 먼저 선택해 두고 한 번만 입력하면</text>
+      <text class="a-in" style="--d:1.8s" x="14" y="246" font-size="12" fill="#374151">전부 한꺼번에 채워집니다</text>
+
+      <line x1="14" y1="260" x2="286" y2="260" stroke="#F1F3F7"/>
+
+      <rect x="14" y="272" width="272" height="100" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
+      <text x="28" y="294" font-size="13" fill="#111827" font-weight="700">입력을 마친 뒤 이동</text>
+      <text x="28" y="318" font-size="12" fill="#334155">Enter ↓ 아래</text>
+      <text x="150" y="318" font-size="12" fill="#334155">Tab → 오른쪽</text>
+      <text x="28" y="340" font-size="12" fill="#334155">Shift+Enter ↑ 위</text>
+      <text x="150" y="340" font-size="12" fill="#334155">Shift+Tab ← 왼쪽</text>
+      <text x="28" y="362" font-size="12" fill="#DC2626" font-weight="700">Esc — 입력을 취소</text>
     </svg>
     </div>
     <figcaption>이름이 비슷하지만 하는 일이 다른 두 단축키</figcaption>
@@ -577,26 +590,28 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h2>셀 내용이 지워져도<br>메모는 지워지지 않습니다</h2>
   <figure class="fig">
     <div class="svg-wrap">
-    <svg width="660" height="156" viewBox="0 0 660 156" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="154" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <text x="30" y="32" font-size="13" fill="#111827" font-weight="700">메모가 있는 셀</text>
-      <rect x="30" y="44" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
-      <text x="42" y="66" font-size="14" fill="#111827">1,250,000</text>
-      <path d="M170 44 L160 44 L170 54 Z" fill="#DC2626"/>
-      <rect x="30" y="86" width="160" height="50" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
-      <text x="40" y="106" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
-      <text x="40" y="124" font-size="11" fill="#92400E">작성자: 김태희</text>
-      <text class="a-pop" style="--d:.8s" x="220" y="70" font-size="16" fill="#DC2626" font-weight="700">Delete</text>
-      <path class="a-growx" style="--d:1.3s" d="M212 80 L300 80" stroke="#DC2626" stroke-width="2" fill="none" marker-end="url(#ar3)"/>
+    <svg width="300" height="340" viewBox="0 0 300 340" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="338" rx="10" fill="#fff" stroke="#E5E7EB"/>
+
+      <text x="14" y="22" font-size="13" fill="#111827" font-weight="700">메모가 있는 셀</text>
+      <rect x="14" y="32" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
+      <text x="26" y="54" font-size="14" fill="#111827">1,250,000</text>
+      <path d="M154 32 L144 32 L154 42 Z" fill="#DC2626"/>
+      <rect x="14" y="72" width="156" height="46" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
+      <text x="24" y="92" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
+      <text x="24" y="109" font-size="11" fill="#92400E">작성자: 김태희</text>
+
+      <text class="a-pop" style="--d:.8s" x="150" y="146" font-size="16" fill="#DC2626" font-weight="700" text-anchor="middle">Delete</text>
+      <path class="a-growy" style="--d:1.3s" d="M150 154 L150 178" stroke="#DC2626" stroke-width="2" fill="none" marker-end="url(#ar3)"/>
+
       <g class="a-in" style="--d:2s">
-        <text x="340" y="32" font-size="13" fill="#111827" font-weight="700">값만 지워집니다</text>
-        <rect x="340" y="44" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
-        <path d="M480 44 L470 44 L480 54 Z" fill="#DC2626"/>
-        <rect x="340" y="86" width="160" height="50" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
-        <text x="350" y="106" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
-        <text x="350" y="124" font-size="11" fill="#92400E">작성자: 김태희</text>
-        <text x="516" y="106" font-size="13" fill="#047857" font-weight="700">메모는</text>
-        <text x="516" y="126" font-size="13" fill="#047857" font-weight="700">그대로 남습니다</text>
+        <text x="14" y="204" font-size="13" fill="#111827" font-weight="700">값만 지워집니다</text>
+        <rect x="14" y="214" width="140" height="34" fill="#fff" stroke="#CBD5E1"/>
+        <path d="M154 214 L144 214 L154 224 Z" fill="#DC2626"/>
+        <rect x="14" y="254" width="156" height="46" rx="4" fill="#FFFBEB" stroke="#FDE68A"/>
+        <text x="24" y="274" font-size="11" fill="#92400E">10월 매출 — 확인 필요</text>
+        <text x="24" y="291" font-size="11" fill="#92400E">작성자: 김태희</text>
+        <text x="14" y="324" font-size="13" fill="#047857" font-weight="700">메모는 그대로 남습니다</text>
       </g>
       <defs><marker id="ar3" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#DC2626"/></marker></defs>
     </svg>
@@ -618,22 +633,22 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h2>여기서 많이 틀립니다</h2>
   <figure class="fig">
     <div class="svg-wrap">
-    <svg width="660" height="170" viewBox="0 0 660 170" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
-      <rect x="1" y="1" width="658" height="168" rx="10" fill="#fff" stroke="#E5E7EB"/>
-      <rect x="20" y="20" width="300" height="130" rx="8" fill="#FEF2F2" stroke="#FCA5A5"/>
-      <text x="36" y="44" font-size="14" fill="#DC2626" font-weight="700">이렇게 알고 있으면 틀립니다</text>
-      <text x="36" y="72" font-size="13" fill="#991B1B">· 날짜는 기호가 있으니 문자다</text>
-      <text x="36" y="96" font-size="13" fill="#991B1B">· 셀 주소는 행을 먼저 쓴다</text>
-      <text x="36" y="120" font-size="13" fill="#991B1B">· Delete 하면 메모도 사라진다</text>
-      <text x="36" y="144" font-size="13" fill="#991B1B">· 줄바꿈은 Ctrl+Enter</text>
-      <path d="M330 85 L356 85" stroke="#6B7280" stroke-width="2" marker-end="url(#ar4)"/>
-      <rect x="366" y="20" width="274" height="130" rx="8" fill="#ECFDF5" stroke="#A7F3D0"/>
-      <text x="382" y="44" font-size="14" fill="#047857" font-weight="700">이게 맞습니다</text>
-      <text x="382" y="72" font-size="13" fill="#065F46">· 날짜·시간은 숫자다</text>
-      <text x="382" y="96" font-size="13" fill="#065F46">· 열을 먼저 — B2</text>
-      <text x="382" y="120" font-size="13" fill="#065F46">· 값만 지워지고 메모는 남는다</text>
-      <text x="382" y="144" font-size="13" fill="#065F46">· 줄바꿈은 Alt+Enter</text>
-      <defs><marker id="ar4" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#6B7280"/></marker></defs>
+    <svg width="300" height="332" viewBox="0 0 300 332" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="330" rx="10" fill="#fff" stroke="#E5E7EB"/>
+
+      <rect x="14" y="14" width="272" height="132" rx="8" fill="#FEF2F2" stroke="#FCA5A5"/>
+      <text x="28" y="38" font-size="13" fill="#DC2626" font-weight="700">이렇게 알고 있으면 틀립니다</text>
+      <text x="28" y="64" font-size="12" fill="#991B1B">· 날짜는 기호가 있으니 문자다</text>
+      <text x="28" y="86" font-size="12" fill="#991B1B">· 셀 주소는 행을 먼저 쓴다</text>
+      <text x="28" y="108" font-size="12" fill="#991B1B">· Delete 하면 메모도 사라진다</text>
+      <text x="28" y="130" font-size="12" fill="#991B1B">· 줄바꿈은 Ctrl+Enter</text>
+      <text x="150" y="168" font-size="18" fill="#6B7280" text-anchor="middle">↓</text>
+      <rect x="14" y="180" width="272" height="132" rx="8" fill="#ECFDF5" stroke="#A7F3D0"/>
+      <text x="28" y="204" font-size="13" fill="#047857" font-weight="700">이게 맞습니다</text>
+      <text x="28" y="230" font-size="12" fill="#065F46">· 날짜·시간은 숫자다</text>
+      <text x="28" y="252" font-size="12" fill="#065F46">· 열을 먼저 — B2</text>
+      <text x="28" y="274" font-size="12" fill="#065F46">· 값만 지워지고 메모는 남는다</text>
+      <text x="28" y="296" font-size="12" fill="#065F46">· 줄바꿈은 Alt+Enter</text>
     </svg>
     </div>
     <figcaption>틀린 기억과 맞는 내용을 나란히 보기</figcaption>
