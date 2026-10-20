@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 7차시 복습카드</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.6;
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 7차시</span>
+  <span class="d">2026.10.20 (화)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="deck" id="deck">
+<section class="card"><div class="card-inner">
+  <span class="kicker">7차시 복습카드</span>
+  <h1>자릿수, 나머지,<br>찾아오기의 날</h1>
+  <p class="lead">오늘은 조건 함수를 복습한 뒤, ROUND 계열과 MOD, 찾기·참조 함수(VLOOKUP·HLOOKUP), 텍스트 함수, CHOOSE·SWITCH를 배웠습니다.</p>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>복습</b> — SUMIF · SUMIFS · 인수 생략 · 기간 조건</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>ROUND · ROUNDUP · ROUNDDOWN</b> · MOD</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>VLOOKUP · HLOOKUP</b> 네 개의 인수</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>텍스트 함수</b> LEFT · MID · RIGHT · LEN · TRIM과 연결 연산자 <b>&amp;</b></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>CHOOSE · SWITCH</b></span></div>
+  </div>
+  <p class="mute">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">복습 · SUMIF와 SUMIFS</span>
+  <h2>합계 범위가 앞에 오는 건<br>SUMIFS입니다</h2>
+  <table class="wrapfirst">
+    <tr><th>함수</th><th>인수 순서</th></tr>
+    <tr><td><code>SUMIF</code></td><td>조건 범위, 조건, <b>[합계 범위]</b></td></tr>
+    <tr><td><code>SUMIFS</code></td><td><b>합계 범위</b>, 조건 범위1, 조건1, 조건 범위2, 조건2 …</td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>SUMIFS는 합계 범위가 맨 앞</b>입니다. SUMIF와 순서가 다르니 헷갈리지 마세요</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>SUMIF의 세 번째 인수(합계 범위)는 생략할 수 있습니다.</b> 조건을 찾는 범위와 더할 범위가 <b>같을 때</b> 두 인수만 써도 됩니다. 예) <code>SUMIF(입금액,"&gt;=500000")</code></span></div>
+    <div class="row"><span class="n">3</span><span class="b">양방향으로 끌어 채울 때는 <code>SUMIFS($E$4:$E$83,$C$4:$C$83,$I39,$F$4:$F$83,J$38)</code> 처럼 범위는 <b>절대 참조</b>, 왼쪽 조건은 <b>열 고정</b>(<code>$I39</code>), 위쪽 조건은 <b>행 고정</b>(<code>J$38</code>)입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">복습 · 새 유형</span>
+  <h2>날짜 조건, 또는 합계,<br>조건 목록의 OR</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>기간 조건:</b> 날짜는 숫자입니다. 부등호는 따옴표 안에, 날짜가 든 셀은 <code>&amp;</code> 로 이어 붙입니다. 예) <code>"&gt;="&amp;$J$25</code></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>OR 합계:</b> 결제 방법이 «현금» 또는 «계좌이체»처럼 한 건이 둘 다일 수 없으면(겹치지 않으면) <b>SUMIF 두 개를 더하면</b> 됩니다. 조건이 겹치는 경우(서울 또는 50만 원 이상)에는 겹치는 건이 <b>두 번 더해지므로</b> 이 방법을 쓸 수 없습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>데이터베이스 함수의 OR:</b> 조건 목록에서 조건을 <b>서로 다른 행</b>에 세로로 씁니다. 머리글은 원본 표와 글자가 같아야 합니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">날짜가 있는 조건 문제는 부등호와 셀을 <code>&amp;</code> 로 연결하는 규칙(따옴표는 부등호만)을 그대로 씁니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">ROUND 계열</span>
+  <h2>자릿수는 «남길 자리»를<br>기준으로 씁니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="172" viewBox="0 0 300 172" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="170" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" font-weight="700" fill="#1D4ED8">1234567.891 에 자릿수만 바꿔 보면</text>
+      <g font-size="11" text-anchor="middle">
+        <rect x="10" y="30" width="46" height="20" fill="#2F5597"/><text x="33" y="44" fill="#fff" font-weight="700">자릿수</text>
+        <rect x="56" y="30" width="78" height="20" fill="#2F5597"/><text x="95" y="44" fill="#fff" font-weight="700">ROUND</text>
+        <rect x="134" y="30" width="78" height="20" fill="#2F5597"/><text x="173" y="44" fill="#fff" font-weight="700">ROUNDUP</text>
+        <rect x="212" y="30" width="78" height="20" fill="#2F5597"/><text x="251" y="44" fill="#fff" font-weight="700">ROUNDDOWN</text>
+      </g>
+      <g font-size="11" text-anchor="middle" fill="#111827">
+        <g class="a-in" style="--d:.2s"><text x="33" y="66" font-weight="700">2</text><text x="95" y="66">1234567.89</text><text x="173" y="66">1234567.9</text><text x="251" y="66">1234567.89</text></g>
+        <g class="a-in" style="--d:.5s"><text x="33" y="84" font-weight="700">0</text><text x="95" y="84">1234568</text><text x="173" y="84">1234568</text><text x="251" y="84">1234567</text></g>
+        <g class="a-in" style="--d:.8s"><text x="33" y="102" font-weight="700">-1</text><text x="95" y="102">1234570</text><text x="173" y="102">1234570</text><text x="251" y="102">1234560</text></g>
+        <g class="a-in" style="--d:1.1s"><text x="33" y="120" font-weight="700">-2</text><text x="95" y="120">1234600</text><text x="173" y="120">1234600</text><text x="251" y="120">1234500</text></g>
+        <g class="a-in" style="--d:1.4s"><text x="33" y="138" font-weight="700">-3</text><text x="95" y="138">1235000</text><text x="173" y="138">1235000</text><text x="251" y="138">1234000</text></g>
+      </g>
+      <text class="a-in" style="--d:1.8s" x="10" y="160" font-size="12" fill="#374151">양수는 <tspan font-weight="700" fill="#1D4ED8">소수점 아래</tspan>, 0은 <tspan font-weight="700" fill="#1D4ED8">정수</tspan>, 음수는 <tspan font-weight="700" fill="#1D4ED8">십·백·천 자리</tspan></text>
+    </svg>
+    </div>
+    <figcaption>자릿수에 따른 ROUND · ROUNDUP · ROUNDDOWN 결과</figcaption>
+  </figure>
+  <table class="wrapfirst">
+    <tr><th>지시문</th><th>함수</th><th>자릿수</th></tr>
+    <tr><td>십의 자리에서 <b>반올림</b>하여 백의 자리까지</td><td><code>ROUND</code></td><td><b>-2</b></td></tr>
+    <tr><td>백의 자리에서 <b>올림</b>하여 천의 자리까지</td><td><code>ROUNDUP</code></td><td><b>-3</b></td></tr>
+    <tr><td>소수점 이하 둘째 자리에서 <b>내림</b>하여 첫째 자리까지</td><td><code>ROUNDDOWN</code></td><td><b>1</b></td></tr>
+    <tr><td>소수점 이하 첫째 자리에서 <b>반올림</b>하여 정수로</td><td><code>ROUND</code></td><td><b>0</b></td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">«○○ 자리에서 처리하여 △△ 자리까지»에서 자릿수는 <b>△△(남길 자리)</b>를 기준으로 씁니다. 백의 자리까지 남기면 -2, 천의 자리까지는 -3입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>ROUND</b>는 반올림, <b>ROUNDUP</b>은 0에서 멀어지는 방향으로 올림, <b>ROUNDDOWN</b>은 0에 가까워지는 방향으로 내림(버림)입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">견적서 예: 부가세는 <code>=ROUND(공급가액*10%,0)</code>, 할인액은 <code>=ROUNDDOWN(공급가액*3%,-2)</code> (37,419 → 37,400). 공급가액이 1,247,304이면 ×10%는 124,730.4라서 ROUND를 빼면 소수부가 남습니다(화면에 보이는지는 셀 서식에 따라 다릅니다)</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">MOD</span>
+  <h2>나누고 남은 것이<br>MOD입니다</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>=MOD(나누어지는 수, 나누는 수)</code> 는 나눗셈의 <b>나머지</b>를 돌려줍니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><code>=MOD(17,5)</code> → <b>2</b> · <code>=MOD(20,4)</code> → <b>0</b>(나누어떨어짐) · <code>=MOD(9,2)</code> → <b>1</b>(홀수)</span></div>
+    <div class="row"><span class="n">3</span><span class="b">정수를 양의 정수 N으로 나눈 나머지는 <b>0 ~ (N-1)</b> 안에서만 나옵니다. 4로 나누면 0 · 1 · 2 · 3 네 가지뿐입니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">2로 나눈 나머지로 <b>짝수·홀수</b>를 가르고, 순번을 조 수로 나눈 나머지로 <b>조를 나눕니다</b></span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">VLOOKUP · HLOOKUP</span>
+  <h2>세로표는 V,<br>가로표는 H</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="164" viewBox="0 0 300 164" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="162" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" font-weight="700" fill="#1D4ED8">VLOOKUP — 기준표의 첫 열에서 찾아 옆 칸을 가져옵니다</text>
+      <g font-size="11" text-anchor="middle">
+        <rect x="10" y="32" width="80" height="22" fill="#FFF2CC" stroke="#CBD5E1"/><text x="50" y="47" font-weight="700">상품코드</text>
+        <rect x="90" y="32" width="100" height="22" fill="#EFF4FF" stroke="#CBD5E1"/><text x="140" y="47" font-weight="700">상품명</text>
+        <rect x="190" y="32" width="80" height="22" fill="#EFF4FF" stroke="#CBD5E1"/><text x="230" y="47" font-weight="700">단가</text>
+        <rect x="10" y="54" width="80" height="22" fill="#fff" stroke="#CBD5E1"/><text x="50" y="69">A-100</text>
+        <rect x="90" y="54" width="100" height="22" fill="#fff" stroke="#CBD5E1"/><text x="140" y="69">키보드</text>
+        <rect x="190" y="54" width="80" height="22" fill="#fff" stroke="#CBD5E1"/><text x="230" y="69">25,000</text>
+        <rect x="10" y="76" width="80" height="22" fill="#fff" stroke="#CBD5E1"/><text x="50" y="91">A-101</text>
+        <rect x="90" y="76" width="100" height="22" fill="#fff" stroke="#CBD5E1"/><text x="140" y="91">무선 마우스</text>
+        <rect x="190" y="76" width="80" height="22" fill="#fff" stroke="#CBD5E1"/><text x="230" y="91">18,000</text>
+      </g>
+      <rect class="a-flash" style="--d:.4s" x="10" y="76" width="80" height="22" fill="#FEF9C3" fill-opacity=".7" stroke="#B45309" stroke-width="2.5"/>
+      <text class="a-in" style="--d:.5s" x="10" y="116" font-size="11" fill="#B45309" font-weight="700">① 찾을 값 A-101 을 첫 열에서 찾고</text>
+      <rect class="a-flash" style="--d:1.3s" x="90" y="76" width="100" height="22" fill="#DBEAFE" fill-opacity=".7" stroke="#2563EB" stroke-width="2.5"/>
+      <text class="a-in" style="--d:1.4s" x="10" y="132" font-size="11" fill="#1D4ED8" font-weight="700">② 같은 행의 2번째 열(상품명)을 가져옵니다</text>
+      <text class="a-in" style="--d:2s" x="10" y="152" font-size="11" fill="#374151" font-family="JetBrains Mono, monospace">=VLOOKUP(검색값, 기준표, 2, FALSE)</text>
+    </svg>
+    </div>
+    <figcaption>기준표 첫 열에서 찾아 같은 행의 지정한 열을 가져옵니다</figcaption>
+  </figure>
+  <table class="wrapfirst">
+    <tr><th>구분</th><th>VLOOKUP</th><th>HLOOKUP</th></tr>
+    <tr><td>기준표 방향</td><td>세로로 긴 표</td><td>가로로 눕혀진 표</td></tr>
+    <tr><td>찾는 곳</td><td>기준표의 <b>첫 열</b></td><td>기준표의 <b>첫 행</b></td></tr>
+    <tr><td>세 번째 인수</td><td><b>열</b> 번호</td><td><b>행</b> 번호</td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">검색값을 기준표의 <b>첫 열</b>에서 찾으면 VLOOKUP, <b>첫 행</b>에서 찾으면 HLOOKUP입니다. 기준표가 세로로 이어졌는지 가로로 눕혀졌는지 보면 정해집니다. HLOOKUP은 실무에서는 덜 쓰이지만 시험에서는 헷갈리게 나오므로 구분해야 합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">VLOOKUP · 네 개의 인수</span>
+  <h2>검색값, 기준표,<br>번호, 일치 옵션</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>① 검색값</b> — 기준표에서 찾을 값. 시험에서는 보통 <b>셀 하나</b>(또는 그 값을 만드는 LEFT·MID 같은 수식)를 넣고, 행마다 달라지면 복사 방향에 맞춰 참조 방식을 정합니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>② 기준표</b> — 시험에서는 보통 필드명을 뺀 데이터 영역으로 잡고, 검색값과 비교할 데이터가 VLOOKUP은 <b>첫 열</b>, HLOOKUP은 <b>첫 행</b>에 오게 선택합니다. 채우기 핸들을 쓰면 <kbd>F4</kbd>로 <b>절대 참조</b>합니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>③ 열·행 번호</b> — 시트의 열 번호가 아니라 <b>기준표 안에서의 순번</b>입니다. 기준표 첫 열이 1번. 검색값이 있는 위치가 아니라 <b>가져올 값의 위치</b>를 씁니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>④ 일치 옵션</b> — <b>FALSE(0)</b>는 정확히 일치하는 값만, <b>TRUE(1)</b>는 유사 일치입니다. <b>생략하면 TRUE</b>입니다</span></div>
+  </div>
+  <table class="wrapfirst">
+    <tr><th>옵션</th><th>언제</th><th>예</th></tr>
+    <tr><td><b>FALSE</b></td><td>이름·코드·부서명처럼 값이 정확히 있는 것. 숫자라도 <b>코드</b>(1=컴활 1급, 2=ITQ)로 쓰면 FALSE</td><td>상품 코드 → 상품명</td></tr>
+    <tr><td><b>TRUE</b></td><td>점수·금액처럼 <b>구간</b>으로 나누는 것. 기준표 첫 열(행)이 <b>오름차순</b>이어야 합니다</td><td>총점 945 → A등급</td></tr>
+  </table>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">찾기 함수 풀이</span>
+  <h2>코드로 찾고,<br>금액은 곱해서</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>주문 내역서</b>: 주문 번호·상품 코드·수량만 있고 상품명·단가는 별도 <b>기준표</b>에서 찾아옵니다. 실무에서도 코드로 연결하고 상세 정보는 따로 두는 구조입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">상품명을 검색값으로 단가를 찾을 때는 <b>상품명이 있는 열부터</b> 기준표를 잡습니다(코드 열 제외)</span></div>
+    <div class="row"><span class="n">3</span><span class="b">금액은 <b>단가×수량</b>으로 계산합니다. 금액 수식을 미리 써 두면 단가가 조회되는 순간 결과가 바뀝니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>HLOOKUP 등급</b>: 총점을 검색값으로, 점수 기준이 있는 <b>첫 행</b>과 유사 일치(TRUE)시킵니다. 예) 900점 이상 A, 800점 이상 B인 기준표에서 총점 945는 A등급입니다. 등급이 두 번째 행이면 행 번호는 <code>2</code>입니다. 기준표는 절대 참조합니다</span></div>
+    <div class="row"><span class="n">5</span><span class="b">VLOOKUP·HLOOKUP은 <b>다른 함수와 겹쳐서</b> 나오는 일이 많습니다. 검색값 자리에 <code>LEFT</code> · <code>RIGHT</code> · <code>MID</code>를 넣는 형태가 대표적입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">텍스트 함수</span>
+  <h2>자르고, 세고,<br>다듬고, 이어 붙이고</h2>
+  <table class="wrapfirst">
+    <tr><th>함수</th><th>하는 일</th><th>예 (PUS-2018-0725)</th></tr>
+    <tr><td><code>LEFT</code></td><td>왼쪽 n글자</td><td><code>LEFT(…,3)</code> → PUS</td></tr>
+    <tr><td><code>MID</code></td><td>시작 위치부터 n글자</td><td><code>MID(…,5,4)</code> → 2018</td></tr>
+    <tr><td><code>RIGHT</code></td><td>오른쪽 n글자</td><td><code>RIGHT(…,4)</code> → 0725</td></tr>
+    <tr><td><code>LEN</code></td><td>글자 수 (공백도 셈)</td><td><code>LEN("K-9")</code> → 3</td></tr>
+    <tr><td><code>TRIM</code></td><td>앞뒤 공백 제거, 단어 사이 연속 공백은 한 칸으로</td><td><code>TRIM("  K-9 ")</code> → K-9</td></tr>
+    <tr><td><code>FIND</code></td><td>문자가 몇 번째에 있는지</td><td><code>FIND("@",…)</code></td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>MID의 세 번째 인수는 끝 위치가 아니라 «가져올 글자 수»</b>입니다. 5~8번째를 원하면 <code>MID(문자열,5,4)</code></span></div>
+    <div class="row"><span class="n">2</span><span class="b">입사 연도 예: 사원 코드의 다섯 번째 글자부터 네 글자를 가져오면 <code>2019</code> · <code>2024</code> 같은 연도가 나옵니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">& 연산자 · LEN · TRIM</span>
+  <h2>눈에 안 보이는 공백이<br>#N/A를 만듭니다</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">문자를 이어 붙일 때는 <code>&amp;</code> 를 씁니다. 하이픈을 넣으려면 <b>하이픈 앞뒤에 &amp;</b>를 둡니다. 예) <code>=LEFT(A2,3)&amp;"-"&amp;MID(A2,4,2)</code>. 어려워하는 사람이 많으니 반복해서 연습하세요</span></div>
+    <div class="row"><span class="n">2</span><span class="b">값이 같아 보이는데 VLOOKUP이 <b>#N/A</b>면 앞뒤에 <b>눈에 안 보이는 공백</b>(주로 앞뒤의 일반 공백)이 있을 수 있습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>LEN</b>으로 글자 수를 세어 봅니다. <code>A-101</code> 은 하이픈까지 5글자여야 하는데 6, 7이 나오면 공백이 있는 것입니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>TRIM</b>으로 감싸 앞뒤의 일반 공백을 없애고 LEN이 모두 5인지 확인한 뒤 VLOOKUP을 적용합니다. (탭·줄 바꿈 같은 특수 공백은 TRIM으로 지워지지 않을 수 있습니다)</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 적용 문제</span>
+  <h2>순서를 나누어서<br>안쪽부터 만듭니다</h2>
+  <table class="wrapfirst">
+    <tr><th>문제</th><th>풀이</th></tr>
+    <tr><td>서울 거래처 입금액 평균을 <b>10의 자리에서 반올림해 100의 자리까지</b></td><td>조건 목록(지역/서울) → <code>DAVERAGE</code> → 결과를 <code>ROUND(…,-2)</code> 로 감쌈</td></tr>
+    <tr><td>입금액 100만 원 이상인 거래처 수</td><td><code>COUNTIF(범위,"&gt;=1000000")</code></td></tr>
+    <tr><td>경기 지역 입금액 합계</td><td><code>SUMIF(지역,"경기",입금액)</code></td></tr>
+    <tr><td>총점 945점의 등급 (900점 이상이 A인 기준표)</td><td><code>HLOOKUP</code> 유사 일치 → A등급</td></tr>
+    <tr><td>사원 코드의 입사 연도</td><td><code>MID(코드,5,4)</code></td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>DAVERAGE</code>의 데이터베이스 범위에는 <b>필드명과 레코드</b>를 함께 넣고, 평균을 구할 필드는 제목 셀 · <code>"입금액"</code> · 범위 안의 순번(<code>3</code>) 중 하나로 지정합니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>ROUND의 자릿수</b>: 양수는 소수점 아래, 0은 정수, 음수는 정수부의 자리입니다. 100의 자리까지 표시하려면 <code>-2</code></span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">CHOOSE · SWITCH</span>
+  <h2>번호로 고르면 CHOOSE,<br>값으로 고르면 SWITCH</h2>
+  <table class="wrapfirst">
+    <tr><th>함수</th><th>구문</th><th>예</th></tr>
+    <tr><td><code>CHOOSE</code></td><td><code>CHOOSE(번호, 값1, 값2, …)</code></td><td><code>CHOOSE(2,"월","화","수")</code> → 화</td></tr>
+    <tr><td><code>SWITCH</code></td><td><code>SWITCH(기준, 값1, 결과1, …, 기본값)</code></td><td><code>SWITCH("B","A","영업부","B","개발부","기타")</code> → 개발부</td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>CHOOSE</b>의 첫 인수는 <b>숫자 인덱스</b>입니다. 1이면 첫 번째 값, 2이면 두 번째 값입니다. 직급 코드 1~5에 따라 사원·대리·과장·차장·부장을 고르는 식으로 씁니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">함수 인수 대화 상자에서 문자값을 입력하고 <kbd>Tab</kbd>을 누르면 큰따옴표가 자동으로 붙습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">기준표의 셀을 CHOOSE의 값으로 직접 참조했는데 복사해도 <b>같은 셀을 가리켜야 하면</b> 각 셀을 <b>절대 참조</b>합니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>SWITCH</b>는 값과 결과를 <b>쌍</b>으로 지정하고, 마지막에 <b>기본값</b>을 넣으면 일치하는 값이 없을 때 그 값이 나옵니다. 엑셀 2019 이상에서 쓸 수 있습니다</span></div>
+    <div class="row"><span class="n">5</span><span class="b">같은 결과를 CHOOSE·VLOOKUP 어느 쪽으로도 만들 수 있고, 시험에서는 <b>쓸 함수를 지정</b>하기도 합니다. 코드가 숫자라도 직급 코드처럼 쓰면 VLOOKUP은 <b>FALSE</b>입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">오늘의 함정</span>
+  <h2>여기서 많이 틀립니다</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>SUMIF와 SUMIFS의 인수 순서를 같게 외움</b><br><span class="mute">SUMIFS는 합계 범위가 맨 앞입니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>자릿수를 «처리하는 자리»로 계산함</b><br><span class="mute">남길 자리를 기준으로 씁니다. 백의 자리까지 → -2.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>VLOOKUP 열 번호를 시트의 열 번호로 셈</b><br><span class="mute">기준표의 첫 열이 1번입니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>기준표를 절대 참조하지 않고 채움</b><br><span class="mute">기준표가 함께 밀려 #N/A나 엉뚱한 값이 나옵니다. F4로 고정합니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>점수 구간을 FALSE로 찾음</b><br><span class="mute">구간은 TRUE(유사 일치). 기준표는 오름차순이어야 합니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><b>MID의 세 번째 인수를 끝 위치로 씀</b><br><span class="mute">가져올 글자 수입니다.</span></span></div>
+    <div class="row"><span class="n">7</span><span class="b"><b>공백이 있는데도 값이 같아 보인다고 넘어감</b><br><span class="mute">LEN으로 글자 수를 세고 TRIM으로 감쌉니다.</span></span></div>
+  </div>
+</div></section>
+
+<!-- 12 · 이름 게이트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>10문제로<br>오늘 것을 확인합니다</h2>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>모두 고른 뒤<br>맨 아래에서 채점하세요</h2>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">1</span><span class="qt"><code>SUMIFS</code> 의 <b>첫 번째</b> 인수는 무엇인가요?</span></p>
+      <button class="quiz-opt">조건 범위1</button>
+      <button class="quiz-opt" data-correct="true">합계 범위</button>
+      <button class="quiz-opt">조건1</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">2</span><span class="qt"><code>SUMIF</code> 에서 합계 범위를 생략해도 <b>조건 범위의 값을 그대로 합계</b>하는 경우는?</span></p>
+      <button class="quiz-opt" data-correct="true">조건 범위와 합계 범위가 같을 때</button>
+      <button class="quiz-opt">조건이 문자일 때</button>
+      <button class="quiz-opt">조건 범위가 합계 범위보다 클 때</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">3</span><span class="qt">«십의 자리에서 반올림하여 <b>백의 자리까지</b>» 표시하는 <code>ROUND</code> 의 자릿수는?</span></p>
+      <button class="quiz-opt">2</button>
+      <button class="quiz-opt">-1</button>
+      <button class="quiz-opt" data-correct="true">-2</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">4</span><span class="qt"><code>=MOD(17,5)</code> 의 결과는?</span></p>
+      <button class="quiz-opt">3</button>
+      <button class="quiz-opt" data-correct="true">2</button>
+      <button class="quiz-opt">0</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">5</span><span class="qt">기준표가 <b>가로로 눕혀진</b> 표일 때, 첫 행에서 값을 찾는 함수는?</span></p>
+      <button class="quiz-opt" data-correct="true">HLOOKUP</button>
+      <button class="quiz-opt">VLOOKUP</button>
+      <button class="quiz-opt">MOD</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">6</span><span class="qt">기준표 <code>$B$2:$D$7</code> 에서 <b>D열</b>의 값을 가져오려면 VLOOKUP의 열 번호는?</span></p>
+      <button class="quiz-opt">4</button>
+      <button class="quiz-opt">2</button>
+      <button class="quiz-opt" data-correct="true">3</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">7</span><span class="qt">점수 <b>구간</b>으로 등급을 찾을 때 VLOOKUP의 일치 옵션은?</span></p>
+      <button class="quiz-opt">FALSE</button>
+      <button class="quiz-opt" data-correct="true">TRUE</button>
+      <button class="quiz-opt">0</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">8</span><span class="qt"><code>=MID("PUS-2018-0725",5,4)</code> 의 결과는?</span></p>
+      <button class="quiz-opt" data-correct="true">2018</button>
+      <button class="quiz-opt">PUS-</button>
+      <button class="quiz-opt">2018-0725</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">9</span><span class="qt">값이 같아 보이는데 VLOOKUP이 <b>#N/A</b>입니다. 앞뒤의 일반 공백이 원인일 때 해결하려면?</span></p>
+      <button class="quiz-opt">ROUND로 감싼다</button>
+      <button class="quiz-opt">MOD로 나눈다</button>
+      <button class="quiz-opt" data-correct="true">TRIM으로 감싼다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">10</span><span class="qt"><code>=CHOOSE(2,"월","화","수")</code> 의 결과는?</span></p>
+      <button class="quiz-opt">월</button>
+      <button class="quiz-opt" data-correct="true">화</button>
+      <button class="quiz-opt">수</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<!-- 체크리스트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">복습 체크리스트</span>
+  <h2>내일 오기 전에<br>이것만 확인하세요</h2>
+  <div class="panel">
+    <div class="row"><span class="n">&#10003;</span><span class="b">SUMIFS는 합계 범위가 맨 앞이고, SUMIF의 합계 범위는 조건 범위와 같을 때 생략할 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">ROUND 계열의 자릿수를 «남길 자리» 기준으로 정할 수 있다 (백의 자리까지 = -2)</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">MOD의 결과는 0부터 (나누는 수-1) 사이이고, 짝수·홀수와 조 나누기에 쓴다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">VLOOKUP과 HLOOKUP을 기준표 방향으로 구분하고, 열(행) 번호는 기준표 안의 순번이다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">일치 옵션: 정확히 찾으면 FALSE, 점수 구간이면 TRUE(오름차순), 생략하면 TRUE다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">LEFT · MID · RIGHT를 검색값 자리에 겹쳐 쓸 수 있고, MID의 세 번째 인수는 글자 수다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">공백 때문에 #N/A가 나면 LEN으로 확인하고 TRIM으로 해결한다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
+  </div>
+  <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
+</div></section>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-10 7차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'da60285334c56b35',
+  '578050a83a19f390',
+  '6925037ff152d413',
+  '19d88c67f8a00342',
+  '54d036f6bff3f8e8',
+  'a78fbd1162753619',
+  '7f1bb29d16ac97f2',
+  'a2d73d51bb1a45bd',
+  'c750eb7e893d05c9',
+  '4a875acff589c148',
+  '46e46b761985be32',
+  'fd86df3d9b145b44',
+  '3850b8dc8edf37c1',
+  'a5043dc870197576',
+  '6b352062738e1800',
+  '746b4d15189cdc4e',
+  'e87e3049b21ed704',
+  'e6963979884a7af1'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
