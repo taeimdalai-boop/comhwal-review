@@ -241,7 +241,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h1>자릿수, 나머지,<br>찾아오기의 날</h1>
   <p class="lead">오늘은 조건 함수를 복습한 뒤, ROUND 계열과 MOD, 찾기·참조 함수(VLOOKUP·HLOOKUP), 텍스트 함수, CHOOSE·SWITCH를 배웠습니다.</p>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>복습</b> — SUMIF · SUMIFS · 인수 생략 · 기간 조건</span></div>
+    <div class="row"><span class="n">1</span><span class="b"><b>복습</b> — SUMIF · SUMIFS · 인수 생략</span></div>
     <div class="row"><span class="n">2</span><span class="b"><b>ROUND · ROUNDUP · ROUNDDOWN</b> · MOD</span></div>
     <div class="row"><span class="n">3</span><span class="b"><b>VLOOKUP · HLOOKUP</b> 네 개의 인수</span></div>
     <div class="row"><span class="n">4</span><span class="b"><b>텍스트 함수</b> LEFT · MID · RIGHT · LEN · TRIM과 연결 연산자 <b>&amp;</b></span></div>
@@ -262,17 +262,6 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <div class="row"><span class="n">1</span><span class="b"><b>SUMIFS는 합계 범위가 맨 앞</b>입니다. SUMIF와 순서가 다르니 헷갈리지 마세요</span></div>
     <div class="row"><span class="n">2</span><span class="b"><b>SUMIF의 세 번째 인수(합계 범위)는 생략할 수 있습니다.</b> 조건을 찾는 범위와 더할 범위가 <b>같을 때</b> 두 인수만 써도 됩니다. 예) <code>SUMIF(입금액,"&gt;=500000")</code></span></div>
     <div class="row"><span class="n">3</span><span class="b">양방향으로 끌어 채울 때는 <code>SUMIFS($E$4:$E$83,$C$4:$C$83,$I39,$F$4:$F$83,J$38)</code> 처럼 범위는 <b>절대 참조</b>, 왼쪽 조건은 <b>열 고정</b>(<code>$I39</code>), 위쪽 조건은 <b>행 고정</b>(<code>J$38</code>)입니다</span></div>
-  </div>
-</div></section>
-
-<section class="card"><div class="card-inner">
-  <span class="kicker ">복습 · 새 유형</span>
-  <h2>날짜 조건, 또는 합계,<br>조건 목록의 OR</h2>
-  <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>기간 조건:</b> 날짜는 숫자입니다. 부등호는 따옴표 안에, 날짜가 든 셀은 <code>&amp;</code> 로 이어 붙입니다. 예) <code>"&gt;="&amp;$J$25</code></span></div>
-    <div class="row"><span class="n">2</span><span class="b"><b>OR 합계:</b> 결제 방법이 «현금» 또는 «계좌이체»처럼 한 건이 둘 다일 수 없으면(겹치지 않으면) <b>SUMIF 두 개를 더하면</b> 됩니다. 조건이 겹치는 경우(서울 또는 50만 원 이상)에는 겹치는 건이 <b>두 번 더해지므로</b> 이 방법을 쓸 수 없습니다</span></div>
-    <div class="row"><span class="n">3</span><span class="b"><b>데이터베이스 함수의 OR:</b> 조건 목록에서 조건을 <b>서로 다른 행</b>에 세로로 씁니다. 머리글은 원본 표와 글자가 같아야 합니다</span></div>
-    <div class="row"><span class="n">4</span><span class="b">날짜가 있는 조건 문제는 부등호와 셀을 <code>&amp;</code> 로 연결하는 규칙(따옴표는 부등호만)을 그대로 씁니다</span></div>
   </div>
 </div></section>
 
