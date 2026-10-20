@@ -241,7 +241,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <h1>자릿수, 나머지,<br>찾아오기의 날</h1>
   <p class="lead">오늘은 조건 함수를 복습한 뒤, ROUND 계열과 MOD, 찾기·참조 함수(VLOOKUP·HLOOKUP), 텍스트 함수, CHOOSE·SWITCH를 배웠습니다.</p>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>복습</b> — SUMIF · SUMIFS · 인수 생략 · 데이터베이스 함수의 OR</span></div>
+    <div class="row"><span class="n">1</span><span class="b"><b>복습</b> — SUMIF · SUMIFS · 인수 생략</span></div>
     <div class="row"><span class="n">2</span><span class="b"><b>ROUND · ROUNDUP · ROUNDDOWN</b> · MOD</span></div>
     <div class="row"><span class="n">3</span><span class="b"><b>VLOOKUP · HLOOKUP</b> 네 개의 인수</span></div>
     <div class="row"><span class="n">4</span><span class="b"><b>텍스트 함수</b> LEFT · MID · RIGHT · LEN · TRIM과 연결 연산자 <b>&amp;</b></span></div>
@@ -262,16 +262,6 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <div class="row"><span class="n">1</span><span class="b"><b>SUMIFS는 합계 범위가 맨 앞</b>입니다. SUMIF와 순서가 다르니 헷갈리지 마세요</span></div>
     <div class="row"><span class="n">2</span><span class="b"><b>SUMIF의 세 번째 인수(합계 범위)는 생략할 수 있습니다.</b> 조건을 찾는 범위와 더할 범위가 <b>같을 때</b> 두 인수만 써도 됩니다. 예) <code>SUMIF(입금액,"&gt;=500000")</code></span></div>
     <div class="row"><span class="n">3</span><span class="b">양방향으로 끌어 채울 때는 <code>SUMIFS($E$4:$E$83,$C$4:$C$83,$I39,$F$4:$F$83,J$38)</code> 처럼 범위는 <b>절대 참조</b>, 왼쪽 조건은 <b>열 고정</b>(<code>$I39</code>), 위쪽 조건은 <b>행 고정</b>(<code>J$38</code>)입니다</span></div>
-  </div>
-</div></section>
-
-<section class="card"><div class="card-inner">
-  <span class="kicker ">복습 · 데이터베이스 함수</span>
-  <h2>조건 목록의 OR는<br>서로 다른 행에</h2>
-  <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b">데이터베이스 함수(<code>DSUM</code> · <code>DAVERAGE</code> 등)의 조건 목록에서 <b>AND는 같은 행</b>, <b>OR는 서로 다른 행</b>에 조건을 씁니다</span></div>
-    <div class="row"><span class="n">2</span><span class="b">조건 목록의 머리글(필드명)은 <b>원본 표와 글자가 같아야</b> 합니다</span></div>
-    <div class="row"><span class="n">3</span><span class="b">예) 지역이 «서울»이거나 입금액이 50만 원 이상이면 «서울»은 지역 아래, <code>&gt;=500000</code> 은 입금액 아래의 <b>다음 행</b>에 씁니다</span></div>
   </div>
 </div></section>
 
