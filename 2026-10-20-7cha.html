@@ -328,6 +328,22 @@ td:first-child{font-weight:600; white-space:nowrap;}
 </div></section>
 
 <section class="card"><div class="card-inner">
+  <span class="kicker ">수치 함수</span>
+  <h2>INT와 TRUNC는<br>음수에서 갈립니다</h2>
+  <table class="wrapfirst">
+    <tr><th>함수</th><th>하는 일</th><th>예</th></tr>
+    <tr><td><code>INT</code></td><td>소수점을 버려 그 수보다 크지 않은 가장 가까운 정수로</td><td><code>INT(3.9)</code> → 3 · <code>INT(-3.2)</code> → <b>-4</b></td></tr>
+    <tr><td><code>TRUNC</code></td><td>반올림 없이 지정한 자리에서 그대로 자름</td><td><code>TRUNC(3.14159,2)</code> → 3.14 · <code>TRUNC(-3.9)</code> → <b>-3</b></td></tr>
+    <tr><td><code>POWER</code></td><td>거듭제곱 (밑을 지수만큼)</td><td><code>POWER(2,10)</code> → 1024</td></tr>
+    <tr><td><code>ABS</code></td><td>절댓값 (부호를 떼고 크기만)</td><td><code>ABS(-15)</code> → 15</td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">TRUNC의 자릿수를 생략하면 소수 부분이 있는 <b>양수는 INT와 결과가 같고, 음수에서 갈립니다.</b> -3.9는 INT가 -4(더 작은 정수로 내림), TRUNC가 -3(소수점만 자름)입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><code>TRUNC</code>는 자릿수를 정할 수 있고, 자릿수를 생략하면 정수가 됩니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
   <span class="kicker ">VLOOKUP · HLOOKUP</span>
   <h2>세로표는 V,<br>가로표는 H</h2>
   <figure class="fig">
@@ -420,6 +436,8 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <div class="row"><span class="n">2</span><span class="b">값이 같아 보이는데 VLOOKUP이 <b>#N/A</b>면 앞뒤에 <b>눈에 안 보이는 공백</b>(주로 앞뒤의 일반 공백)이 있을 수 있습니다</span></div>
     <div class="row"><span class="n">3</span><span class="b"><b>LEN</b>으로 글자 수를 세어 봅니다. <code>A-101</code> 은 하이픈까지 5글자여야 하는데 6, 7이 나오면 공백이 있는 것입니다</span></div>
     <div class="row"><span class="n">4</span><span class="b"><b>TRIM</b>으로 감싸 앞뒤의 일반 공백을 없애고 LEN이 모두 5인지 확인한 뒤 VLOOKUP을 적용합니다. (탭·줄 바꿈 같은 특수 공백은 TRIM으로 지워지지 않을 수 있습니다)</span></div>
+    <div class="row"><span class="n">5</span><span class="b">이어 붙이기 연습: 이름 뒤에 «님» → <code>=A2&amp;"님"</code>, 건수 뒤에 «건» → <code>=B2&amp;"건"</code>. 붙일 글자는 <b>반드시 큰따옴표</b>로 묶습니다</span></div>
+    <div class="row"><span class="n">6</span><span class="b">이메일에서 <b>@ 앞의 아이디</b>만: <code>=LEFT(문자열,FIND("@",문자열)-1)</code> — @ 위치에서 <b>1을 빼야</b> @ 앞까지만 나옵니다</span></div>
   </div>
 </div></section>
 
