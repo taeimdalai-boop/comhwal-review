@@ -503,21 +503,6 @@ td:first-child{font-weight:600; white-space:nowrap;}
 </div></section>
 
 <section class="card"><div class="card-inner">
-  <span class="kicker ">실전 유형</span>
-  <h2>VLOOKUP, INDEX·MATCH,<br>중첩의 순서</h2>
-  <table class="wrapfirst">
-    <tr><th>유형</th><th>풀이</th></tr>
-    <tr><td>점수로 <b>등급</b> 찾기 (88점 → B)</td><td><code>VLOOKUP</code> 유사 일치(TRUE). 기준표는 오름차순, 검색값보다 크지 않은 기준값의 등급. 또는 <code>INDEX(등급열, MATCH(점수, 기준점수, 1))</code></td></tr>
-    <tr><td>오름차순 면적 기준 (기준값이 0 · 39 · 60 … 일 때 59㎡ → «39㎡ 이상» 구간)</td><td><code>MATCH</code> 옵션 <b>1</b>로 근삿값의 위치를 구함</td></tr>
-    <tr><td>지역명으로 <b>코드 번호</b> 받기</td><td><code>HLOOKUP</code>으로 코드표의 2행 값을 받아 <code>INDEX</code>의 행·열 번호로 사용 (MATCH 대신)</td></tr>
-    <tr><td>품목이 «패션»인 레코드 중 증감률 <b>최댓값의 항목명</b></td><td>조건 목록(품목/패션)과 <code>DMAX</code>로 최댓값 → <code>MATCH</code>로 위치(정렬 안 된 범위라 옵션 0) → <code>INDEX</code>로 항목명</td></tr>
-  </table>
-  <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b">다음 차시에는 <b>IF · 날짜 · 시간 함수와 조건부 서식</b>을 배웁니다. INDEX·MATCH 유형을 반복해서 연습하세요</span></div>
-  </div>
-</div></section>
-
-<section class="card"><div class="card-inner">
   <span class="kicker ">오늘의 함정</span>
   <h2>여기서 많이 틀립니다</h2>
   <div class="panel">
@@ -591,10 +576,10 @@ td:first-child{font-weight:600; white-space:nowrap;}
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">7</span><span class="qt">점수가 95, 90, 88, 88, 88, 80 일 때 <b>80점</b>의 <code>RANK.EQ</code>(내림차순) 결과는?</span></p>
-      <button class="quiz-opt">4</button>
-      <button class="quiz-opt" data-correct="true">6</button>
-      <button class="quiz-opt">5</button>
+    <p class="q"><span class="qn">7</span><span class="qt">50, 66, 90 세 값의 <b>중앙값</b>(<code>MEDIAN</code>)은?</span></p>
+      <button class="quiz-opt">68.67</button>
+      <button class="quiz-opt" data-correct="true">66</button>
+      <button class="quiz-opt">90</button>
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
