@@ -291,7 +291,6 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <div class="row"><span class="n">1</span><span class="b"><b>열 번호</b>는 시트의 열 번호가 아니라 <b>기준표 안에서의 순서</b>입니다. 기준표의 첫 열이 1번입니다. 직책 수당이 기준표의 2번째 열이면 <code>2</code></span></div>
     <div class="row"><span class="n">2</span><span class="b">직급처럼 <b>값이 정확히 일치</b>하는 것을 찾을 때는 마지막 인수에 <b>FALSE</b>를 씁니다. 예) 직급 «과장»의 직책 수당 15만 원</span></div>
     <div class="row"><span class="n">3</span><span class="b"><b>CHOOSE</b>의 첫 인수는 선택할 <b>숫자</b>입니다. 평가 점수를 번호로 쓰고 <code>"미흡"</code>, <code>"보통"</code>, <code>"우수"</code>를 차례로 넣으면 1이 미흡, 2가 보통, 3이 우수입니다. 함수 인수 대화 상자에서는 글자를 입력하면 큰따옴표가 자동으로 붙습니다</span></div>
-    <div class="row"><span class="n">4</span><span class="b">CHOOSE는 나중에 IF · TRUNC · INT · AVERAGE 등과 <b>겹쳐서</b> 어렵게 나올 수 있습니다</span></div>
   </div>
 </div></section>
 
@@ -360,7 +359,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <div class="row"><span class="n">1</span><span class="b"><code>RANK.EQ(개인 점수, 전체 점수 범위, [정렬 방식])</code> — <b>첫 인수는 순위를 구할 단일 점수</b>, 두 번째는 <b>전체 범위</b>입니다. 반대로 넣으면 배열 결과가 펼쳐져 엉뚱한 값이 나옵니다</span></div>
     <div class="row"><span class="n">2</span><span class="b">정렬 방식 <b>0은 내림차순</b>(높은 점수가 1등), <b>1은 오름차순</b>입니다. 0은 생략할 수 있지만 의미를 익히려고 직접 쓰는 연습을 했습니다</span></div>
     <div class="row"><span class="n">3</span><span class="b">채우기 핸들을 쓰면 <b>전체 범위는 절대 참조</b>합니다. 결과 셀들을 먼저 선택하고 수식을 쓴 뒤 <kbd>Ctrl</kbd>+<kbd>Enter</kbd>로 한꺼번에 채울 수도 있습니다</span></div>
-    <div class="row"><span class="n">4</span><span class="b"><code>RANK.AVG</code>는 동점자의 순위를 <b>평균</b>으로 계산하는 함수이고, 수업에서는 <code>RANK.EQ</code>를 주로 썼습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><code>RANK.AVG</code>는 동점자의 순위를 <b>평균</b>으로 계산하는 함수입니다</span></div>
   </div>
 </div></section>
 
@@ -514,8 +513,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <tr><td>품목이 «패션»인 레코드 중 증감률 <b>최댓값의 항목명</b></td><td>조건 목록(품목/패션)과 <code>DMAX</code>로 최댓값 → <code>MATCH</code>로 위치(정렬 안 된 범위라 옵션 0) → <code>INDEX</code>로 항목명</td></tr>
   </table>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b">중첩 함수는 <b>검색값 자리</b>에 들어오는 형태가 흔하지만, 이 수업에서도 AVERAGEIF의 <b>조건 인수</b>에 LARGE를 겹쳤습니다</span></div>
-    <div class="row"><span class="n">2</span><span class="b">다음 차시에는 <b>IF · 날짜 · 시간 함수와 조건부 서식</b>을 배웁니다. INDEX·MATCH 유형을 반복해서 연습하세요</span></div>
+    <div class="row"><span class="n">1</span><span class="b">다음 차시에는 <b>IF · 날짜 · 시간 함수와 조건부 서식</b>을 배웁니다. INDEX·MATCH 유형을 반복해서 연습하세요</span></div>
   </div>
 </div></section>
 
