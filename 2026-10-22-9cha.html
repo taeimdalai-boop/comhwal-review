@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 9차시 복습카드</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.6;
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 9차시</span>
+  <span class="d">2026.10.22 (목)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="deck" id="deck">
+<section class="card"><div class="card-inner">
+  <span class="kicker">9차시 복습카드</span>
+  <h1>날짜·IF 함수로 판정하고,<br>조건부 서식으로 표시하는 날</h1>
+  <p class="lead">오늘은 MID·MATCH·INDEX 중첩, 날짜·시간 함수, IF 계열 함수, 근속 연수 계산, ROW 순번, 조건부 서식을 배웠습니다.</p>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>복습</b> — VLOOKUP 열 번호 · INDEX와 MATCH 중첩</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>날짜·시간 함수</b> · WEEKDAY · CHOOSE</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>IF · 중첩 IF · AND · OR</b> · MOD</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>근속 연수</b> · WORKDAY · IFERROR · IFS</span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>ROW</b> 순번 · <b>조건부 서식</b></span></div>
+  </div>
+  <p class="mute">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">복습 · VLOOKUP</span>
+  <h2>열 번호는 기준표 안의<br>순서입니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="194" viewBox="0 0 300 194" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="192" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">열 번호는 «기준표 안에서» 셉니다</text>
+      <text x="10" y="40" font-size="10" fill="#6B7280">기준표 $B$3:$E$4 (필드명 제외)</text>
+      <rect x="10" y="48" width="64" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="42.0" y="60.5" font-size="10" text-anchor="middle" fill="#6B7280">B열</text>
+      <rect x="74" y="48" width="64" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="106.0" y="60.5" font-size="10" text-anchor="middle" fill="#6B7280">C열</text>
+      <rect x="138" y="48" width="64" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="170.0" y="60.5" font-size="10" text-anchor="middle" fill="#6B7280">D열</text>
+      <rect x="202" y="48" width="64" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="234.0" y="60.5" font-size="10" text-anchor="middle" fill="#6B7280">E열</text>
+      <rect x="10" y="66" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="42.0" y="80.5" font-size="10" text-anchor="middle" fill="#111827">대리</text>
+      <rect x="74" y="66" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="106.0" y="80.5" font-size="10" text-anchor="middle" fill="#111827">5만 원</text>
+      <rect x="138" y="66" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="170.0" y="80.5" font-size="10" text-anchor="middle" fill="#111827">5일</text>
+      <rect x="202" y="66" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="234.0" y="80.5" font-size="10" text-anchor="middle" fill="#111827">10만 원</text>
+      <rect x="10" y="88" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="42.0" y="102.5" font-size="10" text-anchor="middle" fill="#111827">과장</text>
+      <rect x="74" y="88" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="106.0" y="102.5" font-size="10" text-anchor="middle" fill="#111827">8만 원</text>
+      <rect x="138" y="88" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="170.0" y="102.5" font-size="10" text-anchor="middle" fill="#111827">7일</text>
+      <rect x="202" y="88" width="64" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="234.0" y="102.5" font-size="10" text-anchor="middle" fill="#111827">12만 원</text>
+      <g class="a-pop" style="--d:0.4s">
+      <text x="42" y="128" font-size="12" fill="#2563EB" font-weight="700" text-anchor="middle">1</text>
+      </g>
+      <g class="a-pop" style="--d:0.7s">
+      <text x="106" y="128" font-size="12" fill="#2563EB" font-weight="700" text-anchor="middle">2</text>
+      </g>
+      <g class="a-pop" style="--d:1.0s">
+      <text x="170" y="128" font-size="12" fill="#2563EB" font-weight="700" text-anchor="middle">3</text>
+      </g>
+      <g class="a-pop" style="--d:1.3s">
+      <text x="234" y="128" font-size="12" fill="#2563EB" font-weight="700" text-anchor="middle">4</text>
+      </g>
+      <text x="10" y="144" font-size="10" fill="#6B7280">↑ 기준표 안의 열 번호</text>
+      <rect class="a-flash" style="--d:1.8s" x="138" y="66" width="64" height="44" fill="#DCFCE7" fill-opacity=".6" stroke="#047857" stroke-width="2.5"/>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="164" font-size="11.5" fill="#374151">D열 값을 가져오려면 열 번호는 <tspan font-weight="700" fill="#047857">3</tspan></text>
+      </g>
+      <g class="a-in" style="--d:2.4s">
+      <text x="10" y="182" font-size="10.5" fill="#374151" font-family="JetBrains Mono, monospace">=VLOOKUP(검색값, $B$3:$E$4, 3, FALSE)</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>시트의 열 문자가 아니라 기준표 첫 열부터 센 순번입니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>열 번호</b>는 시트의 열 번호가 아니라 <b>기준표 안에서의 순서</b>입니다. 기준표의 첫 열이 1번입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">기준표를 <code>$B$3:$E$4</code>로 잡았다면 B열 1, C열 2, <b>D열 3</b>, E열 4입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">이 자료에서는 기준표 범위를 <b>필드명(머리글)을 뺀 데이터 부분</b>으로 잡습니다. 채우기 핸들을 쓸 때는 기준표를 <b>절대 참조</b>합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">복습 · INDEX · MATCH</span>
+  <h2>MID로 한 글자를 가져와<br>MATCH · INDEX에 넣습니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="198" viewBox="0 0 300 198" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="196" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">코드 한 글자 → 위치 번호 → 교실명</text>
+      <text x="10" y="47" font-size="10" fill="#6B7280">수강 코드</text>
+      <rect x="70" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="82.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">2</text>
+      <rect x="94" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="106.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">6</text>
+      <rect x="118" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="130.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">1</text>
+      <rect x="142" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="154.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">0</text>
+      <rect x="166" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="178.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">-</text>
+      <rect x="190" y="32" width="24" height="24" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/><text x="202.0" y="48.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">A</text>
+      <g class="a-in" style="--d:0.4s">
+      <text x="218" y="48" font-size="10" fill="#DC2626" font-weight="700">← MID가 가져옴</text>
+      </g>
+      <rect x="10" y="72" width="50" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="35.0" y="86.5" font-size="10" text-anchor="middle" fill="#6B7280">코드</text>
+      <rect x="10" y="94" width="50" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="35.0" y="108.5" font-size="10" text-anchor="middle" fill="#6B7280">교실명</text>
+      <rect x="60" y="72" width="60" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="90.0" y="86.85" font-size="11" text-anchor="middle" fill="#111827" font-weight="700">A</text>
+      <rect x="60" y="94" width="60" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="90.0" y="108.85" font-size="11" text-anchor="middle" fill="#111827">202호</text>
+      <rect x="120" y="72" width="60" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="86.85" font-size="11" text-anchor="middle" fill="#111827" font-weight="700">B</text>
+      <rect x="120" y="94" width="60" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="108.85" font-size="11" text-anchor="middle" fill="#111827">101호</text>
+      <rect x="180" y="72" width="60" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="210.0" y="86.85" font-size="11" text-anchor="middle" fill="#111827" font-weight="700">C</text>
+      <rect x="180" y="94" width="60" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="210.0" y="108.85" font-size="11" text-anchor="middle" fill="#111827">303호</text>
+      <rect class="a-flash" style="--d:1.0s" x="60" y="72" width="60" height="44" fill="#FEF3C7" fill-opacity=".6" stroke="#B45309" stroke-width="2.5"/>
+      <g class="a-pop" style="--d:1.3s">
+      <text x="90" y="132" font-size="11" fill="#2563EB" font-weight="700" text-anchor="middle">1</text>
+      </g>
+      <g class="a-pop" style="--d:1.5s">
+      <text x="150" y="132" font-size="11" fill="#2563EB" font-weight="700" text-anchor="middle">2</text>
+      </g>
+      <g class="a-pop" style="--d:1.7s">
+      <text x="210" y="132" font-size="11" fill="#2563EB" font-weight="700" text-anchor="middle">3</text>
+      </g>
+      <text x="10" y="132" font-size="10" fill="#6B7280">위치</text>
+      <g class="a-in" style="--d:1.9s">
+      <text x="10" y="152" font-size="10.5" fill="#374151"><tspan font-weight="700" fill="#2563EB">MATCH</tspan>("A", 코드 행, 0) = 1  →  <tspan font-weight="700" fill="#047857">202호</tspan></text>
+      </g>
+      <g class="a-in" style="--d:2.3s">
+      <text x="10" y="172" font-size="10.5" fill="#374151" font-family="JetBrains Mono, monospace">=INDEX(교실명 행, 1,</text>
+      </g>
+      <g class="a-in" style="--d:2.3s">
+      <text x="10" y="187" font-size="10.5" fill="#374151" font-family="JetBrains Mono, monospace">         MATCH(MID(코드,6,1), 코드 행, 0))</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>여섯 번째 글자 A → 코드 행의 1번째 → 교실명 행의 1번째</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>MID(수강 코드,6,1)</code> — 여섯 번째 글자 <b>한 개</b>를 가져옵니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>MATCH는 위치 번호만</b> 돌려줍니다. 202호 같은 실제 값은 <b>INDEX</b>가 가져옵니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">INDEX의 배열에는 결과로 돌려줄 <b>교실명 영역만</b> 선택합니다. 한 행만 선택했다면 행 번호는 <code>1</code>, 두 행을 선택했다면 상황에 따라 <code>2</code>가 될 수 있습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">MATCH의 검색 범위는 <b>한 행 또는 한 열</b>만 잡습니다. 2차원 표 전체를 넣지 않습니다</span></div>
+    <div class="row"><span class="n">5</span><span class="b">HLOOKUP과 모양이 비슷하지만, 문제가 INDEX와 MATCH를 쓰라고 지정하면 그 함수로 풉니다. 기준표는 <b>F4 절대 참조</b>합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">문자열 연결 &</span>
+  <h2>괄호도 따옴표 안의<br>문자로 넣습니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="162" viewBox="0 0 300 162" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="160" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">이름과 과정명을 괄호로 이어 붙입니다</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="34" width="64" height="26" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="42.0" y="50.85" font-size="11" text-anchor="middle" fill="#111827">김도연</text>
+      </g>
+      <g class="a-in" style="--d:0.6s">
+      <rect x="84" y="34" width="34" height="26" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="101.0" y="50.85" font-size="11" text-anchor="middle" fill="#B45309">"("</text>
+      </g>
+      <g class="a-in" style="--d:0.9s">
+      <rect x="128" y="34" width="64" height="26" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="50.85" font-size="11" text-anchor="middle" fill="#111827">온라인</text>
+      </g>
+      <g class="a-in" style="--d:1.2s">
+      <rect x="202" y="34" width="34" height="26" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="219.0" y="50.85" font-size="11" text-anchor="middle" fill="#B45309">")"</text>
+      </g>
+      <text x="75" y="52" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">&amp;</text>
+      <text x="119" y="52" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">&amp;</text>
+      <text x="193" y="52" font-size="12" fill="#1D4ED8" font-weight="700" text-anchor="middle">&amp;</text>
+      <g class="a-in" style="--d:1.8s">
+      <path d="M150 66 L150 84" stroke="#2563EB" stroke-width="2"/><path d="M150 90 l-5 -7 h10 z" fill="#2563EB"/>
+      </g>
+      <g class="a-pop" style="--d:2.1s">
+      <rect x="80" y="94" width="140" height="30" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="150.0" y="113.55" font-size="13" text-anchor="middle" fill="#047857" font-weight="700">김도연(온라인)</text>
+      </g>
+      <g class="a-in" style="--d:2.6s">
+      <text x="10" y="150" font-size="11" fill="#374151" font-family="JetBrains Mono, monospace">=B2&amp;"("&amp;C2&amp;")"</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>이름 · 괄호 · 과정명을 &로 차례로 연결합니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>&amp;</code>는 문자를 이어 붙입니다. 괄호는 따옴표 안의 글자로 적어 <code>"("</code> 와 <code>")"</code> 로 넣습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">마지막 <code>")"</code> 뒤에는 이을 값이 없으니 <code>&amp;</code>를 붙이지 않습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">결과는 김도연(온라인), 김도연(오프라인), 김도연(혼합형)처럼 과정명만 바뀝니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">날짜 · 시간 함수</span>
+  <h2>날짜와 시간을 분해하고<br>합칩니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="208" viewBox="0 0 300 208" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="206" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">분해하고, 다시 합칩니다</text>
+      <text x="10" y="38" font-size="10" fill="#6B7280" font-weight="700">날짜</text>
+      <rect x="10" y="44" width="78" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="49.0" y="59.675" font-size="10.5" text-anchor="middle" fill="#111827">2026-10-22</text>
+      <g class="a-pop" style="--d:0.4s">
+      <rect x="100" y="44" width="52" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="126.0" y="59.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">2026</text>
+      <text x="126" y="80" font-size="9" fill="#6B7280" text-anchor="middle">YEAR</text>
+      </g>
+      <g class="a-pop" style="--d:0.7s">
+      <rect x="158" y="44" width="52" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="184.0" y="59.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">10</text>
+      <text x="184" y="80" font-size="9" fill="#6B7280" text-anchor="middle">MONTH</text>
+      </g>
+      <g class="a-pop" style="--d:1.0s">
+      <rect x="216" y="44" width="52" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="242.0" y="59.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">22</text>
+      <text x="242" y="80" font-size="9" fill="#6B7280" text-anchor="middle">DAY</text>
+      </g>
+      <g class="a-in" style="--d:1.5s">
+      <text x="10" y="104" font-size="10.5" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">DATE(2026,10,22) → 2026-10-22</text>
+      </g>
+      <text x="10" y="130" font-size="10" fill="#6B7280" font-weight="700">시간</text>
+      <rect x="10" y="136" width="78" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="49.0" y="151.675" font-size="10.5" text-anchor="middle" fill="#111827">14:35:20</text>
+      <g class="a-pop" style="--d:2.0s">
+      <rect x="100" y="136" width="52" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="126.0" y="151.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">14</text>
+      <text x="126" y="172" font-size="9" fill="#6B7280" text-anchor="middle">HOUR</text>
+      </g>
+      <g class="a-pop" style="--d:2.3s">
+      <rect x="158" y="136" width="52" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="184.0" y="151.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">35</text>
+      <text x="184" y="172" font-size="9" fill="#6B7280" text-anchor="middle">MINUTE</text>
+      </g>
+      <g class="a-pop" style="--d:2.6s">
+      <rect x="216" y="136" width="52" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="242.0" y="151.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">20</text>
+      <text x="242" y="172" font-size="9" fill="#6B7280" text-anchor="middle">SECOND</text>
+      </g>
+      <g class="a-in" style="--d:3.0s">
+      <text x="10" y="196" font-size="10.5" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">TIME(14,35,20) → 14:35:20</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>YEAR · MONTH · DAY ↔ DATE, HOUR · MINUTE · SECOND ↔ TIME</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>Ctrl + ;</b>은 입력한 순간의 날짜가 <b>고정값</b>으로 들어가고, <code>TODAY()</code>는 인수 없이 쓰며 다시 계산될 때 그날의 날짜로 바뀝니다. <code>NOW()</code>는 날짜와 시간을 함께 돌려줍니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><code>YEAR</code> · <code>MONTH</code> · <code>DAY</code>는 날짜에서 연·월·일을 꺼내고, <code>DATE(연,월,일)</code>는 세 값을 날짜로 합칩니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><code>HOUR</code> · <code>MINUTE</code> · <code>SECOND</code>는 시·분·초를 꺼내고, <code>TIME(시,분,초)</code>는 합칩니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">주민등록번호에서 연·월·일을 꺼내 DATE에 넣을 때는 두 자리 연도 앞에 <b>1900년대생은 19, 2000년대생은 20</b>을 붙여 네 자리로 만듭니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">WEEKDAY · CHOOSE</span>
+  <h2>WEEKDAY는 번호,<br>CHOOSE는 글자입니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="222" viewBox="0 0 300 222" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="220" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">요일을 번호로, 번호를 글자로</text>
+      <text x="10" y="40" font-size="10" fill="#6B7280" font-weight="700" font-family="JetBrains Mono, monospace">WEEKDAY(날짜, 1)</text>
+      <rect x="10" y="46" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="30.0" y="59.5" font-size="10" text-anchor="middle" fill="#6B7280">일</text>
+      <rect x="10" y="66" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="30.0" y="81.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">1</text>
+      <rect x="50" y="46" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="59.5" font-size="10" text-anchor="middle" fill="#6B7280">월</text>
+      <rect x="50" y="66" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="81.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">2</text>
+      <rect x="90" y="46" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="110.0" y="59.5" font-size="10" text-anchor="middle" fill="#6B7280">화</text>
+      <rect x="90" y="66" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="110.0" y="81.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">3</text>
+      <rect x="130" y="46" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="59.5" font-size="10" text-anchor="middle" fill="#6B7280">수</text>
+      <rect x="130" y="66" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="81.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">4</text>
+      <rect x="170" y="46" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="190.0" y="59.5" font-size="10" text-anchor="middle" fill="#6B7280">목</text>
+      <rect x="170" y="66" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="190.0" y="81.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">5</text>
+      <rect x="210" y="46" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="230.0" y="59.5" font-size="10" text-anchor="middle" fill="#6B7280">금</text>
+      <rect x="210" y="66" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="230.0" y="81.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">6</text>
+      <rect x="250" y="46" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="270.0" y="59.5" font-size="10" text-anchor="middle" fill="#6B7280">토</text>
+      <rect x="250" y="66" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="270.0" y="81.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">7</text>
+      <text x="10" y="110" font-size="10" fill="#6B7280" font-weight="700" font-family="JetBrains Mono, monospace">WEEKDAY(날짜, 2)</text>
+      <rect x="10" y="116" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="30.0" y="129.5" font-size="10" text-anchor="middle" fill="#6B7280">월</text>
+      <rect x="10" y="136" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="30.0" y="151.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">1</text>
+      <rect x="50" y="116" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="129.5" font-size="10" text-anchor="middle" fill="#6B7280">화</text>
+      <rect x="50" y="136" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="151.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">2</text>
+      <rect x="90" y="116" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="110.0" y="129.5" font-size="10" text-anchor="middle" fill="#6B7280">수</text>
+      <rect x="90" y="136" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="110.0" y="151.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">3</text>
+      <rect x="130" y="116" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="129.5" font-size="10" text-anchor="middle" fill="#6B7280">목</text>
+      <rect x="130" y="136" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="151.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">4</text>
+      <rect x="170" y="116" width="40" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="190.0" y="129.5" font-size="10" text-anchor="middle" fill="#6B7280">금</text>
+      <rect x="170" y="136" width="40" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="190.0" y="151.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">5</text>
+      <rect x="210" y="116" width="40" height="20" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="230.0" y="129.5" font-size="10" text-anchor="middle" fill="#B45309">토</text>
+      <rect x="210" y="136" width="40" height="22" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="230.0" y="151.2" font-size="12" text-anchor="middle" fill="#B45309" font-weight="700">6</text>
+      <rect x="250" y="116" width="40" height="20" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="270.0" y="129.5" font-size="10" text-anchor="middle" fill="#B45309">일</text>
+      <rect x="250" y="136" width="40" height="22" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="270.0" y="151.2" font-size="12" text-anchor="middle" fill="#B45309" font-weight="700">7</text>
+      <rect class="a-flash" style="--d:0.8s" x="10" y="116" width="200" height="42" fill="#DBEAFE" fill-opacity=".6" stroke="#2563EB" stroke-width="2.5"/>
+      <g class="a-in" style="--d:1.4s">
+      <text x="10" y="176" font-size="11" fill="#374151">반환유형 2: 1~5 평일, 6~7 주말</text>
+      </g>
+      <g class="a-in" style="--d:1.9s">
+      <text x="10" y="196" font-size="10" fill="#374151" font-family="JetBrains Mono, monospace">=CHOOSE(WEEKDAY(A2,2),</text>
+      </g>
+      <g class="a-in" style="--d:1.9s">
+      <text x="10" y="210" font-size="10" fill="#374151" font-family="JetBrains Mono, monospace">        "월","화","수","목","금","토","일")</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>반환유형에 따라 1번이 되는 요일이 다릅니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>WEEKDAY(날짜, 반환유형)</code>은 요일을 <b>글자가 아니라 번호</b>로 돌려줍니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">반환유형 <code>1</code>(생략 포함)은 <b>일요일이 1</b>, 반환유형 <code>2</code>는 <b>월요일이 1</b>입니다. 문제가 요구하는 번호 체계에 맞춰 고릅니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">번호를 <code>CHOOSE</code>의 첫 인수로 넣고 월·화·수·목·금·토·일을 차례로 적으면 요일 글자가 나옵니다 (기준표를 조회해도 됩니다)</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>WEEKDAY</b>는 요일 번호, <b>WORKDAY</b>는 주말을 뺀 며칠 뒤 날짜입니다. 이름이 비슷하니 섞지 않습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">IF</span>
+  <h2>조건이 참이면 앞의 값,<br>거짓이면 뒤의 값</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="178" viewBox="0 0 300 178" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="176" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">조건식 → 참이면 / 거짓이면</text>
+      <rect x="95" y="30" width="110" height="30" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="150.0" y="49.2" font-size="12" text-anchor="middle" fill="#1D4ED8" font-weight="700">A2&gt;=60 ?</text>
+      <g class="a-in" style="--d:0.4s">
+      <path d="M130 62 L80 86" stroke="#047857" stroke-width="2"/><path d="M76 89 l8 -1 l-4 -7 z" fill="#047857"/>
+      </g>
+      <g class="a-in" style="--d:0.4s">
+      <path d="M170 62 L220 86" stroke="#DC2626" stroke-width="2"/><path d="M224 89 l-8 -1 l4 -7 z" fill="#DC2626"/>
+      </g>
+      <text x="88" y="76" font-size="10" fill="#047857" font-weight="700" text-anchor="end">TRUE</text>
+      <text x="212" y="76" font-size="10" fill="#DC2626" font-weight="700">FALSE</text>
+      <g class="a-pop" style="--d:0.9s">
+      <rect x="20" y="92" width="100" height="28" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="70.0" y="110.2" font-size="12" text-anchor="middle" fill="#047857" font-weight="700">"합격"</text>
+      </g>
+      <g class="a-pop" style="--d:1.2s">
+      <rect x="180" y="92" width="100" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/><text x="230.0" y="110.2" font-size="12" text-anchor="middle" fill="#DC2626" font-weight="700">"불합격"</text>
+      </g>
+      <g class="a-in" style="--d:1.7s">
+      <text x="10" y="146" font-size="11" fill="#374151" font-family="JetBrains Mono, monospace">=IF(A2&gt;=60, "합격", "불합격")</text>
+      </g>
+      <g class="a-in" style="--d:2.1s">
+      <text x="10" y="166" font-size="11" fill="#374151">A2가 72이면 조건이 참이라 «합격»</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>조건식의 결과(TRUE/FALSE)에 따라 돌려줄 값이 갈립니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>IF(조건식, 참일 때 값, 거짓일 때 값)</code> — 기본 구조는 인수 세 개입니다. 세 번째(거짓일 때 값)를 생략할 수도 있지만, 이 자료에서는 세 개를 모두 씁니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">조건식은 «점수가 60점 이상입니까?»와 같은 <b>질문</b>이고, 결과는 <code>TRUE</code> 또는 <code>FALSE</code>입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">행마다 결과를 구하고 <b>채우기 핸들</b>로 내릴 때는 <b>그 행의 셀 하나</b>를 검사합니다 (A2 → A3 → A4)</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">중첩 IF</span>
+  <h2>다음 질문은 이전 IF의<br>거짓 자리에 넣습니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="224" viewBox="0 0 300 224" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="222" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">높은 구간부터, 거짓 자리에 다음 IF</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="32" width="80" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="50.0" y="47.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700">점수 &gt;=90</text>
+      <path d="M90 44 h28" stroke="#047857" stroke-width="2"/>
+      <rect x="120" y="32" width="30" height="24" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="135.0" y="48.2" font-size="12" text-anchor="middle" fill="#047857" font-weight="700">A</text>
+      <text x="94" y="41" font-size="8" fill="#047857" font-weight="700">참</text>
+      </g>
+      <g class="a-in" style="--d:0.5s">
+      <path d="M21 56 v6" stroke="#DC2626" stroke-width="2"/>
+      <text x="25" y="66" font-size="8" fill="#DC2626" font-weight="700">거짓</text>
+      </g>
+      <g class="a-in" style="--d:0.7s">
+      <rect x="32" y="62" width="80" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="72.0" y="77.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700">점수 &gt;=80</text>
+      <path d="M112 74 h28" stroke="#047857" stroke-width="2"/>
+      <rect x="142" y="62" width="30" height="24" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="157.0" y="78.2" font-size="12" text-anchor="middle" fill="#047857" font-weight="700">B</text>
+      <text x="116" y="71" font-size="8" fill="#047857" font-weight="700">참</text>
+      </g>
+      <g class="a-in" style="--d:0.9s">
+      <path d="M43 86 v6" stroke="#DC2626" stroke-width="2"/>
+      <text x="47" y="96" font-size="8" fill="#DC2626" font-weight="700">거짓</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <rect x="54" y="92" width="80" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="94.0" y="107.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700">점수 &gt;=70</text>
+      <path d="M134 104 h28" stroke="#047857" stroke-width="2"/>
+      <rect x="164" y="92" width="30" height="24" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="179.0" y="108.2" font-size="12" text-anchor="middle" fill="#047857" font-weight="700">C</text>
+      <text x="138" y="101" font-size="8" fill="#047857" font-weight="700">참</text>
+      </g>
+      <g class="a-in" style="--d:1.3s">
+      <path d="M65 116 v6" stroke="#DC2626" stroke-width="2"/>
+      <text x="69" y="126" font-size="8" fill="#DC2626" font-weight="700">거짓</text>
+      </g>
+      <g class="a-in" style="--d:1.5s">
+      <rect x="76" y="122" width="80" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="116.0" y="137.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700">점수 &gt;=60</text>
+      <path d="M156 134 h28" stroke="#047857" stroke-width="2"/>
+      <rect x="186" y="122" width="30" height="24" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="201.0" y="138.2" font-size="12" text-anchor="middle" fill="#047857" font-weight="700">D</text>
+      <text x="160" y="131" font-size="8" fill="#047857" font-weight="700">참</text>
+      </g>
+      <g class="a-in" style="--d:1.7s">
+      <path d="M87 146 v6" stroke="#DC2626" stroke-width="2"/>
+      <text x="91" y="156" font-size="8" fill="#DC2626" font-weight="700">거짓</text>
+      </g>
+      <g class="a-in" style="--d:2.1s">
+      <rect x="76" y="152" width="80" height="24" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/><text x="116.0" y="167.675" font-size="10.5" text-anchor="middle" fill="#DC2626" font-weight="700">나머지</text>
+      <rect x="186" y="152" width="30" height="24" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="201.0" y="168.2" font-size="12" text-anchor="middle" fill="#047857" font-weight="700">F</text>
+      <path d="M156 164 h28" stroke="#047857" stroke-width="2"/>
+      </g>
+      <g class="a-in" style="--d:2.4s">
+      <text x="10" y="202" font-size="9.5" fill="#374151" font-family="JetBrains Mono, monospace">=IF(A2&gt;=90,"A",IF(A2&gt;=80,"B",</text>
+      </g>
+      <g class="a-in" style="--d:2.4s">
+      <text x="10" y="214" font-size="9.5" fill="#374151" font-family="JetBrains Mono, monospace">  IF(A2&gt;=70,"C",IF(A2&gt;=60,"D","F"))))</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>결과가 다섯 가지면 IF 질문은 네 번입니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">다음 IF를 거짓 자리에 넣고 <code>&gt;=</code>로 비교하는 이 방식에서는 <b>높은 구간(90점)부터</b> 검사합니다. 60점 이상부터 물으면 A·B·C도 모두 조건을 만족해 구간이 나뉘지 않습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">다음 IF는 앞 IF의 <b>거짓일 때 값</b> 자리에 넣습니다. 함수 인수 대화 상자에서 현재 입력 위치가 거짓 값인지 확인합니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">결과가 5가지(A·B·C·D·F)이면 마지막 거짓 값이 한 가지를 맡으므로 <b>IF 질문은 4번</b>입니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">쉼표나 괄호 하나만 틀려도 오류가 납니다. 괄호의 색과 짝을 확인하되, 오류를 찾기 어려우면 식을 새로 쓰는 편이 빠를 수 있습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">AND · OR</span>
+  <h2>조건이 여러 개일 때<br>묶어서 검사합니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="144" viewBox="0 0 300 144" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="142" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">AND는 모두, OR는 하나라도</text>
+      <rect x="10" y="34" width="100" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="60.0" y="49.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">점수 &gt;= 80</text>
+      <rect x="10" y="62" width="100" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="60.0" y="77.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">출석 &gt;= 28</text>
+      <g class="a-in" style="--d:0.5s">
+      <path d="M112 46 L150 60" stroke="#6B7280" stroke-width="1.5"/><path d="M112 74 L150 62" stroke="#6B7280" stroke-width="1.5"/>
+      </g>
+      <g class="a-pop" style="--d:0.9s">
+      <rect x="150" y="46" width="50" height="28" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="175.0" y="64.2" font-size="12" text-anchor="middle" fill="#B45309" font-weight="700">AND</text>
+      </g>
+      <g class="a-in" style="--d:1.3s">
+      <path d="M202 60 h28" stroke="#047857" stroke-width="2"/><path d="M236 60 l-8 -4 v8 z" fill="#047857"/>
+      </g>
+      <g class="a-pop" style="--d:1.6s">
+      <rect x="238" y="46" width="54" height="28" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="265.0" y="63.675" font-size="10.5" text-anchor="middle" fill="#047857" font-weight="700">"장학생"</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="112" font-size="11" fill="#374151">두 조건이 모두 참이면 «장학생», 아니면 <tspan font-weight="700" fill="#DC2626">""</tspan> (빈칸으로 표시)</text>
+      </g>
+      <g class="a-in" style="--d:2.4s">
+      <text x="10" y="132" font-size="10.5" fill="#374151" font-family="JetBrains Mono, monospace">=IF(AND(B2&gt;=80,C2&gt;=28),"장학생","")</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>AND 안의 조건이 모두 참이어야 TRUE입니다</figcaption>
+  </figure>
+  <table class="wrapfirst">
+    <tr><th>함수</th><th>TRUE가 되는 때</th></tr>
+    <tr><td><code>AND</code></td><td>조건이 <b>모두</b> 참일 때</td></tr>
+    <tr><td><code>OR</code></td><td>조건 중 <b>하나라도</b> 참일 때</td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">조건이 세 개여도 한 AND 안에 쉼표로 나열합니다. 예) 평균 60점 이상, 컴퓨터 일반 40점 이상, 스프레드시트 40점 이상 → <code>AND(평균&gt;=60,컴일&gt;=40,스프&gt;=40)</code></span></div>
+    <div class="row"><span class="n">2</span><span class="b">아무것도 표시하지 않으려면 스페이스 한 칸이 아니라 <b>큰따옴표 두 개 <code>""</code></b>(빈 문자열)를 씁니다. 빈칸으로 보이는 것은 오류가 아니라 조건에 해당하지 않는다는 뜻입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">RIGHT · MOD</span>
+  <h2>나머지로 홀수와 짝수를<br>가릅니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="196" viewBox="0 0 300 196" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="194" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">끝자리를 가져와 홀수·짝수 판정</text>
+      <text x="10" y="47" font-size="10" fill="#6B7280">사원 코드</text>
+      <rect x="70" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="82.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">E</text>
+      <rect x="94" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="106.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">-</text>
+      <rect x="118" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="130.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">1</text>
+      <rect x="142" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="154.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">0</text>
+      <rect x="166" y="32" width="24" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="178.0" y="48.55" font-size="13" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">2</text>
+      <rect x="190" y="32" width="24" height="24" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/><text x="202.0" y="48.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">7</text>
+      <g class="a-in" style="--d:0.4s">
+      <text x="218" y="48" font-size="10" fill="#DC2626" font-weight="700">← RIGHT(코드,1)</text>
+      </g>
+      <g class="a-in" style="--d:1.0s">
+      <text x="10" y="84" font-size="11" fill="#374151">MOD(7, 2) = 1  (7 ÷ 2의 나머지)</text>
+      </g>
+      <text x="10" y="110" font-size="10" fill="#6B7280" font-weight="700">끝자리</text>
+      <rect x="60" y="98" width="38" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="79.0" y="111.5" font-size="10" text-anchor="middle" fill="#6B7280">0</text>
+      <rect x="60" y="118" width="38" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="79.0" y="133.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">0</text>
+      <rect x="98" y="98" width="38" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="117.0" y="111.5" font-size="10" text-anchor="middle" fill="#6B7280">1</text>
+      <rect x="98" y="118" width="38" height="22" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="117.0" y="133.2" font-size="12" text-anchor="middle" fill="#B45309" font-weight="700">1</text>
+      <rect x="136" y="98" width="38" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="155.0" y="111.5" font-size="10" text-anchor="middle" fill="#6B7280">2</text>
+      <rect x="136" y="118" width="38" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="155.0" y="133.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">0</text>
+      <rect x="174" y="98" width="38" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="193.0" y="111.5" font-size="10" text-anchor="middle" fill="#6B7280">3</text>
+      <rect x="174" y="118" width="38" height="22" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="193.0" y="133.2" font-size="12" text-anchor="middle" fill="#B45309" font-weight="700">1</text>
+      <rect x="212" y="98" width="38" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="231.0" y="111.5" font-size="10" text-anchor="middle" fill="#6B7280">4</text>
+      <rect x="212" y="118" width="38" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="231.0" y="133.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">0</text>
+      <rect x="250" y="98" width="38" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="269.0" y="111.5" font-size="10" text-anchor="middle" fill="#6B7280">5</text>
+      <rect x="250" y="118" width="38" height="22" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="269.0" y="133.2" font-size="12" text-anchor="middle" fill="#B45309" font-weight="700">1</text>
+      <text x="10" y="134" font-size="10" fill="#6B7280" font-weight="700">MOD</text>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="164" font-size="11" fill="#374151">나머지 1 → 홀수 → «남», 0 → 짝수 → «여»</text>
+      </g>
+      <g class="a-in" style="--d:2.2s">
+      <text x="10" y="184" font-size="10.5" fill="#374151" font-family="JetBrains Mono, monospace">=IF(MOD(RIGHT(A2,1),2)=1,"남","여")</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>MOD(수, 2)는 홀수면 1, 짝수면 0입니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>RIGHT(코드,1)</code>로 코드의 <b>마지막 한 글자</b>를 가져오고, <code>MOD(끝자리,2)</code>로 나머지를 구합니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">나머지가 1이면 홀수, 0이면 짝수입니다. 이 결과를 IF에 넣어 «남»·«여»를 나눕니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">MOD의 결과는 0 또는 1이고 0은 FALSE, 1은 TRUE로 취급되므로 <code>=1</code> 비교를 생략해도 같은 결과가 나옵니다. 풀이에 <code>=1</code>이 없다고 틀린 식은 아닙니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">근속 연수 · VLOOKUP</span>
+  <h2>TODAY와 입사일로<br>근속 연수를 구합니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="268" viewBox="0 0 300 268" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="266" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">일 수 → 연수 → 구분</text>
+      <rect x="10" y="32" width="280" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="46.85" font-size="11" text-anchor="middle" fill="#111827">오늘 − 입사일 = 1,400일</text>
+      <g class="a-in" style="--d:0.4s">
+      <text x="150" y="70" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">↓  ÷ 365</text>
+      </g>
+      <g class="a-in" style="--d:0.7s">
+      <rect x="10" y="76" width="280" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="90.85" font-size="11" text-anchor="middle" fill="#111827">3.84…</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <text x="150" y="114" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">↓  INT</text>
+      </g>
+      <g class="a-pop" style="--d:1.4s">
+      <rect x="10" y="120" width="280" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="150.0" y="135.2" font-size="12" text-anchor="middle" fill="#047857" font-weight="700">근속 연수 3</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="164" font-size="11" fill="#374151" font-family="JetBrains Mono, monospace">=INT((TODAY()-B2)/365)</text>
+      </g>
+      <text x="10" y="188" font-size="10" fill="#6B7280">예시 기준표 (구간의 시작값이 첫 열)</text>
+      <rect x="10" y="194" width="70" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="45.0" y="207.675" font-size="10.5" text-anchor="middle" fill="#6B7280" font-weight="700">0</text>
+      <rect x="10" y="214" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="45.0" y="228.85" font-size="11" text-anchor="middle" fill="#111827">신입</text>
+      <rect x="80" y="194" width="70" height="20" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="115.0" y="207.675" font-size="10.5" text-anchor="middle" fill="#B45309" font-weight="700">3</text>
+      <rect x="80" y="214" width="70" height="22" fill="#FEF3C7" stroke="#B45309" stroke-width="1"/><text x="115.0" y="228.85" font-size="11" text-anchor="middle" fill="#111827" font-weight="700">주니어</text>
+      <rect x="150" y="194" width="70" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="185.0" y="207.675" font-size="10.5" text-anchor="middle" fill="#6B7280" font-weight="700">6</text>
+      <rect x="150" y="214" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="185.0" y="228.85" font-size="11" text-anchor="middle" fill="#111827">시니어</text>
+      <rect x="220" y="194" width="70" height="20" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="255.0" y="207.675" font-size="10.5" text-anchor="middle" fill="#6B7280" font-weight="700">10</text>
+      <rect x="220" y="214" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="255.0" y="228.85" font-size="11" text-anchor="middle" fill="#111827">베테랑</text>
+      <rect class="a-flash" style="--d:2.3s" x="80" y="194" width="70" height="42" fill="#FEF3C7" fill-opacity=".6" stroke="#B45309" stroke-width="2.5"/>
+      <g class="a-in" style="--d:2.7s">
+      <text x="10" y="256" font-size="10.5" fill="#374151">근속 연수 3 → 기준표의 3 → 주니어</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>정수 근속 연수를 기준표의 구간 시작값과 비교합니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">수업에서는 <code>(TODAY()-입사일)/365</code>로 일 수를 연수로 바꾼 뒤 <code>INT</code>로 정수만 남겼습니다. <b>괄호를 빼면</b> 나눗셈이 먼저 계산되어 입사일만 365로 나뉩니다. 365로 나누는 방식은 윤년을 반영하지 않는 근삿값이므로, 문제가 지시한 계산 방식을 따릅니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><code>INT</code>는 날짜 차이의 일부가 아니라 <b>계산식 전체</b>를 감쌉니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">결과가 날짜 모양으로 보이면 계산 오류가 아니라 서식이 바뀐 것입니다. 표시 형식을 <b>일반</b>으로 되돌립니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">근속 구분은 <b>VLOOKUP 유사 일치</b>로 찾습니다. 마지막 인수를 <code>TRUE</code>로 쓰거나 생략하면, 기준표 첫 열을 <b>오름차순</b>으로 두어야 하며 찾는 값을 넘지 않는 가장 큰 값의 행을 가져옵니다</span></div>
+    <div class="row"><span class="n">5</span><span class="b">기준표에 머리글은 제외하고 채우기 핸들을 쓰면 절대 참조합니다. 근속 연수가 틀리면 근속 구분도 틀립니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">WORKDAY</span>
+  <h2>시작일 다음 근무일부터<br>세어 나갑니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="170" viewBox="0 0 300 170" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="168" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">주말을 빼고 며칠 뒤 날짜</text>
+      <rect x="10" y="32" width="40" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="30.0" y="44.5" font-size="10" text-anchor="middle" fill="#6B7280">월</text>
+      <rect x="50" y="32" width="40" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="44.5" font-size="10" text-anchor="middle" fill="#6B7280">화</text>
+      <rect x="90" y="32" width="40" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="110.0" y="44.5" font-size="10" text-anchor="middle" fill="#6B7280">수</text>
+      <rect x="130" y="32" width="40" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="44.5" font-size="10" text-anchor="middle" fill="#6B7280">목</text>
+      <rect x="170" y="32" width="40" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="190.0" y="44.5" font-size="10" text-anchor="middle" fill="#6B7280">금</text>
+      <rect x="210" y="32" width="40" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="230.0" y="44.5" font-size="10" text-anchor="middle" fill="#6B7280">토</text>
+      <rect x="250" y="32" width="40" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="270.0" y="44.5" font-size="10" text-anchor="middle" fill="#6B7280">일</text>
+      <rect x="10" y="50" width="40" height="24" fill="#DBEAFE" stroke="#2563EB" stroke-width="1"/><text x="30.0" y="64.975" font-size="8.5" text-anchor="middle" fill="#1D4ED8" font-weight="700">12 시작</text>
+      <g class="a-in" style="--d:0.35s">
+      <rect x="50" y="50" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="65.325" font-size="9.5" text-anchor="middle" fill="#111827">13·1</text>
+      </g>
+      <g class="a-in" style="--d:0.5s">
+      <rect x="90" y="50" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="110.0" y="65.325" font-size="9.5" text-anchor="middle" fill="#111827">14·2</text>
+      </g>
+      <g class="a-in" style="--d:0.65s">
+      <rect x="130" y="50" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="65.325" font-size="9.5" text-anchor="middle" fill="#111827">15·3</text>
+      </g>
+      <g class="a-in" style="--d:0.8s">
+      <rect x="170" y="50" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="190.0" y="65.325" font-size="9.5" text-anchor="middle" fill="#111827">16·4</text>
+      </g>
+      <rect x="210" y="50" width="40" height="24" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="230.0" y="65.5" font-size="10" text-anchor="middle" fill="#9CA3AF">17</text>
+      <rect x="250" y="50" width="40" height="24" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="270.0" y="65.5" font-size="10" text-anchor="middle" fill="#9CA3AF">18</text>
+      <g class="a-in" style="--d:0.95s">
+      <rect x="10" y="74" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="30.0" y="89.325" font-size="9.5" text-anchor="middle" fill="#111827">19·5</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <rect x="50" y="74" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="89.325" font-size="9.5" text-anchor="middle" fill="#111827">20·6</text>
+      </g>
+      <g class="a-in" style="--d:1.25s">
+      <rect x="90" y="74" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="110.0" y="89.325" font-size="9.5" text-anchor="middle" fill="#111827">21·7</text>
+      </g>
+      <g class="a-in" style="--d:1.4s">
+      <rect x="130" y="74" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="89.325" font-size="9.5" text-anchor="middle" fill="#111827">22·8</text>
+      </g>
+      <g class="a-in" style="--d:1.55s">
+      <rect x="170" y="74" width="40" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="190.0" y="89.325" font-size="9.5" text-anchor="middle" fill="#111827">23·9</text>
+      </g>
+      <rect x="210" y="74" width="40" height="24" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="230.0" y="89.5" font-size="10" text-anchor="middle" fill="#9CA3AF">24</text>
+      <rect x="250" y="74" width="40" height="24" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="270.0" y="89.5" font-size="10" text-anchor="middle" fill="#9CA3AF">25</text>
+      <g class="a-pop" style="--d:2.4s">
+      <rect x="10" y="98" width="40" height="24" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="30.0" y="112.975" font-size="8.5" text-anchor="middle" fill="#047857" font-weight="700">26 도착</text>
+      </g>
+      <g class="a-in" style="--d:2.2s">
+      <text x="10" y="138" font-size="10.5" fill="#374151">10/12(월)에서 근무일 10일 뒤 = 10/26(월)</text>
+      </g>
+      <g class="a-in" style="--d:2.6s">
+      <text x="10" y="158" font-size="11" fill="#374151" font-family="JetBrains Mono, monospace">=WORKDAY(B2, 10)</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>점 뒤의 숫자가 센 근무일 번호입니다. 토·일은 건너뜁니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>WORKDAY(시작일, 일수, [휴일])</code> — 주말(토·일)을 제외하고, 일수가 양수이면 <b>시작일 다음 근무일부터</b> 세어 날짜를 돌려줍니다. 음수이면 이전 근무일 쪽으로 셉니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">법정 공휴일이나 회사 휴무일은 자동으로 빠지지 않습니다. 빼야 하면 세 번째 인수에 <b>휴일 날짜 범위</b>를 지정합니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">«입사일 당일을 첫 근무일로 센다»는 조건이 있으면 일수가 달라질 수 있으니 문제의 기준을 먼저 확인합니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">결과가 숫자(일련번호)로 보이면 표시 형식을 날짜로 바꿉니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">IFERROR</span>
+  <h2>오류가 나면 대신<br>지정한 값을 보여 줍니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="156" viewBox="0 0 300 156" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="154" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">오류 대신 원하는 값을 보여 줍니다</text>
+      <rect x="10" y="34" width="120" height="26" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="50.675" font-size="10.5" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">=VLOOKUP(…)</text>
+      <g class="a-in" style="--d:0.4s">
+      <path d="M132 47 h34" stroke="#2563EB" stroke-width="2"/><path d="M172 47 l-8 -4 v8 z" fill="#2563EB"/>
+      </g>
+      <g class="a-pop" style="--d:0.8s">
+      <rect x="176" y="34" width="110" height="26" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/><text x="231.0" y="51.2" font-size="12" text-anchor="middle" fill="#DC2626" font-weight="700">#N/A</text>
+      </g>
+      <g class="a-in" style="--d:1.4s">
+      <text x="150" y="84" font-size="11" fill="#1D4ED8" font-weight="700" text-anchor="middle">↓  IFERROR(수식, "")</text>
+      </g>
+      <g class="a-pop" style="--d:1.8s">
+      <rect x="10" y="92" width="276" height="26" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="148.0" y="108.85" font-size="11" text-anchor="middle" fill="#6B7280">(빈칸)</text>
+      </g>
+      <g class="a-in" style="--d:2.3s">
+      <text x="10" y="144" font-size="11" fill="#374151" font-family="JetBrains Mono, monospace">=IFERROR(VLOOKUP(…), "")</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>조회 값이 없거나 «퇴사» 같은 문자가 있어도 #N/A가 보이지 않습니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>IFERROR(수식, 오류일 때 값)</code> — 수식이 오류이면 두 번째 인수를, 오류가 아니면 수식 결과를 그대로 보여 줍니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">근속 구분을 찾는 VLOOKUP에서 값이 없거나 «퇴사» 같은 문자 때문에 <code>#N/A</code>가 나면, 오류 값 자리에 <code>""</code>를 적어 빈칸처럼 보이게 했습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">어떤 종류의 오류든 같은 값으로 바뀌므로, 오류 원인을 확인한 뒤 쓰는 것이 안전합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">IFS</span>
+  <h2>중첩 IF 대신<br>조건과 결과를 나열합니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="208" viewBox="0 0 300 208" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="206" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">조건과 결과를 짝지어 나열합니다</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="32" width="110" height="22" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="65.0" y="46.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700" font-family="JetBrains Mono, monospace">A2&gt;=90</text>
+      <rect x="126" y="32" width="60" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="156.0" y="46.675" font-size="10.5" text-anchor="middle" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">"A"</text>
+      </g>
+      <g class="a-in" style="--d:0.65s">
+      <rect x="10" y="58" width="110" height="22" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="65.0" y="72.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700" font-family="JetBrains Mono, monospace">A2&gt;=80</text>
+      <rect x="126" y="58" width="60" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="156.0" y="72.675" font-size="10.5" text-anchor="middle" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">"B"</text>
+      </g>
+      <g class="a-in" style="--d:1.0s">
+      <rect x="10" y="84" width="110" height="22" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="65.0" y="98.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700" font-family="JetBrains Mono, monospace">A2&gt;=70</text>
+      <rect x="126" y="84" width="60" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="156.0" y="98.675" font-size="10.5" text-anchor="middle" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">"C"</text>
+      </g>
+      <g class="a-in" style="--d:1.35s">
+      <rect x="10" y="110" width="110" height="22" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="65.0" y="124.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700" font-family="JetBrains Mono, monospace">A2&gt;=60</text>
+      <rect x="126" y="110" width="60" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="156.0" y="124.675" font-size="10.5" text-anchor="middle" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">"D"</text>
+      </g>
+      <g class="a-pop" style="--d:1.9s">
+      <rect x="10" y="136" width="110" height="22" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/><text x="65.0" y="150.675" font-size="10.5" text-anchor="middle" fill="#B45309" font-weight="700" font-family="JetBrains Mono, monospace">TRUE</text>
+      <rect x="126" y="136" width="60" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="156.0" y="150.675" font-size="10.5" text-anchor="middle" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">"F"</text>
+      </g>
+      <g class="a-in" style="--d:2.3s">
+      <text x="196" y="152" font-size="10" fill="#B45309" font-weight="700">← 그 밖에는 F</text>
+      </g>
+      <g class="a-in" style="--d:2.6s">
+      <text x="10" y="182" font-size="10" fill="#374151" font-family="JetBrains Mono, monospace">=IFS(A2&gt;=90,"A", A2&gt;=80,"B",</text>
+      </g>
+      <g class="a-in" style="--d:2.6s">
+      <text x="10" y="196" font-size="10" fill="#374151" font-family="JetBrains Mono, monospace">     A2&gt;=70,"C", A2&gt;=60,"D", TRUE,"F")</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>위에서부터 처음 참인 조건의 결과를 돌려줍니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>IFS(조건1, 값1, 조건2, 값2, …)</code> — 조건과 참일 때 값을 짝지어 차례로 적습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">IFS에는 IF 같은 <b>마지막 거짓 자리가 없습니다</b>. «그 밖에는 F»처럼 처리하려면 마지막 조건 자리에 <code>TRUE</code>(또는 <code>1</code>)를 넣습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">어느 조건도 참이 아니고 마지막에 <code>TRUE</code> 조건도 없으면 <code>#N/A</code> 오류가 납니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">ROW · COLUMN</span>
+  <h2>ROW로 만든 번호는<br>정렬해도 유지됩니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="184" viewBox="0 0 300 184" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="182" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">정렬해도 1, 2, 3으로 이어지는 번호</text>
+      <text x="10" y="42" font-size="10.5" fill="#6B7280" font-weight="700">직접 입력한 번호</text>
+      <text x="160" y="42" font-size="10.5" fill="#1D4ED8" font-weight="700" font-family="JetBrains Mono, monospace">=ROW()-2</text>
+      <text x="10" y="54" font-size="9" fill="#6B7280">(이름순 정렬 후)</text>
+      <text x="160" y="54" font-size="9" fill="#6B7280">(이름순 정렬 후)</text>
+      <rect x="10" y="62" width="40" height="22" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/><text x="30.0" y="76.85" font-size="11" text-anchor="middle" fill="#DC2626" font-weight="700">3</text>
+      <rect x="50" y="62" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="85.0" y="76.85" font-size="11" text-anchor="middle" fill="#111827">김서연</text>
+      <rect x="10" y="86" width="40" height="22" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/><text x="30.0" y="100.85" font-size="11" text-anchor="middle" fill="#DC2626" font-weight="700">1</text>
+      <rect x="50" y="86" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="85.0" y="100.85" font-size="11" text-anchor="middle" fill="#111827">박민준</text>
+      <rect x="10" y="110" width="40" height="22" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/><text x="30.0" y="124.85" font-size="11" text-anchor="middle" fill="#DC2626" font-weight="700">2</text>
+      <rect x="50" y="110" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="85.0" y="124.85" font-size="11" text-anchor="middle" fill="#111827">이도윤</text>
+      <g class="a-pop" style="--d:1.0s">
+      <rect x="160" y="62" width="40" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="180.0" y="76.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">1</text>
+      </g>
+      <rect x="200" y="62" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="235.0" y="76.85" font-size="11" text-anchor="middle" fill="#111827">김서연</text>
+      <g class="a-pop" style="--d:1.3s">
+      <rect x="160" y="86" width="40" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="180.0" y="100.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">2</text>
+      </g>
+      <rect x="200" y="86" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="235.0" y="100.85" font-size="11" text-anchor="middle" fill="#111827">박민준</text>
+      <g class="a-pop" style="--d:1.6s">
+      <rect x="160" y="110" width="40" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="180.0" y="124.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">3</text>
+      </g>
+      <rect x="200" y="110" width="70" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="235.0" y="124.85" font-size="11" text-anchor="middle" fill="#111827">이도윤</text>
+      <g class="a-in" style="--d:2.2s">
+      <text x="10" y="156" font-size="11" fill="#374151">직접 입력한 번호는 순서가 뒤섞이지만</text>
+      </g>
+      <g class="a-in" style="--d:2.2s">
+      <text x="10" y="172" font-size="11" fill="#047857" font-weight="700">ROW()-2 는 위에서부터 다시 1, 2, 3</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>번호가 값이 아니라 «현재 행 번호»에서 나오기 때문입니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>ROW()</code>는 현재 셀의 행 번호, <code>COLUMN()</code>은 현재 셀의 열 번호입니다. A1에서 <code>ROW()</code>는 1, B1에서 <code>COLUMN()</code>은 2입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><code>ROWS(범위)</code>와 <code>COLUMNS(범위)</code>는 선택한 범위의 <b>행 개수</b>와 <b>열 개수</b>입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">데이터가 3행부터면 <code>ROW()-2</code>, 2행부터면 <code>ROW()-1</code>입니다. 빼는 수를 외우지 말고 <b>첫 결과가 1이 되게</b> 맞춥니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">조건부 서식</span>
+  <h2>조건에 맞는 셀을<br>자동으로 꾸밉니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="204" viewBox="0 0 300 204" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="202" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">값에 따라 서식이 자동으로 바뀝니다</text>
+      <text x="10" y="40" font-size="10.5" fill="#6B7280" font-weight="700">데이터 막대</text>
+      <rect x="10" y="48" width="44" height="20" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="32.0" y="61.675" font-size="10.5" text-anchor="middle" fill="#111827">320</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="54" y="48" width="200" height="20" fill="#93C5FD" stroke="#2563EB"/>
+      </g>
+      <rect x="10" y="72" width="44" height="20" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="32.0" y="85.675" font-size="10.5" text-anchor="middle" fill="#111827">210</text>
+      <g class="a-in" style="--d:0.6s">
+      <rect x="54" y="72" width="130" height="20" fill="#93C5FD" stroke="#2563EB"/>
+      </g>
+      <rect x="10" y="96" width="44" height="20" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="32.0" y="109.675" font-size="10.5" text-anchor="middle" fill="#111827">120</text>
+      <g class="a-in" style="--d:0.9s">
+      <rect x="54" y="96" width="74" height="20" fill="#93C5FD" stroke="#2563EB"/>
+      </g>
+      <g class="a-in" style="--d:1.4s">
+      <text x="10" y="134" font-size="11" fill="#374151">큰 값일수록 막대가 길게 표시됩니다</text>
+      </g>
+      <text x="10" y="160" font-size="10.5" fill="#6B7280" font-weight="700">셀 강조 규칙 «보다 큼» 90</text>
+      <g class="a-flash" style="--d:1.8s">
+      <rect x="10" y="168" width="66" height="22" fill="#FECACA" stroke="#DC2626" stroke-width="1"/><text x="43.0" y="182.85" font-size="11" text-anchor="middle" fill="#991B1B" font-weight="700">95</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <rect x="80" y="168" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="113.0" y="182.85" font-size="11" text-anchor="middle" fill="#111827">82</text>
+      </g>
+      <g class="a-flash" style="--d:1.8s">
+      <rect x="150" y="168" width="66" height="22" fill="#FECACA" stroke="#DC2626" stroke-width="1"/><text x="183.0" y="182.85" font-size="11" text-anchor="middle" fill="#991B1B" font-weight="700">91</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <rect x="220" y="168" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="253.0" y="182.85" font-size="11" text-anchor="middle" fill="#111827">78</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>값이 바뀌면 서식도 따라 바뀝니다</figcaption>
+  </figure>
+  <table class="wrapfirst">
+    <tr><th>홈 › 스타일 › 조건부 서식</th><th>하는 일</th></tr>
+    <tr><td>데이터 막대</td><td>값의 크기를 <b>막대 길이</b>로 표시</td></tr>
+    <tr><td>아이콘 집합</td><td>값 구간에 따라 <b>아이콘</b> 표시</td></tr>
+    <tr><td>셀 강조 규칙</td><td><b>보다 큼</b> 등 조건에 맞는 셀을 강조</td></tr>
+    <tr><td>상위/하위 규칙</td><td>상위 10개, 평균 초과 등을 강조</td></tr>
+    <tr><td>새 규칙</td><td><b>수식</b>으로 조건을 직접 작성</td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">규칙이 여러 개일 때의 우선순위는 <b>규칙 관리</b> 대화 상자 목록의 위아래 순서로 확인합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">조건부 서식 · 수식</span>
+  <h2>열은 고정하고<br>행은 따라가게 씁니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="304" height="198" viewBox="0 0 304 198" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="302" height="196" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">조건에 맞는 행 전체를 강조합니다</text>
+      <rect x="30" y="30" width="66" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="63.0" y="42.325" font-size="9.5" text-anchor="middle" fill="#6B7280">A 학번</text>
+      <rect x="96" y="30" width="66" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="129.0" y="42.325" font-size="9.5" text-anchor="middle" fill="#6B7280">B 이름</text>
+      <rect x="162" y="30" width="66" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="195.0" y="42.325" font-size="9.5" text-anchor="middle" fill="#6B7280">C 워드</text>
+      <rect x="228" y="30" width="66" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="261.0" y="42.325" font-size="9.5" text-anchor="middle" fill="#6B7280">D 엑셀</text>
+      <rect x="10" y="48" width="20" height="24" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="20.0" y="63.325" font-size="9.5" text-anchor="middle" fill="#6B7280">4</text>
+      <rect x="30" y="48" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="63.0" y="63.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">1001</text>
+      <rect x="96" y="48" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="129.0" y="63.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">김서연</text>
+      <rect x="162" y="48" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="195.0" y="63.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">85</text>
+      <rect x="228" y="48" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="261.0" y="63.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">92</text>
+      <rect x="10" y="72" width="20" height="24" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="20.0" y="87.325" font-size="9.5" text-anchor="middle" fill="#6B7280">5</text>
+      <rect x="30" y="72" width="66" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="63.0" y="87.85" font-size="11" text-anchor="middle" fill="#111827">1002</text>
+      <rect x="96" y="72" width="66" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="129.0" y="87.85" font-size="11" text-anchor="middle" fill="#111827">박민준</text>
+      <rect x="162" y="72" width="66" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="195.0" y="87.85" font-size="11" text-anchor="middle" fill="#111827">78</text>
+      <rect x="228" y="72" width="66" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="261.0" y="87.85" font-size="11" text-anchor="middle" fill="#111827">81</text>
+      <rect x="10" y="96" width="20" height="24" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="20.0" y="111.325" font-size="9.5" text-anchor="middle" fill="#6B7280">6</text>
+      <rect x="30" y="96" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="63.0" y="111.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">1003</text>
+      <rect x="96" y="96" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="129.0" y="111.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">이도윤</text>
+      <rect x="162" y="96" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="195.0" y="111.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">90</text>
+      <rect x="228" y="96" width="66" height="24" fill="#FEE2E2" stroke="#CBD5E1" stroke-width="1"/><text x="261.0" y="111.85" font-size="11" text-anchor="middle" fill="#B91C1C" font-weight="700">95</text>
+      <rect class="a-flash" style="--d:0.8s" x="30" y="48" width="264" height="24" fill="#FECACA" fill-opacity=".6" stroke="#DC2626" stroke-width="2.5"/>
+      <rect class="a-flash" style="--d:1.3s" x="30" y="96" width="264" height="24" fill="#FECACA" fill-opacity=".6" stroke="#DC2626" stroke-width="2.5"/>
+      <g class="a-in" style="--d:1.9s">
+      <text x="10" y="148" font-size="11" fill="#374151">D열 점수가 90 이상인 행 전체</text>
+      </g>
+      <g class="a-in" style="--d:2.3s">
+      <text x="10" y="168" font-size="13" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">=$D4&gt;=90</text>
+      </g>
+      <g class="a-in" style="--d:2.6s">
+      <text x="10" y="186" font-size="10.5" fill="#6B7280">$D → 열 고정, 4 → 행은 따라 내려감</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>선택한 범위의 첫 행(4행)을 기준으로 쓴 식이 아래 행에도 적용됩니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">데이터 행 전체를 먼저 선택합니다 (<b>필드명 제외</b>)</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>홈 › 스타일 › 조건부 서식 › 새 규칙 › 수식을 사용하여 서식을 지정할 셀 결정</b></span></div>
+    <div class="row"><span class="n">3</span><span class="b">IF를 쓰지 않고 <b>조건식만</b> 입력합니다. 식이 TRUE인 행에 서식이 적용됩니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">검사하는 열은 고정하고 행은 바뀌게 하므로 <code>$D4</code>처럼 <b>열 앞에만 $</b>를 붙입니다. 행까지 고정하면 다음 행을 검사하지 못합니다</span></div>
+    <div class="row"><span class="n">5</span><span class="b">서식 버튼에서 글꼴 색이나 채우기를 고르고 <b>미리 보기</b>로 확인합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">조건부 서식 · 응용</span>
+  <h2>함수를 넣은 조건식도<br>같은 원칙입니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="224" viewBox="0 0 300 224" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="222" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">조건식에 함수를 넣어 응용합니다</text>
+      <rect x="10" y="32" width="280" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="47.675" font-size="10.5" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">=AND($D4&gt;=80, $C4&gt;=80)</text>
+      <g class="a-in" style="--d:0.4s">
+      <text x="10" y="72" font-size="10.5" fill="#6B7280">엑셀·워드가 모두 80점 이상</text>
+      </g>
+      <rect x="10" y="82" width="280" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="97.675" font-size="10.5" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">=$F4&gt;AVERAGE($F$4:$F$13)</text>
+      <g class="a-in" style="--d:0.9s">
+      <text x="10" y="122" font-size="10.5" fill="#6B7280">합계가 전체 평균보다 큰 행</text>
+      </g>
+      <g class="a-in" style="--d:1.3s">
+      <text x="10" y="142" font-size="10.5" fill="#1D4ED8" font-weight="700">$F4 → 열만 고정 (현재 행의 합계)</text>
+      </g>
+      <g class="a-in" style="--d:1.7s">
+      <text x="10" y="160" font-size="10.5" fill="#047857" font-weight="700">$F$4:$F$13 → 모두 고정 (전체 범위)</text>
+      </g>
+      <rect x="10" y="172" width="280" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="187.675" font-size="10.5" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">=MOD(RIGHT($A4,1),2)=1</text>
+      <g class="a-in" style="--d:2.1s">
+      <text x="10" y="212" font-size="10.5" fill="#6B7280">학번 끝자리가 홀수인 행</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>검사 열은 열만 고정하고, 모든 행에서 같아야 하는 범위는 전부 고정합니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">엑셀과 워드가 모두 80점 이상: <code>AND</code> 안에 두 조건을 넣습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">합계가 평균보다 큰 행: 현재 행의 합계는 <b>열 고정</b>, 평균 범위는 <b>전체 절대 참조</b>입니다. 열만 고정하면 범위가 아래로 밀려 내려갑니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">학번 끝자리가 홀수인 행: <code>RIGHT</code>로 한 글자를 가져와 <code>MOD(…,2)</code>를 적용합니다. <code>=1</code>은 붙여도 되고, 0·1 결과를 그대로 써도 됩니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">식이 복잡하면 <b>옆의 빈 셀에 먼저 작성</b>해 채우기 핸들로 TRUE/FALSE를 확인합니다. 맞으면 <code>F2</code>, <code>Shift+Home</code>, <code>Ctrl+X</code>로 식을 잘라 규칙 대화 상자에 붙여 넣습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">조건부 서식 · 점검</span>
+  <h2>규칙이 틀렸을 때<br>이렇게 고칩니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="202" viewBox="0 0 300 202" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="200" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">적용 대상과 수식의 첫 행을 맞춥니다</text>
+      <rect x="10" y="32" width="280" height="86" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="50" font-size="10" fill="#6B7280" font-weight="700">규칙 편집</text>
+      <text x="18" y="68" font-size="10" fill="#6B7280">수식</text>
+      <rect x="54" y="55" width="228" height="18" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="168.0" y="67.5" font-size="10" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">=$D4&gt;=90</text>
+      <text x="18" y="92" font-size="10" fill="#6B7280">적용 대상</text>
+      <rect x="66" y="79" width="216" height="18" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/><text x="174.0" y="91.5" font-size="10" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">=$A$3:$F$13</text>
+      <g class="a-in" style="--d:0.6s">
+      <text x="18" y="112" font-size="10" fill="#DC2626" font-weight="700">✕ 머리글(3행)이 포함돼 첫 행이 어긋남</text>
+      </g>
+      <g class="a-in" style="--d:1.2s">
+      <path d="M150 124 v12" stroke="#2563EB" stroke-width="2"/><path d="M150 142 l-5 -7 h10 z" fill="#2563EB"/>
+      </g>
+      <g class="a-pop" style="--d:1.6s">
+      <rect x="66" y="148" width="216" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="174.0" y="162.5" font-size="10" text-anchor="middle" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">=$A$4:$F$13</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="18" y="190" font-size="10" fill="#047857" font-weight="700">✓ 수식 첫 행(4)과 적용 대상 첫 행(4)이 일치</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>규칙 관리에서 적용 대상을 필드명 아래부터로 수정합니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>문제에서 지정한 범위만</b> 정확히 선택합니다. 필드명까지 포함하면 컴퓨터 채점에서 틀릴 수 있습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">수식 입력란에서 셀을 클릭하면 <code>$D$4</code>처럼 절대 참조가 자동으로 들어갑니다. 그대로 두면 모든 행이 한 셀만 검사하니 <code>$D4</code>로 바꿉니다. 방향키 대신 <b>커서를 참조 위에 두고 F4</b>를 누릅니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">규칙이 잘못됐으면 새 규칙을 계속 만들지 말고 <b>규칙 관리에서 기존 규칙을 편집</b>합니다. 문제가 요구한 규칙만 남아 있는지 목록을 확인합니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">규칙 관리에 규칙이 보이지 않으면 지워진 것이 아니라 현재 선택 영역 밖에 있는 것일 수 있습니다. 표시 대상을 <b>현재 워크시트</b>로 바꿔 봅니다</span></div>
+    <div class="row"><span class="n">5</span><span class="b">색 이름도 정확히 고릅니다. «녹색 채우기»인데 글꼴을 녹색으로 하거나 무늬 색을 고르면 안 됩니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">오늘의 함정</span>
+  <h2>여기서 많이 틀립니다</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>VLOOKUP 열 번호를 시트의 열 번호로 셈</b><br><span class="mute">기준표 첫 열이 1번입니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>MATCH의 검색 범위에 표 전체를 넣음</b><br><span class="mute">한 행 또는 한 열만 잡습니다.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>&gt;=로 등급을 구하면서 60점부터 검사</b><br><span class="mute">거짓 자리에 넣는 방식에서는 90점부터 높은 순서로 내려갑니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>빈칸을 스페이스 한 칸으로 입력</b><br><span class="mute">큰따옴표 두 개 <code>""</code>를 씁니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>(TODAY()-입사일)/365의 괄호를 뺌</b><br><span class="mute">입사일만 365로 나뉩니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><b>IFS 마지막에 TRUE 조건이 없음</b><br><span class="mute">조건에 걸리지 않으면 #N/A입니다.</span></span></div>
+    <div class="row"><span class="n">7</span><span class="b"><b>조건부 서식 수식을 $D$4로 둠</b><br><span class="mute">$D4처럼 열만 고정합니다.</span></span></div>
+    <div class="row"><span class="n">8</span><span class="b"><b>적용 대상에 필드명을 포함</b><br><span class="mute">수식 첫 행과 어긋납니다.</span></span></div>
+  </div>
+</div></section>
+
+<!-- 12 · 이름 게이트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>10문제로<br>오늘 것을 확인합니다</h2>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>모두 고른 뒤<br>맨 아래에서 채점하세요</h2>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">1</span><span class="qt">기준표 <code>$B$3:$E$8</code> 에서 <b>E열</b>의 값을 가져오려면 VLOOKUP의 열 번호는?</span></p>
+      <button class="quiz-opt">5</button>
+      <button class="quiz-opt" data-correct="true">4</button>
+      <button class="quiz-opt">3</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">2</span><span class="qt"><code>MATCH</code> 함수가 돌려주는 값은?</span></p>
+      <button class="quiz-opt" data-correct="true">위치를 나타내는 숫자</button>
+      <button class="quiz-opt">찾은 값 자체 (예: 202호)</button>
+      <button class="quiz-opt">TRUE 또는 FALSE</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">3</span><span class="qt"><code>=WEEKDAY(날짜,2)</code> 에서 <b>월요일</b>의 결과는?</span></p>
+      <button class="quiz-opt">2</button>
+      <button class="quiz-opt">7</button>
+      <button class="quiz-opt" data-correct="true">1</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">4</span><span class="qt"><code>=IF(A2&gt;=90,"A",IF(A2&gt;=80,"B","C"))</code> 에서 A2가 85이면 결과는?</span></p>
+      <button class="quiz-opt">A</button>
+      <button class="quiz-opt" data-correct="true">B</button>
+      <button class="quiz-opt">C</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">5</span><span class="qt">조건에 맞지 않을 때 아무것도 표시하지 않으려면 IF의 거짓 값에 무엇을 쓰나요?</span></p>
+      <button class="quiz-opt" data-correct="true"><code>""</code> (큰따옴표 두 개)</button>
+      <button class="quiz-opt"><code>" "</code> (스페이스 한 칸)</button>
+      <button class="quiz-opt"><code>0</code></button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">6</span><span class="qt"><code>MOD(끝자리,2)</code> 의 결과가 <b>1</b>이면 끝자리는?</span></p>
+      <button class="quiz-opt">짝수</button>
+      <button class="quiz-opt">0</button>
+      <button class="quiz-opt" data-correct="true">홀수</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">7</span><span class="qt">근속 연수 계산 결과 3.84에서 소수 부분을 버리고 <b>3</b>으로 만들려면 계산식 전체를 감싸는 함수는?</span></p>
+      <button class="quiz-opt">ROUND</button>
+      <button class="quiz-opt" data-correct="true">INT</button>
+      <button class="quiz-opt">WORKDAY</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">8</span><span class="qt"><code>IFS</code> 에서 «그 밖의 모든 경우는 F»로 처리하려면 마지막 조건 자리에 무엇을 쓰나요?</span></p>
+      <button class="quiz-opt" data-correct="true">TRUE</button>
+      <button class="quiz-opt">FALSE</button>
+      <button class="quiz-opt"><code>""</code></button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">9</span><span class="qt">조건부 서식 식 <code>=$D4&gt;=90</code> 에서 <b>$가 D 앞에만</b> 붙은 이유는?</span></p>
+      <button class="quiz-opt">모든 행이 D4 한 셀만 보게 하려고</button>
+      <button class="quiz-opt">열이 옆으로 이동하게 하려고</button>
+      <button class="quiz-opt" data-correct="true">D열은 고정하고 행은 아래로 따라가게 하려고</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">10</span><span class="qt">데이터가 3행부터 시작할 때 A3에 <code>=ROW()-2</code> 를 쓰면 결과는?</span></p>
+      <button class="quiz-opt">3</button>
+      <button class="quiz-opt" data-correct="true">1</button>
+      <button class="quiz-opt">2</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<!-- 체크리스트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">복습 체크리스트</span>
+  <h2>내일 오기 전에<br>이것만 확인하세요</h2>
+  <div class="panel">
+    <div class="row"><span class="n">&#10003;</span><span class="b">VLOOKUP 열 번호는 기준표 안의 순서이고, 기준표 범위는 필드명을 뺀 데이터 부분으로 잡는다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">MID로 한 글자를 가져와 MATCH로 위치 번호를, INDEX로 실제 값을 구한다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">WEEKDAY 반환유형 1은 일요일이 1, 2는 월요일이 1이다. CHOOSE로 요일 글자를 만든다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">IF는 (조건식, 참, 거짓)이고, 중첩 IF는 높은 구간부터 거짓 자리에 다음 IF를 넣는다(>= 비교 기준)</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">AND는 모두 참, OR는 하나라도 참이며, 아무것도 안 보이게 할 때는 큰따옴표 두 개("")를 쓴다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">MOD(수,2)로 홀짝을 가르고, 근속 연수는 INT((TODAY()-입사일)/365)로 구한다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">WORKDAY는 시작일 다음 근무일부터 세고, IFERROR · IFS(마지막 TRUE)를 쓸 수 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">ROW()-숫자로 정렬해도 유지되는 순번을 만들고, 조건부 서식 수식은 열만 고정($D4)한다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
+  </div>
+  <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
+</div></section>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-10 9차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'da60285334c56b35',
+  '578050a83a19f390',
+  '6925037ff152d413',
+  '19d88c67f8a00342',
+  '54d036f6bff3f8e8',
+  'a78fbd1162753619',
+  '7f1bb29d16ac97f2',
+  'a2d73d51bb1a45bd',
+  'c750eb7e893d05c9',
+  '4a875acff589c148',
+  '46e46b761985be32',
+  'fd86df3d9b145b44',
+  '3850b8dc8edf37c1',
+  'a5043dc870197576',
+  '6b352062738e1800',
+  '746b4d15189cdc4e',
+  'e87e3049b21ed704',
+  'e6963979884a7af1'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
