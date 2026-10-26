@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 11차시 복습카드</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.6;
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 11차시</span>
+  <span class="d">2026.10.26 (월)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="deck" id="deck">
+<section class="card"><div class="card-inner">
+  <span class="kicker">11차시 복습카드</span>
+  <h1>파일 관리와 설정을 정리하고,<br>부분합·피벗까지 간 날</h1>
+  <p class="lead">오늘은 필기 컴퓨터 일반의 윈도우 10(파일 탐색기·폴더 옵션·포맷·휴지통·메모장·설정·접근성)을 정리한 뒤, 실기의 텍스트 나누기·고급 필터·부분합·표·피벗 테이블을 배웠습니다.</p>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>필기</b> — 파일 탐색기 · 숨김 · 폴더 옵션 · 포맷</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>필기</b> — 복사·이동 · 클립보드 · 휴지통</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>필기</b> — 메모장 · 워드패드 · 설정 · 계정 · 접근성</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>실기</b> — 텍스트 나누기 · 고급 필터(함수 조건)</span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>실기</b> — 부분합 · 표와 슬라이서 · 피벗 테이블</span></div>
+  </div>
+  <p class="mute">카드를 옆으로 넘기면서 보세요. 마지막에 미니 퀴즈 10문제가 있습니다.</p>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 파일 탐색기</span>
+  <h2>탐색 창 · 목록 · 미리 보기</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="188" viewBox="0 0 300 188" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="186" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">파일 탐색기의 구성</text>
+      <rect x="10" y="30" width="280" height="20" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/><text x="150.0" y="43.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700">파일 · 홈 · 공유 · 보기  (리본 메뉴)</text>
+      <rect x="10" y="50" width="78" height="104" fill="#F9FAFB" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="16" y="70" font-size="10.5" fill="#374151">▾ 문서</text>
+      <text x="16" y="88" font-size="10.5" fill="#374151">   보고서</text>
+      <text x="16" y="106" font-size="10.5" fill="#374151">▸ 사진</text>
+      <text x="16" y="124" font-size="10.5" fill="#374151">▸ 음악</text>
+      <text x="16" y="148" font-size="9" fill="#6B7280" font-weight="700">탐색 창</text>
+      <rect x="88" y="50" width="124" height="104" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <rect x="88" y="50" width="41" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="108.5" y="61.975" font-size="8.5" text-anchor="middle" fill="#6B7280" font-weight="700">이름</text>
+      <rect x="129" y="50" width="41" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="149.5" y="61.975" font-size="8.5" text-anchor="middle" fill="#6B7280" font-weight="700">수정한 날짜</text>
+      <rect x="170" y="50" width="41" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="190.5" y="61.975" font-size="8.5" text-anchor="middle" fill="#6B7280" font-weight="700">크기</text>
+      <text x="94" y="86" font-size="10" fill="#374151">보고서.xlsx</text>
+      <text x="94" y="104" font-size="10" fill="#374151">명단.hwp</text>
+      <text x="94" y="122" font-size="10" fill="#374151">사진1.png</text>
+      <text x="94" y="148" font-size="9" fill="#6B7280" font-weight="700">목록 · 필드명 ↑↓ 정렬</text>
+      <rect x="212" y="50" width="78" height="104" fill="#F9FAFB" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="220" y="82" font-size="10.5" fill="#111827" font-weight="700">미리 보기</text>
+      <text x="220" y="98" font-size="10.5" fill="#111827" font-weight="700">창</text>
+      <text x="218" y="148" font-size="8.5" fill="#6B7280" font-weight="700">열지 않고 확인</text>
+      <g class="a-in" style="--d:1.0s">
+      <text x="10" y="176" font-size="10.5" fill="#1D4ED8" font-weight="700">▾ 펼쳐진 상태 / ▸ 펼칠 수 있는 상태</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>윈도우 10 파일 탐색기의 기본 구성</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">윈도우 10의 파일 탐색기는 <b>파일 · 홈 · 공유 · 보기</b>로 구성된 <b>리본 메뉴</b>를 씁니다 (윈도우 11은 화면이 다릅니다)</span></div>
+    <div class="row"><span class="n">2</span><span class="b">왼쪽 <b>탐색 창</b>은 파일과 폴더를 계층 구조로 보여 줍니다. 화살표가 아래쪽이면 하위 항목이 펼쳐진 상태, 오른쪽이면 펼칠 수 있는 상태입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>미리 보기 창</b>은 문서를 열지 않고 내용을 확인할 때 씁니다. 사진은 큰 아이콘으로, 일반 파일은 자세히 보기로 두면 편합니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">자세히 보기에서 <b>이름 · 날짜 같은 필드명을 누르면</b> 오름차순 · 내림차순으로 정렬됩니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 숨김</span>
+  <h2>숨김 속성과 숨긴 항목 표시</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="184" viewBox="0 0 300 184" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="182" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">숨김 속성 + 숨김 항목 표시</text>
+      <rect x="10" y="32" width="86" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="53.0" y="47.5" font-size="10" text-anchor="middle" fill="#111827">보고서.xlsx</text>
+      <text x="100" y="48" font-size="10" fill="#6B7280">일반 파일</text>
+      <rect x="10" y="62" width="86" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="53.0" y="77.5" font-size="10" text-anchor="middle" fill="#B0B7C3">보고서.xlsx</text>
+      <text x="100" y="78" font-size="9.5" fill="#B45309" font-weight="700">숨김 속성 ✓ + 숨긴 항목 표시 → 흐리게 보임</text>
+      <g class="a-in" style="--d:0.8s">
+      <rect x="10" y="92" width="86" height="24" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+      <text x="100" y="108" font-size="9.5" fill="#DC2626" font-weight="700">숨김 속성 ✓ + 숨긴 항목 표시 끔 → 안 보임</text>
+      </g>
+      <g class="a-in" style="--d:1.5s">
+      <text x="10" y="140" font-size="11" fill="#374151">두 가지를 함께 처리해야 화면에서 완전히 사라집니다</text>
+      </g>
+      <g class="a-in" style="--d:1.9s">
+      <text x="10" y="158" font-size="10.5" fill="#6B7280">셀의 «잠금» 속성만으로는 잠기지 않고</text>
+      </g>
+      <g class="a-in" style="--d:1.9s">
+      <text x="10" y="172" font-size="10.5" fill="#6B7280">시트 보호까지 해야 하는 것과 비슷합니다</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>속성 설정과 표시 설정은 서로 다른 스위치입니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>확장명 표시</b>를 켜면 <code>.exe</code> <code>.xlsx</code> <code>.png</code> <code>.hwp</code> <code>.hwpx</code> 같은 확장명이 보입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">파일 속성에서 <b>숨김</b>을 지정해도 <b>숨긴 항목 표시</b>가 켜져 있으면 흐리게 보입니다. 완전히 감추려면 숨김 속성과 표시 설정을 함께 처리합니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>보호된 운영 체제 파일</b>은 잘못 지우면 시스템이 동작하지 않을 수 있어 기본적으로 숨겨져 있습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">숨김 속성은 폴더 옵션에서 <b>일괄 해제할 수 없고</b>, 각 항목의 속성에서 해제합니다</span></div>
+    <div class="row"><span class="n">5</span><span class="b">대화 상자의 <b>적용</b>은 창을 남겨 두고 적용하고, <b>확인</b>은 적용한 뒤 창을 닫습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 폴더 옵션</span>
+  <h2>클릭 방식 · 최근 파일 · 검색</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="166" viewBox="0 0 300 166" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="164" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">폴더 옵션에서 바꾸는 것</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="32" width="84" height="30" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="52.0" y="50.5" font-size="10" text-anchor="middle" fill="#2563EB" font-weight="700">항목 열기</text>
+      <text x="102" y="51" font-size="10.5" fill="#374151">두 번 클릭(기본) / 한 번 클릭</text>
+      </g>
+      <g class="a-in" style="--d:0.7s">
+      <rect x="10" y="70" width="84" height="30" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/><text x="52.0" y="88.5" font-size="10" text-anchor="middle" fill="#B45309" font-weight="700">개인 정보 보호</text>
+      <text x="102" y="89" font-size="10.5" fill="#374151">최근 사용 파일 표시 켜기·끄기</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <rect x="10" y="108" width="84" height="30" fill="#DCFCE7" stroke="#047857" stroke-width="1.5"/><text x="52.0" y="126.5" font-size="10" text-anchor="middle" fill="#047857" font-weight="700">검색</text>
+      <text x="102" y="127" font-size="10.5" fill="#374151">파일 이름 + 내용 검색</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="154" font-size="10" fill="#6B7280">보기 › 옵션 › 폴더 옵션 (일반 · 보기 · 검색 탭)</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>폴더 옵션의 세 가지 설정 영역</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">기본 설정은 파일을 <b>두 번 클릭해서 여는 것</b>입니다. <b>한 번 클릭해서 열기</b>로 바꾸면 내용을 보려고 클릭만 해도 창이 열려 잘 쓰지 않습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">공용 PC에서는 개인 정보 보호 항목에서 <b>최근에 사용한 파일을 표시하지 않도록</b> 끌 수 있습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">검색 옵션에서 색인되지 않은 위치도 <b>파일 이름과 내용을 함께 검색</b>하도록 설정할 수 있고, 이때 검색 속도가 느려질 수 있습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 디스크 포맷</span>
+  <h2>포맷할 때 보는 항목</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="184" viewBox="0 0 300 184" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="182" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">포맷 창의 항목</text>
+      <rect x="10" y="32" width="280" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="48" font-size="10.5" fill="#111827" font-weight="700">파일 시스템</text>
+      <text x="112" y="48" font-size="10.5" fill="#374151">FAT32 · NTFS · exFAT</text>
+      <rect x="10" y="60" width="280" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="76" font-size="10.5" fill="#111827" font-weight="700">할당 단위 크기</text>
+      <text x="112" y="76" font-size="10.5" fill="#374151">기본값 사용</text>
+      <rect x="10" y="88" width="280" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="104" font-size="10.5" fill="#111827" font-weight="700">볼륨 레이블</text>
+      <text x="112" y="104" font-size="10.5" fill="#374151">USB에 표시할 이름</text>
+      <rect x="10" y="116" width="280" height="24" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="132" font-size="10.5" fill="#111827" font-weight="700">빠른 포맷</text>
+      <text x="112" y="132" font-size="10.5" fill="#374151">☑  데이터 영역 검사 생략</text>
+      <g class="a-in" style="--d:1.0s">
+      <text x="10" y="158" font-size="10.5" fill="#DC2626" font-weight="700">빠른 포맷은 파일 시스템 구조만 새로 만들어</text>
+      </g>
+      <g class="a-in" style="--d:1.0s">
+      <text x="10" y="172" font-size="10.5" fill="#DC2626" font-weight="700">이전 자료가 복구 프로그램으로 되살아날 수 있습니다</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>포맷 대화 상자의 구성</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>포맷</b>은 저장 장치를 초기화하는 작업입니다. 파일 시스템(FAT32 · NTFS · exFAT)을 고릅니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>할당 단위 크기</b>는 데이터를 저장하는 블록 크기이며 기본값을 쓰는 것이 적절합니다. <b>볼륨 레이블</b>은 장치에 표시할 이름입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>빠른 포맷</b>은 파일 위치 정보를 새로 만드는 방식이라, 지운 자료가 복구 프로그램으로 되살아날 수 있습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">내가 계속 쓸 장치는 빠른 포맷을 써도 되지만, 남에게 주거나 판매할 장치는 빠른 포맷만으로 충분하지 않으므로 매체에 맞는 <b>안전한 삭제 절차</b>를 따라야 합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 파일 · 폴더</span>
+  <h2>이름 · 속성 · 바로가기</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="184" viewBox="0 0 300 184" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="182" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">파일과 폴더의 규칙</text>
+      <rect x="10" y="32" width="130" height="56" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="48" font-size="10" fill="#6B7280" font-weight="700">같은 폴더 안</text>
+      <text x="18" y="64" font-size="10.5" fill="#374151">보고서.xlsx</text>
+      <text x="18" y="80" font-size="10.5" fill="#DC2626" font-weight="700">보고서.xlsx  ✕</text>
+      <rect x="150" y="32" width="140" height="56" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="158" y="48" font-size="10" fill="#6B7280" font-weight="700">다른 폴더</text>
+      <text x="158" y="64" font-size="10.5" fill="#374151">보고서.xlsx</text>
+      <text x="158" y="80" font-size="10.5" fill="#047857" font-weight="700">같은 이름 가능</text>
+      <g class="a-in" style="--d:0.8s">
+      <text x="10" y="112" font-size="10.5" fill="#6B7280" font-weight="700">사용할 수 없는 문자</text>
+      </g>
+      <g class="a-in" style="--d:0.9s">
+      <rect x="10" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="23.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">\</text>
+      </g>
+      <g class="a-in" style="--d:0.98s">
+      <rect x="40" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="53.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">/</text>
+      </g>
+      <g class="a-in" style="--d:1.06s">
+      <rect x="70" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="83.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">:</text>
+      </g>
+      <g class="a-in" style="--d:1.14s">
+      <rect x="100" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="113.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">*</text>
+      </g>
+      <g class="a-in" style="--d:1.22s">
+      <rect x="130" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="143.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">?</text>
+      </g>
+      <g class="a-in" style="--d:1.3s">
+      <rect x="160" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="173.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">"</text>
+      </g>
+      <g class="a-in" style="--d:1.38s">
+      <rect x="190" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="203.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">&lt;</text>
+      </g>
+      <g class="a-in" style="--d:1.46s">
+      <rect x="220" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="233.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">&gt;</text>
+      </g>
+      <g class="a-in" style="--d:1.54s">
+      <rect x="250" y="120" width="26" height="28" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="263.0" y="138.55" font-size="13" text-anchor="middle" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">|</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="172" font-size="10.5" fill="#374151">이름은 255자 이내 · 공백은 사용 가능</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>같은 폴더 안에서는 같은 이름이 존재할 수 없습니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>한 폴더 안</b>에는 같은 이름의 파일이나 폴더가 함께 존재할 수 없습니다. 이름은 최대 255자이고 위 9개 문자는 쓸 수 없지만 공백은 쓸 수 있습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">일반 폴더의 <b>속성 창</b>에서는 위치와 하위 폴더 · 파일 개수를 확인할 수 있고, 여기서 위치를 옮기거나 특정 하위 폴더만 삭제할 수는 없습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">하나의 파일 · 폴더에 <b>바로가기 아이콘을 여러 개</b> 만들 수 있습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">디스크에 자료가 저장되는 기본 단위는 폴더가 아니라 <b>파일</b>입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 검색</span>
+  <h2>파일 탐색기와 작업 표시줄의<br>검색</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="168" viewBox="0 0 300 168" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="166" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">검색 상자는 두 군데</text>
+      <rect x="10" y="32" width="130" height="56" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/>
+      <text x="18" y="50" font-size="10.5" fill="#1D4ED8" font-weight="700">파일 탐색기 검색</text>
+      <text x="18" y="66" font-size="10.5" fill="#374151">현재 폴더 중심</text>
+      <text x="18" y="80" font-size="10.5" fill="#1D4ED8" font-weight="700" font-family="JetBrains Mono, monospace">Ctrl+F · F3</text>
+      <rect x="150" y="32" width="140" height="56" fill="#DCFCE7" stroke="#047857" stroke-width="1"/>
+      <text x="158" y="50" font-size="10.5" fill="#047857" font-weight="700">작업 표시줄 검색</text>
+      <text x="158" y="66" font-size="10.5" fill="#374151">컴퓨터 · 웹 · 앱 · 메일</text>
+      <text x="158" y="80" font-size="10.5" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">Win+S</text>
+      <g class="a-in" style="--d:1.0s">
+      <text x="10" y="118" font-size="11" fill="#DC2626" font-weight="700">«Windows+F»가 아닙니다</text>
+      </g>
+      <g class="a-in" style="--d:1.4s">
+      <text x="10" y="140" font-size="10.5" fill="#374151">파일 이름뿐 아니라 내용까지 검색하려면</text>
+      </g>
+      <g class="a-in" style="--d:1.4s">
+      <text x="10" y="156" font-size="10.5" fill="#374151">폴더 옵션의 검색 설정을 사용합니다</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>검색 범위와 단축키가 서로 다릅니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>파일 탐색기 검색 상자</b>는 현재 폴더 안에서 파일 · 폴더를 찾습니다. <code>Ctrl</code>+<code>F</code> 또는 <code>F3</code>으로 이동합니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>작업 표시줄 검색</b>은 컴퓨터 전체 · 웹 · 앱 · 메일 등 더 넓은 범위를 찾습니다. 단축키는 <code>Win</code>+<code>S</code>입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 복사와 이동</span>
+  <h2>드라이브에 따라<br>기본 동작이 다릅니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="170" viewBox="0 0 300 170" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="168" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">끌어서 놓을 때의 기본 동작</text>
+      <rect x="10" y="32" width="110" height="44" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="65.0" y="57.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">C 드라이브</text>
+      <rect x="180" y="32" width="110" height="44" fill="#DCFCE7" stroke="#047857" stroke-width="1.5"/><text x="235.0" y="57.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">D 드라이브</text>
+      <g class="a-in" style="--d:0.5s">
+      <path d="M64 78 q0 24 -30 24" stroke="#2563EB" stroke-width="2" fill="none"/><path d="M30 102 l8 -4 v8 z" fill="#2563EB"/>
+      <text x="10" y="120" font-size="10.5" fill="#1D4ED8" font-weight="700">같은 드라이브 → 이동</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <path d="M122 54 h54" stroke="#047857" stroke-width="2"/><path d="M180 54 l-8 -4 v8 z" fill="#047857"/>
+      <text x="124" y="46" font-size="10.5" fill="#047857" font-weight="700">복사</text>
+      </g>
+      <g class="a-in" style="--d:1.7s">
+      <rect x="10" y="134" width="136" height="24" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="78.0" y="149.675" font-size="10.5" text-anchor="middle" fill="#111827" font-weight="700">Ctrl + 드래그 → 복사</text>
+      <rect x="154" y="134" width="136" height="24" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="222.0" y="149.675" font-size="10.5" text-anchor="middle" fill="#111827" font-weight="700">Shift + 드래그 → 이동</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>같은 드라이브는 이동, 다른 드라이브는 복사</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">같은 드라이브 안에서 끌면 기본적으로 <b>이동</b>, 서로 다른 드라이브 사이에서 끌면 기본적으로 <b>복사</b>입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><code>Ctrl</code>을 누르고 끌면 <b>복사</b>, <code>Shift</code>를 누르고 끌면 <b>이동</b>입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 클립보드</span>
+  <h2>클립보드와 화면 캡처</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="184" viewBox="0 0 300 184" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="182" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">캡처 단축키 4가지</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="32" width="136" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="78.0" y="48.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">Print Screen</text>
+      <text x="154" y="49" font-size="10.5" fill="#374151">전체 화면 → 클립보드</text>
+      </g>
+      <g class="a-in" style="--d:0.6s">
+      <rect x="10" y="64" width="136" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="78.0" y="80.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">Alt + Print Screen</text>
+      <text x="154" y="81" font-size="10.5" fill="#374151">활성 창만 → 클립보드</text>
+      </g>
+      <g class="a-in" style="--d:0.9s">
+      <rect x="10" y="96" width="136" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="78.0" y="112.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">Win + Shift + S</text>
+      <text x="154" y="113" font-size="10.5" fill="#374151">원하는 영역 캡처</text>
+      </g>
+      <g class="a-in" style="--d:1.2s">
+      <rect x="10" y="128" width="136" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="78.0" y="144.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">Win + Print Screen</text>
+      <text x="154" y="145" font-size="10.5" fill="#374151">전체 화면 → 파일로 저장</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="172" font-size="10.5" fill="#6B7280">Ctrl+C · Ctrl+X · Print Screen → 클립보드에 저장</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>활성 창 캡처는 Alt, Ctrl이 아닙니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>Ctrl</code>+<code>C</code>, <code>Ctrl</code>+<code>X</code>, 기본 설정의 <code>Print Screen</code>으로 가져온 내용은 <b>클립보드</b>에 저장됩니다. 기본적으로 재부팅하면 비워지는 임시 공간입니다 (클립보드 기록에서 <b>고정</b>한 항목은 예외)</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><code>Win</code>+<code>V</code>는 클립보드 기록을 보여 줍니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>활성 창만</b> 캡처하는 키는 <code>Alt</code>+<code>Print Screen</code>입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 휴지통</span>
+  <h2>휴지통을 거치지 않는 삭제</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="192" viewBox="0 0 300 192" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="190" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">삭제한 파일이 가는 곳</text>
+      <rect x="10" y="56" width="70" height="30" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/><text x="45.0" y="75.2" font-size="12" text-anchor="middle" fill="#111827" font-weight="700">삭제</text>
+      <path d="M82 66 L130 44" stroke="#047857" stroke-width="2"/><path d="M134 42 l-8 1 l3 7 z" fill="#047857"/><path d="M82 76 L130 98" stroke="#DC2626" stroke-width="2"/><path d="M134 100 l-8 -1 l3 -7 z" fill="#DC2626"/>
+      <g class="a-in" style="--d:0.5s">
+      <rect x="138" y="30" width="150" height="26" fill="#DCFCE7" stroke="#047857" stroke-width="1.5"/><text x="213.0" y="46.5" font-size="10" text-anchor="middle" fill="#047857" font-weight="700">휴지통에 보관 (복원 가능)</text>
+      </g>
+      <g class="a-in" style="--d:1.0s">
+      <rect x="138" y="82" width="150" height="98" fill="#FEF2F2" stroke="#DC2626" stroke-width="1"/>
+      </g>
+      <text x="146" y="98" font-size="9.5" fill="#DC2626" font-weight="700">Shift + Delete</text>
+      <text x="146" y="115" font-size="9.5" fill="#DC2626" font-weight="700">이동식 USB·네트워크(구성별)</text>
+      <text x="146" y="132" font-size="9.5" fill="#DC2626" font-weight="700">명령 프롬프트에서 삭제</text>
+      <text x="146" y="149" font-size="9.5" fill="#DC2626" font-weight="700">«바로 제거» 옵션 사용</text>
+      <text x="146" y="166" font-size="9.5" fill="#DC2626" font-weight="700">용량보다 큰 파일</text>
+      <g class="a-in" style="--d:1.6s">
+      <text x="10" y="120" font-size="10" fill="#DC2626" font-weight="700">휴지통을 거치지</text>
+      </g>
+      <g class="a-in" style="--d:1.6s">
+      <text x="10" y="134" font-size="10" fill="#DC2626" font-weight="700">않는 경우 →</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>빨간 상자의 경우는 휴지통에 보관되지 않습니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>휴지통</b>은 삭제한 파일을 임시 보관하는 곳이며, 드라이브별로 각 드라이브의 <code>$Recycle.Bin</code> 폴더에 구성됩니다 (C 드라이브의 것이 대표적)</span></div>
+    <div class="row"><span class="n">2</span><span class="b">위 경우(이동식 USB나 네트워크 드라이브는 구성에 따라 다를 수 있음)와 <b>덮어쓴 파일</b>은 휴지통에 보관되지 않습니다. 삭제하려는 파일이 해당 드라이브의 휴지통 최대 용량보다 크면 보관되지 않고 바로 삭제됩니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><code>Shift</code>+<code>Delete</code>는 휴지통을 거치지 않고 바로 삭제하는 키입니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">삭제 전에 확인하는 습관이 안전합니다. 명령어로 파일을 지우는 도구는 휴지통을 거치지 않을 수 있습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 휴지통</span>
+  <h2>용량과 복원 규칙</h2>
+  <table class="wrapfirst">
+    <tr><th>항목</th><th>내용</th></tr>
+    <tr><td>용량</td><td>드라이브별로 최대 크기를 설정, <b>«바로 제거» 옵션</b>도 있음</td></tr>
+    <tr><td>가득 찼을 때</td><td>가장 오래전에 삭제한 파일부터 제거</td></tr>
+    <tr><td>휴지통 안의 파일</td><td>복원하기 전에는 <b>이름 변경 · 실행 불가</b></td></tr>
+    <tr><td>복원 방법</td><td>복원 단추, 또는 <b>잘라내기 후 붙여넣기</b></td></tr>
+    <tr><td>복사 · 붙여넣기</td><td><b>복원할 수 없음</b></td></tr>
+    <tr><td>휴지통 비우기</td><td>휴지통에서는 <b>더 이상 복원할 수 없음</b></td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">«복원»은 삭제 전 위치로 되돌리는 것이고, 휴지통을 비운 뒤에는 휴지통의 복원 기능을 쓸 수 없습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 바로가기 키</span>
+  <h2>자주 나오는 단축키</h2>
+  <table class="wrapfirst">
+    <tr><th>키</th><th>하는 일</th></tr>
+    <tr><td><code>Alt</code>+<code>Esc</code> · <code>Alt</code>+<code>Tab</code></td><td>실행 중인 앱을 순서대로 / 골라서 전환</td></tr>
+    <tr><td><code>Alt</code>+<code>Enter</code></td><td>선택한 파일 · 폴더의 <b>속성</b></td></tr>
+    <tr><td><code>Alt</code>+<code>F4</code></td><td>현재 창 닫기 (바탕 화면에서는 Windows 종료 창)</td></tr>
+    <tr><td><code>Ctrl</code>+<code>Esc</code> · <code>Ctrl</code>+<code>Shift</code>+<code>Esc</code></td><td>시작 메뉴 / 작업 관리자</td></tr>
+    <tr><td><code>Win</code>+<code>E</code> · <code>Win</code>+<code>R</code> · <code>Win</code>+<code>I</code></td><td>파일 탐색기 / 실행 / 설정</td></tr>
+    <tr><td><code>Win</code>+<code>D</code> · <code>Win</code>+<code>L</code></td><td>바탕 화면 보기(다시 누르면 복원) / 잠금</td></tr>
+    <tr><td><code>Win</code>+<code>Tab</code></td><td>작업 보기 · 가상 데스크톱</td></tr>
+  </table>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><code>F5</code>는 프로그램마다 다릅니다. 윈도우(탐색기)에서는 <b>새로 고침</b>, 엑셀에서는 <b>이동</b>, 메모장에서는 <b>날짜 · 시간 입력</b>입니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 메모장</span>
+  <h2>메모장으로 할 수 있는 것</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="180" viewBox="0 0 300 180" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="178" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">.LOG — 열 때마다 시간이 쌓입니다</text>
+      <rect x="10" y="32" width="280" height="96" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="50" font-size="11" fill="#DC2626" font-weight="700" font-family="JetBrains Mono, monospace">.LOG</text>
+      <text x="60" y="50" font-size="9.5" fill="#DC2626" font-weight="700">← 첫 줄 왼쪽, 대문자</text>
+      <text x="18" y="68" font-size="10.5" fill="#374151">오늘 할 일 정리</text>
+      <g class="a-in" style="--d:0.6s">
+      <text x="18" y="86" font-size="10" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">2026-10-26 10:05</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <text x="18" y="100" font-size="10" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">2026-10-27 09:30</text>
+      </g>
+      <g class="a-in" style="--d:1.6s">
+      <text x="18" y="114" font-size="10" fill="#047857" font-weight="700" font-family="JetBrains Mono, monospace">2026-10-28 11:12</text>
+      </g>
+      <g class="a-in" style="--d:2.4s">
+      <text x="10" y="150" font-size="11" fill="#374151">F5 → 현재 날짜와 시간 입력</text>
+      </g>
+      <g class="a-in" style="--d:2.4s">
+      <text x="10" y="168" font-size="10.5" fill="#6B7280">열 때마다 마지막 줄에 날짜와 시간이 추가됨</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>첫 줄에 .LOG를 쓰고 저장한 문서</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">메모장은 서식이 필요 없는 간단한 텍스트를 쓰는 프로그램이고 기본 확장자는 <b>.TXT</b>입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>그림 · 차트 · OLE 개체 삽입과 문단 설정은 할 수 없습니다.</b> 찾기(<code>Ctrl</code>+<code>F</code>) · 바꾸기(<code>Ctrl</code>+<code>H</code>), 자동 줄 바꿈, 페이지 설정의 여백 · 머리글 · 바닥글은 쓸 수 있습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">문서 <b>첫 줄 왼쪽에 대문자 <code>.LOG</code></b>를 입력해 저장하면 열 때마다 마지막 줄에 날짜와 시간이 누적됩니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><code>F5</code>는 현재 날짜와 시간을 삽입합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 워드패드</span>
+  <h2>워드패드와 유틸리티</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="168" viewBox="0 0 300 168" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="166" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">메모장 vs 워드패드</text>
+      <rect x="10" y="32" width="136" height="100" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="18" y="50" font-size="11" fill="#111827" font-weight="700">메모장</text>
+      <text x="18" y="68" font-size="10.5" fill="#374151">텍스트만</text>
+      <text x="18" y="84" font-size="10.5" fill="#DC2626">문단 설정 ✕</text>
+      <text x="18" y="100" font-size="10.5" fill="#DC2626">OLE 개체 ✕</text>
+      <text x="18" y="116" font-size="10.5" fill="#6B7280" font-weight="700" font-family="JetBrains Mono, monospace">.TXT</text>
+      <rect x="154" y="32" width="136" height="100" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/>
+      <text x="162" y="50" font-size="11" fill="#1D4ED8" font-weight="700">워드패드</text>
+      <text x="162" y="68" font-size="10.5" fill="#047857">문단 정렬 ○</text>
+      <text x="162" y="84" font-size="10.5" fill="#047857">OLE 개체 삽입 ○</text>
+      <text x="162" y="100" font-size="10.5" fill="#374151">엑셀 시트 삽입</text>
+      <text x="162" y="116" font-size="10.5" fill="#374151">더블 클릭해 편집</text>
+      <g class="a-in" style="--d:1.0s">
+      <text x="10" y="156" font-size="10.5" fill="#374151" font-weight="700">메모장 · 워드패드 · 그림판 · 계산기 = 유틸리티</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>문단 설정과 개체 삽입 여부가 다릅니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>워드패드</b>는 메모장보다 기능이 많아 <b>문단 정렬</b>과 <b>개체 삽입</b>을 지원합니다 (윈도우 10 기준)</span></div>
+    <div class="row"><span class="n">2</span><span class="b">엑셀 워크시트를 화면 그대로 또는 아이콘 모양으로 삽입하고, 더블 클릭해 편집할 수 있습니다. 이처럼 다른 프로그램의 개체를 문서에 <b>연결하거나 포함</b>하는 기능이 <b>OLE</b>입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">윈도우가 사용자 편의를 위해 제공하는 메모장 · 워드패드 · 그림판 · 계산기 같은 프로그램을 <b>유틸리티</b>라고 합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 윈도우 설정</span>
+  <h2>설정 항목의 위치를 구분합니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="186" viewBox="0 0 300 186" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="184" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">설정 항목은 어디에 있을까</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="32" width="88" height="22" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="54.0" y="46.85" font-size="11" text-anchor="middle" fill="#2563EB" font-weight="700">시스템</text>
+      <rect x="10" y="54" width="88" height="96" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="16" y="72" font-size="9.5" fill="#374151">디스플레이</text>
+      <text x="16" y="93" font-size="9.5" fill="#374151"> 해상도 · 주 모니터</text>
+      <text x="16" y="114" font-size="9.5" fill="#374151">사운드 · 알림</text>
+      <text x="16" y="135" font-size="9.5" fill="#374151">전원 및 절전</text>
+      </g>
+      <g class="a-in" style="--d:0.7s">
+      <rect x="104" y="32" width="88" height="22" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/><text x="148.0" y="46.85" font-size="11" text-anchor="middle" fill="#B45309" font-weight="700">개인 설정</text>
+      <rect x="104" y="54" width="88" height="96" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="110" y="72" font-size="9.5" fill="#374151">배경 화면</text>
+      <text x="110" y="93" font-size="9.5" fill="#374151">색(테마색)</text>
+      <text x="110" y="114" font-size="9.5" fill="#374151">잠금 화면</text>
+      <text x="110" y="135" font-size="9.5" fill="#374151">화면 보호기 · 글꼴</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <rect x="198" y="32" width="88" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1.5"/><text x="242.0" y="46.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">접근성</text>
+      <rect x="198" y="54" width="88" height="96" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="204" y="72" font-size="9.5" fill="#374151">돋보기</text>
+      <text x="204" y="93" font-size="9.5" fill="#374151">내레이터</text>
+      <text x="204" y="114" font-size="9.5" fill="#374151">고정 키</text>
+      <text x="204" y="135" font-size="9.5" fill="#374151">텍스트 · 커서 크기</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="174" font-size="10" fill="#6B7280" font-weight="700">해상도 → 시스템  /  배경 → 개인 설정  /  내레이터 → 접근성</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>설정 앱(Windows+I)의 분류</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>해상도</b> 설정은 개인 설정이 아니라 <b>시스템 › 디스플레이</b>에 있습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>배경 화면 · 테마색</b>은 시스템의 디스플레이가 아니라 <b>개인 설정</b>에 있습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>내레이터</b>는 시스템의 사운드가 아니라 <b>접근성</b>에 있습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">설정은 <code>Win</code>+<code>I</code>로 엽니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 시스템 · 개인 설정 · 앱</span>
+  <h2>디스플레이 · 개인 설정 · 앱</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="172" viewBox="0 0 300 172" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="170" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">여러 디스플레이 · 해상도</text>
+      <rect x="10" y="36" width="100" height="64" fill="#EFF4FF" stroke="#2563EB" stroke-width="2"/><text x="60.0" y="71.85" font-size="11" text-anchor="middle" fill="#1D4ED8" font-weight="700">모니터 1</text>
+      <rect x="120" y="36" width="100" height="64" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="170.0" y="71.85" font-size="11" text-anchor="middle" fill="#111827" font-weight="700">모니터 2</text>
+      <text x="10" y="116" font-size="10" fill="#1D4ED8" font-weight="700">주 모니터</text>
+      <text x="120" y="116" font-size="10" fill="#6B7280" font-weight="700">확장 · 복제</text>
+      <g class="a-in" style="--d:0.8s">
+      <text x="10" y="142" font-size="11" fill="#374151">해상도 = 화면을 이루는 픽셀 수</text>
+      </g>
+      <g class="a-in" style="--d:1.2s">
+      <text x="10" y="160" font-size="10.5" fill="#6B7280">높을수록 같은 배율에서 아이콘이 작게 보임</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>주 모니터는 왼쪽 모니터일 필요가 없습니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>디스플레이</b> — 여러 모니터는 <b>복제 또는 확장</b>하고, 원하는 화면을 <b>주 모니터</b>로 지정할 수 있습니다. 주 모니터가 꼭 왼쪽일 필요는 없습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>해상도</b>는 화면을 구성하는 픽셀의 수입니다. 모니터의 기본(권장) 해상도에서 가장 선명하고, 같은 배율에서는 해상도가 높을수록 아이콘이 상대적으로 작아 보입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>개인 설정</b> — 배경, 테마색, 잠금 화면, 화면 보호기, 글꼴, 시작 메뉴 · 작업 표시줄 설정이 있습니다. 화면 보호기는 같은 화면이 오래 표시되어 생기는 잔상을 줄이려고 움직이는 화면을 보여 줍니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>앱</b> — 프로그램 제거, 확장자별 <b>기본 앱</b>, <b>시작 프로그램</b>을 관리합니다. 시작 프로그램이 많으면 부팅 시간이 길어질 수 있습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">필기 · 계정 · 접근성</span>
+  <h2>사용자 계정과 접근성 기능</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="170" viewBox="0 0 300 170" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="168" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">계정의 권한 차이</text>
+      <rect x="10" y="32" width="136" height="78" fill="#EFF4FF" stroke="#2563EB" stroke-width="1"/>
+      <text x="18" y="50" font-size="11" fill="#1D4ED8" font-weight="700">관리자 계정</text>
+      <text x="18" y="68" font-size="10.5" fill="#374151">넓은 권한으로</text>
+      <text x="18" y="82" font-size="10.5" fill="#374151">시스템 설정 변경</text>
+      <text x="18" y="98" font-size="10" fill="#6B7280">앱 설치 · 계정 관리</text>
+      <rect x="154" y="32" width="136" height="78" fill="#F3F4F6" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="162" y="50" font-size="11" fill="#111827" font-weight="700">표준 사용자</text>
+      <text x="162" y="68" font-size="10.5" fill="#374151">앱 실행 · 개인 설정</text>
+      <text x="162" y="82" font-size="10.5" fill="#374151">(테마 · 배경 · 암호)</text>
+      <text x="162" y="98" font-size="10" fill="#DC2626">시스템 · 보안 변경 제한</text>
+      <g class="a-in" style="--d:1.0s">
+      <text x="10" y="140" font-size="11" fill="#047857" font-weight="700">TTS  문자 → 음성 (내레이터)</text>
+      </g>
+      <g class="a-in" style="--d:1.3s">
+      <text x="10" y="158" font-size="11" fill="#1D4ED8" font-weight="700">STT  음성 → 문자</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>표준 사용자는 권한이 제한된 계정입니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>관리자 계정</b>은 표준 사용자보다 넓은 권한으로 시스템 설정을 변경할 수 있습니다(필요하면 승인을 거침). <b>표준 사용자 계정</b>은 설치된 앱 실행과 개인 테마 · 바탕 화면 · 암호 설정 등은 가능하지만, 하드웨어 · 앱 설치와 시스템 · 보안 설정 변경 등은 제한됩니다. 이름과 달리 모든 작업이 가능한 계정은 아닙니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>접근성</b>은 몸이 불편하거나 화면을 보기 어려운 사용자를 돕는 기능입니다. 텍스트 · 마우스 포인터 · 커서 확대와 색 변경, 돋보기, 내레이터, 고정 키 등이 있습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>돋보기</b> 단축키: 실행 <code>Win</code>+<code>+</code>, 종료 <code>Win</code>+<code>Esc</code>, 전체 화면 <code>Ctrl</code>+<code>Alt</code>+<code>F</code>, 렌즈 <code>Ctrl</code>+<code>Alt</code>+<code>L</code>, 도킹 <code>Ctrl</code>+<code>Alt</code>+<code>D</code></span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">복습 · 10차시</span>
+  <h2>다시 짚어 두는 3가지</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="146" viewBox="0 0 300 146" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="144" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">10차시에서 많이 틀린 3가지</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="32" width="64" height="30" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/><text x="42.0" y="50.675" font-size="10.5" text-anchor="middle" fill="#B45309" font-weight="700">FAT32</text>
+      <text x="82" y="51" font-size="10.5" fill="#374151">파일 1개 4GB 미만</text>
+      </g>
+      <g class="a-in" style="--d:0.7s">
+      <rect x="10" y="70" width="64" height="30" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="42.0" y="88.675" font-size="10.5" text-anchor="middle" fill="#2563EB" font-weight="700">창 배열</text>
+      <text x="82" y="89" font-size="10.5" fill="#374151">아이콘이 아니라 «열린 창»</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <rect x="10" y="108" width="64" height="30" fill="#DCFCE7" stroke="#047857" stroke-width="1.5"/><text x="42.0" y="126.675" font-size="10.5" text-anchor="middle" fill="#047857" font-weight="700">중첩 IF</text>
+      <text x="82" y="127" font-size="10.5" fill="#374151">결과 4개 → IF 3개 (마지막은 거짓 값)</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>10차시 퀴즈에서 정답률이 낮았던 문항</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>FAT32</b> — 파일 하나의 크기가 <b>약 4GB 미만</b>(정확히는 4GiB−1바이트까지)이어야 합니다. 10GB 같은 큰 영상 파일은 FAT32 USB에 저장되지 않습니다. 여러 운영체제에서 대용량 파일을 쓰려면 <b>exFAT</b>이 적합합니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>작업 표시줄 우클릭의 계단식 · 가로 · 세로 정렬</b>은 <b>열려 있는 창</b>을 배열합니다. 아이콘 정렬이 아닙니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>중첩 IF</b> — 결과가 4가지이고 마지막 결과를 거짓 값으로 처리하면 IF는 3개입니다. 다음 질문은 앞 IF의 거짓 자리에 넣습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 · 텍스트 나누기</span>
+  <h2>구분 기호로 열을 나눕니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="168" viewBox="0 0 300 168" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="166" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">한 열에 몰린 데이터를 나눕니다</text>
+      <rect x="10" y="32" width="280" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="150.0" y="46.85" font-size="11" text-anchor="middle" fill="#111827" font-family="JetBrains Mono, monospace">김민수,남,85</text>
+      <g class="a-in" style="--d:0.4s">
+      <text x="150" y="72" font-size="10.5" fill="#1D4ED8" font-weight="700" text-anchor="middle">↓  쉼표(,) 기준으로 분리</text>
+      </g>
+      <g class="a-pop" style="--d:0.9s">
+      <rect x="10" y="80" width="90" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="55.0" y="94.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">김민수</text>
+      </g>
+      <g class="a-pop" style="--d:1.2s">
+      <rect x="104" y="80" width="90" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="149.0" y="94.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">남</text>
+      </g>
+      <g class="a-pop" style="--d:1.5s">
+      <rect x="198" y="80" width="90" height="22" fill="#DCFCE7" stroke="#047857" stroke-width="1"/><text x="243.0" y="94.85" font-size="11" text-anchor="middle" fill="#047857" font-weight="700">85</text>
+      </g>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="124" font-size="10.5" fill="#374151">1단계  구분 기호로 분리됨</text>
+      </g>
+      <g class="a-in" style="--d:2.1s">
+      <text x="10" y="140" font-size="10.5" fill="#374151">2단계  쉼표 · 세미콜론 등 지정 → 미리 보기</text>
+      </g>
+      <g class="a-in" style="--d:2.4s">
+      <text x="10" y="156" font-size="10.5" fill="#DC2626" font-weight="700">3단계  열 서식 · «열 가져오지 않음(건너뜀)»</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>데이터 탭 › 텍스트 나누기 마법사의 3단계</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>CSV</b>는 쉼표로 값을 구분해 저장하는 텍스트 형식입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">한 열에 몰린 데이터를 선택하고 <b>데이터 탭 › 텍스트 나누기</b>를 실행합니다. 1단계에서 <b>구분 기호로 분리됨</b>을 고릅니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">2단계에서 쉼표나 세미콜론 같은 구분 기호를 지정하면 <b>미리 보기</b>에서 열이 나뉘는 모습을 확인할 수 있습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">3단계에서는 열마다 <b>데이터 서식</b>을 지정하거나, 필요 없는 열을 선택하고 <b>열 가져오지 않음(건너뜀)</b>을 지정합니다. 이 위치를 자주 못 찾으므로 기억해 둡니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 · 고급 필터</span>
+  <h2>함수식을 조건으로 쓰는 고급 필터</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="174" viewBox="0 0 300 174" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="172" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">수식 조건의 필드명은 달라야 합니다</text>
+      <text x="10" y="38" font-size="9.5" fill="#6B7280" font-weight="700">데이터 영역</text>
+      <rect x="10" y="42" width="60" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="40.0" y="54.325" font-size="9.5" text-anchor="middle" fill="#6B7280" font-weight="700">이름</text>
+      <rect x="70" y="42" width="60" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="100.0" y="54.325" font-size="9.5" text-anchor="middle" fill="#6B7280" font-weight="700">생년월일</text>
+      <rect x="130" y="42" width="60" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="54.325" font-size="9.5" text-anchor="middle" fill="#6B7280" font-weight="700">부서</text>
+      <text x="10" y="80" font-size="9.5" fill="#6B7280" font-weight="700">조건 영역</text>
+      <rect x="10" y="84" width="130" height="18" fill="#DBEAFE" stroke="#2563EB" stroke-width="1"/><text x="75.0" y="96.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">월</text>
+      <rect x="10" y="102" width="130" height="22" fill="#fff" stroke="#2563EB" stroke-width="1.5"/><text x="75.0" y="116.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700" font-family="JetBrains Mono, monospace">=MONTH(B4)=5</text>
+      <rect class="a-flash" style="--d:0.8s" x="10" y="84" width="130" height="40" fill="#DBEAFE" fill-opacity=".6" stroke="#2563EB" stroke-width="2.5"/>
+      <g class="a-in" style="--d:1.5s">
+      <text x="150" y="100" font-size="10" fill="#1D4ED8" font-weight="700">← 생년월일이 5월</text>
+      </g>
+      <g class="a-in" style="--d:1.5s">
+      <text x="150" y="114" font-size="10" fill="#6B7280">   B4 = 첫 번째 레코드</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="146" font-size="10.5" fill="#DC2626" font-weight="700">필드명: 생략하거나 «월» · «조건»처럼 원본과 다르게</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="162" font-size="10.5" fill="#DC2626">원본 필드명(예: 생년월일)과 같으면 안 됩니다</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>월이 5월인 자료를 MONTH 함수로 추출</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">생년월일에서 <b>월이 5월</b>인 자료를 뽑으려면 <code>MONTH</code> 함수로 월을 구하는 <b>수식 조건</b>을 만듭니다. 예) <code>=MONTH(B4)=5</code> (B4는 데이터의 첫 번째 레코드의 생년월일 셀)</span></div>
+    <div class="row"><span class="n">2</span><span class="b">조건에 <b>함수나 수식</b>을 쓸 때는 조건 영역의 필드명을 <b>생략</b>하거나 <b>원본 필드명과 다른 이름</b>으로 적습니다. «월», «조건»처럼 원본에 없는 이름이면 됩니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">일반 조건(<code>&gt;=80</code> 등)과 달리, 수식 조건에는 원본 필드명을 그대로 쓰지 않는다는 점이 핵심입니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">같은 행에 놓은 조건은 AND, 서로 다른 행에 놓은 조건은 OR로 처리됩니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 · 부분합</span>
+  <h2>부분합은 정렬이<br>먼저입니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="180" viewBox="0 0 300 180" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="178" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">정렬 → 부분합 → 윤곽 단추</text>
+      <rect x="10" y="32" width="120" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="44.325" font-size="9.5" text-anchor="middle" fill="#6B7280" font-weight="700">진료과목</text>
+      <rect x="130" y="32" width="60" height="18" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="44.325" font-size="9.5" text-anchor="middle" fill="#6B7280" font-weight="700">인원</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="50" width="120" height="17" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="61.825" font-size="9.5" text-anchor="middle" fill="#111827">내과</text>
+      <rect x="130" y="50" width="60" height="17" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="61.825" font-size="9.5" text-anchor="middle" fill="#111827">12</text>
+      </g>
+      <g class="a-in" style="--d:0.5s">
+      <rect x="10" y="67" width="120" height="17" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="78.825" font-size="9.5" text-anchor="middle" fill="#111827">내과</text>
+      <rect x="130" y="67" width="60" height="17" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="78.825" font-size="9.5" text-anchor="middle" fill="#111827">8</text>
+      </g>
+      <g class="a-in" style="--d:0.7s">
+      <rect x="10" y="84" width="120" height="17" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="95.825" font-size="9.5" text-anchor="middle" fill="#111827" font-weight="700">내과 요약</text>
+      <rect x="130" y="84" width="60" height="17" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="95.825" font-size="9.5" text-anchor="middle" fill="#111827" font-weight="700">20</text>
+      </g>
+      <g class="a-in" style="--d:0.9s">
+      <rect x="10" y="101" width="120" height="17" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="112.825" font-size="9.5" text-anchor="middle" fill="#111827">소아과</text>
+      <rect x="130" y="101" width="60" height="17" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="112.825" font-size="9.5" text-anchor="middle" fill="#111827">9</text>
+      </g>
+      <g class="a-in" style="--d:1.1s">
+      <rect x="10" y="118" width="120" height="17" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="129.825" font-size="9.5" text-anchor="middle" fill="#111827" font-weight="700">소아과 요약</text>
+      <rect x="130" y="118" width="60" height="17" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="129.825" font-size="9.5" text-anchor="middle" fill="#111827" font-weight="700">9</text>
+      </g>
+      <g class="a-in" style="--d:1.3s">
+      <rect x="10" y="135" width="120" height="17" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="70.0" y="146.825" font-size="9.5" text-anchor="middle" fill="#111827" font-weight="700">총합계</text>
+      <rect x="130" y="135" width="60" height="17" fill="#FEF3C7" stroke="#CBD5E1" stroke-width="1"/><text x="160.0" y="146.825" font-size="9.5" text-anchor="middle" fill="#111827" font-weight="700">29</text>
+      </g>
+      <g class="a-in" style="--d:1.6s">
+      <rect x="204" y="36" width="24" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="216.0" y="52.2" font-size="12" text-anchor="middle" fill="#1D4ED8" font-weight="700">1</text>
+      <text x="234" y="52" font-size="9.5" fill="#374151">총합계만</text>
+      </g>
+      <g class="a-in" style="--d:1.9s">
+      <rect x="204" y="72" width="24" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="216.0" y="88.2" font-size="12" text-anchor="middle" fill="#1D4ED8" font-weight="700">2</text>
+      <text x="234" y="88" font-size="9.5" fill="#374151">그룹별 요약</text>
+      </g>
+      <g class="a-in" style="--d:2.2s">
+      <rect x="204" y="108" width="24" height="24" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="216.0" y="124.2" font-size="12" text-anchor="middle" fill="#1D4ED8" font-weight="700">3</text>
+      <text x="234" y="124" font-size="9.5" fill="#374151">전체 세부</text>
+      </g>
+      <g class="a-in" style="--d:2.6s">
+      <text x="10" y="168" font-size="10.5" fill="#DC2626" font-weight="700">그룹 기준(진료과목)을 먼저 정렬해야 합니다</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>윤곽 단추 1 · 2 · 3은 표시 수준을 바꿉니다</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">부분합은 자동으로 정렬해 주지 않습니다. <b>그룹 기준 필드를 먼저 정렬</b>한 뒤 실행합니다. 그룹 기준은 문제의 «○○별»에 해당하는 필드입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">대화 상자에서 <b>그룹화할 항목, 사용할 함수, 부분합 계산 항목</b>을 지정합니다. 계산 항목은 기존 체크 상태를 믿지 말고 스크롤하며 모두 확인합니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>윤곽 단추</b> 1은 총합계만, 2는 그룹별 요약, 3은 전체 세부 데이터를 보여 줍니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">잘못 만들었으면 직접 고치려 하지 말고 <b>모두 제거</b>한 뒤 처음부터 다시 작성합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 · 부분합 · 기출 작업</span>
+  <h2>두 번째 부분합은<br>«대치»를 해제합니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="180" viewBox="0 0 300 180" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="178" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">부분합을 겹쳐 만들 때</text>
+      <rect x="10" y="32" width="128" height="30" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="74.0" y="50.675" font-size="10.5" text-anchor="middle" fill="#1D4ED8" font-weight="700">1번째 부분합  합계</text>
+      <g class="a-in" style="--d:0.5s">
+      <path d="M74 64 v18" stroke="#2563EB" stroke-width="2"/><path d="M74 88 l-5 -8 h10 z" fill="#2563EB"/>
+      </g>
+      <g class="a-in" style="--d:0.9s">
+      <rect x="10" y="90" width="128" height="30" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/><text x="74.0" y="108.675" font-size="10.5" text-anchor="middle" fill="#B45309" font-weight="700">2번째 부분합  평균</text>
+      </g>
+      <g class="a-in" style="--d:1.4s">
+      <rect x="150" y="90" width="140" height="30" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="220.0" y="108.675" font-size="10.5" text-anchor="middle" fill="#DC2626" font-weight="700">☐ 새로운 값으로 대치</text>
+      </g>
+      <g class="a-in" style="--d:1.6s">
+      <text x="150" y="132" font-size="10" fill="#DC2626" font-weight="700">↑ 해제해야 1번째가 남음</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="152" font-size="10.5" fill="#374151">나중에 만든 부분합 행이 위에 표시될 수 있습니다</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="168" font-size="10.5" fill="#374151">평균 소수 자릿수는 홈 탭 표시 형식으로 조절</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>기존 부분합을 유지하면서 추가할 때</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">다중 기준 정렬은 열의 정렬 단추를 차례로 누르지 말고 <b>정렬 대화 상자에서 기준을 추가</b>합니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">두 번째 부분합을 <b>기존 결과를 유지하며 누적</b>하려면 <b>새로운 값으로 대치</b>를 해제합니다. 첫 번째 부분합을 만들 때나 기존 결과를 교체할 때는 선택된 상태입니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">수행 순서가 중요합니다. 같은 그룹에 기본 설정으로 부분합을 추가하면 나중에 만든 부분합 행이 기존 행 위에 표시될 수 있으니, 결과 모양만 보고 순서를 반대로 판단하지 않습니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b">평균 결과의 <b>소수 자릿수</b>는 ROUND 함수가 아니라 홈 탭의 표시 형식으로 조정합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 · 표 · 슬라이서</span>
+  <h2>표를 만들면 필터가 편해집니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="152" viewBox="0 0 300 152" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="150" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">표 + 슬라이서로 빠르게 필터링</text>
+      <rect x="10" y="32" width="150" height="18" fill="#2563EB" stroke="#2563EB" stroke-width="1"/><text x="85.0" y="44.325" font-size="9.5" text-anchor="middle" fill="#fff" font-weight="700">이름 ▾   과목 ▾   성별 ▾</text>
+      <rect x="10" y="50" width="50" height="18" fill="#EFF4FF" stroke="#CBD5E1" stroke-width="1"/><text x="35.0" y="62.325" font-size="9.5" text-anchor="middle" fill="#111827">김민수</text>
+      <rect x="60" y="50" width="50" height="18" fill="#EFF4FF" stroke="#CBD5E1" stroke-width="1"/><text x="85.0" y="62.325" font-size="9.5" text-anchor="middle" fill="#111827">내과</text>
+      <rect x="110" y="50" width="50" height="18" fill="#EFF4FF" stroke="#CBD5E1" stroke-width="1"/><text x="135.0" y="62.325" font-size="9.5" text-anchor="middle" fill="#111827">남</text>
+      <rect x="10" y="68" width="50" height="18" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="35.0" y="80.325" font-size="9.5" text-anchor="middle" fill="#111827">이서연</text>
+      <rect x="60" y="68" width="50" height="18" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="85.0" y="80.325" font-size="9.5" text-anchor="middle" fill="#111827">내과</text>
+      <rect x="110" y="68" width="50" height="18" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="135.0" y="80.325" font-size="9.5" text-anchor="middle" fill="#111827">여</text>
+      <rect x="10" y="86" width="50" height="18" fill="#EFF4FF" stroke="#CBD5E1" stroke-width="1"/><text x="35.0" y="98.325" font-size="9.5" text-anchor="middle" fill="#111827">박지훈</text>
+      <rect x="60" y="86" width="50" height="18" fill="#EFF4FF" stroke="#CBD5E1" stroke-width="1"/><text x="85.0" y="98.325" font-size="9.5" text-anchor="middle" fill="#111827">소아과</text>
+      <rect x="110" y="86" width="50" height="18" fill="#EFF4FF" stroke="#CBD5E1" stroke-width="1"/><text x="135.0" y="98.325" font-size="9.5" text-anchor="middle" fill="#111827">남</text>
+      <g class="a-in" style="--d:0.8s">
+      <rect x="176" y="32" width="114" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/>
+      <text x="182" y="47" font-size="9.5" fill="#6B7280" font-weight="700">진료과목</text>
+      <rect x="176" y="54" width="114" height="22" fill="#DBEAFE" stroke="#2563EB" stroke-width="1"/><text x="233.0" y="68.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">내과</text>
+      <rect x="176" y="76" width="114" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="233.0" y="90.5" font-size="10" text-anchor="middle" fill="#111827">소아과</text>
+      </g>
+      <g class="a-in" style="--d:1.3s">
+      <rect x="176" y="106" width="114" height="22" fill="#DBEAFE" stroke="#2563EB" stroke-width="1"/><text x="233.0" y="120.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">성별: 남</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="120" font-size="10.5" fill="#374151">여러 슬라이서를 함께 눌러 조합</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="138" font-size="10.5" fill="#6B7280">예) 내과 + 특정 지역 + 남자</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>슬라이서 단추를 눌러 다중 필터링</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">데이터를 선택하고 홈 탭의 <b>표 서식</b>이나 <code>Ctrl</code>+<code>T</code>로 <b>표</b>를 만들면 미리 정의된 서식과 <b>필터 단추</b>가 적용됩니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">표 옵션에서 필터 단추와 줄무늬 행 등을 켜거나 끌 수 있습니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>슬라이서</b>는 단추를 눌러 데이터를 빠르게 필터링하고, 여러 개를 조합해 다중 선택도 할 수 있습니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 · 피벗 테이블</span>
+  <h2>원본을 행 · 열 · 값으로<br>돌려 봅니다</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="168" viewBox="0 0 300 168" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="166" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">행 · 열 · 값 영역에 배치</text>
+      <rect x="10" y="32" width="70" height="22" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/><text x="45.0" y="46.325" font-size="9.5" text-anchor="middle" fill="#B45309" font-weight="700">직위 (열)</text>
+      <rect x="86" y="32" width="204" height="22" fill="#fff" stroke="#fff" stroke-width="1"/>
+      <rect x="90" y="32" width="66" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="123.0" y="46.5" font-size="10" text-anchor="middle" fill="#6B7280" font-weight="700">대리</text>
+      <rect x="156" y="32" width="66" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="189.0" y="46.5" font-size="10" text-anchor="middle" fill="#6B7280" font-weight="700">과장</text>
+      <rect x="222" y="32" width="66" height="22" fill="#E5E7EB" stroke="#CBD5E1" stroke-width="1"/><text x="255.0" y="46.5" font-size="10" text-anchor="middle" fill="#6B7280" font-weight="700">부장</text>
+      <rect x="10" y="54" width="80" height="22" fill="#DBEAFE" stroke="#2563EB" stroke-width="1"/><text x="50.0" y="68.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">영업</text>
+      <g class="a-pop" style="--d:0.6s">
+      <rect x="90" y="54" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="123.0" y="68.675" font-size="10.5" text-anchor="middle" fill="#111827">310</text>
+      </g>
+      <g class="a-pop" style="--d:0.8s">
+      <rect x="156" y="54" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="189.0" y="68.675" font-size="10.5" text-anchor="middle" fill="#111827">350</text>
+      </g>
+      <g class="a-pop" style="--d:1.0s">
+      <rect x="222" y="54" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="255.0" y="68.675" font-size="10.5" text-anchor="middle" fill="#111827">420</text>
+      </g>
+      <rect x="10" y="76" width="80" height="22" fill="#DBEAFE" stroke="#2563EB" stroke-width="1"/><text x="50.0" y="90.5" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">총무</text>
+      <g class="a-pop" style="--d:1.2s">
+      <rect x="90" y="76" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="123.0" y="90.675" font-size="10.5" text-anchor="middle" fill="#111827">300</text>
+      </g>
+      <g class="a-pop" style="--d:1.4s">
+      <rect x="156" y="76" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="189.0" y="90.675" font-size="10.5" text-anchor="middle" fill="#111827">340</text>
+      </g>
+      <g class="a-pop" style="--d:1.6s">
+      <rect x="222" y="76" width="66" height="22" fill="#fff" stroke="#CBD5E1" stroke-width="1"/><text x="255.0" y="90.675" font-size="10.5" text-anchor="middle" fill="#111827">410</text>
+      </g>
+      <text x="10" y="112" font-size="9.5" fill="#1D4ED8" font-weight="700">부서 (행)</text>
+      <text x="104" y="112" font-size="9.5" fill="#047857" font-weight="700">기본급 평균 (값)</text>
+      <g class="a-in" style="--d:1.8s">
+      <text x="10" y="138" font-size="10.5" fill="#374151">값 필드 설정에서 합계 → 평균으로 변경</text>
+      </g>
+      <g class="a-in" style="--d:2.1s">
+      <text x="10" y="156" font-size="10" fill="#6B7280">값이 2개 이상이면 «Σ 값»을 행 영역으로 옮겨 세로로 배치</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>부서별 · 직위별 기본급 평균</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>피벗 테이블</b>은 원본 데이터를 행 · 열 · 값 영역으로 회전해 원하는 분석표를 만드는 기능입니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">예) 부서를 <b>행</b>, 직위를 <b>열</b>, 기본급을 <b>값</b>에 놓고, 기본 집계인 합계를 <b>값 필드 설정</b>에서 <b>평균</b>으로 바꿉니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">실수령액을 값 영역에 추가해 평균으로 바꿀 수 있습니다. 값이 두 개 이상이면 열 영역의 <b>Σ 값</b>을 행 영역으로 옮겨 세로로 긴 표를 만듭니다</span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>셀 포인터가 피벗 테이블 안에</b> 있어야 전용 리본이 나타납니다. 필드 목록이 보이지 않으면 피벗 테이블 분석 탭에서 <b>필드 목록</b>을 선택합니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">실기 · 피벗 테이블</span>
+  <h2>빈 셀 · 총합계 · 새로 고침</h2>
+  <figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="188" viewBox="0 0 300 188" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="186" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="10" y="20" font-size="13" fill="#1D4ED8" font-weight="700">피벗 테이블 세부 설정</text>
+      <g class="a-in" style="--d:0.3s">
+      <rect x="10" y="32" width="70" height="26" fill="#EFF4FF" stroke="#2563EB" stroke-width="1.5"/><text x="45.0" y="48.5" font-size="10" text-anchor="middle" fill="#2563EB" font-weight="700">빈 셀</text>
+      <text x="88" y="49" font-size="10.5" fill="#374151">0 또는 - 로 표시</text>
+      </g>
+      <g class="a-in" style="--d:0.65s">
+      <rect x="10" y="64" width="70" height="26" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/><text x="45.0" y="80.5" font-size="10" text-anchor="middle" fill="#B45309" font-weight="700">총합계</text>
+      <text x="88" y="81" font-size="10.5" fill="#374151">행 · 열 총합계 켜기/끄기</text>
+      </g>
+      <g class="a-in" style="--d:1.0s">
+      <rect x="10" y="96" width="70" height="26" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/><text x="45.0" y="112.5" font-size="10" text-anchor="middle" fill="#DC2626" font-weight="700">새로 고침</text>
+      <text x="88" y="113" font-size="10.5" fill="#374151">원본 수정 후 직접 실행</text>
+      </g>
+      <g class="a-in" style="--d:1.35s">
+      <rect x="10" y="128" width="70" height="26" fill="#DCFCE7" stroke="#047857" stroke-width="1.5"/><text x="45.0" y="144.5" font-size="10" text-anchor="middle" fill="#047857" font-weight="700">원본 범위</text>
+      <text x="88" y="145" font-size="10.5" fill="#374151">데이터가 늘면 범위 변경</text>
+      </g>
+      <g class="a-in" style="--d:2.0s">
+      <text x="10" y="176" font-size="10.5" fill="#6B7280">새 피벗을 만들지 말고 «데이터 원본 변경»</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>피벗 테이블 옵션과 분석 탭의 주요 설정</figcaption>
+  </figure>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b">비어 있는 셀은 0이나 하이픈 같은 값으로 표시하도록 설정할 수 있습니다</span></div>
+    <div class="row"><span class="n">2</span><span class="b">오른쪽 총합계는 <b>행 총합계</b>(각 행의 합계), 아래쪽 총합계는 <b>열 총합계</b>(각 열의 합계)입니다. 화면에 놓인 방향이 아니라 <b>어떤 데이터의 합계인지</b>로 판단합니다</span></div>
+    <div class="row"><span class="n">3</span><span class="b">Excel 2021에서는 원본 데이터를 수정해도 피벗 테이블이 자동으로 바뀌지 않으므로 <b>새로 고침</b>해야 합니다. 원본이 일반 셀 범위이고 범위 밖으로 데이터가 늘어나면, 새 피벗 테이블을 만들지 않고 <b>데이터 원본 범위</b>를 변경합니다(원본이 표이면 보통 새로 고침만 하면 됩니다)</span></div>
+    <div class="row"><span class="n">4</span><span class="b">피벗 테이블은 <b>문제에서 지정한 위치</b>(새 워크시트 또는 기존 워크시트)에 만듭니다. 계산 필드와 피벗 차트는 피벗 테이블 분석 탭의 각 명령에서 다룹니다</span></div>
+  </div>
+</div></section>
+
+<section class="card"><div class="card-inner">
+  <span class="kicker ">오늘의 함정</span>
+  <h2>여기서 많이 틀립니다</h2>
+  <div class="panel">
+    <div class="row"><span class="n">1</span><span class="b"><b>숨김 속성만 켜고 완전히 사라진다고 생각함</b><br><span class="mute">숨긴 항목 표시도 꺼야 합니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><b>다른 드라이브로 끌 때 이동한다고 생각함</b><br><span class="mute">다른 드라이브는 복사, 같은 드라이브는 이동입니다.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><b>휴지통 파일을 복사해서 복원하려 함</b><br><span class="mute">복원 명령이나 잘라내기 후 붙여넣기를 씁니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><b>메모장 .LOG를 소문자·둘째 줄에 씀</b><br><span class="mute">첫 줄 왼쪽에 대문자로 적습니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><b>고급 필터 수식 조건에 원본 필드명을 씀</b><br><span class="mute">생략하거나 다른 이름으로 적습니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><b>정렬 없이 부분합을 실행함</b><br><span class="mute">그룹 기준 필드를 먼저 정렬합니다.</span></span></div>
+    <div class="row"><span class="n">7</span><span class="b"><b>두 번째 부분합에서 «대치»를 해제하지 않음</b><br><span class="mute">첫 번째 부분합이 사라집니다.</span></span></div>
+    <div class="row"><span class="n">8</span><span class="b"><b>원본을 고치고 피벗 새로 고침을 안 함</b><br><span class="mute">Excel 2021에서는 직접 새로 고침해야 합니다.</span></span></div>
+  </div>
+</div></section>
+
+<!-- 12 · 이름 게이트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>10문제로<br>오늘 것을 확인합니다</h2>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>모두 고른 뒤<br>맨 아래에서 채점하세요</h2>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">1</span><span class="qt"><b>FAT32</b>로 포맷한 USB에 저장할 수 <b>없는</b> 것은?</span></p>
+      <button class="quiz-opt">2GB 문서 파일</button>
+      <button class="quiz-opt" data-correct="true">10GB 영상 파일 1개</button>
+      <button class="quiz-opt">100MB 사진 파일</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">2</span><span class="qt">파일 하나를 «숨김»으로 지정했는데 <b>숨긴 항목 표시</b>가 켜져 있으면 그 파일은?</span></p>
+      <button class="quiz-opt" data-correct="true">흐리게 보인다</button>
+      <button class="quiz-opt">완전히 사라진다</button>
+      <button class="quiz-opt">삭제된다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">3</span><span class="qt">파일을 <b>다른 드라이브</b>로 끌어다 놓을 때의 기본 동작은?</span></p>
+      <button class="quiz-opt">이동</button>
+      <button class="quiz-opt">삭제</button>
+      <button class="quiz-opt" data-correct="true">복사</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">4</span><span class="qt">파일을 휴지통에 보관하지 않고 <b>바로 삭제</b>하는 키 조합은?</span></p>
+      <button class="quiz-opt"><code>Ctrl</code>+<code>Delete</code></button>
+      <button class="quiz-opt" data-correct="true"><code>Shift</code>+<code>Delete</code></button>
+      <button class="quiz-opt"><code>Alt</code>+<code>Delete</code></button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">5</span><span class="qt">메모장 문서의 첫 줄 왼쪽에 대문자 <code>.LOG</code>를 입력하고 저장하면?</span></p>
+      <button class="quiz-opt" data-correct="true">열 때마다 마지막 줄에 날짜와 시간이 추가된다</button>
+      <button class="quiz-opt">저장할 때마다 파일 이름이 바뀐다</button>
+      <button class="quiz-opt">문서가 읽기 전용이 된다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">6</span><span class="qt">화면 <b>해상도</b>를 바꾸는 설정 위치는?</span></p>
+      <button class="quiz-opt">개인 설정</button>
+      <button class="quiz-opt">접근성</button>
+      <button class="quiz-opt" data-correct="true">시스템의 디스플레이</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">7</span><span class="qt">고급 필터에서 <b>함수식을 조건</b>으로 쓸 때 조건 영역의 필드명은?</span></p>
+      <button class="quiz-opt">원본 필드명과 똑같이 쓴다</button>
+      <button class="quiz-opt" data-correct="true">생략하거나 원본 필드명과 다르게 쓴다</button>
+      <button class="quiz-opt">반드시 «조건»이라고 쓴다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">8</span><span class="qt">부분합을 실행하기 전에 <b>먼저 해야 하는 작업</b>은?</span></p>
+      <button class="quiz-opt" data-correct="true">그룹 기준 필드를 정렬한다</button>
+      <button class="quiz-opt">피벗 테이블을 만든다</button>
+      <button class="quiz-opt">필터 단추를 켠다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">9</span><span class="qt">이미 만든 부분합을 <b>유지하면서</b> 두 번째 부분합을 추가할 때 «새로운 값으로 대치»는?</span></p>
+      <button class="quiz-opt">선택한다</button>
+      <button class="quiz-opt">선택해도 해제해도 같다</button>
+      <button class="quiz-opt" data-correct="true">해제한다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item">
+    <p class="q"><span class="qn">10</span><span class="qt"><b>Excel 2021</b>에서 피벗 테이블의 원본 데이터를 수정한 뒤 결과에 반영하려면?</span></p>
+      <button class="quiz-opt">자동으로 바뀌므로 할 일이 없다</button>
+      <button class="quiz-opt" data-correct="true">새로 고침을 한다</button>
+      <button class="quiz-opt">피벗 테이블을 다시 정렬한다</button>
+      <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<!-- 체크리스트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">복습 체크리스트</span>
+  <h2>내일 오기 전에<br>이것만 확인하세요</h2>
+  <div class="panel">
+    <div class="row"><span class="n">&#10003;</span><span class="b">빠른 포맷은 복구될 수 있고, FAT32는 파일 1개가 4GB 미만이어야 한다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">숨김 속성과 숨긴 항목 표시는 따로이고, 같은 드라이브는 이동·다른 드라이브는 복사이다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">휴지통은 Shift+Delete·이동식 USB·명령어 삭제 때 거치지 않고, 복사로는 복원할 수 없다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">메모장 .LOG는 첫 줄 왼쪽에 대문자로 적고, F5는 프로그램마다 기능이 다르다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">해상도는 시스템›디스플레이, 배경은 개인 설정, 내레이터는 접근성에 있다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">텍스트 나누기 3단계에서 «열 가져오지 않음(건너뜀)»을 지정한다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">함수식 조건의 고급 필터는 조건 필드명을 생략하거나 원본과 다르게 쓴다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">부분합은 정렬이 먼저이고, 누적할 때는 «새로운 값으로 대치»를 해제하며, Excel 2021의 피벗은 새로 고침을 해야 반영된다</span></div>
+    <div class="row"><span class="n">&#10003;</span><span class="b">오늘 미니 퀴즈 10문제 다시 풀어보기</span></div>
+  </div>
+  <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
+</div></section>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-10 11차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  'da60285334c56b35',
+  '578050a83a19f390',
+  '6925037ff152d413',
+  '19d88c67f8a00342',
+  '54d036f6bff3f8e8',
+  'a78fbd1162753619',
+  '7f1bb29d16ac97f2',
+  'a2d73d51bb1a45bd',
+  'c750eb7e893d05c9',
+  '4a875acff589c148',
+  '46e46b761985be32',
+  'fd86df3d9b145b44',
+  '3850b8dc8edf37c1',
+  'a5043dc870197576',
+  '6b352062738e1800',
+  '746b4d15189cdc4e',
+  'e87e3049b21ed704',
+  'e6963979884a7af1'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
