@@ -59,6 +59,9 @@ h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
 p{margin:0 0 12px; font-size:16px;}
 .lead{font-size:17px; color:#374151;}
 .mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
 
 .panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
 .panel.flat{padding-bottom:16px;}
@@ -542,12 +545,12 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker ">오늘의 함정</span>
   <h2>여기서 많이 틀립니다</h2>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>고급 필터 조건을 같은 행에 쓸지 다른 행에 쓸지 헷갈림</b><br><span class="mute">같은 행은 AND(그리고), 다른 행은 OR(이거나)입니다.</span></span></div>
-    <div class="row"><span class="n">2</span><span class="b"><b>다른 장소에 복사를 고르지 않음</b><br><span class="mute">고르지 않으면 원본이 필터링(행이 숨겨짐)됩니다.</span></span></div>
-    <div class="row"><span class="n">3</span><span class="b"><b>특정 필드만 꺼내는데 필드명을 먼저 쓰지 않음</b><br><span class="mute">결과 위치에 필드명을 먼저 붙여 넣고 그 범위를 복사 위치로 지정합니다.</span></span></div>
-    <div class="row"><span class="n">4</span><span class="b"><b>채우기를 했더니 값이 이상한데 원인을 못 찾음</b><br><span class="mute">잘못된 셀에서 F2로 참조를 확인하고, 첫 수식 셀에서 고쳐 다시 채웁니다.</span></span></div>
-    <div class="row"><span class="n">5</span><span class="b"><b>$A2 와 A$2 를 반대로 기억함</b><br><span class="mute">$ 가 붙은 쪽이 고정입니다. $A2 는 열 고정, A$2 는 행 고정입니다.</span></span></div>
-    <div class="row"><span class="n">6</span><span class="b"><b>문자가 섞인 열의 개수를 COUNT로 셈</b><br><span class="mute">COUNT는 숫자만 셉니다. 문자까지 세려면 COUNTA입니다.</span></span></div>
+    <div class="row"><span class="n">1</span><span class="b"><span class="trap-x">✕ 고급 필터 조건을 같은 행에 쓸지 다른 행에 쓸지 헷갈림</span><span class="trap-o">○ 같은 행은 AND(그리고), 다른 행은 OR(이거나)입니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><span class="trap-x">✕ 다른 장소에 복사를 고르지 않음</span><span class="trap-o">○ «다른 장소에 복사»를 고릅니다. 고르지 않으면 원본이 필터링(행이 숨겨짐)됩니다.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><span class="trap-x">✕ 특정 필드만 꺼내는데 필드명을 먼저 쓰지 않음</span><span class="trap-o">○ 결과 위치에 필드명을 먼저 붙여 넣고 그 범위를 복사 위치로 지정합니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><span class="trap-x">✕ 채우기를 했더니 값이 이상한데 원인을 못 찾음</span><span class="trap-o">○ 잘못된 셀에서 F2로 참조를 확인하고, 첫 수식 셀에서 고쳐 다시 채웁니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><span class="trap-x">✕ $A2 와 A$2 를 반대로 기억함</span><span class="trap-o">○ $ 가 붙은 쪽이 고정입니다. $A2 는 열 고정, A$2 는 행 고정입니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><span class="trap-x">✕ 문자가 섞인 열의 개수를 COUNT로 셈</span><span class="trap-o">○ COUNT는 숫자만 셉니다. 문자까지 세려면 COUNTA입니다.</span></span></div>
   </div>
 </div></section>
 

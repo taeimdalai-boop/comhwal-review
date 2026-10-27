@@ -59,6 +59,9 @@ h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
 p{margin:0 0 12px; font-size:16px;}
 .lead{font-size:17px; color:#374151;}
 .mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
 
 .panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
 .panel.flat{padding-bottom:16px;}
@@ -1136,14 +1139,14 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker ">오늘의 함정</span>
   <h2>여기서 많이 틀립니다</h2>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>숨김 속성만 켜고 완전히 사라진다고 생각함</b><br><span class="mute">숨긴 항목 표시도 꺼야 합니다.</span></span></div>
-    <div class="row"><span class="n">2</span><span class="b"><b>다른 드라이브로 끌 때 이동한다고 생각함</b><br><span class="mute">다른 드라이브는 복사, 같은 드라이브는 이동입니다.</span></span></div>
-    <div class="row"><span class="n">3</span><span class="b"><b>휴지통 파일을 복사해서 복원하려 함</b><br><span class="mute">복원 명령이나 잘라내기 후 붙여넣기를 씁니다.</span></span></div>
-    <div class="row"><span class="n">4</span><span class="b"><b>메모장 .LOG를 소문자·둘째 줄에 씀</b><br><span class="mute">첫 줄 왼쪽에 대문자로 적습니다.</span></span></div>
-    <div class="row"><span class="n">5</span><span class="b"><b>고급 필터 수식 조건에 원본 필드명을 씀</b><br><span class="mute">생략하거나 다른 이름으로 적습니다.</span></span></div>
-    <div class="row"><span class="n">6</span><span class="b"><b>정렬 없이 부분합을 실행함</b><br><span class="mute">그룹 기준 필드를 먼저 정렬합니다.</span></span></div>
-    <div class="row"><span class="n">7</span><span class="b"><b>두 번째 부분합에서 «대치»를 해제하지 않음</b><br><span class="mute">첫 번째 부분합이 사라집니다.</span></span></div>
-    <div class="row"><span class="n">8</span><span class="b"><b>원본을 고치고 피벗 새로 고침을 안 함</b><br><span class="mute">Excel 2021에서는 직접 새로 고침해야 합니다.</span></span></div>
+    <div class="row"><span class="n">1</span><span class="b"><span class="trap-x">✕ 숨김 속성만 켜고 완전히 사라진다고 생각함</span><span class="trap-o">○ 숨긴 항목 표시도 꺼야 합니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><span class="trap-x">✕ 다른 드라이브로 끌 때 이동한다고 생각함</span><span class="trap-o">○ 다른 드라이브는 복사, 같은 드라이브는 이동입니다.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><span class="trap-x">✕ 휴지통 파일을 복사해서 복원하려 함</span><span class="trap-o">○ 복원 명령이나 잘라내기 후 붙여넣기를 씁니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><span class="trap-x">✕ 메모장 .LOG를 소문자·둘째 줄에 씀</span><span class="trap-o">○ 첫 줄 왼쪽에 대문자로 적습니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><span class="trap-x">✕ 고급 필터 수식 조건에 원본 필드명을 씀</span><span class="trap-o">○ 생략하거나 다른 이름으로 적습니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><span class="trap-x">✕ 정렬 없이 부분합을 실행함</span><span class="trap-o">○ 그룹 기준 필드를 먼저 정렬합니다.</span></span></div>
+    <div class="row"><span class="n">7</span><span class="b"><span class="trap-x">✕ 두 번째 부분합에서 «대치»를 해제하지 않음</span><span class="trap-o">○ «새로운 값으로 대치»를 해제합니다. 해제하지 않으면 첫 번째 부분합이 사라집니다.</span></span></div>
+    <div class="row"><span class="n">8</span><span class="b"><span class="trap-x">✕ 원본을 고치고 피벗 새로 고침을 안 함</span><span class="trap-o">○ Excel 2021에서는 직접 새로 고침해야 합니다.</span></span></div>
   </div>
 </div></section>
 

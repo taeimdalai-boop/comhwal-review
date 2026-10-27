@@ -59,6 +59,9 @@ h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
 p{margin:0 0 12px; font-size:16px;}
 .lead{font-size:17px; color:#374151;}
 .mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
 
 .panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
 .panel.flat{padding-bottom:16px;}
@@ -556,13 +559,13 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker ">오늘의 함정</span>
   <h2>여기서 많이 틀립니다</h2>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>SUMIF와 SUMIFS의 인수 순서를 같게 외움</b><br><span class="mute">SUMIFS는 합계 범위가 맨 앞입니다.</span></span></div>
-    <div class="row"><span class="n">2</span><span class="b"><b>자릿수를 «처리하는 자리»로 계산함</b><br><span class="mute">남길 자리를 기준으로 씁니다. 백의 자리까지 → -2.</span></span></div>
-    <div class="row"><span class="n">3</span><span class="b"><b>VLOOKUP 열 번호를 시트의 열 번호로 셈</b><br><span class="mute">기준표의 첫 열이 1번입니다.</span></span></div>
-    <div class="row"><span class="n">4</span><span class="b"><b>기준표를 절대 참조하지 않고 채움</b><br><span class="mute">기준표가 함께 밀려 #N/A나 엉뚱한 값이 나옵니다. F4로 고정합니다.</span></span></div>
-    <div class="row"><span class="n">5</span><span class="b"><b>점수 구간을 FALSE로 찾음</b><br><span class="mute">구간은 TRUE(유사 일치). 기준표는 오름차순이어야 합니다.</span></span></div>
-    <div class="row"><span class="n">6</span><span class="b"><b>MID의 세 번째 인수를 끝 위치로 씀</b><br><span class="mute">가져올 글자 수입니다.</span></span></div>
-    <div class="row"><span class="n">7</span><span class="b"><b>공백이 있는데도 값이 같아 보인다고 넘어감</b><br><span class="mute">LEN으로 글자 수를 세고 TRIM으로 감쌉니다.</span></span></div>
+    <div class="row"><span class="n">1</span><span class="b"><span class="trap-x">✕ SUMIF와 SUMIFS의 인수 순서를 같게 외움</span><span class="trap-o">○ SUMIFS는 합계 범위가 맨 앞입니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><span class="trap-x">✕ 자릿수를 «처리하는 자리»로 계산함</span><span class="trap-o">○ 남길 자리를 기준으로 씁니다. 백의 자리까지 → -2.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><span class="trap-x">✕ VLOOKUP 열 번호를 시트의 열 번호로 셈</span><span class="trap-o">○ 기준표의 첫 열이 1번입니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><span class="trap-x">✕ 기준표를 절대 참조하지 않고 채움</span><span class="trap-o">○ F4로 기준표를 고정합니다. 안 하면 기준표가 함께 밀려 #N/A나 엉뚱한 값이 나옵니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><span class="trap-x">✕ 점수 구간을 FALSE로 찾음</span><span class="trap-o">○ 구간은 TRUE(유사 일치). 기준표는 오름차순이어야 합니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><span class="trap-x">✕ MID의 세 번째 인수를 끝 위치로 씀</span><span class="trap-o">○ 가져올 글자 수입니다.</span></span></div>
+    <div class="row"><span class="n">7</span><span class="b"><span class="trap-x">✕ 공백이 있는데도 값이 같아 보인다고 넘어감</span><span class="trap-o">○ LEN으로 글자 수를 세고 TRIM으로 감쌉니다.</span></span></div>
   </div>
 </div></section>
 

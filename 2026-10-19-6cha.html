@@ -59,6 +59,9 @@ h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
 p{margin:0 0 12px; font-size:16px;}
 .lead{font-size:17px; color:#374151;}
 .mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
 
 .panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
 .panel.flat{padding-bottom:16px;}
@@ -488,13 +491,13 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker ">오늘의 함정</span>
   <h2>여기서 많이 틀립니다</h2>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>SUMIF와 SUMIFS의 인수 순서를 같게 외움</b><br><span class="mute">SUMIF는 조건 범위가 앞, SUMIFS는 합계 범위가 앞입니다.</span></span></div>
-    <div class="row"><span class="n">2</span><span class="b"><b>조건 문자를 큰따옴표 없이 입력</b><br><span class="mute">문자 조건은 따옴표로 묶고, 기준 셀은 &amp;로 이어 붙입니다.</span></span></div>
-    <div class="row"><span class="n">3</span><span class="b"><b>기준 셀 주소까지 따옴표 안에 넣음</b><br><span class="mute">&gt;=J34 는 문자로 읽힙니다. <code>"&gt;="&amp;J34</code> 로 씁니다.</span></span></div>
-    <div class="row"><span class="n">4</span><span class="b"><b>데이터베이스 범위에서 필드명을 빼먹음</b><br><span class="mute">필드명과 전체 레코드를 함께 잡습니다.</span></span></div>
-    <div class="row"><span class="n">5</span><span class="b"><b>필드 순번을 워크시트 열 번호로 셈</b><br><span class="mute">선택한 데이터베이스 범위 안에서의 순서입니다.</span></span></div>
-    <div class="row"><span class="n">6</span><span class="b"><b>문자 필드에 DCOUNT를 씀</b><br><span class="mute">숫자만 세므로 문자는 DCOUNTA입니다.</span></span></div>
-    <div class="row"><span class="n">7</span><span class="b"><b>채우기 후 첫 셀·마지막 셀 수식을 확인하지 않음</b><br><span class="mute">숫자가 나와도 범위가 밀려 틀릴 수 있습니다.</span></span></div>
+    <div class="row"><span class="n">1</span><span class="b"><span class="trap-x">✕ SUMIF와 SUMIFS의 인수 순서를 같게 외움</span><span class="trap-o">○ SUMIF는 조건 범위가 앞, SUMIFS는 합계 범위가 앞입니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><span class="trap-x">✕ 조건 문자를 큰따옴표 없이 입력</span><span class="trap-o">○ 문자 조건은 따옴표로 묶고, 기준 셀은 &amp;로 이어 붙입니다.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><span class="trap-x">✕ 기준 셀 주소까지 따옴표 안에 넣음</span><span class="trap-o">○ &gt;=J34 는 문자로 읽힙니다. <code>"&gt;="&amp;J34</code> 로 씁니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><span class="trap-x">✕ 데이터베이스 범위에서 필드명을 빼먹음</span><span class="trap-o">○ 필드명과 전체 레코드를 함께 잡습니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><span class="trap-x">✕ 필드 순번을 워크시트 열 번호로 셈</span><span class="trap-o">○ 선택한 데이터베이스 범위 안에서의 순서입니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><span class="trap-x">✕ 문자 필드에 DCOUNT를 씀</span><span class="trap-o">○ 숫자만 세므로 문자는 DCOUNTA입니다.</span></span></div>
+    <div class="row"><span class="n">7</span><span class="b"><span class="trap-x">✕ 채우기 후 첫 셀·마지막 셀 수식을 확인하지 않음</span><span class="trap-o">○ 채운 뒤 첫 셀과 마지막 셀의 수식을 확인합니다. 숫자가 나와도 범위가 밀려 틀릴 수 있습니다.</span></span></div>
   </div>
 </div></section>
 

@@ -59,6 +59,9 @@ h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
 p{margin:0 0 12px; font-size:16px;}
 .lead{font-size:17px; color:#374151;}
 .mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
 
 .panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
 .panel.flat{padding-bottom:16px;}
@@ -1158,14 +1161,14 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker ">오늘의 함정</span>
   <h2>여기서 많이 틀립니다</h2>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>VLOOKUP 열 번호를 시트의 열 번호로 셈</b><br><span class="mute">기준표 첫 열이 1번입니다.</span></span></div>
-    <div class="row"><span class="n">2</span><span class="b"><b>MATCH의 검색 범위에 표 전체를 넣음</b><br><span class="mute">한 행 또는 한 열만 잡습니다.</span></span></div>
-    <div class="row"><span class="n">3</span><span class="b"><b>&gt;=로 등급을 구하면서 60점부터 검사</b><br><span class="mute">거짓 자리에 넣는 방식에서는 90점부터 높은 순서로 내려갑니다.</span></span></div>
-    <div class="row"><span class="n">4</span><span class="b"><b>빈칸을 스페이스 한 칸으로 입력</b><br><span class="mute">큰따옴표 두 개 <code>""</code>를 씁니다.</span></span></div>
-    <div class="row"><span class="n">5</span><span class="b"><b>(TODAY()-입사일)/365의 괄호를 뺌</b><br><span class="mute">입사일만 365로 나뉩니다.</span></span></div>
-    <div class="row"><span class="n">6</span><span class="b"><b>IFS 마지막에 TRUE 조건이 없음</b><br><span class="mute">조건에 걸리지 않으면 #N/A입니다.</span></span></div>
-    <div class="row"><span class="n">7</span><span class="b"><b>조건부 서식 수식을 $D$4로 둠</b><br><span class="mute">$D4처럼 열만 고정합니다.</span></span></div>
-    <div class="row"><span class="n">8</span><span class="b"><b>적용 대상에 필드명을 포함</b><br><span class="mute">수식 첫 행과 어긋납니다.</span></span></div>
+    <div class="row"><span class="n">1</span><span class="b"><span class="trap-x">✕ VLOOKUP 열 번호를 시트의 열 번호로 셈</span><span class="trap-o">○ 기준표 첫 열이 1번입니다.</span></span></div>
+    <div class="row"><span class="n">2</span><span class="b"><span class="trap-x">✕ MATCH의 검색 범위에 표 전체를 넣음</span><span class="trap-o">○ 한 행 또는 한 열만 잡습니다.</span></span></div>
+    <div class="row"><span class="n">3</span><span class="b"><span class="trap-x">✕ &gt;=로 등급을 구하면서 60점부터 검사</span><span class="trap-o">○ 거짓 자리에 넣는 방식에서는 90점부터 높은 순서로 내려갑니다.</span></span></div>
+    <div class="row"><span class="n">4</span><span class="b"><span class="trap-x">✕ 빈칸을 스페이스 한 칸으로 입력</span><span class="trap-o">○ 큰따옴표 두 개 <code>""</code>를 씁니다.</span></span></div>
+    <div class="row"><span class="n">5</span><span class="b"><span class="trap-x">✕ (TODAY()-입사일)/365의 괄호를 뺌</span><span class="trap-o">○ <code>(TODAY()-입사일)</code>처럼 괄호로 묶습니다. 빼면 입사일만 365로 나뉩니다.</span></span></div>
+    <div class="row"><span class="n">6</span><span class="b"><span class="trap-x">✕ IFS 마지막에 TRUE 조건이 없음</span><span class="trap-o">○ 그 밖의 경우가 필요하면 마지막 조건 자리에 <code>TRUE</code>를 넣습니다. 없으면 어느 조건도 아닐 때 #N/A가 납니다.</span></span></div>
+    <div class="row"><span class="n">7</span><span class="b"><span class="trap-x">✕ 행마다 D열을 기준으로 해야 하는데 수식을 $D$4로 둠</span><span class="trap-o">○ $D4처럼 열만 고정합니다.</span></span></div>
+    <div class="row"><span class="n">8</span><span class="b"><span class="trap-x">✕ 적용 대상에 필드명을 포함</span><span class="trap-o">○ 적용 대상은 필드명 아래 데이터부터 잡습니다. 포함하면 수식 첫 행과 어긋납니다.</span></span></div>
   </div>
 </div></section>
 
