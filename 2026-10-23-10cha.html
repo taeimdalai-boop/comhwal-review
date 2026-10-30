@@ -65,10 +65,6 @@ p{margin:0 0 12px; font-size:16px;}
 
 /* ── 마지막 장: 컴퓨터 일반 음성 복습 ── */
 .audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08);}
-.voice-choice{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 16px;}
-.voice-btn{border:1.5px solid #CBD5E1;border-radius:12px;background:#fff;color:var(--ink);padding:12px 8px;font:800 14px/1.25 inherit;cursor:pointer;}
-.voice-btn small{display:block;margin-top:3px;color:var(--mute);font-size:11px;font-weight:600;}
-.voice-btn.on{border-color:var(--blue);background:var(--blue-l);color:var(--blue-d);}
 .player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;}
 .player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer;}
 .player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff;}
@@ -1381,13 +1377,9 @@ td:first-child{font-weight:600; white-space:nowrap;}
 <section class="card" id="audioReviewCard"><div class="card-inner">
   <span class="kicker pilgi">필기 · 음성 복습</span>
   <h2>10차시 컴퓨터 일반을<br>한 번에 들어보세요</h2>
-  <p class="lead">목소리를 고른 뒤 재생하세요. 주황색 표식과 구간 버튼으로 필요한 부분에 바로 이동할 수 있습니다.</p>
+  <p class="lead">김태희 강사의 목소리로 시험 핵심을 들으세요. 주황색 표식과 구간 버튼으로 필요한 부분에 바로 이동할 수 있습니다.</p>
   <div class="audio-review">
-    <div class="voice-choice" aria-label="목소리 선택">
-      <button type="button" class="voice-btn on" data-voice="female">여성 음성<small>Lee Sun-young · 밝고 명료하게</small></button>
-      <button type="button" class="voice-btn" data-voice="male">남성 음성<small>Justin Park · 활기차고 또렷하게</small></button>
-    </div>
-    <audio id="reviewAudio" preload="metadata" src="audio/review/10-female.mp3"></audio>
+    <audio id="reviewAudio" preload="metadata" src="audio/review/10-instructor.mp3"></audio>
     <div class="player-controls">
       <button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button>
       <button type="button" id="audioBack">−10초</button>
@@ -1397,9 +1389,9 @@ td:first-child{font-weight:600; white-space:nowrap;}
       </label>
     </div>
     <div class="timeline">
-      <input class="seek-bar" id="audioSeek" type="range" min="0" max="419.213" step="0.1" value="0" aria-label="음성 재생 위치">
+      <input class="seek-bar" id="audioSeek" type="range" min="0" max="379.780" step="0.1" value="0" aria-label="음성 재생 위치">
       <div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div>
-      <div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">6:59</span></div>
+      <div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">6:19</span></div>
     </div>
     <div class="chapter-grid" id="chapterGrid"></div>
     <p class="audio-note">※ 시험 핵심만 수록했으며, 상식 설명인 삽입·수정 모드는 제외했습니다.</p>
@@ -1417,10 +1409,9 @@ td:first-child{font-weight:600; white-space:nowrap;}
 <script>
 window.REVIEW_AUDIO={
   titles:['사용자 인터페이스','윈도우 10 특징','파일 이름 규칙','파일 시스템','기능 키','바로가기 아이콘','에어로','작업 표시줄 설정','창 배열과 터치 키보드','작업 표시줄 문제 판단','점프 목록'],
-  voices:{
-    female:{src:'audio/review/10-female.mp3',duration:419.213061,starts:[0,31.48,73.43,104.10,150.05,181.05,221.49,260.49,304.69,340.74,385.99]},
-    male:{src:'audio/review/10-male.mp3',duration:429.714286,starts:[0,31.634,73.508,104.594,150.544,183.066,224.235,264.672,310.779,348.107,394.475]}
-  }
+  src:'audio/review/10-instructor.mp3',
+  duration:379.780,
+  starts:[0,27.81,64.58,90.23,132.52,161.61,199.42,236.75,277.52,309.57,349.46]
 };
 </script>
 <script src="audio/review/player.js"></script>
