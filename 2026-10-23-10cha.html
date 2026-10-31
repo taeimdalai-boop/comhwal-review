@@ -242,6 +242,13 @@ td:first-child{font-weight:600; white-space:nowrap;}
   h1{font-size:36px;} h2{font-size:26px;}
   .card{padding:34px 24px;}
 }
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -255,10 +262,10 @@ td:first-child{font-weight:600; white-space:nowrap;}
 <div class="deck" id="deck">
 <section class="card"><div class="card-inner">
   <span class="kicker">10차시 복습카드</span>
-  <h1>윈도우 10 기본을 익히고,<br>IF 문제를 끊어서 푼 날</h1>
-  <p class="lead">오늘은 필기 컴퓨터 일반의 윈도우 10(인터페이스·파일 시스템·작업 표시줄 등)을 배운 뒤, 실기 IF 문제 풀이와 INDEX · MATCH를 다뤘습니다.</p>
+  <h1>Windows10 기본을 익히고,<br>IF 문제를 끊어서 푼 날</h1>
+  <p class="lead">오늘은 필기 컴퓨터 일반의 Windows10(인터페이스·파일 시스템·작업 표시줄 등)을 배운 뒤, 실기 IF 문제 풀이와 INDEX · MATCH를 다뤘습니다.</p>
   <div class="panel">
-    <div class="row"><span class="n">1</span><span class="b"><b>필기</b> — 사용자 인터페이스 · 윈도우 10 특징 · 파일 이름 · 파일 시스템</span></div>
+    <div class="row"><span class="n">1</span><span class="b"><b>필기</b> — 사용자 인터페이스 · Windows10 특징 · 파일 이름 · 파일 시스템</span></div>
     <div class="row"><span class="n">2</span><span class="b"><b>필기</b> — 기능 키 · 바로가기 아이콘 · 에어로 · 작업 표시줄 · 점프 목록</span></div>
     <div class="row"><span class="n">3</span><span class="b"><b>실기</b> — IF · 중첩 IF(학점) · MOD · IFERROR</span></div>
     <div class="row"><span class="n">4</span><span class="b"><b>실기</b> — OR · AND 판정 · WEEKDAY · RIGHT · 조건부 서식</span></div>
@@ -268,7 +275,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
 </div></section>
 
 <section class="card"><div class="card-inner">
-  <span class="kicker ">필기 · 윈도우 10</span>
+  <span class="kicker ">필기 · Windows10</span>
   <h2>사용자 인터페이스</h2>
   <figure class="fig">
     <div class="svg-wrap">
@@ -299,8 +306,8 @@ td:first-child{font-weight:600; white-space:nowrap;}
 </div></section>
 
 <section class="card"><div class="card-inner">
-  <span class="kicker ">필기 · 윈도우 10</span>
-  <h2>윈도우 10의 특징</h2>
+  <span class="kicker ">필기 · Windows10</span>
+  <h2>Windows10의 특징</h2>
   <figure class="fig">
     <div class="svg-wrap">
     <svg width="300" height="142" viewBox="0 0 300 142" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
@@ -1284,7 +1291,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
       <div class="quiz-feedback"></div>
   </div>
   <div class="quiz-item">
-    <p class="q"><span class="qn">2</span><span class="qt">운영체제가 CPU 사용권을 회수해 다른 작업에 배정할 수 있는 윈도우 10의 특징은?</span></p>
+    <p class="q"><span class="qn">2</span><span class="qt">운영체제가 CPU 사용권을 회수해 다른 작업에 배정할 수 있는 Windows10의 특징은?</span></p>
       <button class="quiz-opt" data-correct="true">선점형 멀티태스킹</button>
       <button class="quiz-opt">플러그 앤 플레이</button>
       <button class="quiz-opt">OLE</button>
@@ -1378,6 +1385,10 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="kicker pilgi">필기 · 음성 복습</span>
   <h2>10차시 컴퓨터 일반을<br>한 번에 들어보세요</h2>
   <p class="lead">김태희 강사의 목소리로 시험 핵심을 들으세요. 주황색 표식과 구간 버튼으로 필요한 부분에 바로 이동할 수 있습니다.</p>
+  <div class="video-review">
+    <video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/10.mp4"></video>
+    <div class="video-copy"><span>화면과 선생님 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div>
+  </div>
   <div class="audio-review">
     <audio id="reviewAudio" preload="metadata" src="audio/review/10-instructor.mp3"></audio>
     <div class="player-controls">
@@ -1385,11 +1396,11 @@ td:first-child{font-weight:600; white-space:nowrap;}
       <button type="button" id="audioBack">−10초</button>
       <button type="button" id="audioForward">+10초</button>
       <label class="speed-wrap">재생 속도
-        <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1" selected>1.0×</option><option value="1.2">1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select>
+        <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select>
       </label>
     </div>
     <div class="timeline">
-      <input class="seek-bar" id="audioSeek" type="range" min="0" max="379.780" step="0.1" value="0" aria-label="음성 재생 위치">
+      <input class="seek-bar" id="audioSeek" type="range" min="0" max="385.060" step="0.1" value="0" aria-label="음성 재생 위치">
       <div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div>
       <div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">6:19</span></div>
     </div>
@@ -1408,10 +1419,10 @@ td:first-child{font-weight:600; white-space:nowrap;}
 </div>
 <script>
 window.REVIEW_AUDIO={
-  titles:['사용자 인터페이스','윈도우 10 특징','파일 이름 규칙','파일 시스템','기능 키','바로가기 아이콘','에어로','작업 표시줄 설정','창 배열과 터치 키보드','작업 표시줄 문제 판단','점프 목록'],
+  titles:['사용자 인터페이스','Windows10 특징','파일 이름 규칙','파일 시스템','기능 키','바로가기 아이콘','에어로','작업 표시줄 설정','창 배열과 터치 키보드','작업 표시줄 문제 판단','점프 목록'],
   src:'audio/review/10-instructor.mp3',
-  duration:379.780,
-  starts:[0,27.81,64.58,90.23,132.52,161.61,199.42,236.75,277.52,309.57,349.46]
+  duration:385.060,
+  starts:[0,28.29,68.98,95.91,136.44,164.25,205.26,238.35,276.96,312.45,354.66]
 };
 </script>
 <script src="audio/review/player.js"></script>

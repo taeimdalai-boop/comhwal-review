@@ -229,6 +229,13 @@ td:first-child{font-weight:600; white-space:nowrap;}
   h1{font-size:36px;} h2{font-size:26px;}
   .card{padding:34px 24px;}
 }
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1709,6 +1716,35 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
 </div></section>
 
+
+<!-- 마지막 장: 컴퓨터 일반 영상 + 음성 복습 -->
+<section class="card" id="audioReviewCard"><div class="card-inner">
+  <span class="kicker pilgi">필기 · 영상·음성 복습</span>
+  <h2>15차시 컴퓨터 일반을<br>화면과 함께 복습하세요</h2>
+  <p class="lead">완성된 컴퓨터 일반 카드 32개를 김태희 강사의 목소리와 모션그래픽으로 설명합니다.</p>
+  <div class="video-review">
+    <video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/15.mp4"></video>
+    <div class="video-copy"><span>화면과 선생님 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div>
+  </div>
+  <div class="audio-review">
+    <audio id="reviewAudio" preload="metadata" src="audio/review/15-instructor.mp3"></audio>
+    <div class="player-controls">
+      <button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button>
+      <button type="button" id="audioBack">−10초</button>
+      <button type="button" id="audioForward">+10초</button>
+      <label class="speed-wrap">재생 속도
+        <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select>
+      </label>
+    </div>
+    <div class="timeline">
+      <input class="seek-bar" id="audioSeek" type="range" min="0" max="1577.150" step="0.1" value="0" aria-label="음성 재생 위치">
+      <div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div>
+      <div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">26:17</span></div>
+    </div>
+    <div class="chapter-grid" id="chapterGrid"></div>
+    <p class="audio-note">※ 컴퓨터 일반 필기 카드만 수록했습니다. 영상 재생 중에는 별도 음성이 자동으로 멈춥니다.</p>
+  </div>
+</div></section>
 </div>
 
 <div class="nav">
@@ -1717,6 +1753,10 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="counter" id="counter">1 / 1</span>
   <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
 </div>
+<script>
+window.REVIEW_AUDIO={"titles":["프로토콜과 OSI 7계층","전자우편과 프로토콜","스팸 · FTP · WWW · HTTP","웹 브라우저의 종류와 관련 용어","캐싱 · 포털 · 미러 사이트 · 검색 엔진","클라우드 · 그리드 · 스마트 그리드","사물 인터넷(IoT)과 만물 인터넷","RSS · 시맨틱 웹 · 텔레매틱스 · LBS · 빅데이터 · 와이브로","유비쿼터스와 RFID · USN","통신 기술 이용 현황 문제","블록체인 · 메타버스 · NFT · 핀테크","멀티미디어의 특징과 하이퍼미디어","모델링 · 렌더링 · 디더링","비트맵 확대 시 계단 현상","모핑 · 필터링 · 인터레이싱 · 키프레임","그래픽 데이터: 비트맵과 벡터","BMP · JPG · GIF · PNG · WMF","오디오: WAV · MIDI · MP3","비디오: MPEG · AVI · 스트리밍","VOD · VCS · CAI · 홀로그램 · 메타버스","가상 · 증강 · 혼합 현실과 필요한 기술","정보 사회의 특징과 해킹 · 크래킹","컴퓨터 범죄 예방과 대책","컴퓨터 바이러스","부트 · 파일 · 매크로 바이러스","가용성 · 기밀성 · 무결성을 해치는 행위","인증 · 접근 제어 · 방화벽 · 암호화 · 침입 탐지","DDoS · 웜 · 트로이 목마 · 백도어","스니핑 · 스푸핑 · 키로거 · 피기백","피싱 · 스미싱 · 큐싱","랜섬웨어 · 허니팟 · 디지털 워터마킹","책에 없지만 시험에 나오는 것은 요약집에서"],"src":"audio/review/15-instructor.mp3","duration":1577.15,"starts":[0,57.330000000000005,122.34000000000002,176.71,237.88,275.13,310.3,364.83,409.28,465.16999999999996,508.81999999999994,556.0699999999999,621.3199999999999,664.3299999999999,691.42,746.27,802.4,888.53,936.34,990.7900000000001,1047.88,1100.5700000000002,1151.7400000000002,1202.9100000000003,1239.3600000000004,1268.1300000000003,1314.2600000000004,1358.7100000000005,1404.6800000000005,1451.7700000000007,1482.6200000000008,1531.0700000000008]};
+</script>
+<script src="audio/review/player.js"></script>
 <script>
 /* ── 카드 덱 내비게이션 ── */
 const deck = document.getElementById('deck');
