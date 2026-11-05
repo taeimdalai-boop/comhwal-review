@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 3사 완전 비교 활용법 | 2시간 특강형</title>
+<meta name="description" content="ChatGPT·Claude·Gemini를 업무별로 골라 쓰는 법. 비교 실습 2종과 도구 배치도 작성 포함 2시간 특강.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;word-break:break-word;overflow-wrap:break-word;}
+:root{--ink:#0F1420;--ink2:#26304D;--bg:#FFFFFF;--bg2:#F1F4F9;
+--g:#0A6E53;--gb:#E8F3EF;--c:#B85042;--cb:#F8EDE9;--b:#1A4FA0;--bb:#E9EFF9;
+--gold:#C08A1E;--goldb:#FBF2DE;--mut:#5A6B8C;--mut2:#9FB0CA;--code:#1B2338;}
+html,body{height:100%;}
+body{font-family:'Malgun Gothic','맑은 고딕',-apple-system,sans-serif;background:#0B0E16;color:var(--ink);
+display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#stage{position:relative;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+.slide{position:absolute;width:1280px;height:720px;background:var(--bg);display:none;
+padding:46px 56px 54px;flex-direction:column;overflow:hidden;}
+.slide.on{display:flex;}
+.slide.dark{background:var(--ink);color:#fff;}
+.slide.sec{background:var(--ink2);color:#fff;}
+.slide.tint{background:var(--bg2);}
+h1{font-size:46px;font-weight:800;line-height:1.3;}
+h2.t{font-size:31px;font-weight:800;margin-bottom:4px;line-height:1.3;}
+.sub{font-size:15.5px;color:var(--mut);margin-bottom:14px;}
+.kick{font-size:14px;font-weight:800;letter-spacing:3px;color:var(--mut2);margin-bottom:12px;}
+.lead{font-size:18px;color:var(--mut2);line-height:1.65;}
+.foot{position:absolute;left:56px;bottom:20px;font-size:11.5px;color:var(--mut);}
+.pnum{position:absolute;right:56px;bottom:20px;font-size:11.5px;color:var(--mut);}
+.slide.dark .foot,.slide.sec .foot,.slide.dark .pnum,.slide.sec .pnum{color:var(--mut2);}
+.card{border-radius:12px;padding:16px 19px;box-shadow:0 2px 10px rgba(15,20,32,.07);}
+.badge{width:30px;height:30px;border-radius:50%;flex:0 0 30px;display:flex;align-items:center;
+justify-content:center;font-size:14.5px;font-weight:800;color:#fff;}
+.row{display:flex;gap:12px;align-items:center;}
+.cols{display:grid;gap:16px;}
+.ttl{font-size:20px;font-weight:800;}
+.tagline{font-size:13px;font-style:italic;color:var(--mut);margin:5px 0 9px;}
+ul.li{list-style:none;}
+ul.li li{font-size:14px;line-height:1.5;padding-left:14px;position:relative;margin-bottom:8px;}
+ul.li li::before{content:'·';position:absolute;left:2px;font-weight:900;}
+.callout{display:flex;gap:14px;align-items:center;border-radius:12px;padding:15px 19px;font-size:15px;line-height:1.55;}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;}
+th{color:#fff;text-align:left;padding:10px 13px;font-size:13.5px;font-weight:700;}
+td{padding:9px 13px;border-bottom:1px solid #E2E7F0;vertical-align:top;line-height:1.45;}
+tr:last-child td{border-bottom:none;}
+pre.p{background:var(--code);color:#E4E9F2;border-radius:10px;padding:15px 18px;
+font-family:'Consolas','D2Coding',monospace;font-size:12.5px;line-height:1.6;white-space:pre-wrap;overflow:hidden;}
+pre.p .lbl{display:block;color:var(--mut2);font-weight:700;font-size:12px;
+font-family:'Malgun Gothic',sans-serif;letter-spacing:.5px;margin-bottom:8px;}
+.big{font-size:56px;font-weight:800;line-height:1;}
+.flow{display:grid;gap:9px;align-items:stretch;}
+.flow .st{border-radius:12px;padding:13px 9px;text-align:center;}
+.flow .st .nm{font-size:14.5px;font-weight:800;margin:7px 0 3px;}
+.flow .st .d{font-size:12px;line-height:1.4;}
+.flow .st .cap{font-size:11px;font-style:italic;color:var(--mut);margin-top:6px;}
+.steps{display:flex;align-items:center;gap:9px;}
+.steps .ar{font-size:21px;color:var(--mut);}
+.note{font-size:13.5px;font-style:italic;color:var(--mut);}
+.tl{display:flex;flex-direction:column;gap:10px;}
+.tl .it{display:flex;gap:14px;align-items:center;border-radius:12px;padding:13px 18px;}
+.tl .wh{width:150px;flex-shrink:0;font-weight:800;font-size:15px;}
+.tl .wt{font-size:15px;}
+#bar{position:fixed;bottom:0;left:0;right:0;height:4px;background:rgba(255,255,255,.12);z-index:20;}
+#bar i{display:block;height:100%;background:#6E86C8;transition:width .25s;}
+#hud{position:fixed;top:14px;right:16px;z-index:20;display:flex;gap:7px;}
+#hud button{background:rgba(255,255,255,.1);color:#C9D4EA;border:none;border-radius:7px;
+padding:6px 11px;font-size:12px;font-family:inherit;cursor:pointer;}
+#hud button:hover{background:rgba(255,255,255,.22);}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(10,13,22,.97);
+color:#D6DEEE;padding:18px 24px 24px;font-size:14px;line-height:1.65;display:none;z-index:19;border-top:2px solid #39456B;}
+#notes.on{display:block;}
+#notes b.h{color:#8FA6DB;display:block;margin-bottom:6px;font-size:12px;letter-spacing:1px;}
+#help{position:fixed;inset:0;background:rgba(8,10,18,.93);color:#D6DEEE;z-index:30;display:none;
+align-items:center;justify-content:center;font-size:16px;line-height:2;}
+#help.on{display:flex;}
+kbd{background:#2A3454;border-radius:5px;padding:2px 9px;font-family:inherit;font-size:14px;}
+@page{size:A4 landscape;margin:0;}
+@media print{
+body{display:block;background:#fff;overflow:visible;}
+#stage{display:block;width:auto;height:auto;}
+#hud,#bar,#notes,#help{display:none !important;}
+.slide{display:flex !important;position:relative;transform:none !important;width:297mm;height:167mm;
+page-break-after:always;box-shadow:none;margin:0;}
+.slide:last-child{page-break-after:auto;}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+</style>
+</head>
+<body>
+<div id="stage">
+<section class="slide dark"><div class="kick">워크플로우랩 특강</div><h1>AI 3사 완전 비교 활용법</h1><p class="lead" style="margin-top:20px;">ChatGPT · Claude · Gemini,<br>업무별로 골라 쓰고 이어 쓰는 법</p><div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;gap:24px;"><div class="row"><span class="badge" style="background:#0A6E53;">1</span><b style="font-size:14.5px;">ChatGPT</b></div><div class="row"><span class="badge" style="background:#B85042;">2</span><b style="font-size:14.5px;">Claude</b></div><div class="row"><span class="badge" style="background:#1A4FA0;">3</span><b style="font-size:14.5px;">Gemini</b></div></div><div style="font-size:13px;color:var(--mut2);text-align:right;">2시간 특강형　|　비교 실습 2종 · 도구 배치도 1장</div></div><div class="notes">자기소개 30초. 세 서비스 창을 미리 열어 두고 시작한다. 오늘 끝나면 '내 AI 도구 배치도'를 가지고 나간다고 선언.</div></section>
+<section class="slide"><h2 class="t">먼저 묻겠습니다</h2><div style="height:10px;"></div><div class="cols" style="grid-template-columns:repeat(1,1fr);margin-bottom:16px;"><div class="card" style="background:#F8EDE9;"><div style="font-size:14px;line-height:1.55;margin-top:8px;"><b>"AI 써봤는데 생각보다 별로던데요."</b></div></div></div><div class="note" style="margin-bottom:10px;">이 말의 절반은 이런 뜻입니다</div><div class="cols" style="grid-template-columns:repeat(1,1fr);margin-bottom:14px;"><div class="card" style="background:#E8F3EF;"><div style="font-size:14px;line-height:1.55;margin-top:8px;"><b>그 업무에 안 맞는 AI를 썼습니다.</b></div></div></div><div style="margin-top:auto;"></div><div class="callout" style="background:#F1F4F9;margin-bottom:14px;"><span class="badge" style="background:#5A6B8C;">=</span><div>망치로 나사를 돌려본 뒤 "망치가 별로다"라고 결론 내린 상태입니다.</div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">손들기로 현황 파악. '세 개 다 써보신 분?' '하나만 쓰시는 분?' 대부분 하나만 쓴다. 3명만 짧게.</div></section>
+<section class="slide tint"><h2 class="t">2시간 뒤 가져가실 것</h2><div style="height:10px;"></div><div class="cols" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px;"><div class="card" style="background:#fff;"><div class="big" style="color:#0A6E53;">2</div><div style="font-size:18px;font-weight:800;margin:11px 0 5px;">비교 실습</div><div style="font-size:13.5px;color:var(--mut);line-height:1.5;">같은 자료·같은 질문을<br>세 곳에 동시에</div></div><div class="card" style="background:#fff;"><div class="big" style="color:#B85042;">12</div><div style="font-size:18px;font-weight:800;margin:11px 0 5px;">핵심 활용법</div><div style="font-size:13.5px;color:var(--mut);line-height:1.5;">3사 각 4가지씩<br>오늘 바로 쓰는 것만</div></div><div class="card" style="background:#fff;"><div class="big" style="color:#1A4FA0;">1</div><div style="font-size:18px;font-weight:800;margin:11px 0 5px;">도구 배치도</div><div style="font-size:13.5px;color:var(--mut);line-height:1.5;">내 업무에 어느 도구를<br>쓸지 정한 한 장</div></div></div><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div>오늘 목표는 "제일 좋은 AI 하나 고르기"가 아닙니다. <b>업무별로 갈라 쓰고, 이어 쓰는 법</b>입니다.</div></div><div style="margin-top:auto;"></div><div class="note" style="margin-bottom:10px;">진행　1부 3사 지형　→　2부 비교 실습　→　3부 핵심 활용법　→　4부 조합과 배치도</div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">'또 기능 소개 듣겠구나' 생각하지 않게 하는 것이 목적. 36가지 전체는 교재에 있고 오늘은 12가지만 다룬다고 명확히.</div></section>
+<section class="slide sec"><div class="kick">PART 01</div><h1>세 도구의 지형도</h1><p class="lead" style="margin-top:18px;">경쟁 제품이 아니라, 잘하는 구간이 서로 다른 도구입니다</p><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">20분 블록. 요금표는 빠르게 넘기고 성격 비교에 시간을 쓴다.</div></section>
+<section class="slide"><h2 class="t">한 장으로 보는 세 도구</h2><div style="height:10px;"></div><div class="cols" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px;"><div class="card" style="background:#E8F3EF;"><div class="row"><span class="badge" style="background:#0A6E53;">1</span><span class="ttl" style="color:#0A6E53;">ChatGPT</span></div><div class="tagline">만능 작업실</div><ul class="li" style="margin-top:10px;"><li>글·그림·영상·분석이 한 공간에</li><li>조사부터 결과물까지 끊김 없이</li><li>맞춤 GPT로 팀 공용 도구</li><li>예약 작업으로 반복 리포트</li></ul></div><div class="card" style="background:#F8EDE9;"><div class="row"><span class="badge" style="background:#B85042;">2</span><span class="ttl" style="color:#B85042;">Claude</span></div><div class="tagline">정밀 문서 전문가</div><ul class="li" style="margin-top:10px;"><li>긴 문서를 끝까지 놓치지 않는다</li><li>근거 인용·사실 구분에 강하다</li><li>Artifacts로 문서·슬라이드 즉시</li><li>Skills로 반복 작업 패키지화</li></ul></div><div class="card" style="background:#E9EFF9;"><div class="row"><span class="badge" style="background:#1A4FA0;">3</span><span class="ttl" style="color:#1A4FA0;">Gemini</span></div><div class="tagline">구글 업무 생태계</div><ul class="li" style="margin-top:10px;"><li>Gmail·Docs 안에서 바로 호출</li><li>Notebook으로 내 자료만 근거로</li><li>Drive 전체를 검색 대상으로</li><li>무료 문턱이 가장 낮다</li></ul></div></div><div style="margin-top:auto;"></div><div class="callout" style="background:#F1F4F9;margin-bottom:14px;"><span class="badge" style="background:#5A6B8C;">=</span><div>예산이 하나뿐이라면, <b>내 업무의 7할이 어디에 속하는지</b>로 고르십시오.</div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">비유를 먼저 말하고 기능을 설명한다. 비유가 기능보다 오래 남는다. '본인 업무는 어느 칸에 가깝냐'고 즉석 질문.</div></section>
+<section class="slide tint"><h2 class="t">2026년 11월 기준 스냅샷</h2><div style="height:10px;"></div><table style="margin-bottom:14px;"><tr><th style="background:#26304D;">구분</th><th style="background:#26304D;">ChatGPT</th><th style="background:#26304D;">Claude</th><th style="background:#26304D;">Gemini</th></tr><tr><td>무료</td><td>기본 대화·검색·파일 업로드</td><td>Artifacts · 프로젝트 5개</td><td>자동 모델 선택</td></tr><tr><td>개인 유료</td><td>Go 약 $8 / Plus $20</td><td>Pro $20 (연 결제 시 $17)</td><td>Plus 약 $5 / Pro 약 $20</td></tr><tr><td>상위</td><td>Pro 계열 $100 · $200 · $500</td><td>Max $100 / Ultra $200</td><td>Ultra 약 $100 · $200</td></tr><tr><td>강한 지점</td><td>범위가 가장 넓다</td><td>길고 복잡한 문서에 정확</td><td>이미 쓰는 구글 도구와 결합</td></tr></table><div style="margin-top:auto;"></div><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div>금액과 모델명은 수개월 단위로 바뀌고 자료마다 수치가 엇갈립니다. <b>공식 페이지에서 재확인</b>하시고, 오늘은 '어떤 업무에 어느 도구'만 가져가십시오.</div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">이 장의 핵심 메시지는 표가 아니라 경고입니다. 수치를 외우게 하지 말 것. 40초 안에 넘긴다.</div></section>
+<section class="slide"><h2 class="t">내 업무는 어느 쪽입니까</h2><div class="sub">가장 많이 사진 찍히는 장입니다. 30초 드릴 테니 본인 업무를 찾아보십시오</div><table style="margin-bottom:14px;"><tr><th style="background:#26304D;">내 업무가 이렇다면</th><th style="background:#26304D;">1순위</th><th style="background:#26304D;">이유</th></tr><tr><td>50쪽 넘는 규정집·계약서 검토</td><td><b>Claude</b></td><td>긴 자료 끝까지 붙잡고 근거를 원문으로 인용</td></tr><tr><td>경쟁사·시장 조사 보고서</td><td><b>ChatGPT</b></td><td>Deep Research가 출처 붙은 보고서를 한 번에</td></tr><tr><td>사내 자료만 근거로 하는 Q&amp;A</td><td><b>Gemini</b></td><td>Notebook이 자료 안에서만 답하고 각주 표시</td></tr><tr><td>보고서·제안서를 바로 문서로</td><td><b>Claude</b></td><td>Artifacts로 그대로 공유 가능한 산출물</td></tr><tr><td>Gmail 답장, 구글 문서 작성</td><td><b>Gemini</b></td><td>앱 안에서 호출되어 복사 단계가 사라진다</td></tr><tr><td>이미지·썸네일·홍보 영상</td><td><b>ChatGPT</b></td><td>제작 범위가 가장 넓다</td></tr><tr><td>매주 같은 엑셀 집계</td><td><b>Claude</b></td><td>Skills로 절차를 고정해 같은 품질로 반복</td></tr></table><div style="margin-top:auto;"></div><div class="note" style="margin-bottom:10px;">교재 5쪽에 전체 14개 항목이 있습니다. 여기 없는 업무는 교재에서 찾아보십시오.</div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">30초 주고 자기 업무를 찾게 한다. 없으면 교재를 보게 한다. 여기서 1부 마무리.</div></section>
+<section class="slide sec"><div class="kick">PART 02</div><h1>같은 자료, 같은 질문</h1><p class="lead" style="margin-top:18px;">설명으로는 안 믿던 사람도 자기 화면에서 차이를 보면 바로 수긍합니다</p><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">25분. 이 강의의 핵심 구간. 시간을 아끼지 말 것.</div></section>
+<section class="slide"><h2 class="t">실습 A · 세 창에 같은 프롬프트</h2><div class="sub">프롬프트를 바꾸지 않는 것이 규칙입니다. 바꾸면 비교가 되지 않습니다</div><div style="display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><pre class="p" style="margin-bottom:14px;"><span class="lbl">세 곳에 똑같이 넣을 프롬프트</span>첨부한 자료만 근거로 답해라.
+자료에 없으면 '자료에 없음'이라고 해라.
+
+1. 핵심 주장 3가지와, 각 주장의 근거
+   문장을 그대로 인용해라
+2. 수치가 제시된 모든 항목을 표로
+   (수치 | 무엇에 대한 것 | 자료상 위치)
+3. 서로 모순되는 서술이 있으면
+   양쪽을 인용해 보여줘라
+4. 이 자료만으로 판단할 수 없는 것 5가지</pre></div><div style="display:flex;flex-direction:column;gap:9px;"><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">인용 정확도</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">인용이 원문과 글자까지 같은가, 요약으로 바꿔치기했는가</div></div><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">자료 이탈</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">자료에 없는 일반 상식을 섞었는가</div></div><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">끝부분 처리</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">자료 후반부 내용이 결과에 포함됐는가</div></div><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">모른다고 말하기</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">4번에 솔직히 답했는가, 억지로 채웠는가</div></div></div></div><div class="callout" style="background:#F8EDE9;margin-bottom:14px;"><span class="badge" style="background:#B85042;">!</span><div>하나라도 <b>원문에 없는 문장을 인용으로 제시</b>했다면 그 순간을 놓치지 마십시오. 검증이 왜 필요한지 설명하는 가장 강력한 장면입니다.</div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">강사는 원문을 손에 들고 즉석 대조한다. 미리 세 결과를 뽑아 캡처해 두고 네트워크 장애에 대비할 것.</div></section>
+<section class="slide tint"><h2 class="t">실습 B · 내 업무로 직접 비교</h2><div class="sub">앞은 공통 자료였습니다. 이제 자기 업무로 같은 비교를 해 결론을 스스로 냅니다</div><table style="margin-bottom:14px;"><tr><th style="background:#B85042;">기록 항목</th><th style="background:#B85042;">작성 예시 · 주간 업무보고로 비교한 경우</th></tr><tr><td>결과가 가장 쓸만한 곳</td><td>Claude. 형식 지시(A4 1장, 표 1개)를 그대로 지켰고 문체가 보고용</td></tr><tr><td>사실과 다른 내용</td><td>ChatGPT가 주지 않은 '전주 대비 12% 증가'를 만들어 넣었다</td></tr><tr><td>형식 지시 위반</td><td>Gemini가 이모지를 넣었고 분량이 반 장이었다</td></tr><tr><td>이 업무의 최종 선택</td><td>주간보고는 Claude. 조사가 필요한 주는 ChatGPT로 조사 후 Claude</td></tr><tr><td>프롬프트에서 고칠 점</td><td>"내가 준 숫자 외에 어떤 수치도 쓰지 마라"를 맨 위로</td></tr></table><div style="margin-top:auto;"></div><div class="callout" style="background:#F1F4F9;margin-bottom:14px;"><span class="badge" style="background:#5A6B8C;">=</span><div>점수를 매기지 말고 <b>구체적 사실</b>을 적게 하십시오. "더 좋았다"가 아니라 "없는 숫자를 만들어냈다"라고 적어야 다음에 쓸 수 있습니다.</div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">15분. 기록표 빈 양식은 교재 25쪽. 2인 1조 공유. 점수 대신 사실을 적게 유도하는 것이 핵심.</div></section>
+<section class="slide"><h2 class="t">실습에서 반드시 가져갈 결론</h2><div style="height:10px;"></div><div style="display:flex;flex-direction:column;gap:11px;margin-bottom:14px;"><div class="card row" style="background:#E9EFF9;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#1A4FA0;">1</span><div><div style="font-size:13px;color:var(--mut);">"어느 AI가 제일 좋다"는</div><div style="font-size:18px;font-weight:800;">업무를 지정하지 않으면 답이 없는 질문이다</div></div></div><div class="card row" style="background:#fff;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#0A6E53;">2</span><div><div style="font-size:13px;color:var(--mut);">결과가 갈리는 이유의 상당 부분은</div><div style="font-size:18px;font-weight:800;">AI 성능이 아니라 내 지시가 애매했기 때문이다</div></div></div><div class="card row" style="background:#F8EDE9;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#B85042;">3</span><div><div style="font-size:13px;color:var(--mut);">사실과 다른 생성은</div><div style="font-size:18px;font-weight:800;">세 서비스 모두에서 발생한다. 검증은 도구와 무관하게 필요하다</div></div></div><div class="card row" style="background:#fff;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#C08A1E;">4</span><div><div style="font-size:13px;color:var(--mut);">내 업무에 맞는 도구는</div><div style="font-size:18px;font-weight:800;">직접 비교해봐야 안다. 남의 추천으로는 안 된다</div></div></div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">실습 직후 바로 이 장으로 정리. 수강생이 직접 본 것을 문장으로 확정해 주는 역할. 2번이 가장 중요하다.</div></section>
+<section class="slide sec"><div class="kick">PART 03</div><h1>3사 핵심 활용법 12가지</h1><p class="lead" style="margin-top:18px;">전체 36가지는 교재에 있습니다. 오늘은 바로 쓰는 12가지만 봅니다</p><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">25분. 각 사 4가지씩. 설명을 읽지 말고 묶음 이름만 말한 뒤 시연으로 넘어갈 것.</div></section>
+<section class="slide"><h2 class="t">오늘 쓸 12가지</h2><div style="height:10px;"></div><div class="cols" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px;"><div class="card" style="background:#E8F3EF;"><div class="row"><span class="badge" style="background:#0A6E53;">1</span><span class="ttl" style="color:#0A6E53;font-size:19px;">ChatGPT</span></div><ul class="li" style="margin-top:10px;"><li>Deep Research로 출처 붙은 조사</li><li>파일 올려 데이터 분석과 차트</li><li>맞춤 GPT로 팀 공용 업무 도구</li><li>예약 작업으로 반복 리포트</li></ul></div><div class="card" style="background:#F8EDE9;"><div class="row"><span class="badge" style="background:#B85042;">2</span><span class="ttl" style="color:#B85042;font-size:19px;">Claude</span></div><ul class="li" style="margin-top:10px;"><li>긴 문서를 근거 인용하며 분석</li><li>Artifacts로 문서·슬라이드 즉시</li><li>스스로 평가하고 수정하게 하기</li><li>Skills로 반복 작업 패키지화</li></ul></div><div class="card" style="background:#E9EFF9;"><div class="row"><span class="badge" style="background:#1A4FA0;">3</span><span class="ttl" style="color:#1A4FA0;font-size:19px;">Gemini</span></div><ul class="li" style="margin-top:10px;"><li>Notebook에 자료 넣고 그 안에서만</li><li>Gmail에서 메일 처리와 답장</li><li>Docs·Sheets에서 바로 호출</li><li>Drive 전체를 검색 대상으로</li></ul></div></div><div style="margin-top:auto;"></div><div class="note" style="margin-bottom:10px;">다음 세 장에서 각 사 대표 1가지씩을 실제 프롬프트로 시연합니다.</div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">12개를 읽지 말 것. 세 묶음 이름만 말하고 바로 시연으로. 읽기 시작하면 10분이 날아간다.</div></section>
+<section class="slide tint"><h2 class="t">시연 1 · ChatGPT Deep Research</h2><div style="height:10px;"></div><div class="callout" style="background:#E8F3EF;margin-bottom:14px;"><span class="badge" style="background:#0A6E53;">상황</span><div>신규 교육과정을 기획해야 하는데 시장 현황과 경쟁 교육을 모르는 상태</div></div><div style="display:grid;grid-template-columns:1.55fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><pre class="p" style="margin-bottom:14px;"><span class="lbl">프롬프트</span>국내 중소기업 임직원 대상 'AI 업무 활용'
+교육 시장을 조사해라.
+
+조사 범위
+1. 유사 교육과정 (기관명, 시간, 가격대)
+2. 공통 주제와 빠져 있는 주제
+3. 수요 측 신호 (정부 지원사업, 보도)
+
+조건
+- 2026년 자료 우선, 이전 자료는 연도 표기
+- 광고성 글과 기사·공식 자료를 구분
+- 수치는 출처 링크 필수. 없으면 '출처 불명'
+- 마지막에 '알 수 없는 것' 5가지</pre></div><div style="display:flex;flex-direction:column;gap:9px;"><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#0A6E53;">산출물</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">출처 링크가 각 문장에 붙은 조사 보고서</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#0A6E53;">소요 시간</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">보통 5~30분. 돌려놓고 다른 일을 한다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#0A6E53;">주의</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">출처를 반드시 눌러 확인. 블로그·광고성 글이 섞인다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#0A6E53;">한 수 위</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">같은 주제를 Gemini에도 넣어 교차 검증</div></div></div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">미리 돌려둔 결과를 보여준다. 실시간은 5분 이상 걸려 흐름이 끊긴다. 출처를 하나 클릭해 확인하는 동작을 꼭 보여줄 것.</div></section>
+<section class="slide"><h2 class="t">시연 2 · Claude 근거 인용 분석</h2><div style="height:10px;"></div><div class="callout" style="background:#F8EDE9;margin-bottom:14px;"><span class="badge" style="background:#B85042;">상황</span><div>교육 위탁 계약서를 검토해야 하는데 놓치면 손해가 큰 상황</div></div><div style="display:grid;grid-template-columns:1.55fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><pre class="p" style="margin-bottom:14px;"><span class="lbl">프롬프트</span>첨부한 계약서를 검토해라.
+법적 판단은 하지 말고 사실 정리만 해라.
+
+출력 1 - 핵심 조건 표
+  항목 | 내용 | 해당 조항 번호
+  (기간, 금액, 지급 시기, 산출물 범위,
+   수정 횟수, 지재권, 해지, 비밀유지)
+
+출력 2 - 불리할 수 있는 조항
+  조항 번호 | 원문 인용 | 왜 불리한가
+
+규칙: 조항 번호를 못 찾으면 '위치 불명'.
+업계 관행으로 보충하지 마라.</pre></div><div style="display:flex;flex-direction:column;gap:9px;"><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">핵심 장치</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">"원문 인용"과 "조항 번호"를 요구하면 검증이 가능해진다</div></div><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">왜 Claude인가</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">긴 문서 뒷부분까지 놓치지 않고 없는 내용을 덜 지어낸다</div></div><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">절대 금지</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">법적 판단을 받는 것. '어디를 변호사에게 물을지' 용도로만</div></div><div class="card" style="background:#F1F4F9;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">응용</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">사업 공고, 과업지시서, 사내 규정집도 같은 틀</div></div></div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">실제 긴 문서를 올려 시연한다. 결과의 인용문을 원문과 대조해 보이는 동작이 가장 설득력 있다.</div></section>
+<section class="slide tint"><h2 class="t">시연 3 · Gemini Notebook</h2><div style="height:10px;"></div><div class="callout" style="background:#E9EFF9;margin-bottom:14px;"><span class="badge" style="background:#1A4FA0;">상황</span><div>사내 규정·교육자료를 근거로만 답해야 하는 Q&amp;A가 필요한 상황</div></div><div style="display:grid;grid-template-columns:1.55fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><pre class="p" style="margin-bottom:14px;"><span class="lbl">노트북에 자료를 올린 뒤</span>올려둔 자료만 근거로 답해라.
+자료에 없으면 '자료에 없음'이라고 해라.
+
+작업
+1. 이 자료들로 답할 수 있는 질문 20개를
+   만들어라 (신입 직원이 물어볼 수준)
+2. 각 질문에 답을 달고, 근거가 된
+   자료명과 위치를 표시해라
+3. 자료끼리 내용이 다른 부분을 모아줘라
+4. 자주 물을 것 같은데 자료에 답이 없는
+   질문 5개를 뽑아라</pre></div><div style="display:flex;flex-direction:column;gap:9px;"><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#1A4FA0;">핵심</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">자료 밖 질문에 모른다고 답하는 것이 정상 동작이다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#1A4FA0;">각주</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">근거 문장을 클릭해 원문 위치를 바로 확인</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#1A4FA0;">4번의 가치</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">자료의 빈 구멍을 찾아준다. 문서 정비 과제가 바로 나온다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">주의</div><div style="font-size:13px;margin-top:3px;line-height:1.45;"><b>올리기 전 개인정보·금액 제거. 공유 범위 확인</b></div></div></div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">4번 작업이 가장 반응이 좋다. 조직의 문서 정비 과제가 바로 나오기 때문. 명칭 변경(Gems→Skills) 이슈를 한 줄 언급할 것.</div></section>
+<section class="slide sec"><div class="kick">PART 04</div><h1>하나를 고르지 말고 이어 쓰십시오</h1><p class="lead" style="margin-top:18px;">조사는 여기서, 정리는 저기서. 실무 효과가 가장 큰 구간입니다</p><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">마지막 20분. 조합 + 보안 + 배치도 + 적용 선언.</div></section>
+<section class="slide"><h2 class="t">가장 많이 쓰는 조합 · 조사에서 산출물까지</h2><div style="height:10px;"></div><div class="flow" style="grid-template-columns:repeat(5,1fr);margin-bottom:14px;"><div class="st" style="background:#E8F3EF;"><div class="badge" style="background:#0A6E53;margin:0 auto;">1</div><div class="nm" style="color:#0A6E53;">조사</div><div class="d">ChatGPT<br>Deep Research</div><div class="cap">출처 붙은 원자료</div></div><div class="st" style="background:#E9EFF9;"><div class="badge" style="background:#1A4FA0;margin:0 auto;">2</div><div class="nm" style="color:#1A4FA0;">교차검증</div><div class="d">Gemini<br>Deep Research</div><div class="cap">다른 출처 목록</div></div><div class="st" style="background:#F8EDE9;"><div class="badge" style="background:#B85042;margin:0 auto;">3</div><div class="nm" style="color:#B85042;">정리</div><div class="d">Claude<br>사실·의견 분류</div><div class="cap">인용 가능한 사실</div></div><div class="st" style="background:#F8EDE9;"><div class="badge" style="background:#B85042;margin:0 auto;">4</div><div class="nm" style="color:#B85042;">산출</div><div class="d">Claude<br>Artifacts</div><div class="cap">제출 가능한 문서</div></div><div class="st" style="background:#E8F3EF;"><div class="badge" style="background:#0A6E53;margin:0 auto;">5</div><div class="nm" style="color:#0A6E53;">시각물</div><div class="d">ChatGPT<br>이미지 생성</div><div class="cap">삽입용 이미지</div></div></div><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div><b>처음부터 5단계를 만들지 마십시오.</b> 2단계 조합 하나를 2주 돌려본 뒤 늘리는 것이 정착률이 높습니다.</div></div><div style="margin-top:auto;"></div><div class="callout" style="background:#F1F4F9;margin-bottom:14px;"><span class="badge" style="background:#5A6B8C;">=</span><div>단계를 넘길 때 <b>무엇을 가져갈지</b> 정하십시오. 통째로 복사하면 오류도 함께 넘어갑니다.</div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">카드 하단 이탤릭(넘길 것)이 핵심. 5종 전체 조합은 교재 26~27쪽에 있다고 안내.</div></section>
+<section class="slide tint"><h2 class="t">자료를 올리기 전에 · 보안 3원칙</h2><div class="sub">실습 시작 전에 소리 내어 공지하십시오</div><div style="display:flex;flex-direction:column;gap:11px;margin-bottom:14px;"><div class="card row" style="background:#F8EDE9;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#B85042;">1</span><div><div style="font-size:13px;color:var(--mut);">원칙 1</div><div style="font-size:18px;font-weight:800;color:#B85042;">지우고 올린다</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">고객 개인정보, 계약 금액, 미공개 사업 정보, 주민번호·연락처는 삭제하거나 가명 처리</div></div></div><div class="card row" style="background:#FBF2DE;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#C08A1E;">2</span><div><div style="font-size:13px;color:var(--mut);">원칙 2</div><div style="font-size:18px;font-weight:800;color:#C08A1E;">사내 지침이 우선이다</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">회사 지침이 있으면 그 지침을 따른다. 확실하지 않으면 그 자료는 쓰지 않는다</div></div></div><div class="card row" style="background:#E9EFF9;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#1A4FA0;">3</span><div><div style="font-size:13px;color:var(--mut);">원칙 3</div><div style="font-size:18px;font-weight:800;color:#1A4FA0;">공유 범위를 확인한다</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">맞춤 GPT·Skill·Notebook을 만들었다면 공개 범위가 '나만'인지 반드시 확인</div></div></div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">기업 교육에서는 이 장을 앞으로 당겨도 좋다. 담당자가 가장 불안해하는 지점이고 여기서 신뢰를 얻으면 나머지가 수월하다.</div></section>
+<section class="slide"><h2 class="t">최종 산출물 · 내 AI 도구 배치도</h2><div style="height:10px;"></div><table style="margin-bottom:10px;"><tr><th style="background:#0A6E53;">항목</th><th style="background:#0A6E53;">작성 예시 · 교육 담당자</th></tr><tr><td>1. 매주 반복하는 업무 3개</td><td>교육계획서 작성 / 설문 결과 정리 / 수강생 문의 답변</td></tr><tr><td>2. 각 업무에 쓸 도구</td><td>Claude / ChatGPT / Gemini — 이유를 한 줄씩</td></tr><tr><td>3. 결제할 유료 1개</td><td>Claude. 문서 작업이 업무의 7할. 나머지는 무료로 교차 검증</td></tr><tr><td>4. 내 조합 (2단계로)</td><td>설문 집계(ChatGPT) → 결과보고서 작성(Claude Artifacts)</td></tr><tr><td>5. 사람이 검토할 항목</td><td>응답 인원 수, 평균 점수, 날짜, 고객사 표기</td></tr><tr><td>6. 올리지 않을 자료</td><td>수강생 이름·연락처, 강사비 단가표, 고객사 계약서</td></tr><tr><td>7. 이번 주에 해볼 한 가지</td><td>지난달 설문 파일로 4번 조합을 한 번 돌려본다</td></tr></table><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div><b>5번과 6번이 비어 있으면 완성된 배치도가 아닙니다.</b> 검증과 보안을 스스로 설계한 것이 오늘의 성과입니다.</div></div><div class="foot">워크플로우랩 · AI 3사 완전 비교 활용법 (2시간)</div><div class="pnum"></div><div class="notes">12분 작성. 예시를 먼저 보여주면 속도가 두 배. 순회하며 5·6번 칸 집중 확인.</div></section>
+<section class="slide dark"><h1 style="margin-top:auto;"><span style="color:var(--mut2);font-size:33px;font-weight:700;">제일 좋은 AI를 고르는 것이 아니라</span><br>업무별로 갈라 쓰고 이어 쓰는 것입니다</h1><p class="lead" style="margin-top:20px;">오늘 만든 배치도 한 장이 다음 주에 실제로 쓰이면, 이 강의는 성공한 것입니다.</p><div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;gap:24px;"><div class="row"><span class="badge" style="background:#0A6E53;">1</span><b style="font-size:14.5px;">ChatGPT</b></div><div class="row"><span class="badge" style="background:#B85042;">2</span><b style="font-size:14.5px;">Claude</b></div><div class="row"><span class="badge" style="background:#1A4FA0;">3</span><b style="font-size:14.5px;">Gemini</b></div></div><div style="font-size:13px;color:var(--mut2);text-align:right;">워크플로우랩　·　AI 사용법이 아니라 AI와 함께 일하는 업무 시스템을 만드는 교육</div></div><div class="notes">적용 선언 3명 발표 후 이 장을 띄워 두고 질문을 받는다.</div></section>
+</div>
+<div id="hud">
+  <button onclick="prev()">◀</button><button onclick="next()">▶</button>
+  <button onclick="toggleNotes()">노트 N</button><button onclick="fs()">전체화면 F</button>
+  <button onclick="window.print()">인쇄/PDF</button>
+  <button onclick="document.getElementById('help').classList.toggle('on')">?</button>
+</div>
+<div id="bar"><i></i></div>
+<div id="notes"><b class="h">강사 노트</b><span id="ntext"></span></div>
+<div id="help"><div>
+  <kbd>→</kbd> <kbd>Space</kbd> 다음 슬라이드<br>
+  <kbd>←</kbd> 이전 슬라이드<br>
+  <kbd>F</kbd> 전체화면　<kbd>N</kbd> 강사 노트<br>
+  <kbd>Home</kbd> / <kbd>End</kbd> 처음 / 마지막<br>
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> 전체를 PDF로 저장<br>
+  <kbd>Esc</kbd> 이 도움말 닫기<br>
+  <span style="font-size:14px;color:#8FA6DB;">폰에서는 좌우로 밀어서 넘깁니다</span>
+</div></div>
+<script>
+var slides=Array.prototype.slice.call(document.querySelectorAll('.slide')),i=0;
+var notesText=slides.map(function(s){var n=s.querySelector('.notes');var t=n?n.textContent.trim():'';if(n)n.remove();return t;});
+slides.forEach(function(s,k){var p=s.querySelector('.pnum');if(p)p.textContent=(k+1)+' / '+slides.length;});
+function scale(){var pad=window.innerWidth<700?8:24;
+var r=Math.min((window.innerWidth-pad)/1280,(window.innerHeight-pad)/720);
+slides.forEach(function(s){s.style.transform='scale('+r+')';});}
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));
+slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+document.querySelector('#bar i').style.width=((i+1)/slides.length*100)+'%';
+document.getElementById('ntext').textContent=notesText[i]||'(이 슬라이드에는 노트가 없습니다)';
+if(location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));}
+function next(){show(i+1);}function prev(){show(i-1);}
+function toggleNotes(){document.getElementById('notes').classList.toggle('on');}
+function fs(){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();}
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
+else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
+else if(e.key==='n'||e.key==='N')toggleNotes();else if(e.key==='f'||e.key==='F')fs();
+else if(e.key==='Escape')document.getElementById('help').classList.remove('on');});
+var x0=null;
+document.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',function(e){if(x0===null)return;
+var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>45){dx<0?next():prev();}x0=null;},{passive:true});
+document.getElementById('stage').addEventListener('click',function(e){
+if(e.target.closest('#hud')||e.target.closest('#notes'))return;next();});
+window.addEventListener('resize',scale);scale();
+show(parseInt((location.hash||'#1').slice(1),10)-1||0);
+</script>
+</body>
+</html>

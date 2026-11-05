@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI가 제대로 일하게 만드는 업무 설계 | 2시간 특강형</title>
+<meta name="description" content="AI 업무 설계 5단계 중 1~4단계를 2시간에 압축한 특강. 실습 2종과 업무 설계도 작성 포함.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;word-break:break-word;overflow-wrap:break-word;}
+:root{--ink:#0F1420;--ink2:#26304D;--bg:#FFFFFF;--bg2:#F1F4F9;
+--g:#0A6E53;--gb:#E8F3EF;--c:#B85042;--cb:#F8EDE9;--b:#1A4FA0;--bb:#E9EFF9;
+--gold:#C08A1E;--goldb:#FBF2DE;--mut:#5A6B8C;--mut2:#9FB0CA;--code:#1B2338;}
+html,body{height:100%;}
+body{font-family:'Malgun Gothic','맑은 고딕',-apple-system,sans-serif;background:#0B0E16;color:var(--ink);
+display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#stage{position:relative;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;}
+.slide{position:absolute;width:1280px;height:720px;background:var(--bg);display:none;
+padding:46px 56px 54px;flex-direction:column;overflow:hidden;}
+.slide.on{display:flex;}
+.slide.dark{background:var(--ink);color:#fff;}
+.slide.sec{background:var(--ink2);color:#fff;}
+.slide.tint{background:var(--bg2);}
+h1{font-size:46px;font-weight:800;line-height:1.3;}
+h2.t{font-size:31px;font-weight:800;margin-bottom:4px;line-height:1.3;}
+.sub{font-size:15.5px;color:var(--mut);margin-bottom:14px;}
+.kick{font-size:14px;font-weight:800;letter-spacing:3px;color:var(--mut2);margin-bottom:12px;}
+.lead{font-size:18px;color:var(--mut2);line-height:1.65;}
+.foot{position:absolute;left:56px;bottom:20px;font-size:11.5px;color:var(--mut);}
+.pnum{position:absolute;right:56px;bottom:20px;font-size:11.5px;color:var(--mut);}
+.slide.dark .foot,.slide.sec .foot,.slide.dark .pnum,.slide.sec .pnum{color:var(--mut2);}
+.card{border-radius:12px;padding:16px 19px;box-shadow:0 2px 10px rgba(15,20,32,.07);}
+.badge{width:30px;height:30px;border-radius:50%;flex:0 0 30px;display:flex;align-items:center;
+justify-content:center;font-size:14.5px;font-weight:800;color:#fff;}
+.row{display:flex;gap:12px;align-items:center;}
+.cols{display:grid;gap:16px;}
+.ttl{font-size:20px;font-weight:800;}
+.tagline{font-size:13px;font-style:italic;color:var(--mut);margin:5px 0 9px;}
+ul.li{list-style:none;}
+ul.li li{font-size:14px;line-height:1.5;padding-left:14px;position:relative;margin-bottom:8px;}
+ul.li li::before{content:'·';position:absolute;left:2px;font-weight:900;}
+.callout{display:flex;gap:14px;align-items:center;border-radius:12px;padding:15px 19px;font-size:15px;line-height:1.55;}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;}
+th{color:#fff;text-align:left;padding:10px 13px;font-size:13.5px;font-weight:700;}
+td{padding:9px 13px;border-bottom:1px solid #E2E7F0;vertical-align:top;line-height:1.45;}
+tr:last-child td{border-bottom:none;}
+pre.p{background:var(--code);color:#E4E9F2;border-radius:10px;padding:15px 18px;
+font-family:'Consolas','D2Coding',monospace;font-size:12.5px;line-height:1.6;white-space:pre-wrap;overflow:hidden;}
+pre.p .lbl{display:block;color:var(--mut2);font-weight:700;font-size:12px;
+font-family:'Malgun Gothic',sans-serif;letter-spacing:.5px;margin-bottom:8px;}
+.big{font-size:56px;font-weight:800;line-height:1;}
+.flow{display:grid;gap:9px;align-items:stretch;}
+.flow .st{border-radius:12px;padding:13px 9px;text-align:center;}
+.flow .st .nm{font-size:14.5px;font-weight:800;margin:7px 0 3px;}
+.flow .st .d{font-size:12px;line-height:1.4;}
+.flow .st .cap{font-size:11px;font-style:italic;color:var(--mut);margin-top:6px;}
+.steps{display:flex;align-items:center;gap:9px;}
+.steps .ar{font-size:21px;color:var(--mut);}
+.note{font-size:13.5px;font-style:italic;color:var(--mut);}
+.tl{display:flex;flex-direction:column;gap:10px;}
+.tl .it{display:flex;gap:14px;align-items:center;border-radius:12px;padding:13px 18px;}
+.tl .wh{width:150px;flex-shrink:0;font-weight:800;font-size:15px;}
+.tl .wt{font-size:15px;}
+#bar{position:fixed;bottom:0;left:0;right:0;height:4px;background:rgba(255,255,255,.12);z-index:20;}
+#bar i{display:block;height:100%;background:#6E86C8;transition:width .25s;}
+#hud{position:fixed;top:14px;right:16px;z-index:20;display:flex;gap:7px;}
+#hud button{background:rgba(255,255,255,.1);color:#C9D4EA;border:none;border-radius:7px;
+padding:6px 11px;font-size:12px;font-family:inherit;cursor:pointer;}
+#hud button:hover{background:rgba(255,255,255,.22);}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(10,13,22,.97);
+color:#D6DEEE;padding:18px 24px 24px;font-size:14px;line-height:1.65;display:none;z-index:19;border-top:2px solid #39456B;}
+#notes.on{display:block;}
+#notes b.h{color:#8FA6DB;display:block;margin-bottom:6px;font-size:12px;letter-spacing:1px;}
+#help{position:fixed;inset:0;background:rgba(8,10,18,.93);color:#D6DEEE;z-index:30;display:none;
+align-items:center;justify-content:center;font-size:16px;line-height:2;}
+#help.on{display:flex;}
+kbd{background:#2A3454;border-radius:5px;padding:2px 9px;font-family:inherit;font-size:14px;}
+@page{size:A4 landscape;margin:0;}
+@media print{
+body{display:block;background:#fff;overflow:visible;}
+#stage{display:block;width:auto;height:auto;}
+#hud,#bar,#notes,#help{display:none !important;}
+.slide{display:flex !important;position:relative;transform:none !important;width:297mm;height:167mm;
+page-break-after:always;box-shadow:none;margin:0;}
+.slide:last-child{page-break-after:auto;}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+</style>
+</head>
+<body>
+<div id="stage">
+<section class="slide dark"><div class="kick">워크플로우랩 특강</div><h1>AI가 제대로 일하게<br>만드는 업무 설계</h1><p class="lead" style="margin-top:20px;">질문만 잘하는 사람에서, AI와 함께 일하는 사람으로</p><div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;gap:24px;"><div class="row"><span class="badge" style="background:#0A6E53;">1</span><b style="font-size:14.5px;">목적</b></div><div class="row"><span class="badge" style="background:#B85042;">2</span><b style="font-size:14.5px;">분해</b></div><div class="row"><span class="badge" style="background:#1A4FA0;">3</span><b style="font-size:14.5px;">설계</b></div></div><div style="font-size:13px;color:var(--mut2);text-align:right;">2시간 특강형　|　실습 2종 · 설계도 1장</div></div><div class="notes">자기소개 30초. 바로 다음 장 질문으로 넘어간다. 오늘 끝나면 '업무 설계도' 한 장을 가지고 나간다고 먼저 선언할 것.</div></section>
+<section class="slide"><h2 class="t">먼저 묻겠습니다</h2><div style="height:10px;"></div><div class="cols" style="grid-template-columns:repeat(1,1fr);margin-bottom:18px;"><div class="card" style="background:#F8EDE9;"><div style="font-size:14px;line-height:1.55;margin-top:8px;">[[ChatGPT를 사용했는데<br>왜 내 일은 줄어들지 않았을까요?]]</div></div></div><div class="note" style="margin-bottom:10px;">지난 1년간 AI를 써본 분이 대부분입니다. 그런데 업무 시간이 실제로 줄었다는 분은 드뭅니다.</div><div style="margin-top:auto;"></div><div class="callout" style="background:#E8F3EF;margin-bottom:14px;"><span class="badge" style="background:#0A6E53;">=</span><div>AI에게 <b>일을 맡긴 것이 아니라</b>, 그때그때 질문만 던졌기 때문입니다.</div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">손들기로 현황 파악. '실제로 일이 줄었다는 분?' 거의 안 든다. 그 침묵이 이 강의의 출발점이다. 3명 정도만 짧게 발표.</div></section>
+<section class="slide tint"><h2 class="t">오늘의 약속</h2><div style="height:10px;"></div><div class="cols" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px;"><div class="card" style="background:#fff;"><div class="big" style="color:#0A6E53;">1</div><div style="font-size:18px;font-weight:800;margin:11px 0 5px;">업무 설계도</div><div style="font-size:13.5px;color:var(--mut);line-height:1.5;">내 업무 하나를 AI가<br>처리할 단위로 분해한 한 장</div></div><div class="card" style="background:#fff;"><div class="big" style="color:#B85042;">1</div><div style="font-size:18px;font-weight:800;margin:11px 0 5px;">실전 프롬프트</div><div style="font-size:13.5px;color:var(--mut);line-height:1.5;">그 업무에 바로 붙여넣어<br>쓰는 구조화 프롬프트</div></div><div class="card" style="background:#fff;"><div class="big" style="color:#1A4FA0;">1</div><div style="font-size:18px;font-weight:800;margin:11px 0 5px;">적용 선언</div><div style="font-size:13.5px;color:var(--mut);line-height:1.5;">이번 주에 실제로<br>바꿀 업무 한 가지</div></div></div><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div>오늘은 프롬프트 몇 개를 외우는 자리가 아닙니다. <b>여러분의 업무 하나를 AI와 함께 일하는 시스템으로</b> 바꿔보겠습니다.</div></div><div style="margin-top:auto;"></div><div class="note" style="margin-bottom:10px;">진행　1부 목적과 분해　→　2부 맥락 설계　→　3부 실행과 검증　→　4부 시스템화</div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">'또 기능 소개 듣겠구나' 생각하지 않게 하는 것이 이 장의 목적. 설계도 양식을 미리 들어 보이면 더 좋다.</div></section>
+<section class="slide sec"><div class="kick">PART 01</div><h1>프롬프트는 질문이 아니라 업무 설계다</h1><p class="lead" style="margin-top:18px;">AI에게 무엇을 시킬지보다, 이 업무를 왜 하는지를 먼저 적습니다</p><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">25분 블록. 실습 1이 여기 들어간다.</div></section>
+<section class="slide"><h2 class="t">AI 업무 설계 5단계</h2><div class="sub">오늘 2시간 과정에서는 1·2·3·4단계를 실습하고, 5단계는 설계도로 마무리합니다</div><div style="display:flex;flex-direction:column;gap:11px;margin-bottom:14px;"><div class="card row" style="background:#E8F3EF;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#0A6E53;">1</span><div><div style="font-size:13px;color:var(--mut);">1단계</div><div style="font-size:17px;font-weight:800;color:#0A6E53;">목적 정의</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">이 업무는 왜 하는가 · 좋은 결과란 무엇인가</div></div></div><div class="card row" style="background:#E8F3EF;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#0A6E53;">2</span><div><div style="font-size:13px;color:var(--mut);">2단계</div><div style="font-size:17px;font-weight:800;color:#0A6E53;">업무 분해</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">한 문장 요청을 여러 작업으로 쪼갠다</div></div></div><div class="card row" style="background:#F8EDE9;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#B85042;">3</span><div><div style="font-size:13px;color:var(--mut);">3단계</div><div style="font-size:17px;font-weight:800;color:#B85042;">맥락과 자료 설계</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">AI가 알아야 할 정보를 9개 블록으로 구분해 준다</div></div></div><div class="card row" style="background:#F8EDE9;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#B85042;">4</span><div><div style="font-size:13px;color:var(--mut);">4단계</div><div style="font-size:17px;font-weight:800;color:#B85042;">실행과 검증</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">초안 → 평가 → 수정. 한 번에 완성을 기대하지 않는다</div></div></div><div class="card row" style="background:#E9EFF9;align-items:flex-start;padding:15px 19px;"><span class="badge" style="background:#1A4FA0;">5</span><div><div style="font-size:13px;color:var(--mut);">5단계</div><div style="font-size:17px;font-weight:800;color:#1A4FA0;">반복 가능한 시스템화</div><div style="font-size:13.5px;margin-top:4px;line-height:1.5;">좋은 프롬프트 하나로 끝내지 않고 재사용 구조로 만든다</div></div></div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">5단계를 다 외우게 하지 말 것. '1·2단계가 오늘의 절반'이라고 말하고 넘어간다. 5단계는 마지막 설계도에서 자연스럽게 다룬다.</div></section>
+<section class="slide tint"><h2 class="t">1단계 · 목적 정의</h2><div class="sub">같은 업무도 목적을 적는 순간 결과물의 모양이 바뀝니다</div><div class="cols" style="grid-template-columns:repeat(2,1fr);margin-bottom:16px;"><div class="card" style="background:#F8EDE9;"><div class="row"><span class="badge" style="background:#B85042;">✗</span><span class="ttl" style="color:#B85042;">목적 없는 요청</span></div><div style="font-size:14px;line-height:1.55;margin-top:8px;">회의록을 정리해 줘.</div></div><div class="card" style="background:#E8F3EF;"><div class="row"><span class="badge" style="background:#0A6E53;">✓</span><span class="ttl" style="color:#0A6E53;">목적을 정의한 요청</span></div><div style="font-size:14px;line-height:1.55;margin-top:8px;">회의 후 담당자와 기한이 누락되어 업무가 지연되는 문제를 해결하기 위해, <b>실행 항목 중심의 회의록</b>을 만든다.</div></div></div><pre class="p" style="margin-bottom:14px;"><span class="lbl">목적 정의 4문장 — 이 빈칸이 안 채워지면 AI가 실패한다</span>1. 문제: 지금 이 업무에서 실제로 발생하는 손해는 ________ 이다.
+2. 사용자: 이 결과물을 받는 사람은 ________ 이고,
+           그 사람은 ________ 하기 위해 이것을 본다.
+3. 좋은 결과: 잘 나왔다는 것은 ________ 로 확인할 수 있다.
+4. 불편한 지점: 지금 가장 시간이 오래 걸리는 부분은 ________ 이다.</pre><div style="margin-top:auto;"></div><div class="callout" style="background:#F1F4F9;margin-bottom:14px;"><span class="badge" style="background:#5A6B8C;">=</span><div>목적을 적으면 AI가 바뀌는 게 아니라, <b>무엇을 요구해야 할지 내가 알게</b> 됩니다.</div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">여기서 회의록 사례를 끝까지 끌고 간다. 수강생에게 '여러분 업무로 바꾸면 뭐가 들어갈까요' 한 번 물어본다.</div></section>
+<section class="slide"><h2 class="t">2단계 · 업무 분해</h2><div class="sub">AI가 일을 못한 게 아니라, 내가 일을 한 문장에 뭉쳐서 시켰습니다</div><table style="margin-bottom:14px;"><tr><th style="background:#B85042;width:70px;">순서</th><th style="background:#B85042;width:420px;">작업</th><th style="background:#B85042;width:110px;">담당</th><th style="background:#B85042;">판단 기준</th></tr><tr><td>1</td><td>자료 읽기 (녹취록·메모 입력)</td><td>사람</td><td>발언자 이름이 구분되어 있는가</td></tr><tr><td>2</td><td>핵심 내용 추출 (결정 / 논의 / 보류)</td><td><b>AI</b></td><td>잡담·인사말이 제외되었는가</td></tr><tr><td>3</td><td>누락된 정보 표시</td><td><b>AI</b></td><td>담당자·기한 없는 항목이 전부 잡혔는가</td></tr><tr><td>4</td><td>담당자와 기한 정리</td><td>AI + 사람</td><td>회의에서 나온 말만 썼는가</td></tr><tr><td>5</td><td>결과 검토</td><td>사람</td><td>사실과 다른 문장이 있는가</td></tr><tr><td>6</td><td>최종 문서 작성·공유</td><td><b>AI</b></td><td>정해진 양식·분량을 지켰는가</td></tr></table><div style="margin-top:auto;"></div><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div>'사람' 칸이 바로 마지막에 만들 설계도의 <b>사람이 반드시 검토할 부분</b>이 됩니다.</div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">분해표를 채우게 하면 수강생이 스스로 '이건 AI가 못 하는 일이네'를 발견한다. 그 발견이 이 장의 목적.</div></section>
+<section class="slide tint"><h2 class="t">실습 1 · 내 요청 고쳐 쓰기</h2><div class="sub">25분 중 12분. 최근에 AI에게 실제로 던졌던 요청 1개를 그대로 적는 것부터 시작합니다</div><div style="display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><table style="margin-bottom:14px;"><tr><th style="background:#0A6E53;">6가지 질문</th><th style="background:#0A6E53;">보고서 사례 기입 예</th></tr><tr><td>누구에게 주는가</td><td>본부장. 숫자보다 판단 근거를 먼저 본다</td></tr><tr><td>무엇을 위해 쓰는가</td><td>하반기 교육 예산 증액 결재</td></tr><tr><td>근거 자료는</td><td>상반기 설문, 수료율 표, 신청 현황</td></tr><tr><td>반드시 포함할 항목</td><td>성과 3줄 / 문제점 / 요청 금액 / 기대효과</td></tr><tr><td>어떤 형태로</td><td>A4 1장, 개조식, 표 1개</td></tr><tr><td>좋은 결과의 기준</td><td>추가 질문 없이 결재 가능, 수치에 출처</td></tr></table></div><div style="display:flex;flex-direction:column;gap:9px;"><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#0A6E53;">3분</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">내가 실제로 쓴 요청을 그대로 적는다. 미화하지 않는다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#0A6E53;">5분</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">6가지 질문에 답을 적는다. 안 채워지는 칸이 실패 원인이다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#0A6E53;">4분</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">답을 이어 붙여 요청을 다시 쓴다</div></div></div></div><div style="margin-top:auto;"></div><div class="callout" style="background:#F8EDE9;margin-bottom:14px;"><span class="badge" style="background:#B85042;">?</span><div>"이렇게 길게 쓸 바에 내가 쓰겠다"는 말이 꼭 나옵니다. 답은 하나입니다 — <b>이건 한 번 만들고 매주 재사용합니다.</b></div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">수강생 요청 1개를 화면에 띄워 공개 수정하는 것이 핵심 시연. 강사가 6가지 질문을 소리 내어 물어보는 장면을 꼭 보여줄 것.</div></section>
+<section class="slide sec"><div class="kick">PART 02</div><h1>AI가 알아야 할 것을 블록으로 나눠 준다</h1><p class="lead" style="margin-top:18px;">좋은 프롬프트는 문장력이 아니라 구조입니다</p><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">25분 블록. 9블록 골격이 오늘 가장 실용적인 산출물.</div></section>
+<section class="slide"><h2 class="t">3단계 · 구조화 프롬프트 9블록</h2><div style="height:10px;"></div><table style="margin-bottom:14px;"><tr><th style="background:#B85042;">블록</th><th style="background:#B85042;">무엇을 적는가</th><th style="background:#B85042;">회의록 사례</th></tr><tr><td>역할</td><td>AI가 어떤 사람처럼 일할지</td><td>실행 관리에 밝은 팀 회의 서기</td></tr><tr><td>업무 목적</td><td>왜 이 결과물이 필요한지</td><td>다음 날 아침 할 일을 3분 안에 확인</td></tr><tr><td>대상</td><td>누가 읽는지</td><td>마케팅팀 팀원 6명</td></tr><tr><td>배경 상황</td><td>알아야 할 사정</td><td>주간 정기회의, 지난주 이슈 이어짐</td></tr><tr><td>참고자료</td><td>근거로 쓸 자료</td><td>아래 회의 녹취록 전문</td></tr><tr><td>포함할 내용</td><td>반드시 들어갈 항목</td><td>결정사항 / 담당자 / 기한 / 보류</td></tr><tr><td>제외할 내용</td><td>넣지 말 것</td><td>잡담, 인사말, 추측성 해석</td></tr><tr><td>결과 형식</td><td>어떤 모양으로</td><td>표 1개 + 미정 목록, A4 1장 이내</td></tr><tr><td>판단 기준</td><td>좋은 결과의 조건</td><td>모든 항목에 담당자·기한 또는 '미정'</td></tr></table><div style="margin-top:auto;"></div><div class="note" style="margin-bottom:10px;">이 9개를 외우지 마십시오. 교재에서 복사해 빈칸만 채우는 틀입니다.</div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">블록 이름을 하나씩 읽지 말 것. '역할·목적·대상'까지만 소리 내어 읽고 나머지는 눈으로 보게 한다. 다음 장 실물 프롬프트가 설명을 대신한다.</div></section>
+<section class="slide tint"><h2 class="t">9블록을 그대로 옮기면 이렇게 됩니다</h2><div style="height:10px;"></div><div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><pre class="p" style="margin-bottom:14px;"><span class="lbl">구조화 프롬프트 · 회의록</span>[역할] 실행 관리에 밝은 팀 회의 서기
+[업무 목적] 팀원이 다음 날 아침 자기 할 일을
+  3분 안에 확인하게 만든다
+[대상] 마케팅팀 6명. 불참자도 읽는다
+[참고자료] 아래 녹취록만 근거로 사용한다
+---
+(녹취록 붙여넣기)
+---
+[반드시 포함] 결정 사항 / 담당자 / 기한 /
+  아직 정해지지 않은 항목
+[제외] 잡담, 인사말, 추측
+[결과 형식] 표(항목|담당자|기한|상태)
+  + 미정 목록. A4 1장 이내
+[판단 기준] 담당자·기한이 없으면 '미정'으로
+  표시한다. 없는 날짜를 만들지 않는다</pre></div><div style="display:flex;flex-direction:column;gap:9px;"><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">고정 블록</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">역할·포함·제외·형식·기준. 한 번 쓰고 계속 재사용한다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">바뀌는 블록</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">참고자료 하나뿐. 매주 녹취록만 갈아 끼운다</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">가장 중요한 줄</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">"없는 날짜를 만들지 않는다" — 사실과 다른 생성을 막는 장치</div></div><div class="card" style="background:#fff;padding:12px 15px;"><div style="font-size:12px;font-weight:800;color:#B85042;">확장</div><div style="font-size:13px;margin-top:3px;line-height:1.45;">회의록 자리에 보고서·제안서·문의답변을 넣어도 틀은 같다</div></div></div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">실제로 이 프롬프트를 화면에서 돌려 결과를 보여준다. 미리 결과를 뽑아 캡처해 두고 네트워크 장애에 대비할 것.</div></section>
+<section class="slide"><h2 class="t">실습 2 · 내 업무로 구조화 프롬프트 만들기</h2><div class="sub">앞의 9블록을 복사해 빈칸만 채웁니다. 완성본이 오늘의 두 번째 산출물입니다</div><div class="steps" style="margin-bottom:14px;"><div class="card row" style="background:#F8EDE9;flex:1;padding:11px 15px;"><span class="badge" style="background:#B85042;">1</span><b style="font-size:15.5px;">블록 복사</b></div><span class="ar">→</span><div class="card row" style="background:#F8EDE9;flex:1;padding:11px 15px;"><span class="badge" style="background:#B85042;">2</span><b style="font-size:15.5px;">빈칸 채우기</b></div><span class="ar">→</span><div class="card row" style="background:#F8EDE9;flex:1;padding:11px 15px;"><span class="badge" style="background:#B85042;">3</span><b style="font-size:15.5px;">실행</b></div><span class="ar">→</span><div class="card row" style="background:#F8EDE9;flex:1;padding:11px 15px;"><span class="badge" style="background:#B85042;">4</span><b style="font-size:15.5px;">결과 비교</b></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><div class="callout" style="background:#E8F3EF;margin-bottom:14px;"><span class="badge" style="background:#0A6E53;">①</span><div>고친 요청과 <b>원래 쓰던 요청</b>을 둘 다 실행하십시오. 비교가 되어야 설득이 됩니다.</div></div><div class="callout" style="background:#F8EDE9;margin-bottom:14px;"><span class="badge" style="background:#B85042;">②</span><div>2인 1조로 서로의 프롬프트를 바꿔 읽고, <b>여전히 애매한 블록</b> 하나씩 지적해 줍니다.</div></div></div><div style="display:flex;flex-direction:column;gap:9px;"><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">③</span><div>결과가 마음에 안 들면 프롬프트를 고치지 말고, 먼저 <b>어느 블록이 비었는지</b>부터 확인하십시오.</div></div><div class="callout" style="background:#F1F4F9;margin-bottom:14px;"><span class="badge" style="background:#5A6B8C;">④</span><div>완성한 프롬프트는 메모앱에 저장해 두십시오. 오늘 이후에도 쓸 유일한 자산입니다.</div></div></div></div><div style="margin-top:auto;"></div><div class="note" style="margin-bottom:10px;">강사는 이 시간에 순회하며 '판단 기준' 칸이 비어 있는 사람을 찾아 채우게 합니다. 가장 많이 비는 칸입니다.</div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">13분 작업. 순회하면서 '판단 기준'과 '제외' 칸을 집중적으로 본다. 이 둘이 결과 품질을 가장 많이 바꾼다.</div></section>
+<section class="slide sec"><div class="kick">PART 03</div><h1>한 번에 완성을 기대하지 않습니다</h1><p class="lead" style="margin-top:18px;">초안 → 평가 → 수정. AI에게 검토까지 시키는 것이 4단계입니다</p><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">휴식 직후 블록. 25분. 에너지가 떨어지는 구간이라 실습을 바로 붙인다.</div></section>
+<section class="slide tint"><h2 class="t">4단계 · AI에게 검토까지 시키기</h2><div style="height:10px;"></div><div class="steps" style="margin-bottom:14px;"><div class="card row" style="background:#F8EDE9;flex:1;padding:11px 15px;"><span class="badge" style="background:#B85042;">1</span><b style="font-size:15.5px;">초안 생성</b></div><span class="ar">→</span><div class="card row" style="background:#F8EDE9;flex:1;padding:11px 15px;"><span class="badge" style="background:#B85042;">2</span><b style="font-size:15.5px;">기준으로 평가</b></div><span class="ar">→</span><div class="card row" style="background:#F8EDE9;flex:1;padding:11px 15px;"><span class="badge" style="background:#B85042;">3</span><b style="font-size:15.5px;">지적된 곳만 수정</b></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;"><div style="display:flex;flex-direction:column;"><pre class="p" style="margin-bottom:14px;"><span class="lbl">② 평가 프롬프트</span>방금 결과를 아래 기준으로 평가해라.
+다시 쓰지 말고 평가만 해라.
+
+기준
+1. 모든 수치에 출처가 붙어 있는가
+2. 내가 준 자료 밖의 내용이 없는가
+3. 정한 분량을 지켰는가
+4. 미확정 항목이 '미정'으로 표시됐는가
+출력: 기준 | 통과(O/X) | 문제 부분 인용</pre></div><div style="display:flex;flex-direction:column;gap:9px;"><pre class="p" style="margin-bottom:14px;"><span class="lbl">③ 수정 프롬프트</span>위 평가에서 X가 나온 항목만
+수정해라.
+
+통과한 부분은 문장을 그대로
+유지해라.
+
+마지막에 수정 내역을 3줄 이내로
+요약해라.</pre></div></div><div style="margin-top:auto;"></div><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div>평가 기준은 <b>O/X로 판정 가능한 문장</b>이어야 작동합니다.　"잘 쓴 글" (X)　→　"모든 수치에 출처 표기" (O)</div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">'잘 썼는지 봐줘'를 넣으면 작동하지 않는다는 것을 즉석에서 대비로 보여준다. 가장 반응이 좋은 시연.</div></section>
+<section class="slide"><h2 class="t">언제 어떤 방식이 필요한가</h2><div class="sub">용어를 외우는 자리가 아닙니다. 상황을 보고 고르는 연습입니다</div><table style="margin-bottom:14px;"><tr><th style="background:#B85042;">상황</th><th style="background:#B85042;">쓰는 방식</th><th style="background:#B85042;">한 줄 예시</th></tr><tr><td>기준이 명확하고 형식이 단순</td><td>그냥 지시</td><td>아래 규칙대로 표로 정리해</td></tr><tr><td>말로 설명이 안 되는 톤·서식</td><td>예시 제공</td><td>이 예시와 같은 문장 길이·어투로 써</td></tr><tr><td>판단이 섞여 결과가 자꾸 틀림</td><td>단계 쪼개기</td><td>먼저 분류한 뒤, 그 결과로 표를 만들어</td></tr><tr><td>무엇을 요청할지 모르겠음</td><td>AI에게 설계 시키기</td><td>이 업무에 필요한 프롬프트를 네가 먼저 설계해 줘</td></tr><tr><td>결과가 그럴듯한데 확신이 안 섬</td><td>평가 프롬프트</td><td>아래 기준 4개로 평가해</td></tr><tr><td>숫자·날짜·인용이 들어감</td><td>근거 요청</td><td>각 항목이 원문 몇 줄에 근거하는지 표시해</td></tr><tr><td>자료가 부족한 채로 시작</td><td>역질문 유도</td><td>바로 쓰지 말고 나에게 먼저 5가지를 질문해</td></tr></table><div style="margin-top:auto;"></div><div class="note" style="margin-bottom:10px;">Few-Shot, CoT 같은 용어는 교재에 적어 두었습니다. 지금은 왼쪽 칸만 보십시오.</div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">용어를 말하고 싶은 유혹을 참을 것. 왼쪽 '상황' 칸만 읽어도 강의가 성립한다. 질문이 나오면 그때 용어를 알려준다.</div></section>
+<section class="slide sec"><div class="kick">PART 04</div><h1>한 번 잘 쓰는 것으로 끝내지 않습니다</h1><p class="lead" style="margin-top:18px;">오늘 만든 것을 다음 주에도 쓸 수 있는 구조로 바꿉니다</p><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">마지막 20분. 설계도 작성과 적용 선언까지 간다.</div></section>
+<section class="slide tint"><h2 class="t">5단계 · 챗봇에서 업무 시스템으로</h2><div style="height:10px;"></div><table style="margin-bottom:14px;"><tr><th style="background:#1A4FA0;">구분</th><th style="background:#1A4FA0;">작동 방식</th><th style="background:#1A4FA0;">업무에서의 의미</th></tr><tr><td>챗봇</td><td>질문하면 답한다</td><td>매번 새로 설명해야 함. 결과가 들쭉날쭉</td></tr><tr><td><b>업무형 AI</b></td><td>정해진 자료와 기준으로 결과를 만든다</td><td>같은 걸 넣으면 같은 품질이 나온다</td></tr><tr><td>에이전트</td><td>목표를 받고 작업을 나누고 점검한다</td><td>여러 단계를 매번 지시하지 않아도 된다</td></tr></table><div class="cols" style="grid-template-columns:repeat(4,1fr);margin-bottom:14px;"><div class="card" style="background:#E9EFF9;"><div class="row"><span class="badge" style="background:#1A4FA0;">1</span><span class="ttl" style="color:#1A4FA0;font-size:17px;">고정 지시문</span></div><div style="font-size:14px;line-height:1.55;margin-top:8px;">역할·포함·제외·형식·기준. 문서로 저장해 두고 복사해 쓴다</div></div><div class="card" style="background:#E9EFF9;"><div class="row"><span class="badge" style="background:#1A4FA0;">2</span><span class="ttl" style="color:#1A4FA0;font-size:17px;">입력 자료 위치</span></div><div style="font-size:14px;line-height:1.55;margin-top:8px;">매번 바뀌는 자료를 어디에 어떤 이름으로 둘지 정한다</div></div><div class="card" style="background:#E9EFF9;"><div class="row"><span class="badge" style="background:#1A4FA0;">3</span><span class="ttl" style="color:#1A4FA0;font-size:17px;">검토 체크리스트</span></div><div style="font-size:14px;line-height:1.55;margin-top:8px;">사람이 눈으로 볼 3~5개. 평가 프롬프트와 같은 문장</div></div><div class="card" style="background:#E9EFF9;"><div class="row"><span class="badge" style="background:#1A4FA0;">4</span><span class="ttl" style="color:#1A4FA0;font-size:17px;">결과물 보관 규칙</span></div><div style="font-size:14px;line-height:1.55;margin-top:8px;">파일명과 저장 위치. 다음번 예시 자료가 된다</div></div></div><div style="margin-top:auto;"></div><div class="callout" style="background:#F1F4F9;margin-bottom:14px;"><span class="badge" style="background:#5A6B8C;">=</span><div>이 네 칸이 채워지면 <b>업무형 AI</b>입니다. 거창한 도구가 필요한 게 아닙니다.</div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">에이전트를 길게 설명하지 말 것. '오늘 우리가 만든 건 가운데 칸'이라고 위치를 잡아주는 것으로 충분하다.</div></section>
+<section class="slide"><h2 class="t">최종 산출물 · 내 업무 설계도</h2><div style="height:10px;"></div><table style="margin-bottom:10px;"><tr><th style="background:#0A6E53;">항목</th><th style="background:#0A6E53;">작성 예시 · 교육계획서 작성</th></tr><tr><td>1. 이 업무의 목적</td><td>문의 후 3일 안에 제안 가능한 상태로 만들어 결재를 올리게 한다</td></tr><tr><td>2. 최종 사용 대상</td><td>교육 담당자 → 결재권자. 결재권자는 목적·대상·시간·비용만 본다</td></tr><tr><td>3. AI에게 제공할 자료</td><td>문의 메일 원문, 지난 계획서 2건, 표준 커리큘럼 표</td></tr><tr><td>4. AI가 수행할 작업</td><td>요청 정리 / 누락 표시 / 확인 질문 / 시간 배분 / 초안 작성</td></tr><tr><td>5. 작업 순서</td><td>분석 → 질문 → 반영 → 배분 → 초안 → 자체 점검 → 사람 검토</td></tr><tr><td>6. 결과물의 형식</td><td>A4 2장. 개요 표 1개 + 시간표 1개 + 기대효과 5줄</td></tr><tr><td>7. 좋은 결과의 기준</td><td>추가 질문 없이 공유 가능 / 시간 합계 일치 / 미확정은 '협의 예정'</td></tr><tr><td>8. 사람이 검토할 부분</td><td><b>비용, 날짜, 강사 일정, 고객사 표기 — 그대로 쓰지 않는다</b></td></tr><tr><td>9. 반복 사용 구조</td><td>고정 지시문은 저장 / 바뀌는 건 문의 메일뿐</td></tr></table><div class="callout" style="background:#FBF2DE;margin-bottom:14px;"><span class="badge" style="background:#C08A1E;">!</span><div><b>8번이 비어 있으면 완성된 설계도가 아닙니다.</b> 검증 지점을 스스로 찾은 것이 오늘의 성과입니다.</div></div><div class="foot">워크플로우랩 · AI가 제대로 일하게 만드는 업무 설계 (2시간)</div><div class="pnum"></div><div class="notes">12분 작성. 예시를 먼저 보여주면 작성 속도가 두 배가 된다. 순회하며 8번 칸을 집중 확인.</div></section>
+<section class="slide dark"><h1 style="margin-top:auto;"><span style="color:var(--mut2);font-size:33px;font-weight:700;">AI를 한 번 잘 쓰는 것이 아니라</span><br>반복해서 일할 수 있는 업무 시스템으로 만듭니다</h1><p class="lead" style="margin-top:20px;">오늘 만든 설계도 한 장이 다음 주에 실제로 쓰이면, 이 강의는 성공한 것입니다.</p><div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;gap:24px;"><div class="row"><span class="badge" style="background:#0A6E53;">1</span><b style="font-size:14.5px;">목적</b></div><div class="row"><span class="badge" style="background:#B85042;">2</span><b style="font-size:14.5px;">분해</b></div><div class="row"><span class="badge" style="background:#1A4FA0;">3</span><b style="font-size:14.5px;">설계</b></div></div><div style="font-size:13px;color:var(--mut2);text-align:right;">워크플로우랩　·　AI 사용법이 아니라 AI와 함께 일하는 업무 시스템을 만드는 교육</div></div><div class="notes">적용 선언 3명 발표를 받은 뒤 이 장을 띄워 두고 질문을 받는다. 발표 형식: '저는 이번 주에 OO 업무의 OO 단계를 AI에게 맡기고, OO는 제가 검토하겠습니다.'</div></section>
+</div>
+<div id="hud">
+  <button onclick="prev()">◀</button><button onclick="next()">▶</button>
+  <button onclick="toggleNotes()">노트 N</button><button onclick="fs()">전체화면 F</button>
+  <button onclick="window.print()">인쇄/PDF</button>
+  <button onclick="document.getElementById('help').classList.toggle('on')">?</button>
+</div>
+<div id="bar"><i></i></div>
+<div id="notes"><b class="h">강사 노트</b><span id="ntext"></span></div>
+<div id="help"><div>
+  <kbd>→</kbd> <kbd>Space</kbd> 다음 슬라이드<br>
+  <kbd>←</kbd> 이전 슬라이드<br>
+  <kbd>F</kbd> 전체화면　<kbd>N</kbd> 강사 노트<br>
+  <kbd>Home</kbd> / <kbd>End</kbd> 처음 / 마지막<br>
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> 전체를 PDF로 저장<br>
+  <kbd>Esc</kbd> 이 도움말 닫기<br>
+  <span style="font-size:14px;color:#8FA6DB;">폰에서는 좌우로 밀어서 넘깁니다</span>
+</div></div>
+<script>
+var slides=Array.prototype.slice.call(document.querySelectorAll('.slide')),i=0;
+var notesText=slides.map(function(s){var n=s.querySelector('.notes');var t=n?n.textContent.trim():'';if(n)n.remove();return t;});
+slides.forEach(function(s,k){var p=s.querySelector('.pnum');if(p)p.textContent=(k+1)+' / '+slides.length;});
+function scale(){var pad=window.innerWidth<700?8:24;
+var r=Math.min((window.innerWidth-pad)/1280,(window.innerHeight-pad)/720);
+slides.forEach(function(s){s.style.transform='scale('+r+')';});}
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));
+slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+document.querySelector('#bar i').style.width=((i+1)/slides.length*100)+'%';
+document.getElementById('ntext').textContent=notesText[i]||'(이 슬라이드에는 노트가 없습니다)';
+if(location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));}
+function next(){show(i+1);}function prev(){show(i-1);}
+function toggleNotes(){document.getElementById('notes').classList.toggle('on');}
+function fs(){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();}
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
+else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
+else if(e.key==='n'||e.key==='N')toggleNotes();else if(e.key==='f'||e.key==='F')fs();
+else if(e.key==='Escape')document.getElementById('help').classList.remove('on');});
+var x0=null;
+document.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',function(e){if(x0===null)return;
+var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>45){dx<0?next():prev();}x0=null;},{passive:true});
+document.getElementById('stage').addEventListener('click',function(e){
+if(e.target.closest('#hud')||e.target.closest('#notes'))return;next();});
+window.addEventListener('resize',scale);scale();
+show(parseInt((location.hash||'#1').slice(1),10)-1||0);
+</script>
+</body>
+</html>
