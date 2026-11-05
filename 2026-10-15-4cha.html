@@ -228,6 +228,13 @@ td:first-child{font-weight:600; white-space:nowrap;}
   h1{font-size:36px;} h2{font-size:26px;}
   .card{padding:34px 24px;}
 }
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -684,6 +691,35 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
 </div></section>
 
+
+<!-- 마지막 장: Excel 영상 + 음성 복습 -->
+<section class="card" id="audioReviewCard"><div class="card-inner">
+  <span class="kicker pilgi">영상·음성 복습</span>
+  <h2>4차시 Excel을<br>화면과 함께 복습하세요</h2>
+  <p class="lead">16개 학습 카드의 핵심을 김태희 강사의 목소리와 모션그래픽으로 설명합니다.</p>
+  <div class="video-review">
+    <video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/4.mp4"></video>
+    <div class="video-copy"><span>화면과 선생님 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div>
+  </div>
+  <div class="audio-review">
+    <audio id="reviewAudio" preload="metadata" src="audio/review/4-instructor.mp3"></audio>
+    <div class="player-controls">
+      <button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button>
+      <button type="button" id="audioBack">−10초</button>
+      <button type="button" id="audioForward">+10초</button>
+      <label class="speed-wrap">재생 속도
+        <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select>
+      </label>
+    </div>
+    <div class="timeline">
+      <input class="seek-bar" id="audioSeek" type="range" min="0" max="731.150" step="0.1" value="0" aria-label="음성 재생 위치">
+      <div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div>
+      <div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">12:11</span></div>
+    </div>
+    <div class="chapter-grid" id="chapterGrid"></div>
+    <p class="audio-note">※ 차시별 학습 카드를 챕터로 나눴습니다. 영상 재생 중에는 별도 음성이 자동으로 멈춥니다.</p>
+  </div>
+</div></section>
 </div>
 
 <div class="nav">
@@ -692,6 +728,10 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="counter" id="counter">1 / 1</span>
   <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
 </div>
+<script>
+window.REVIEW_AUDIO={"titles":["쉼표 하나는 세 자리를 줄입니다","셀을 고르면 왼쪽과 위쪽이 고정됩니다","용지 방향과 배율은 페이지 탭입니다","표를 가운데에 놓으려고 빈 열을 끼우지 않습니다","머리글은 왼쪽·가운데·오른쪽 세 구역","여러 쪽 표는 제목 행을 반복합니다","눈금선과 행/열 머리글은 체크하면 인쇄됩니다","인쇄 영역은 페이지 레이아웃에서","미리 보기에서도 여백을 끌어 맞춥니다","점선은 자동, 실선은 수동","점수는 내림차순, 순위는 오름차순","기준은 최대 64개, 색으로도 정렬합니다","직급 순서는 목록으로 만듭니다","필터는 지우는 게 아니라 숨기는 것","비교 연산자는 정해진 순서로 씁니다","여기서 많이 틀립니다"],"src":"audio/review/4-instructor.mp3","duration":731.15,"starts":[0,69.97,111.06,160.54999999999998,183.15999999999997,233.20999999999995,295.09999999999997,345.30999999999995,369.11999999999995,399.9699999999999,441.4599999999999,482.0699999999999,516.1999999999999,560.65,606.7,665.7900000000001]};
+</script>
+<script src="audio/review/player.js"></script>
 <script>
 /* ── 카드 덱 내비게이션 ── */
 const deck = document.getElementById('deck');

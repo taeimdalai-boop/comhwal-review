@@ -218,6 +218,13 @@ td:first-child{font-weight:600; white-space:nowrap;}
   h1{font-size:36px;} h2{font-size:26px;}
   .card{padding:34px 24px;}
 }
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -503,7 +510,7 @@ td:first-child{font-weight:600; white-space:nowrap;}
       <text class="a-in" style="--d:.7s" x="110" y="78" font-size="10" fill="#6B7280" text-anchor="middle">1900-01-02</text>
       <text class="a-in" style="--d:.95s" x="178" y="47" font-size="11" fill="#6B7280" text-anchor="middle">하루에 1씩</text>
       <circle class="a-pop" style="--d:1.2s" cx="250" cy="56" r="6" fill="#B45309"/>
-      <text class="a-in" style="--d:1.2s" x="250" y="38" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">46,322</text>
+      <text class="a-in" style="--d:1.2s" x="250" y="38" font-size="12" fill="#B45309" font-weight="700" text-anchor="middle">46,307</text>
       <text class="a-in" style="--d:1.2s" x="250" y="78" font-size="10" fill="#6B7280" text-anchor="middle">2026-10-12</text>
 
       <rect x="14" y="100" width="272" height="136" rx="8" fill="#F8FAFF" stroke="#DBEAFE"/>
@@ -527,23 +534,23 @@ td:first-child{font-weight:600; white-space:nowrap;}
     <tr><td><kbd>Ctrl</kbd>+<kbd>;</kbd></td><td>오늘 <b>날짜</b></td></tr>
     <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd></td><td>현재 <b>시간</b></td></tr>
   </table>
-  <div class="callout warn"><b>두 자리 연도 — 교재를 고쳐 적으세요</b>연도를 두 자리로 입력하면 <b>00~49는 2000년대</b>, <b>50~99는 1900년대</b>로 들어갑니다.<br><span class="mute">교재에 <code>00~29</code> · <code>30~99</code>로 되어 있으면 <b>29를 49로</b>, <b>30을 50으로</b> 고쳐 두세요. 예전 기준이고, 업데이트되면서 바뀐 부분입니다.</span></div>
+  <div class="callout warn"><b>두 자리 연도 입력 주의</b>기본 해석은 <b>00~29 → 2000~2029년</b>, <b>30~99 → 1930~1999년</b>입니다.<br><span class="mute">Windows 날짜 설정에서 기준 연도를 바꿀 수 있으므로, 두 자리 대신 네 자리 연도를 입력하는 것이 안전합니다.</span></div>
   <figure class="fig">
     <div class="svg-wrap">
     <svg width="300" height="200" viewBox="0 0 300 200" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
       <rect x="1" y="1" width="298" height="198" rx="10" fill="#fff" stroke="#E5E7EB"/>
 
       <rect x="14" y="14" width="272" height="78" rx="8" fill="#EFF4FF" stroke="#2563EB"/>
-      <text x="28" y="38" font-size="13" fill="#1D4ED8" font-weight="700">00 ~ 49 입력 → 2000년대</text>
+      <text x="28" y="38" font-size="13" fill="#1D4ED8" font-weight="700">00 ~ 29 입력 → 2000년대</text>
       <text x="28" y="62" font-size="13" fill="#111827">39-10-12 입력</text>
       <text x="28" y="82" font-size="13" fill="#1D4ED8" font-weight="700">→ 2039-10-12</text>
       <rect x="14" y="106" width="272" height="78" rx="8" fill="#FFFBEB" stroke="#B45309"/>
-      <text x="28" y="130" font-size="13" fill="#B45309" font-weight="700">50 ~ 99 입력 → 1900년대</text>
-      <text x="28" y="154" font-size="13" fill="#111827">50-10-12 입력</text>
-      <text x="28" y="174" font-size="13" fill="#B45309" font-weight="700">→ 1950-10-12</text>
+      <text x="28" y="130" font-size="13" fill="#B45309" font-weight="700">30 ~ 99 입력 → 1900년대</text>
+      <text x="28" y="154" font-size="13" fill="#111827">30-10-12 입력</text>
+      <text x="28" y="174" font-size="13" fill="#B45309" font-weight="700">→ 1930-10-12</text>
     </svg>
     </div>
-    <figcaption>두 자리 연도가 갈리는 지점은 49와 50 사이입니다</figcaption>
+    <figcaption>기본 설정에서 두 자리 연도는 29와 30 사이에서 갈립니다</figcaption>
   </figure>
 </div></section>
 
@@ -781,6 +788,35 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <p class="foot">우리컴퓨터학원 / &#128222; 052)258-3388 &#183; 컴퓨터활용능력2급 &#183; 김태희 강사</p>
 </div></section>
 
+
+<!-- 마지막 장: Excel 영상 + 음성 복습 -->
+<section class="card" id="audioReviewCard"><div class="card-inner">
+  <span class="kicker pilgi">영상·음성 복습</span>
+  <h2>1차시 Excel을<br>화면과 함께 복습하세요</h2>
+  <p class="lead">10개 학습 카드의 핵심을 김태희 강사의 목소리와 모션그래픽으로 설명합니다.</p>
+  <div class="video-review">
+    <video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/1.mp4"></video>
+    <div class="video-copy"><span>화면과 선생님 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div>
+  </div>
+  <div class="audio-review">
+    <audio id="reviewAudio" preload="metadata" src="audio/review/1-instructor.mp3"></audio>
+    <div class="player-controls">
+      <button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button>
+      <button type="button" id="audioBack">−10초</button>
+      <button type="button" id="audioForward">+10초</button>
+      <label class="speed-wrap">재생 속도
+        <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select>
+      </label>
+    </div>
+    <div class="timeline">
+      <input class="seek-bar" id="audioSeek" type="range" min="0" max="493.250" step="0.1" value="0" aria-label="음성 재생 위치">
+      <div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div>
+      <div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">8:13</span></div>
+    </div>
+    <div class="chapter-grid" id="chapterGrid"></div>
+    <p class="audio-note">※ 차시별 학습 카드를 챕터로 나눴습니다. 영상 재생 중에는 별도 음성이 자동으로 멈춥니다.</p>
+  </div>
+</div></section>
 </div>
 
 <div class="nav">
@@ -789,6 +825,10 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="counter" id="counter">1 / 1</span>
   <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
 </div><script>
+window.REVIEW_AUDIO={"titles":["화면의 자리마다 이름이 정해져 있습니다","헷갈리기 쉬운 네 가지 이름","Alt를 한 번 누르면 리본에 글자가 뜹니다","행은 숫자, 열은 영어","정렬만 봐도 문자인지 숫자인지 압니다","화면에 이상하게 보일 때의 이유","날짜는 숫자 1번부터 세어 나갑니다","Alt+Enter와 Ctrl+Enter는 전혀 다릅니다","셀 내용이 지워져도 메모는 지워지지 않습니다","여기서 많이 틀립니다"],"src":"audio/review/1-instructor.mp3","duration":493.25,"starts":[0,54.85,88.50000000000001,129.91,173.39999999999998,213.44999999999996,268.21999999999997,336.18999999999994,395.75999999999993,446.7699999999999]};
+</script>
+<script src="audio/review/player.js"></script>
+<script>
 /* ── 카드 덱 내비게이션 ── */
 const deck = document.getElementById('deck');
 let cards = [];

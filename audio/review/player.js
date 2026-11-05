@@ -33,7 +33,9 @@
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'chapter-btn' + (index === 0 ? ' active' : '');
-      button.innerHTML = '<time>' + formatTime(config.starts[index]) + '</time>' + title;
+      const time = document.createElement('time');
+      time.textContent = formatTime(config.starts[index]);
+      button.append(time, document.createTextNode(' ' + title));
       button.addEventListener('click', function(){
         const playChapter = function(){ audio.currentTime = config.starts[index]; audio.play(); };
         if(audio.readyState >= 1) playChapter();
@@ -49,7 +51,11 @@
   document.getElementById('audioBack').addEventListener('click', function(){ audio.currentTime = Math.max(0, audio.currentTime - 10); });
   document.getElementById('audioForward').addEventListener('click', function(){ audio.currentTime = Math.min(audio.duration || config.duration, audio.currentTime + 10); });
   audio.playbackRate = Number(rate.value);
-  rate.addEventListener('change', function(event){ audio.playbackRate = Number(event.target.value); });
+  if(video) video.playbackRate = Number(rate.value);
+  rate.addEventListener('change', function(event){
+    audio.playbackRate = Number(event.target.value);
+    if(video) video.playbackRate = Number(event.target.value);
+  });
   seek.addEventListener('input', function(){ audio.currentTime = Number(seek.value); });
   audio.addEventListener('loadedmetadata', function(){ seek.max = audio.duration; duration.textContent = formatTime(audio.duration); });
   audio.addEventListener('play', function(){ if(video && !video.paused) video.pause(); toggle.textContent = '⏸ 일시정지'; });
