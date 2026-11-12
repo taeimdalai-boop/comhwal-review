@@ -244,6 +244,25 @@ td:first-child{font-weight:600; white-space:nowrap;}
 @media(prefers-reduced-motion:reduce){.card.active .draw{animation:none;stroke-dashoffset:0}.card.active [class*="a-"]{animation:none}.card.active .a-swapout{display:none}.card.active .a-swapin{opacity:1}}
 
 .summary-list{margin:0 0 16px;border-top:2px solid #315ea8;background:#fff}.summary-row{display:grid;grid-template-columns:minmax(100px,29%) 1fr;gap:12px;padding:12px 10px;border-bottom:1px solid #e2e8f0;line-height:1.5;font-size:15px}.summary-row strong{color:#164287}.summary-row span{min-width:0;color:#1f2937}.concept svg{display:block;width:100%;height:auto}.card.active .concept .step{animation:step-in .45s ease-out both;animation-delay:var(--d)}@keyframes step-in{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:400px){.summary-row{grid-template-columns:95px 1fr;gap:8px;font-size:14px}}@media(prefers-reduced-motion:reduce){.card.active .concept .step{animation:none}}
+
+/* 학습 카드 주변 장식: 본문과 조작 영역을 가리지 않도록 배치 */
+.ambient-stickers{position:fixed;inset:48px 0 58px;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-stickers i,.card-inner::before,.card-inner::after{background-image:url('assets/review-stickers.png');background-repeat:no-repeat;background-size:200% 200%;pointer-events:none;}
+.ambient-stickers i{position:absolute;width:clamp(82px,10vw,135px);aspect-ratio:1;filter:drop-shadow(0 10px 12px rgba(78,82,110,.10));}
+.ambient-stickers .laptop{left:2%;top:8%;background-position:0 0;}
+.ambient-stickers .book{right:2%;top:12%;background-position:100% 0;}
+.ambient-stickers .list{left:3%;bottom:9%;background-position:0 100%;}
+.ambient-stickers .star{right:3%;bottom:8%;background-position:100% 100%;}
+.deck{position:relative;z-index:1;}
+@media(max-width:900px){
+  .ambient-stickers{display:none;}
+  .card-inner{position:relative;padding-top:72px;}
+  .card-inner::before,.card-inner::after{content:"";position:absolute;top:0;width:68px;height:68px;}
+  .card-inner::before{right:73px;background-position:0 0;}
+  .card-inner::after{right:0;background-position:100% 0;}
+  .card:nth-of-type(4n+2) .card-inner::before,.card:nth-of-type(4n+3) .card-inner::before{background-position:0 100%;}
+  .card:nth-of-type(4n+2) .card-inner::after,.card:nth-of-type(4n+3) .card-inner::after{background-position:100% 100%;}
+}
 </style>
 </head>
 <body>
@@ -253,6 +272,8 @@ td:first-child{font-weight:600; white-space:nowrap;}
   <span class="d">2026.11.12 (목)</span>
 </div>
 <div class="progress"><i id="bar"></i></div>
+
+<div class="ambient-stickers" aria-hidden="true"><i class="laptop"></i><i class="book"></i><i class="list"></i><i class="star"></i></div>
 
 <div class="deck" id="deck">
 
