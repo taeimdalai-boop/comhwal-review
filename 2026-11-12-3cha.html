@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 3차시 복습카드</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.6;
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
+
+.fig.shot{display:block;padding:12px;text-align:center}.shot img{display:block;max-width:100%;max-height:360px;width:auto;height:auto;margin:auto;object-fit:contain}.shot a{display:block}.shot a:focus-visible{outline:3px solid #2563eb;outline-offset:3px}.fig svg{max-width:100%;height:auto}.card.active .draw{stroke-dasharray:var(--len,240);stroke-dashoffset:var(--len,240);animation:drawline .9s ease-out forwards;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){.card.active .draw{animation:none;stroke-dashoffset:0}.card.active [class*="a-"]{animation:none}.card.active .a-swapout{display:none}.card.active .a-swapin{opacity:1}}
+
+.summary-list{margin:0 0 16px;border-top:2px solid #315ea8;background:#fff}.summary-row{display:grid;grid-template-columns:minmax(100px,29%) 1fr;gap:12px;padding:12px 10px;border-bottom:1px solid #e2e8f0;line-height:1.5;font-size:15px}.summary-row strong{color:#164287}.summary-row span{min-width:0;color:#1f2937}.concept svg{display:block;width:100%;height:auto}.card.active .concept .step{animation:step-in .45s ease-out both;animation-delay:var(--d)}@keyframes step-in{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:400px){.summary-row{grid-template-columns:95px 1fr;gap:8px;font-size:14px}}@media(prefers-reduced-motion:reduce){.card.active .concept .step{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 3차시</span>
+  <span class="d">2026.11.12 (목)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="deck" id="deck">
+
+<section class="card"><div class="card-inner"><span class="kicker">3차시 복습카드</span><h1>기본 작업과 셀 서식<br>화면 설정 및 인쇄</h1><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="3차시 학습 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">3차시 학습 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="125.0" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="74.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">기본 작업</text><text x="74.5" y="79" text-anchor="middle" font-size="11" fill="#334155">복사·이동</text></g><g class="step" style="--d:0.2s"><rect x="149.0" y="34" width="125.0" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="211.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">워크시트</text><text x="211.5" y="79" text-anchor="middle" font-size="11" fill="#334155">선택·보호</text></g><g class="step" style="--d:0.4s"><rect x="286.0" y="34" width="125.0" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="348.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">셀 서식</text><text x="348.5" y="79" text-anchor="middle" font-size="11" fill="#334155">표시·맞춤</text></g><g class="step" style="--d:0.6000000000000001s"><rect x="423.0" y="34" width="125.0" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="485.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">화면·인쇄</text><text x="485.5" y="79" text-anchor="middle" font-size="11" fill="#334155">보기·인쇄</text></g></svg><figcaption>차례대로 넘기며 복습하세요.</figcaption></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>기본 작업</b> — 복사·이동, 선택하여 붙여넣기, 행·열</span></div><div class="row"><span class="n">2</span><span class="b"><b>워크시트</b> — 시트 선택·그룹, 시트와 통합 문서 보호</span></div><div class="row"><span class="n">3</span><span class="b"><b>셀 서식</b> — 표시 형식, 사용자 지정, 맞춤</span></div><div class="row"><span class="n">4</span><span class="b"><b>화면·인쇄</b> — 틀 고정, 창 분할, 인쇄 영역·페이지 설정</span></div></div></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">셀 복사와 이동</span><h2>셀 복사와 이동</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="복사와 이동" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">복사와 이동</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">복사</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">Ctrl+C</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이동</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">Ctrl+X</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">붙여넣기</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">Ctrl+V</text></g></svg><figcaption>복사와 이동 모두 붙여넣기로 마무리합니다.</figcaption></figure><div class="keyseq" aria-label="복사 단축키 Ctrl C, 붙여넣기 단축키 Ctrl V"><kbd style="--i:0">Ctrl</kbd><span>+</span><kbd style="--i:1">C</kbd><span class="arw">→</span><kbd style="--i:2">Ctrl</kbd><span>+</span><kbd style="--i:3">V</kbd><span class="res">복사 후 붙여넣기</span></div><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>복사</b> — Ctrl+C → Ctrl+V</span></div><div class="row"><span class="n">2</span><span class="b"><b>이동</b> — Ctrl+X → Ctrl+V</span></div><div class="row"><span class="n">3</span><span class="b"><b>확인</b> — 복사·잘라내기 후 범위 주위에 점선 표시</span></div><div class="row"><span class="n">4</span><span class="b"><b>클립보드</b> — Windows+V → 클립보드 기록 확인</span></div></div></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">선택하여 붙여넣기</span><h2>선택하여 붙여넣기</h2><figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="172" viewBox="0 0 300 172" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="170" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="14" y="24" font-size="13" font-weight="700" fill="#1D4ED8">=5+6 을 복사해서 값으로 붙여넣기</text>
+      <rect x="14" y="40" width="90" height="28" fill="#EFF4FF" stroke="#2563EB" stroke-width="2"/>
+      <text x="96" y="59" font-size="14" text-anchor="end" fill="#111827">11</text>
+      <text x="116" y="59" font-size="12" fill="#6B7280">셀에 보이는 값</text>
+      <rect x="14" y="84" width="272" height="30" fill="#F8FAFF" stroke="#CBD5E1"/>
+      <text x="24" y="104" font-size="12" font-weight="700" fill="#94A3B8">fx</text>
+      <text class="a-swapout" style="--d:1.4s" x="50" y="104" font-size="14" font-weight="700" fill="#1D4ED8" font-family="JetBrains Mono, monospace">=5+6</text>
+      <text class="a-swapin" style="--d:1.4s" x="50" y="104" font-size="14" font-weight="700" fill="#047857" font-family="JetBrains Mono, monospace">11</text>
+      <text x="14" y="136" font-size="10" fill="#9CA3AF">수식 입력줄</text>
+      <text class="a-in" style="--d:1.9s" x="14" y="158" font-size="12" fill="#374151">값으로 붙여넣으면 <tspan font-weight="700" fill="#DC2626">수식은 없어지고</tspan> <tspan font-weight="700" fill="#047857">결과 11</tspan>만 남습니다</text>
+    </svg>
+    </div>
+    <figcaption>수식 입력줄이 =5+6 에서 11 로 바뀝니다</figcaption>
+  </figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>값</b> — 수식 대신 계산 결과만 붙여넣기</span></div><div class="row"><span class="n">2</span><span class="b"><b>그림</b> — 원본이 변경되어도 그림은 그대로</span></div><div class="row"><span class="n">3</span><span class="b"><b>연결된 그림</b> — 원본 변경 내용이 그림에 반영</span></div></div><figure class="fig shot"><a href="shots/3-03-paste-options.png" target="_blank" rel="noopener"><img src="shots/3-03-paste-options.png" alt="붙여넣기 옵션 메뉴" loading="lazy"></a><figcaption>붙여넣기 옵션 메뉴 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">행과 열</span><h2>행 높이·열 너비와 숨기기</h2><figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="142" viewBox="0 0 300 142" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="140" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="14" y="22" font-size="13" font-weight="700" fill="#1D4ED8">열 경계선을 더블 클릭하면</text>
+      <g font-size="11" text-anchor="middle" fill="#6B7280">
+        <rect x="14" y="34" width="50" height="20" fill="#F1F5F9" stroke="#CBD5E1"/><text x="39" y="48">A</text>
+        <rect x="64" y="34" width="60" height="20" fill="#F1F5F9" stroke="#CBD5E1"/><text x="94" y="48">B</text>
+        <rect x="124" y="34" width="50" height="20" fill="#F1F5F9" stroke="#CBD5E1"/><text x="149" y="48">C</text>
+      </g>
+      <g class="a-swapout" style="--d:1.2s">
+        <rect x="14" y="54" width="50" height="26" fill="#fff" stroke="#CBD5E1"/><rect x="64" y="54" width="60" height="26" fill="#fff" stroke="#CBD5E1"/><rect x="124" y="54" width="50" height="26" fill="#fff" stroke="#CBD5E1"/>
+        <text x="68" y="71" font-size="12" fill="#111827" textLength="52" lengthAdjust="spacing">컴퓨터활용…</text>
+        <text x="130" y="71" font-size="12" fill="#111827">80</text>
+      </g>
+      <g class="a-swapin" style="--d:1.2s">
+        <rect x="14" y="54" width="50" height="26" fill="#fff" stroke="#CBD5E1"/><rect x="64" y="54" width="112" height="26" fill="#EFF4FF" stroke="#2563EB"/><rect x="176" y="54" width="50" height="26" fill="#fff" stroke="#CBD5E1"/>
+        <text x="70" y="71" font-size="12" fill="#111827">컴퓨터활용능력2급</text>
+        <text x="182" y="71" font-size="12" fill="#111827">80</text>
+        <rect x="64" y="34" width="112" height="20" fill="#F1F5F9" stroke="#2563EB"/><text x="120" y="48" font-size="11" text-anchor="middle" fill="#2563EB" font-weight="700">B</text>
+      </g>
+      <text x="14" y="104" font-size="12" fill="#374151">가장 긴 데이터에 맞게 열 너비가 자동으로 맞춰집니다</text>
+      <text class="a-in" style="--d:1.8s" x="14" y="126" font-size="12" fill="#374151"><tspan font-weight="700" fill="#1D4ED8">시트 전체를 선택</tspan>하고 더블 클릭하면 모든 열이 한 번에</text>
+    </svg>
+    </div>
+    <figcaption>열 머리글 사이의 경계선을 더블 클릭</figcaption>
+  </figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>자동 맞춤</b> — 행·열 머리글 경계선 더블 클릭</span></div><div class="row"><span class="n">2</span><span class="b"><b>직접 지정</b> — 행 높이·열 너비에 원하는 값 입력</span></div><div class="row"><span class="n">3</span><span class="b"><b>숨기기 취소</b> — 숨겨진 행·열 양쪽을 선택 → 숨기기 취소</span></div></div></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">워크시트</span><h2>워크시트 선택과 그룹</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="시트 선택 방법" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">시트 선택 방법</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">연속 선택</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">첫 시트</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">Shift</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">마지막 시트</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">비연속 선택</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">Ctrl + 시트</text></g></svg><figcaption>연속된 시트는 Shift, 떨어진 시트는 Ctrl로 선택합니다.</figcaption></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>연속 선택</b> — 첫 시트 선택 → Shift를 누른 채 마지막 시트 선택</span></div><div class="row"><span class="n">2</span><span class="b"><b>비연속 선택</b> — Ctrl을 누른 채 필요한 시트 탭을 각각 선택</span></div><div class="row"><span class="n">3</span><span class="b"><b>그룹 작업</b> — 선택한 시트에 입력·서식이 함께 적용</span></div><div class="row"><span class="n">4</span><span class="b"><b>작업 후</b> — 시트 탭 우클릭 → 시트 그룹 해제</span></div><div class="row"><span class="n">5</span><span class="b"><b>시트 삽입</b> — Shift+F11</span></div></div></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">시트 관리</span><h2>워크시트 관리</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="시트 탭 메뉴" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">시트 탭 메뉴</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="125.0" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="74.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">시트 탭</text><text x="74.5" y="79" text-anchor="middle" font-size="11" fill="#334155">마우스 오른쪽</text></g><g class="step" style="--d:0.2s"><rect x="149.0" y="34" width="125.0" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="211.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이름 변경</text><text x="211.5" y="79" text-anchor="middle" font-size="11" fill="#334155">탭 이름 수정</text></g><g class="step" style="--d:0.4s"><rect x="286.0" y="34" width="125.0" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="348.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이동·복사</text><text x="348.5" y="79" text-anchor="middle" font-size="11" fill="#334155">위치 선택</text></g><g class="step" style="--d:0.6000000000000001s"><rect x="423.0" y="34" width="125.0" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="485.5" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">삭제</text><text x="485.5" y="79" text-anchor="middle" font-size="11" fill="#334155">복구 불가</text></g></svg><figcaption>시트 탭에서 관리 메뉴를 엽니다.</figcaption></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>시트 탭</b> — 우클릭 → 이름 변경·이동·복사·탭 색상</span></div><div class="row"><span class="n">2</span><span class="b"><b>시트 삭제</b> — 삭제 전 확인: 실행 취소로 복구 불가</span></div></div></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">시트 보호</span><h2>셀 잠금과 시트 보호</h2><figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="196" viewBox="0 0 300 196" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="194" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="14" y="22" font-size="13" font-weight="700" fill="#1D4ED8">시트 보호는 잠금과 함께 써야 합니다</text>
+      <text x="14" y="44" font-size="11" font-weight="700" fill="#374151">① 모든 셀은 처음부터 «잠금»</text>
+      <g font-size="11" text-anchor="middle" fill="#6B7280">
+        <rect x="14" y="50" width="64" height="24" fill="#F1F5F9" stroke="#94A3B8"/><text x="46" y="66">잠금</text>
+        <rect x="80" y="50" width="64" height="24" fill="#F1F5F9" stroke="#94A3B8"/><text x="112" y="66">잠금</text>
+        <rect x="146" y="50" width="64" height="24" fill="#F1F5F9" stroke="#94A3B8"/><text x="178" y="66">잠금</text>
+        <rect x="212" y="50" width="64" height="24" fill="#F1F5F9" stroke="#94A3B8"/><text x="244" y="66">잠금</text></g>
+      <g class="a-in" style="--d:.9s">
+      <text x="14" y="98" font-size="11" font-weight="700" fill="#374151">② 입력할 셀만 잠금 해제 (Ctrl+1 → 보호 탭)</text>
+      <g font-size="11" text-anchor="middle">
+        <rect x="14" y="104" width="64" height="24" fill="#F1F5F9" stroke="#94A3B8"/><text x="46" y="120" fill="#6B7280">잠금</text>
+        <rect x="80" y="104" width="64" height="24" fill="#ECFDF5" stroke="#047857" stroke-width="2"/><text x="112" y="120" fill="#047857" font-weight="700">해제</text>
+        <rect x="146" y="104" width="64" height="24" fill="#ECFDF5" stroke="#047857" stroke-width="2"/><text x="178" y="120" fill="#047857" font-weight="700">해제</text>
+        <rect x="212" y="104" width="64" height="24" fill="#F1F5F9" stroke="#94A3B8"/><text x="244" y="120" fill="#6B7280">잠금</text></g></g>
+      <g class="a-in" style="--d:1.9s">
+      <text x="14" y="152" font-size="11" font-weight="700" fill="#374151">③ 검토 → 시트 보호 를 켜면 비로소 적용</text>
+      <g font-size="10.5" text-anchor="middle">
+        <rect x="14" y="158" width="64" height="24" fill="#FEF2F2" stroke="#DC2626"/><text x="46" y="174" fill="#DC2626" font-weight="700">수정 불가</text>
+        <rect x="80" y="158" width="64" height="24" fill="#ECFDF5" stroke="#047857" stroke-width="2"/><text x="112" y="174" fill="#047857" font-weight="700">입력 가능</text>
+        <rect x="146" y="158" width="64" height="24" fill="#ECFDF5" stroke="#047857" stroke-width="2"/><text x="178" y="174" fill="#047857" font-weight="700">입력 가능</text>
+        <rect x="212" y="158" width="64" height="24" fill="#FEF2F2" stroke="#DC2626"/><text x="244" y="174" fill="#DC2626" font-weight="700">수정 불가</text></g></g>
+    </svg>
+    </div>
+    <figcaption>잠금 해제한 셀만 입력할 수 있게 됩니다</figcaption>
+  </figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>기본 상태</b> — 셀의 잠금 속성은 기본적으로 선택됨</span></div><div class="row"><span class="n">2</span><span class="b"><b>입력할 셀</b> — 셀 서식 → 보호 → 잠금 해제</span></div><div class="row"><span class="n">3</span><span class="b"><b>보호 적용</b> — 검토 → 시트 보호: 잠긴 셀의 편집 제한</span></div></div><figure class="fig shot"><a href="shots/3-11-protect-tab.png" target="_blank" rel="noopener"><img src="shots/3-11-protect-tab.png" alt="셀 서식 보호 탭" loading="lazy"></a><figcaption>셀 서식 보호 탭 · 눌러서 크게 보기</figcaption></figure><figure class="fig shot"><a href="shots/3-12-protect-sheet.png" target="_blank" rel="noopener"><img src="shots/3-12-protect-sheet.png" alt="시트 보호 대화 상자" loading="lazy"></a><figcaption>시트 보호 대화 상자 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">통합 문서 보호</span><h2>시트 보호와 통합 문서 보호</h2><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>시트 보호</b> — 잠긴 셀의 편집 제한</span></div><div class="row"><span class="n">2</span><span class="b"><b>통합 문서 보호</b> — 시트 추가·삭제·이동 등 구조 변경 제한</span></div><div class="row"><span class="n">3</span><span class="b"><b>열기 암호</b> — 파일을 열 때 사용하는 암호와 구분</span></div></div><figure class="fig shot"><a href="shots/3-13-protect-workbook.png" target="_blank" rel="noopener"><img src="shots/3-13-protect-workbook.png" alt="통합 문서 보호 대화 상자" loading="lazy"></a><figcaption>통합 문서 보호 대화 상자 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">표시 형식</span><h2>셀 서식: 표시 형식</h2><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>표시 형식</b> — 셀에 저장된 값은 그대로, 표시만 변경</span></div><div class="row"><span class="n">2</span><span class="b"><b>0</b> — 자릿수가 부족하면 0 표시</span></div><div class="row"><span class="n">3</span><span class="b"><b>#</b> — 불필요한 0은 표시하지 않음</span></div><div class="row"><span class="n">4</span><span class="b"><b>쉼표</b> — 천 단위 구분 표시</span></div></div><figure class="fig"><table aria-label="숫자 표시 형식 비교"><thead><tr><th scope="col">실제 값</th><th scope="col"><code>#,###</code></th><th scope="col"><code>#,##0</code></th></tr></thead><tbody><tr><td>1,234</td><td>1,234</td><td>1,234</td></tr><tr><td>12</td><td>12</td><td>12</td></tr><tr><td>0</td><td aria-label="표시 없음"></td><td><strong>0</strong></td></tr></tbody></table><figcaption>값이 0일 때 차이: <code>#</code>은 표시하지 않고, <code>0</code>은 0을 표시합니다.</figcaption></figure><div class="callout tip"><b>기억하세요</b>두 형식 모두 천 단위 구분 쉼표를 표시합니다. 빈칸처럼 보여도 셀에 저장된 값은 0입니다.</div><figure class="fig shot"><a href="shots/3-15-number-group.png" target="_blank" rel="noopener"><img src="shots/3-15-number-group.png" alt="표시 형식 그룹" loading="lazy"></a><figcaption>표시 형식 그룹 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">사용자 지정</span><h2>사용자 지정 표시 형식</h2><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>문자</b> — @ : 문자 데이터가 표시될 자리</span></div><div class="row"><span class="n">2</span><span class="b"><b>고정 글자</b> — 큰따옴표로 묶기 · 예: @"지점"</span></div><div class="row"><span class="n">3</span><span class="b"><b>날짜</b> — yyyy: 연도 / mm: 월 / dd: 일</span></div><div class="row"><span class="n">4</span><span class="b"><b>시간</b> — h: 시 / m: 분 / s: 초</span></div></div><figure class="fig shot"><a href="shots/3-16-custom-format.png" target="_blank" rel="noopener"><img src="shots/3-16-custom-format.png" alt="사용자 지정 표시 형식 설명 도해" loading="lazy"></a><figcaption>사용자 지정 표시 형식 설명 도해 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">맞춤</span><h2>셀 서식: 맞춤</h2><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>정렬</b> — 가로·세로 위치 설정</span></div><div class="row"><span class="n">2</span><span class="b"><b>방향</b> — 글자 방향 설정</span></div><div class="row"><span class="n">3</span><span class="b"><b>텍스트</b> — 자동 줄 바꿈 설정</span></div></div><figure class="fig shot"><a href="shots/3-17-alignment-tab.png" target="_blank" rel="noopener"><img src="shots/3-17-alignment-tab.png" alt="셀 서식 맞춤 탭" loading="lazy"></a><figcaption>셀 서식 맞춤 탭 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">창 관리</span><h2>틀 고정</h2><figure class="fig">
+    <div class="svg-wrap">
+    <svg width="300" height="192" viewBox="0 0 300 192" style="margin:0 auto" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, sans-serif">
+      <rect x="1" y="1" width="298" height="190" rx="10" fill="#fff" stroke="#E5E7EB"/>
+      <text x="14" y="22" font-size="13" font-weight="700" fill="#1D4ED8">B4 셀을 선택하고 틀 고정하면</text>
+      <g font-size="10" text-anchor="middle" fill="#6B7280">
+        <rect x="14" y="34" width="22" height="18" fill="#F1F5F9" stroke="#CBD5E1"/>
+        <rect x="36" y="34" width="52" height="18" fill="#F1F5F9" stroke="#CBD5E1"/><text x="62" y="47">A</text>
+        <rect x="88" y="34" width="52" height="18" fill="#F1F5F9" stroke="#CBD5E1"/><text x="114" y="47">B</text>
+        <rect x="140" y="34" width="52" height="18" fill="#F1F5F9" stroke="#CBD5E1"/><text x="166" y="47">C</text>
+        <rect x="192" y="34" width="52" height="18" fill="#F1F5F9" stroke="#CBD5E1"/><text x="218" y="47">D</text>
+      </g>
+      <g font-size="10" text-anchor="middle" fill="#6B7280">
+        <rect x="14" y="52" width="22" height="22" fill="#F1F5F9" stroke="#CBD5E1"/><text x="25" y="67">1</text>
+        <rect x="14" y="74" width="22" height="22" fill="#F1F5F9" stroke="#CBD5E1"/><text x="25" y="89">2</text>
+        <rect x="14" y="96" width="22" height="22" fill="#F1F5F9" stroke="#CBD5E1"/><text x="25" y="111">3</text>
+        <rect x="14" y="118" width="22" height="22" fill="#F1F5F9" stroke="#CBD5E1"/><text x="25" y="133">4</text>
+        <rect x="14" y="140" width="22" height="22" fill="#F1F5F9" stroke="#CBD5E1"/><text x="25" y="155">5</text>
+      </g>
+      <g stroke="#E5E7EB" fill="#fff">
+        <rect x="36" y="52" width="208" height="110"/>
+      </g>
+      <rect x="88" y="118" width="52" height="22" fill="#EFF4FF" stroke="#2563EB" stroke-width="2"/>
+      <text x="114" y="133" font-size="10" text-anchor="middle" fill="#1D4ED8" font-weight="700">B4</text>
+      <rect class="a-in" style="--d:.8s" x="36" y="52" width="52" height="66" fill="#2563EB" opacity="0.08"/>
+      <rect class="a-in" style="--d:.8s" x="88" y="52" width="156" height="66" fill="#2563EB" opacity="0.08"/>
+      <rect class="a-in" style="--d:.8s" x="36" y="118" width="52" height="44" fill="#2563EB" opacity="0.08"/>
+      <line class="draw" style="--len:132;--d:.6s" x1="88" y1="34" x2="88" y2="166" stroke="#DC2626" stroke-width="2.5"/>
+      <line class="draw" style="--len:230;--d:1.2s" x1="14" y1="118" x2="248" y2="118" stroke="#DC2626" stroke-width="2.5"/>
+      <text class="a-in" style="--d:1.8s" x="14" y="182" font-size="12" fill="#374151">선택한 셀의 <tspan font-weight="700" fill="#DC2626">왼쪽 열과 위쪽 행</tspan>이 고정됩니다</text>
+    </svg>
+    </div>
+    <figcaption>B4 선택 → A열과 1~3행이 고정</figcaption>
+  </figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>기준 셀</b> — 선택한 셀의 위쪽 행과 왼쪽 열을 고정</span></div><div class="row"><span class="n">2</span><span class="b"><b>예시</b> — B2 선택 → 틀 고정 → 1행과 A열 고정</span></div><div class="row"><span class="n">3</span><span class="b"><b>메뉴</b> — 보기 → 틀 고정 · 첫 행 고정 · 첫 열 고정</span></div></div><figure class="fig shot"><a href="shots/3-18-freeze-menu.png" target="_blank" rel="noopener"><img src="shots/3-18-freeze-menu.png" alt="틀 고정 메뉴" loading="lazy"></a><figcaption>틀 고정 메뉴 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">창과 보기</span><h2>창 분할과 화면 보기</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="화면 보기" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">화면 보기</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">기본</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">일반 작업</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">페이지 레이아웃</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">페이지·여백</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">페이지 나누기</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">인쇄 경계</text></g></svg><figcaption>작업 목적에 맞춰 보기 방식을 선택합니다.</figcaption></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>창 분할</b> — 한 시트의 서로 다른 위치를 나누어 보기</span></div><div class="row"><span class="n">2</span><span class="b"><b>기본 보기</b> — 일반적인 작업 화면</span></div><div class="row"><span class="n">3</span><span class="b"><b>페이지 레이아웃</b> — 인쇄될 페이지와 여백을 보며 작업</span></div><div class="row"><span class="n">4</span><span class="b"><b>페이지 나누기 미리 보기</b> — 인쇄 영역과 페이지 경계 확인</span></div></div></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">인쇄의 시작</span><h2>인쇄 영역과 페이지 설정</h2><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>인쇄 영역</b> — 범위 선택 → 페이지 레이아웃 → 인쇄 영역 설정</span></div><div class="row"><span class="n">2</span><span class="b"><b>미리 보기</b> — Ctrl+P → 인쇄할 내용 확인</span></div><div class="row"><span class="n">3</span><span class="b"><b>방향</b> — 페이지 설정 → 페이지 탭 → 가로·세로 방향</span></div><div class="row"><span class="n">4</span><span class="b"><b>가운데 맞춤</b> — 페이지 설정 → 여백 탭 → 가로·세로 가운데 맞춤</span></div><div class="row"><span class="n">5</span><span class="b"><b>다음 수업</b> — 나머지 인쇄 설정 이어서 학습</span></div></div><figure class="fig shot"><a href="shots/4-02-print-area-menu.png" target="_blank" rel="noopener"><img src="shots/4-02-print-area-menu.png" alt="인쇄 영역 메뉴 설명 도해" loading="lazy"></a><figcaption>인쇄 영역 메뉴 설명 도해 · 눌러서 크게 보기</figcaption></figure><figure class="fig shot"><a href="shots/4-03-page-setup-page.png" target="_blank" rel="noopener"><img src="shots/4-03-page-setup-page.png" alt="페이지 설정 방향 설명 도해" loading="lazy"></a><figcaption>페이지 설정 방향 설명 도해 · 눌러서 크게 보기</figcaption></figure><figure class="fig shot"><a href="shots/4-04-page-setup-margin.png" target="_blank" rel="noopener"><img src="shots/4-04-page-setup-margin.png" alt="여백 탭 가운데 맞춤 설명 도해" loading="lazy"></a><figcaption>여백 탭 가운데 맞춤 설명 도해 · 눌러서 크게 보기</figcaption></figure></div></section>
+<section class="card"><div class="card-inner"><span class="kicker">비교 복습</span><h2>메모와 윗주</h2><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>메모</b> — 셀에 설명 추가 · 셀 내용 삭제 후에도 남을 수 있음</span></div><div class="row"><span class="n">2</span><span class="b"><b>윗주</b> — 문자 위에 보충 설명 추가 · 표시 설정을 켜야 보임</span></div><div class="row"><span class="n">3</span><span class="b"><b>차이</b> — 셀의 문자 내용을 지우면 윗주도 사라짐</span></div></div><figure class="fig shot"><a href="shots/2-11-phonetic-menu.png" target="_blank" rel="noopener"><img src="shots/2-11-phonetic-menu.png" alt="윗주 메뉴" loading="lazy"></a><figcaption>윗주 메뉴 · 눌러서 크게 보기</figcaption></figure><figure class="fig shot"><a href="shots/2-12-phonetic-shown.png" target="_blank" rel="noopener"><img src="shots/2-12-phonetic-shown.png" alt="윗주가 표시된 셀" loading="lazy"></a><figcaption>윗주가 표시된 셀 · 눌러서 크게 보기</figcaption></figure></div></section>
+<!-- 12 · 이름 게이트 -->
+<section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>3차시 복습 퀴즈</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="퀴즈 진행" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">퀴즈 진행</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이름 입력</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">본인 이름</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">문제 풀이</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">10문제</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">결과 확인</text></g></svg><figcaption>이름 입력 후 문제를 풀고 채점합니다.</figcaption></figure>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>복습 퀴즈 10문제</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="풀이 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">풀이 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">선택</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">각 문제의 답</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">맨 아래 버튼</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">복습</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">틀린 문제 확인</text></g></svg><figcaption>답을 고른 뒤 맨 아래의 채점 버튼을 누르세요.</figcaption></figure>
+<div class="quiz-item"><p class="q"><span class="qn">1</span><span class="qt">수식이 들어 있는 셀을 계산 결과만 남겨 붙여넣으려면?</span></p><button class="quiz-opt">수식으로 붙여넣기</button><button class="quiz-opt" data-correct="true">값으로 붙여넣기</button><button class="quiz-opt">모두 지우기</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">2</span><span class="qt">연결된 그림으로 붙여넣은 뒤 원본 내용이 바뀌면?</span></p><button class="quiz-opt" data-correct="true">연결된 그림에도 변경이 반영된다</button><button class="quiz-opt">그림이 자동으로 삭제된다</button><button class="quiz-opt">원본이 바뀌어도 항상 그대로다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">3</span><span class="qt">떨어져 있는 여러 시트 탭을 선택할 때 사용하는 키는?</span></p><button class="quiz-opt">Shift</button><button class="quiz-opt">Alt</button><button class="quiz-opt" data-correct="true">Ctrl</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">4</span><span class="qt">시트 보호를 적용한 뒤 특정 셀에 입력할 수 있게 하려면?</span></p><button class="quiz-opt">모든 셀을 삭제한다</button><button class="quiz-opt" data-correct="true">보호하기 전에 해당 셀의 잠금을 해제한다</button><button class="quiz-opt">통합 문서 구조를 보호한다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">5</span><span class="qt">통합 문서 구조 보호가 제한하는 작업은?</span></p><button class="quiz-opt" data-correct="true">시트 추가와 삭제</button><button class="quiz-opt">셀 글꼴 색 변경만</button><button class="quiz-opt">프린터 전원 끄기</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">6</span><span class="qt">사용자 지정 표시 형식에서 불필요한 0을 표시하지 않는 기호는?</span></p><button class="quiz-opt">@</button><button class="quiz-opt">0</button><button class="quiz-opt" data-correct="true">#</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">7</span><span class="qt">사용자 지정 표시 형식에서 문자 데이터가 들어갈 자리를 나타내는 기호는?</span></p><button class="quiz-opt">#</button><button class="quiz-opt" data-correct="true">@</button><button class="quiz-opt">%</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">8</span><span class="qt">B2 셀을 선택한 뒤 틀 고정을 하면 어느 부분이 고정되나요?</span></p><button class="quiz-opt" data-correct="true">1행과 A열</button><button class="quiz-opt">2행과 B열</button><button class="quiz-opt">B2 셀만</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">9</span><span class="qt">인쇄할 일부 범위를 지정한 후 사용하는 메뉴는?</span></p><button class="quiz-opt">검토 → 시트 보호</button><button class="quiz-opt">데이터 → 정렬</button><button class="quiz-opt" data-correct="true">페이지 레이아웃 → 인쇄 영역 설정</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">10</span><span class="qt">인쇄할 표를 용지 가운데에 배치하는 설정은 페이지 설정의 어느 탭에 있나요?</span></p><button class="quiz-opt">시트</button><button class="quiz-opt" data-correct="true">여백</button><button class="quiz-opt">글꼴</button><div class="quiz-feedback"></div></div>
+  <div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<section class="card"><div class="card-inner"><span class="kicker">복습 체크리스트</span><h2>3차시 복습 체크리스트</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="복습 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">복습 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">기본 작업</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">복사·이동</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">보호·서식</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">시트·셀</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">화면·인쇄</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">틀 고정·인쇄</text></g></svg><figcaption>확인이 필요한 항목은 해당 카드로 돌아가세요.</figcaption></figure><div class="panel"><p class="lead">복사·이동과 값 붙여넣기를 구분할 수 있나요?<br>시트 그룹을 해제하고, 입력할 셀의 잠금을 해제할 수 있나요?<br>표시 형식과 틀 고정, 인쇄 영역 설정을 설명할 수 있나요?</p><p class="foot">우리컴퓨터학원 / ☎ 052)258-3388 · 컴퓨터활용능력2급 · 김태희 강사</p></div></div></section>
+<section class="card" id="audioReviewCard"><div class="card-inner">
+<span class="kicker pilgi">영상·음성 복습</span><h2>3차시 영상·음성 복습</h2><p class="lead">화면과 강사 음성을 함께 보거나 원하는 주제를 선택해 들을 수 있습니다.</p>
+<figure class="fig concept"><svg viewBox="0 0 560 100" role="img" aria-label="전체 듣기, 주제 선택, 재생 속도 조절" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="536" height="76" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/><path d="M42 50h10l6-14 8 28 8-36 8 42 8-31 6 21 6-10h12" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="140" y="47" fill="#1E3A5F" font-size="16" font-weight="700">전체 듣기 · 주제별 듣기</text><text x="140" y="69" fill="#475569" font-size="13">재생 속도와 듣기 위치를 조절할 수 있습니다</text></svg><figcaption>학습 주제를 선택하면 해당 부분부터 재생됩니다.</figcaption></figure>
+<div class="video-review"><video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/2026-11-3cha.mp4?v=2"></video><div class="video-copy"><span>화면과 강사 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div></div>
+<div class="audio-review"><audio id="reviewAudio" preload="metadata" src="audio/review/2026-11-3cha-instructor.mp3"></audio>
+<div class="player-controls"><button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button><button type="button" id="audioBack">−10초</button><button type="button" id="audioForward">+10초</button><label class="speed-wrap">재생 속도 <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select></label></div>
+<div class="timeline"><input class="seek-bar" id="audioSeek" type="range" min="0" max="1" step="0.1" value="0" aria-label="음성 재생 위치"><div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div><div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">0:00</span></div></div><div class="chapter-grid" id="chapterGrid"></div><p class="audio-note">강사 음성 합성으로 제작한 복습 음성입니다.</p></div></div></section>
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>window.REVIEW_AUDIO={"titles": ["셀 복사와 이동", "선택하여 붙여넣기", "행 높이와 열 너비", "워크시트 선택과 그룹", "워크시트 관리", "셀 잠금과 시트 보호", "시트 보호와 통합 문서 보호", "표시 형식과 영의 표시", "사용자 지정 표시 형식", "셀 서식 맞춤", "틀 고정", "창 분할과 화면 보기", "인쇄 영역과 페이지 설정", "메모와 윗주"], "starts": [0.0, 17.009999999999998, 33.06, 49.43000000000001, 70.36000000000001, 87.93000000000002, 105.90000000000002, 121.47000000000003, 148.88000000000002, 167.89000000000001, 179.62, 197.51, 213.95999999999998, 234.56999999999996], "duration": 253.13, "src": "audio/review/2026-11-3cha-instructor.mp3"};</script>
+<script src="audio/review/player.js"></script>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-11 3차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  '9bbb52287af375ad',
+  '68a2bbf429acc7f6',
+  '1d3c61ba29a8a304',
+  '799b4fa176106108',
+  '0345c6705c8a657a',
+  '871b4f95f45d75b6',
+  'adf899b5064f769e',
+  '80311697fa93d30b',
+  'ae6fd527794e6187',
+  'db6f439e9999c4f7',
+  '79863b87fe14670d',
+  'e83e84eec19ad05b',
+  'a5a6ccaf14cb9e40',
+  'f3177b9e506f5f36',
+  'ce93aed446c7a37f',
+  'cc45086c23272d8c',
+  'd8467edd1b145f9b',
+  'b4beb49ac060c43e',
+  'e94f142db3f696b3',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
