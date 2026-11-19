@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 8차시 복습카드 (2026.11.19)</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); line-height:1.6;
+  background:
+    radial-gradient(ellipse at 12% 58%, #d7f4e7 0%, transparent 60%),
+    radial-gradient(ellipse at 88% 12%, #e5d8f7 0%, transparent 62%),
+    linear-gradient(150deg, #f8faf9 0%, #edf7f5 70%, #f5f7fb 100%);
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
+
+.fig.shot{display:block;padding:12px;text-align:center}.shot img{display:block;max-width:100%;max-height:360px;width:auto;height:auto;margin:auto;object-fit:contain}.shot a{display:block}.shot a:focus-visible{outline:3px solid #2563eb;outline-offset:3px}.fig svg{max-width:100%;height:auto}.card.active .draw{stroke-dasharray:var(--len,240);stroke-dashoffset:var(--len,240);animation:drawline .9s ease-out forwards;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){.card.active .draw{animation:none;stroke-dashoffset:0}.card.active [class*="a-"]{animation:none}.card.active .a-swapout{display:none}.card.active .a-swapin{opacity:1}}
+
+.summary-list{margin:0 0 16px;border-top:2px solid #315ea8;background:#fff}.summary-row{display:grid;grid-template-columns:minmax(100px,29%) 1fr;gap:12px;padding:12px 10px;border-bottom:1px solid #e2e8f0;line-height:1.5;font-size:15px}.summary-row strong{color:#164287}.summary-row span{min-width:0;color:#1f2937}.concept svg{display:block;width:100%;height:auto}.card.active .concept .step{animation:step-in .45s ease-out both;animation-delay:var(--d)}@keyframes step-in{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:400px){.summary-row{grid-template-columns:95px 1fr;gap:8px;font-size:14px}}@media(prefers-reduced-motion:reduce){.card.active .concept .step{animation:none}}
+
+/* 학습 카드 주변 장식: 본문과 조작 영역을 가리지 않도록 배치 */
+.ambient-stickers{position:fixed;inset:48px 0 58px;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-stickers i,.card-inner::before,.card-inner::after{background-image:url('assets/review-stickers.png');background-repeat:no-repeat;background-size:200% 200%;pointer-events:none;}
+.ambient-stickers i{position:absolute;width:clamp(82px,10vw,135px);aspect-ratio:1;filter:drop-shadow(0 10px 12px rgba(78,82,110,.10));}
+.ambient-stickers .laptop{left:2%;top:8%;background-position:0 0;}
+.ambient-stickers .book{right:2%;top:12%;background-position:100% 0;}
+.ambient-stickers .list{left:3%;bottom:9%;background-position:0 100%;}
+.ambient-stickers .star{right:3%;bottom:8%;background-position:100% 100%;}
+.deck{position:relative;z-index:1;}
+@media(max-width:900px){
+  .ambient-stickers{display:none;}
+  .card-inner{position:relative;padding-top:72px;}
+  .card-inner::before,.card-inner::after{content:"";position:absolute;top:0;width:68px;height:68px;}
+  .card-inner::before{right:73px;background-position:0 0;}
+  .card-inner::after{right:0;background-position:100% 0;}
+  .card:nth-of-type(4n+2) .card-inner::before,.card:nth-of-type(4n+3) .card-inner::before{background-position:0 100%;}
+  .card:nth-of-type(4n+2) .card-inner::after,.card:nth-of-type(4n+3) .card-inner::after{background-position:100% 100%;}
+}
+.panel code,.example-table td{overflow-wrap:anywhere;word-break:break-all}
+</style>
+<style>.example-label{font-size:12px;font-weight:700;color:#4b6c60;margin:0 0 7px}.example-wrap{overflow-x:auto}.example-table{width:100%;border-collapse:collapse;font-size:clamp(12px,2.5vw,15px);background:white}.example-table th,.example-table td{padding:8px;border:1px solid #cbd7d1;text-align:center;word-break:keep-all}.example-table th{background:#dff4ea;color:#285441}.example-table tr:nth-child(even){background:#f6faf9}.example-table td{overflow-wrap:anywhere}@media(prefers-reduced-motion:reduce){.example-table .step{animation:none!important;opacity:1!important}}</style></head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 8차시</span>
+  <span class="d">2026.11.19 (목)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="ambient-stickers" aria-hidden="true"><i class="laptop"></i><i class="book"></i><i class="list"></i><i class="star"></i></div>
+
+<div class="deck" id="deck">
+
+<section class="card"><div class="card-inner"><span class="kicker">8차시 복습카드</span><h2>날짜·시간 함수<br>IF와 논리 함수</h2><figure class="fig concept"><div class="example-label">복습 순서</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>복습 순서</th><th>학습 내용</th></tr><tr class="step" style="--d:0.16s"><td>복습</td><td>VLOOKUP · MID · INDEX · MATCH · 연결</td></tr><tr class="step" style="--d:0.32s"><td>날짜 · 시간</td><td>TODAY · DATE · TIME · WEEKDAY · CHOOSE</td></tr><tr class="step" style="--d:0.48s"><td>IF 계열</td><td>IF · 중첩 IF · AND · OR · IFS · IFERROR</td></tr><tr class="step" style="--d:0.64s"><td>실기 적용</td><td>근속연수 · VLOOKUP · WORKDAY · 이용 시간</td></tr><tr class="step" style="--d:0.80s"><td>필기 함수 문제</td><td>오픈북 20분 풀이</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>복습</b> — 지난 시간의 찾기 함수를 계산 작업으로 한 번 더</span></div><div class="row"><span class="n">2</span><span class="b"><b>날짜 · IF</b> — 날짜와 시간을 분해하고, 조건에 따라 다른 값을 돌려줍니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>실기 적용 · 필기 문제</b> — 배운 함수를 섞어 쓰는 연습</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · 찾기 함수</span><h2>열 번호는 기준표 안에서 센다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>과정코드</th><th>과정명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>ON</td><td>온라인</td></tr><tr class="step" style="--d:0.32s"><td>OF</td><td>오프라인</td></tr><tr class="step" style="--d:0.48s"><td>MX</td><td>혼합형</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=VLOOKUP(LEFT(A7,2),$I$7:$J$9,2,FALSE)</code> → ON-3-B-0417은 <b>온라인</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>열 번호</b>는 시트의 열 번호가 아니라 기준표 첫 열을 1로 센 순서입니다(과정명 = 2)</span></div><div class="row"><span class="n">3</span><span class="b">기준표는 <b>머리글을 뺀</b> 데이터 부분만 잡고, 채울 때는 <b>절대 참조</b>합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · 문자열 함수</span><h2>MID로 한 글자 꺼내 CHOOSE에 넣기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>수강코드</th><th>MID(…,4,1)</th><th>등급</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>ON-3-B-0417</td><td>3</td><td>고급</td></tr><tr class="step" style="--d:0.32s"><td>OF-1-A-0852</td><td>1</td><td>초급</td></tr><tr class="step" style="--d:0.48s"><td>MX-4-B-0579</td><td>4</td><td>최고급</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=CHOOSE(MID(A7,4,1),&quot;초급&quot;,&quot;중급&quot;,&quot;고급&quot;,&quot;최고급&quot;)</code> → <b>고급</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>MID(문자열, 시작 위치, 글자 수)</b> — 4번째 글자에서 1글자를 가져옵니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>CHOOSE</b>는 번호가 1이면 첫 번째 값, 2이면 두 번째 값을 돌려줍니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · INDEX · MATCH</span><h2>MID로 가져온 글자를 MATCH가 위치로</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>교실코드</th><th>A</th><th>B</th><th>C</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>교실명</td><td>101호</td><td>202호</td><td>303호</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=INDEX($J$13:$L$13,1,MATCH(MID(A7,6,1),$J$12:$L$12,0))</code> → 여섯 번째 글자 B는 두 번째 → <b>202호</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>MATCH</b>의 검색 범위는 한 행 또는 한 열만 잡고, 돌려주는 것은 <b>위치 번호</b>뿐입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>INDEX</b>의 배열은 결과로 돌려줄 교실명 영역만 선택합니다. 기준표는 F4로 절대 참조합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · 문자열 연결</span><h2>이름 + 괄호 + 과정명</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>수강생</th><th>과정명</th><th>결과</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>김도현</td><td>온라인</td><td>김도현(온라인)</td></tr><tr class="step" style="--d:0.32s"><td>이서연</td><td>오프라인</td><td>이서연(오프라인)</td></tr><tr class="step" style="--d:0.48s"><td>최유나</td><td>혼합형</td><td>최유나(혼합형)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=B7&amp;&quot;(&quot;&amp;D7&amp;&quot;)&quot;</code> → <b>김도현(온라인)</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>&</b>는 문자를 이어 붙입니다. 괄호도 <code>"("</code> · <code>")"</code>처럼 따옴표 안의 글자로 넣습니다</span></div><div class="row"><span class="n">3</span><span class="b">마지막 <code>")"</code> 뒤에는 이을 값이 없으니 <b>&를 붙이지 않습니다</b></span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">날짜 · 시간 함수</span><h2>날짜는 숫자, 시간은 소수</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>입력</th><th>돌려주는 값</th><th>다시 계산?</th></tr><tr class="step" style="--d:0.16s"><td>Ctrl + ;</td><td>입력한 순간의 날짜</td><td>아니요(고정)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>=TODAY()</td><td>오늘 날짜</td><td>예</td></tr><tr class="step" style="--d:0.48s"><td>=NOW()</td><td>오늘 날짜 + 현재 시각</td><td>예</td></tr><tr class="step" style="--d:0.64s"><td>Ctrl + Shift + ;</td><td>입력한 순간의 시각</td><td>아니요(고정)</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">일반 서식으로 보면</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>값</th><th>일반 서식</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>2026-11-19</td><td>46345</td><td>1900-01-01을 1로 센 번호</td></tr><tr class="step" style="--d:0.32s"><td>12:00</td><td>0.5</td><td>하루의 절반</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>Ctrl+;</b>는 고정값, <b>TODAY()</b>는 다시 계산될 때마다 그날 날짜입니다</span></div><div class="row"><span class="n">2</span><span class="b"><code>=TODAY()</code> · <code>=NOW()</code> — 인수가 없어도 <b>괄호는 반드시</b> 씁니다</span></div><div class="row"><span class="n">3</span><span class="b">결과가 <b>46345</b>처럼 숫자로 보이면 값이 틀린 것이 아니라 표시 형식이 <b>일반</b>이라서입니다 → 날짜로 바꿉니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">날짜 · 시간 함수</span><h2>날짜를 쪼개고 다시 합치기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>입사일</th><th>YEAR</th><th>MONTH</th><th>DAY</th><th>DATE</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>2023-02-14</td><td>2023</td><td>2</td><td>14</td><td>2023-02-14</td></tr><tr class="step" style="--d:0.32s"><td>2019-05-03</td><td>2019</td><td>5</td><td>3</td><td>2019-05-03</td></tr><tr class="step" style="--d:0.48s"><td>2025-08-21</td><td>2025</td><td>8</td><td>21</td><td>2025-08-21</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=DATE(B16,C16,D16)</code> → <b>2023-02-14</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>YEAR · MONTH · DAY</b>는 숫자 하나씩을 꺼내고, <b>DATE(연,월,일)</b>은 세 숫자를 날짜로 합칩니다</span></div><div class="row"><span class="n">3</span><span class="b">주민등록번호의 두 자리 연도를 DATE에 쓰려면 1900년대생은 <b>19</b>, 2000년대생은 <b>20</b>을 앞에 붙여 네 자리로 만듭니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">날짜 · 시간 함수</span><h2>시각을 쪼개고 다시 합치기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>출근</th><th>HOUR</th><th>MINUTE</th><th>SECOND</th><th>TIME</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>9:12:30</td><td>9</td><td>12</td><td>30</td><td>9:12:30</td></tr><tr class="step" style="--d:0.32s"><td>8:05:15</td><td>8</td><td>5</td><td>15</td><td>8:05:15</td></tr><tr class="step" style="--d:0.48s"><td>13:40:00</td><td>13</td><td>40</td><td>0</td><td>13:40:00</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=TIME(C31,D31,E31)</code> → <b>9:12:30</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>HOUR</b>는 시 숫자만, <b>MINUTE</b>는 분 숫자만, <b>SECOND</b>는 초 숫자만 돌려줍니다</span></div><div class="row"><span class="n">3</span><span class="b">HOUR는 0~23만 돌려줍니다. 24시간을 넘는 누적 시간은 표시 형식 <code>[h]</code>로 봅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">날짜 · 시간 함수</span><h2>요일은 번호로, 번호 체계는 유형이 정한다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>유형</th><th>시작</th><th>끝</th></tr><tr class="step" style="--d:0.16s"><td>1 (생략)</td><td>일요일=1</td><td>토요일=7</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>2</td><td>월요일=1</td><td>일요일=7</td></tr><tr class="step" style="--d:0.48s"><td>3</td><td>월요일=0</td><td>일요일=6</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=WEEKDAY(A16,2)</code> → 2023-02-14는 화요일이므로 <b>2</b></span></div><div class="row"><span class="n">2</span><span class="b">수업에서는 <b>1 · 2 · 3</b>만 봤고, 가장 많이 쓴 것은 <b>유형 2</b>(월요일이 1)입니다</span></div><div class="row"><span class="n">3</span><span class="b">시험 문제에는 어느 요일이 1인지 안내가 있습니다. 문제의 번호 체계에 맞춰 고릅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">날짜 · 시간 함수</span><h2>요일 번호를 글자로 바꾸기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>입사일</th><th>WEEKDAY(,2)</th><th>요일</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>2023-02-14</td><td>2</td><td>화</td></tr><tr class="step" style="--d:0.32s"><td>2019-05-03</td><td>5</td><td>금</td></tr><tr class="step" style="--d:0.48s"><td>2022-07-16</td><td>6</td><td>토</td></tr><tr class="step" style="--d:0.64s"><td>2020-10-04</td><td>7</td><td>일</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=CHOOSE(WEEKDAY(A16,2),&quot;월&quot;,&quot;화&quot;,&quot;수&quot;,&quot;목&quot;,&quot;금&quot;,&quot;토&quot;,&quot;일&quot;)</code> → <b>화</b></span></div><div class="row"><span class="n">2</span><span class="b">번호를 다른 열에 먼저 구했으면 <code>=CHOOSE(F16,&quot;월&quot;,&quot;화&quot;,&quot;수&quot;,&quot;목&quot;,&quot;금&quot;,&quot;토&quot;,&quot;일&quot;)</code>처럼 번호 셀을 첫 인수로 씁니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>WEEKDAY</b>(요일 번호)와 <b>WORKDAY</b>(주말을 뺀 며칠 뒤 날짜)는 이름이 비슷하니 섞지 않습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">날짜 · 시간 함수</span><h2>가끔 나오는 날짜 함수</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해 (기준일 2026-11-19)</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>함수</th><th>구문</th><th>예</th></tr><tr class="step" style="--d:0.16s"><td>DAYS</td><td>=DAYS(끝날짜,시작날짜)</td><td>12월 31일까지 → 42</td></tr><tr class="step" style="--d:0.32s"><td>EDATE</td><td>=EDATE(시작일,개월수)</td><td>3개월 뒤 → 2027-02-19</td></tr><tr class="step" style="--d:0.48s"><td>EOMONTH</td><td>=EOMONTH(시작일,개월수)</td><td>개월수 0 → 2026-11-30</td></tr><tr class="step" style="--d:0.64s"><td>WORKDAY</td><td>=WORKDAY(시작일,일수,휴일)</td><td>주말을 뺀 며칠 뒤 날짜</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=DAYS(DATE(2026,12,31),DATE(2026,11,19))</code> → <b>42</b> · 인수 순서는 <b>(끝날짜, 시작날짜)</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>EDATE · EOMONTH</b> 결과가 숫자로 보이면 표시 형식을 <b>날짜</b>로 바꿉니다</span></div><div class="row"><span class="n">3</span><span class="b">자주 나오지 않으니 필요할 때 함수 설명으로 확인합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 함수</span><h2>조건식이 참이면 앞, 거짓이면 뒤</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>이름</th><th>점수</th><th>합격여부</th></tr><tr class="step" style="--d:0.16s"><td>김도현</td><td>88</td><td>합격</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>이서연</td><td>59</td><td>불합격</td></tr><tr class="step" style="--d:0.48s"><td>박준호</td><td>95</td><td>합격</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IF(B5&gt;=60,&quot;합격&quot;,&quot;불합격&quot;)</code></span></div><div class="row"><span class="n">2</span><span class="b"><b>조건식</b>은 «점수가 60 이상입니까?»라는 질문이고, 결과는 TRUE 또는 FALSE입니다</span></div><div class="row"><span class="n">3</span><span class="b">SUMIF의 <b>조건</b>, 데이터베이스 함수의 <b>조건 목록</b>, IF의 <b>조건식</b>은 쓰는 형태가 다릅니다</span></div><div class="row"><span class="n">4</span><span class="b">아래로 채울 때는 <b>B5 → B6 → B7</b>처럼 행마다 셀 하나를 검사하므로 범위를 넣지 않습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 함수</span><h2>높은 점수부터 묻고, 아니면 다음 질문</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>질문</th><th>조건식</th><th>참이면</th><th>거짓이면</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>점수 &gt;= 90</td><td>A</td><td>질문 ②로</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>②</td><td>점수 &gt;= 80</td><td>B</td><td>질문 ③으로</td></tr><tr class="step" style="--d:0.48s"><td>③</td><td>점수 &gt;= 70</td><td>C</td><td>질문 ④로</td></tr><tr class="step" style="--d:0.64s"><td>④</td><td>점수 &gt;= 60</td><td>D</td><td>F</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>88점</b>이면 ① 아니요 → ② 예 → <b>B</b>가 되고 거기서 끝납니다</span></div><div class="row"><span class="n">2</span><span class="b">결과가 <b>5가지</b>이면 조건식은 <b>4개</b>, 즉 IF를 4번 씁니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>높은 구간(90)부터</b> 묻습니다. 60부터 물으면 A · B · C도 모두 조건을 만족해 구간이 나뉘지 않습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 함수</span><h2>거짓 자리에 다음 IF를 넣는다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>이름</th><th>점수</th><th>등급</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>김도현</td><td>88</td><td>B</td></tr><tr class="step" style="--d:0.32s"><td>이서연</td><td>59</td><td>F</td></tr><tr class="step" style="--d:0.48s"><td>박준호</td><td>95</td><td>A</td></tr><tr class="step" style="--d:0.64s"><td>최유나</td><td>72</td><td>C</td></tr><tr class="step" style="--d:0.80s"><td>정민석</td><td>64</td><td>D</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IF(B5&gt;=90,&quot;A&quot;,IF(B5&gt;=80,&quot;B&quot;,IF(B5&gt;=70,&quot;C&quot;,IF(B5&gt;=60,&quot;D&quot;,&quot;F&quot;))))</code></span></div><div class="row"><span class="n">2</span><span class="b"><b>중첩 위치</b>는 앞 IF의 <b>거짓일 때 값</b> 자리입니다. 대화 상자에서 현재 입력 위치를 확인합니다</span></div><div class="row"><span class="n">3</span><span class="b">쉼표나 괄호 하나만 틀려도 오류가 납니다. 괄호 색으로 짝을 확인하고, 마지막 닫는 괄호가 <b>검은색</b>인지 봅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 함수</span><h2>조건식이 두 개 이상일 때</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>이름</th><th>점수</th><th>출석</th><th>장학</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>한소율</td><td>81</td><td>30</td><td>장학생</td></tr><tr class="step" style="--d:0.32s"><td>김도현</td><td>88</td><td>27</td><td></td></tr><tr class="step" style="--d:0.48s"><td>박준호</td><td>95</td><td>22</td><td></td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IF(AND(B5&gt;=80,E5&gt;=28),&quot;장학생&quot;,&quot;&quot;)</code></span></div><div class="row"><span class="n">2</span><span class="b"><b>AND</b> — 모든 조건식이 참이어야 TRUE · <b>OR</b> — 하나라도 참이면 TRUE · <b>NOT</b> — 결과를 반대로</span></div><div class="row"><span class="n">3</span><span class="b">AND의 닫는 괄호는 <b>조건식 끝</b>에서 닫고, 그 뒤에 참일 때 값 · 거짓일 때 값을 적습니다</span></div><div class="row"><span class="n">4</span><span class="b">표시할 것이 없을 때는 스페이스 한 칸이 아니라 <b>큰따옴표 두 개 ""</b>를 씁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 응용 · 필기 문제</span><h2>같은 줄은 AND, 줄과 줄은 OR</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>줄</th><th>조건</th><th>묶는 함수</th></tr><tr class="step" style="--d:0.16s"><td>첫째 줄</td><td>직무 90 이상</td><td>조건 하나</td></tr><tr class="step" style="--d:0.32s"><td>둘째 줄</td><td>국사 80 이상 · 상식 80 이상</td><td>AND(국사, 상식)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>줄과 줄</td><td>둘 중 하나만 맞으면 통과</td><td>OR(첫째 줄, AND(…))</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IF(OR(B2&gt;=90,AND(C2&gt;=80,D2&gt;=80)),&quot;통과&quot;,&quot;&quot;)</code> — 열 위치는 예시입니다</span></div><div class="row"><span class="n">2</span><span class="b">조건 목록(데이터베이스 함수)과 같은 규칙입니다: <b>같은 줄은 AND, 다른 줄은 OR</b></span></div><div class="row"><span class="n">3</span><span class="b">머릿속에서 조건이 <b>무엇에 해당하는지</b>(둘 다인지, 둘 중 하나인지) 먼저 정리합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 함수</span><h2>조건과 값을 짝으로 나열</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>이름</th><th>점수</th><th>등급(IFS)</th></tr><tr class="step" style="--d:0.16s"><td>김도현</td><td>88</td><td>B</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>이서연</td><td>59</td><td>F</td></tr><tr class="step" style="--d:0.48s"><td>박준호</td><td>95</td><td>A</td></tr><tr class="step" style="--d:0.64s"><td>최유나</td><td>72</td><td>C</td></tr><tr class="step" style="--d:0.80s"><td>정민석</td><td>64</td><td>D</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IFS(B22&gt;=90,&quot;A&quot;,B22&gt;=80,&quot;B&quot;,B22&gt;=70,&quot;C&quot;,B22&gt;=60,&quot;D&quot;,TRUE,&quot;F&quot;)</code></span></div><div class="row"><span class="n">2</span><span class="b">마지막 <b>TRUE</b>는 «위의 조건이 모두 아니면»이라는 뜻입니다. 책에 따라 <code>1</code>로 쓰기도 합니다</span></div><div class="row"><span class="n">3</span><span class="b">TRUE 조건이 없는데 앞 조건이 모두 거짓이면 <b>#N/A</b> 오류가 납니다</span></div><div class="row"><span class="n">4</span><span class="b">수업에서는 아직 출제된 적이 없다고 안내했지만 시험 범위에는 포함됩니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 함수</span><h2>오류가 나면 대신 보여 줄 말</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>지점</th><th>목표</th><th>실적</th><th>달성률</th></tr><tr class="step" style="--d:0.16s"><td>강남점</td><td>8,000,000</td><td>9,120,000</td><td>114%</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>홍대점</td><td>0</td><td>6,480,000</td><td>목표없음</td></tr><tr class="step" style="--d:0.48s"><td>종로점</td><td>6,000,000</td><td>5,400,000</td><td>90%</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IFERROR(C32/B32,&quot;목표없음&quot;)</code></span></div><div class="row"><span class="n">2</span><span class="b"><b>#DIV/0!</b>(0으로 나눔)이 나는 홍대점만 문구로 바뀌고, 나머지는 <b>계산 결과 그대로</b>입니다</span></div><div class="row"><span class="n">3</span><span class="b">어떤 종류의 오류든 같은 값으로 바뀌므로, 오류 원인을 확인한 뒤 쓰는 것이 안전합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 응용</span><h2>나머지를 IF가 읽는다</h2><figure class="fig concept"><div class="example-label">사번과 주민등록번호</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>사번</th><th>짝·홀</th><th>주민등록번호</th><th>성별</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>1047</td><td>홀</td><td>980214-1234567</td><td>남</td></tr><tr class="step" style="--d:0.32s"><td>2086</td><td>짝</td><td>011105-4567890</td><td>여</td></tr><tr class="step" style="--d:0.48s"><td>3134</td><td>짝</td><td>750630-2345678</td><td>여</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">사원코드 마지막 글자</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>사원코드</th><th>RIGHT</th><th>MOD(,2)</th><th>성별</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>2019-0417-1</td><td>1</td><td>1</td><td>남</td></tr><tr class="step" style="--d:0.32s"><td>2024-0852-2</td><td>2</td><td>0</td><td>여</td></tr><tr class="step" style="--d:0.48s"><td>2021-0579-4</td><td>4</td><td>0</td><td>여</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IF(MOD(A44,2)=0,&quot;짝&quot;,&quot;홀&quot;)</code><br><code>=IF(MOD(MID(C44,8,1),2)=1,&quot;남&quot;,&quot;여&quot;)</code></span></div><div class="row"><span class="n">2</span><span class="b"><code>=IF(MOD(RIGHT(A7),2)=1,&quot;남&quot;,&quot;여&quot;)</code> — RIGHT의 글자 수를 생략하면 <b>1글자</b>입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>MOD(수, 2)</b>는 홀수면 1, 짝수면 0입니다. 이 값을 IF의 조건식으로 비교합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">IF 응용</span><h2>WEEKDAY가 구한 번호를 IF가 읽기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>입사일</th><th>요일</th><th>WEEKDAY(,2)</th><th>주말여부</th></tr><tr class="step" style="--d:0.16s"><td>2023-02-14</td><td>화</td><td>2</td><td></td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>2022-07-16</td><td>토</td><td>6</td><td>주말</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>2020-10-04</td><td>일</td><td>7</td><td>주말</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IF(WEEKDAY(E44,2)&gt;=6,&quot;주말&quot;,&quot;&quot;)</code></span></div><div class="row"><span class="n">2</span><span class="b">유형 2에서는 <b>6 이상</b>이 토요일 · 일요일입니다</span></div><div class="row"><span class="n">3</span><span class="b">MOD가 구한 0 · 1, WEEKDAY가 구한 요일 번호를 <b>IF가 글자로 바꾸는 유형</b>이 실기 단골입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 적용 문제</span><h2>날짜끼리 빼서 365로 나누고 INT로</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해 (김도현 · 입사 2019-03-14, 2026-11-19 기준)</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>내용</th><th>결과</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>TODAY()-입사일</td><td>2,807일</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>(TODAY()-입사일)/365</td><td>7.69</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>INT( ② )</td><td>7</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=INT((TODAY()-C7)/365)</code> → <b>7</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>괄호</b>가 없으면 나눗셈이 먼저 계산되어 입사일만 365로 나뉩니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>INT</b>는 날짜 차이만이 아니라 <b>계산식 전체</b>를 감쌉니다. 오늘 날짜가 바뀌면 결과도 바뀝니다</span></div><div class="row"><span class="n">4</span><span class="b">365로 나누는 것은 윤년을 반영하지 않는 근삿값이므로 문제가 지시한 방식을 따릅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 적용 문제</span><h2>구간표는 오름차순, 마지막 인수는 TRUE</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>최소 근속</th><th>근속구분</th></tr><tr class="step" style="--d:0.16s"><td>0</td><td>신입</td></tr><tr class="step" style="--d:0.32s"><td>3</td><td>주니어</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>7</td><td>시니어</td></tr><tr class="step" style="--d:0.64s"><td>12</td><td>베테랑</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=VLOOKUP(E7,$J$7:$K$10,2,TRUE)</code> → 근속연수 7 → <b>시니어</b></span></div><div class="row"><span class="n">2</span><span class="b">근속 <b>2</b> → 신입 · <b>10</b> → 시니어 · <b>14</b> → 베테랑 (찾는 값을 넘지 않는 가장 큰 값의 행)</span></div><div class="row"><span class="n">3</span><span class="b"><b>TRUE(생략 가능)</b>는 기준표 첫 열이 <b>오름차순</b>일 때 씁니다. 코드처럼 정확히 같아야 하면 <b>FALSE</b>입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 적용 문제</span><h2>주말을 빼고 10영업일 뒤</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>사원</th><th>입사일</th><th>수습종료일</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>김도현</td><td>2019-03-14 (목)</td><td>2019-03-28 (목)</td></tr><tr class="step" style="--d:0.32s"><td>이서연</td><td>2024-07-01 (월)</td><td>2024-07-15 (월)</td></tr><tr class="step" style="--d:0.48s"><td>한소율</td><td>2025-09-15 (월)</td><td>2025-09-29 (월)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=WORKDAY(C7,10)</code></span></div><div class="row"><span class="n">2</span><span class="b">일수가 양수이면 <b>시작일 다음 근무일부터</b> 세어 나갑니다. 음수이면 이전 근무일 쪽으로 셉니다</span></div><div class="row"><span class="n">3</span><span class="b">법정 공휴일 · 회사 휴무일은 자동으로 빠지지 않습니다. 빼야 하면 세 번째 인수에 <b>휴일 날짜 범위</b>를 지정합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 적용 문제</span><h2>1시간 36분이면 2시간으로 계산</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>입실</th><th>퇴실</th><th>이용 시간</th><th>분</th><th>계산 시간</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>9:10</td><td>10:46</td><td>1:36</td><td>36</td><td>2</td></tr><tr class="step" style="--d:0.32s"><td>9:00</td><td>10:20</td><td>1:20</td><td>20</td><td>1</td></tr><tr class="step" style="--d:0.48s"><td>14:00</td><td>16:30</td><td>2:30</td><td>30</td><td>2</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IF(MINUTE(C2-B2)&gt;30,HOUR(C2-B2)+1,HOUR(C2-B2))</code> — 열 위치는 예시입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>30분 초과</b>이므로 정확히 30분(2:30)은 올리지 않습니다</span></div><div class="row"><span class="n">3</span><span class="b">시각을 뺀 소수는 <b>HOUR · MINUTE</b>로 시와 분을 따로 읽습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>눈으로 찾고 머릿속으로 계산</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>실기</th><th>필기</th></tr><tr class="step" style="--d:0.16s"><td>하는 일</td><td>수식을 직접 입력</td><td>맞는 수식 · 결과를 고름</td></tr><tr class="step" style="--d:0.32s"><td>사용 도구</td><td>엑셀 화면</td><td>표를 보고 머릿속 계산</td></tr><tr class="step" style="--d:0.48s"><td>필요한 것</td><td>함수 인수를 외워 쓰기</td><td>인수 순서와 의미 이해</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>필기</b>에서는 보기의 수식이 <b>맞는지</b>를 인수 순서 · 의미로 판단합니다</span></div><div class="row"><span class="n">2</span><span class="b">결과를 묻는 문제는 표에서 조건에 맞는 칸을 <b>눈으로 찾고 직접 계산</b>합니다</span></div><div class="row"><span class="n">3</span><span class="b">필기 함수 문제 풀이는 오픈북으로 했고, 함수 인수를 적는 연습은 오픈북 없이 합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>인수 순서를 알면 표에서 바로 합한다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>행</th><th>품목</th><th>지역</th><th>합계에 포함?</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>2번째</td><td>연필</td><td>서울</td><td>포함 (수량 200)</td></tr><tr class="step" style="--d:0.32s"><td>4번째</td><td>연필</td><td>부산</td><td>제외 (지역이 다름)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>5번째</td><td>연필</td><td>서울</td><td>포함 (수량 300)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=SUMIFS(합계범위,조건범위1,조건1,조건범위2,조건2)</code></span></div><div class="row"><span class="n">2</span><span class="b">SUMIFS의 조건은 <b>모두 만족</b>(AND)해야 합니다. 연필이면서 서울인 행만 합합니다</span></div><div class="row"><span class="n">3</span><span class="b">표에서 해당 행을 눈으로 찾고 <b>200 + 300 = 500</b>처럼 직접 더합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>범위, 조건, 평균 범위</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>내용</th><th>결과</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>조건 범위에서 «체리» 찾기</td><td>2개 행</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>평균 범위의 수량</td><td>100 · 150</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>(100 + 150) ÷ 2</td><td>125</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=AVERAGEIF(A2:A6,&quot;체리&quot;,B2:B6)</code> → <b>125</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>AVERAGEIF · SUMIF</b>는 조건 범위, 조건, (평균 · 합계) 범위 순서입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>SUMIFS · AVERAGEIFS</b>는 계산할 범위가 <b>맨 앞</b>에 옵니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>조건에 함수를 연결할 때는 &</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>입력</th><th>결과</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>AVERAGE(C7:C14)</td><td>78.25</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>&quot;&gt;=&quot;&amp;78.25</td><td>&quot;&gt;=78.25&quot;</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>COUNTIF(C7:C14, 조건)</td><td>4</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=COUNTIF(C7:C14,&quot;&gt;=&quot;&amp;AVERAGE(C7:C14))</code> → <b>4</b></span></div><div class="row"><span class="n">2</span><span class="b"><code>&quot;&gt;=AVERAGE(C7:C14)&quot;</code>처럼 통째로 따옴표에 넣으면 <b>문자</b>로 읽혀 함수가 계산되지 않습니다</span></div><div class="row"><span class="n">3</span><span class="b">IF의 조건식은 <code>C3&gt;=AVERAGE($C$3:$C$7)</code>처럼 따옴표 · &를 쓰지 않고, 아래로 채우면 <b>AVERAGE 범위는 절대 참조</b>합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>COUNT는 0도 센다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방법</th><th>0 제외 평균?</th></tr><tr class="step" style="--d:0.16s"><td>AVERAGEIF(범위,&quot;&lt;&gt;0&quot;)</td><td>맞음</td></tr><tr class="step" style="--d:0.32s"><td>SUMIF(범위,&quot;&lt;&gt;0&quot;) / COUNTIF(범위,&quot;&lt;&gt;0&quot;)</td><td>맞음</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>SUMIF(범위,&quot;&lt;&gt;0&quot;) / COUNT(범위)</td><td>틀림 — 0도 센다</td></tr><tr class="step" style="--d:0.64s"><td>IF로 0이 아닌 값만 골라 AVERAGE에 넘기는 배열 수식</td><td>맞음 (필기)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=AVERAGEIF(B2:B7,&quot;&lt;&gt;0&quot;)</code></span></div><div class="row"><span class="n">2</span><span class="b"><code>&quot;&lt;&gt;0&quot;</code>은 «0이 아닌 값»이라는 조건입니다. 숫자 범위를 조건 범위로 쓸 때는 <b>합계(평균) 범위를 생략</b>해도 됩니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>COUNT</b>는 숫자가 있는 셀을 모두 세므로 0도 포함됩니다. IF 조건식에 배열을 넣는 방식은 실기에서는 거의 나오지 않고 필기에서 나왔습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>기준표 방향을 먼저 본다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>기준표 모양</th><th>검색값을 찾는 곳</th><th>함수</th></tr><tr class="step" style="--d:0.16s"><td>세로 표 (제목이 위, 자료가 아래로)</td><td>첫 번째 열</td><td>VLOOKUP</td></tr><tr class="step" style="--d:0.32s"><td>가로 표 (제목이 왼쪽, 자료가 오른쪽으로)</td><td>첫 번째 행</td><td>HLOOKUP</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>방향</b>은 검색값이 기준표의 <b>첫 열</b>인지 <b>첫 행</b>인지로 판단합니다. 보통 쓰는 표는 VLOOKUP입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>정확히 같은 값</b>이 있어야 하면 <b>FALSE(0)</b> — 문자와 코드로 쓰는 숫자는 유사한 값이 없으므로 FALSE입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>점수 구간</b>처럼 기준표에 똑같은 값이 없을 수 있으면 <b>TRUE(생략 가능)</b>를 씁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>검색값 · 기준표 · 열 번호 · 방식</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>인수</th><th>확인할 것</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>검색값</td><td>채울 때 따라 내려가는가(상대 참조)</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>기준표</td><td>검색값이 첫 열 · 절대 참조</td></tr><tr class="step" style="--d:0.48s"><td>③</td><td>열 번호</td><td>기준표 안에서 센 순서(두 열이면 1~2)</td></tr><tr class="step" style="--d:0.64s"><td>④</td><td>정확 / 유사</td><td>코드 · 문자는 FALSE, 점수 구간은 TRUE</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IFERROR(VLOOKUP(A3,$B$3:$F$6,2,FALSE),&quot;없음&quot;)</code> — 범위는 예시입니다</span></div><div class="row"><span class="n">2</span><span class="b">기준표에 <b>없는 값</b>을 찾으면 <b>#N/A</b>가 나므로, IFERROR의 첫 인수에 VLOOKUP을 넣어 가립니다</span></div><div class="row"><span class="n">3</span><span class="b">IFERROR의 첫 번째 인수는 <b>결과를 구하는 수식</b>, 두 번째 인수가 오류일 때 보여 줄 값입니다</span></div><div class="row"><span class="n">4</span><span class="b">기준표의 열 수보다 큰 열 번호를 쓰면 <b>#REF!</b> 오류가 납니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>안쪽 함수가 만든 값을 검색값으로</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>하는 일</th><th>결과</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>LARGE(A2:A9, 4) — 큰 값 95 · 90 · 88 · 82</td><td>82</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>VLOOKUP(82, 표, 5, FALSE) — 첫 열에서 82 찾기</td><td>해당 행</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>그 행의 5번째 열 값</td><td>88</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=VLOOKUP(LARGE(A2:A9,4),A2:E9,5,FALSE)</code> → <b>88</b> — 범위는 예시입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>안쪽부터</b> — LARGE 부분이 82라는 값이 되고, 그 값이 VLOOKUP의 첫 인수가 됩니다</span></div><div class="row"><span class="n">3</span><span class="b">다섯 번째 열은 기준표 <b>안에서 센</b> 5번째 열입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 함수 문제</span><h2>점수는 0, 기록은 1</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>무엇의 순위?</th><th>1등은</th><th>정렬 방식</th></tr><tr class="step" style="--d:0.16s"><td>평균 · 총점 · 점수</td><td>큰 값</td><td>0 (생략 가능)</td></tr><tr class="step" style="--d:0.32s"><td>달리기 기록(초)</td><td>작은 값</td><td>1</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=RANK.EQ(B2,$B$2:$B$6,1)</code> — 기록이 작을수록 1등</span></div><div class="row"><span class="n">2</span><span class="b">전체 범위는 채우기 핸들을 쓰므로 <b>절대 참조</b>이고, 내 값은 상대 참조입니다</span></div><div class="row"><span class="n">3</span><span class="b"><code>CHOOSE(RANK.EQ(…),&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)</code>에서 순위가 <b>3</b>이면 세 번째 값을 돌려줍니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">다시 보기 · INDEX</span><h2>번호는 범위 안에서 센 순서</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>범위 안 순서</th><th>시트의 행</th><th>예</th></tr><tr class="step" style="--d:0.16s"><td>1행</td><td>2행</td><td>노트북</td></tr><tr class="step" style="--d:0.32s"><td>2행</td><td>3행</td><td>마우스</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>3행</td><td>4행</td><td>키보드 ← INDEX(B2:D11,3,3)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=INDEX(B2:D11,3,3)</code> → 범위의 세 번째 행 · 세 번째 열 = <b>키보드</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>시트의 4행</b>이 아니라 선택한 범위(B2부터)에서 세어 <b>세 번째 행</b>입니다</span></div><div class="row"><span class="n">3</span><span class="b">이름 정의로 <b>점수</b>(B2:D6)를 만들면 <code>INDEX(점수,2,1)</code>처럼 쓰고, <code>MAX(점수)</code>와 함께 평균 (80 + 100) ÷ 2 = <b>90</b>을 구할 수 있습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">다시 보기 · INDEX MATCH</span><h2>같은 결과를 내는 여러 수식</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방법</th><th>수식 모양</th><th>가능?</th></tr><tr class="step" style="--d:0.16s"><td>IF</td><td>IF(MID(A8,4,1)=&quot;M&quot;,&quot;남&quot;,&quot;여&quot;)</td><td>가능</td></tr><tr class="step" style="--d:0.32s"><td>VLOOKUP</td><td>VLOOKUP(MID(A8,4,1),기준표,2,FALSE)</td><td>가능</td></tr><tr class="step" style="--d:0.48s"><td>INDEX + MATCH</td><td>INDEX(결과열,MATCH(MID(A8,4,1),찾는열,0))</td><td>가능</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>SEARCH · FIND 인수 순서 바꿈</td><td>(문자열, 찾을 값) 순서</td><td>틀림</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>VLOOKUP</b>은 검색값이 기준표 <b>첫 열</b>에 있어야 합니다. 가져올 열이 찾는 열의 <b>왼쪽</b>이면 <b>INDEX와 MATCH</b>를 씁니다</span></div><div class="row"><span class="n">2</span><span class="b"><code>FIND(찾을 값, 문자열)</code> · <code>SEARCH(찾을 값, 문자열)</code> — <b>찾을 값이 먼저</b>입니다</span></div><div class="row"><span class="n">3</span><span class="b">같은 결과를 내는 수식이 여러 개이므로, 보기의 인수 순서를 하나씩 확인합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">오늘의 함정</span><h2>여기서 많이 틀립니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>✕ 이렇게 하면 틀림</th><th>○ 이렇게 합니다</th></tr><tr class="step" style="--d:0.16s"><td>WEEKDAY만 쓰고 요일 글자가 안 나옴</td><td>번호를 CHOOSE에 넣어 글자로</td></tr><tr class="step" style="--d:0.32s"><td>중첩 IF를 60점부터 물음</td><td>90점부터 높은 구간 순서로</td></tr><tr class="step" style="--d:0.48s"><td>IF 4개인데 닫는 괄호가 모자람</td><td>IF 개수만큼 닫고 마지막은 검은색</td></tr><tr class="step" style="--d:0.64s"><td>IFS 마지막에 TRUE가 없음</td><td>마지막 조건 자리에 TRUE</td></tr><tr class="step" style="--d:0.80s"><td>(TODAY()-입사일)/365에서 괄호 빠짐</td><td>괄호로 묶고 전체를 INT로</td></tr><tr class="step" style="--d:0.96s"><td>&quot;&gt;=AVERAGE(범위)&quot; 통째로 따옴표</td><td>&quot;&gt;=&quot;&amp;AVERAGE(범위)</td></tr><tr class="step" style="--d:1.12s"><td>0 제외 평균을 SUMIF / COUNT로</td><td>SUMIF / COUNTIF(&quot;&lt;&gt;0&quot;)</td></tr><tr class="step" style="--d:1.28s"><td>INDEX 번호를 시트 행 번호로 셈</td><td>선택한 범위 안에서 센 번호</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>WEEKDAY</b>는 번호 · <b>CHOOSE</b>가 글자 · <b>IF</b>는 질문을 높은 구간부터</span></div><div class="row"><span class="n">2</span><span class="b">함수를 조건에 연결할 때는 <b>비교 연산자만 따옴표</b>, 함수는 <b>&</b>로 연결</span></div><div class="row"><span class="n">3</span><span class="b"><b>COUNT</b>는 0도 세고, <b>INDEX</b> 번호는 선택한 범위 안에서 셉니다</span></div></div></div></section><section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>8차시 복습 퀴즈</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="퀴즈 진행" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">퀴즈 진행</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이름 입력</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">본인 이름</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">문제 풀이</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">10문제</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">결과 확인</text></g></svg><figcaption>이름 입력 후 문제를 풀고 채점합니다.</figcaption></figure>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>복습 퀴즈 10문제</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="풀이 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">풀이 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">선택</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">각 문제의 답</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">맨 아래 버튼</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">복습</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">틀린 문제 확인</text></g></svg><figcaption>답을 고른 뒤 맨 아래의 채점 버튼을 누르세요.</figcaption></figure>
+<div class="quiz-item"><p class="q"><span class="qn">1</span><span class="qt">=WEEKDAY(날짜,2)에서 월요일의 결과는?</span></p><button class="quiz-opt" data-correct="true">1</button><button class="quiz-opt">2</button><button class="quiz-opt">7</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">2</span><span class="qt">90 이상 A, 80 이상 B, 70 이상 C, 60 이상 D, 그 미만 F로 5가지 등급을 구하는 중첩 IF에서 IF는 몇 번 쓸까?</span></p><button class="quiz-opt">3번</button><button class="quiz-opt" data-correct="true">4번</button><button class="quiz-opt">5번</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">3</span><span class="qt">점수가 80 이상이고 출석도 28 이상일 때만 «장학생»으로 표시하려고 한다. IF의 조건식에 넣는 함수는?</span></p><button class="quiz-opt">OR</button><button class="quiz-opt">NOT</button><button class="quiz-opt" data-correct="true">AND</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">4</span><span class="qt">IFS로 «앞의 조건이 모두 아닐 때 F»를 처리하려면 마지막 조건 자리에 무엇을 쓸까?</span></p><button class="quiz-opt" data-correct="true">TRUE</button><button class="quiz-opt">FALSE</button><button class="quiz-opt">&quot;&quot; (큰따옴표 두 개)</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">5</span><span class="qt">=IFERROR(C32/B32,&quot;목표없음&quot;)에서 B32가 0이면 결과는?</span></p><button class="quiz-opt">#DIV/0! 오류가 그대로 보인다</button><button class="quiz-opt" data-correct="true">목표없음</button><button class="quiz-opt">0</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">6</span><span class="qt">근속연수를 (TODAY()-입사일)/365로 구한 뒤 소수 부분을 버리려면 INT를 어디에 쓸까?</span></p><button class="quiz-opt">입사일만 INT로 감싼다</button><button class="quiz-opt">365만 INT로 감싼다</button><button class="quiz-opt" data-correct="true">(TODAY()-입사일)/365 전체를 INT로 감싼다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">7</span><span class="qt">COUNTIF로 점수 평균 이상의 개수를 세려고 한다. 조건 인수를 알맞게 쓴 것은?</span></p><button class="quiz-opt">&quot;&gt;=AVERAGE(C7:C14)&quot; 전체를 따옴표 안에 넣는다</button><button class="quiz-opt" data-correct="true">&quot;&gt;=&quot;&amp;AVERAGE(C7:C14) 처럼 비교 연산자만 따옴표에 넣고 &amp;로 연결한다</button><button class="quiz-opt">&gt;=AVERAGE(C7:C14) 처럼 따옴표 없이 쓴다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">8</span><span class="qt">찾는 값이 기준표의 첫 번째 행에 있는 가로 표에서 값을 찾을 때 쓰는 함수는?</span></p><button class="quiz-opt" data-correct="true">HLOOKUP</button><button class="quiz-opt">VLOOKUP</button><button class="quiz-opt">INDEX는 쓸 수 없다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">9</span><span class="qt">범위 B2:D11을 선택한 INDEX(B2:D11,3,3)에서 첫 번째 3(행 번호)의 뜻은?</span></p><button class="quiz-opt">시트의 3행</button><button class="quiz-opt">문자 &quot;3&quot;</button><button class="quiz-opt" data-correct="true">B2부터 센 범위 안의 세 번째 행</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">10</span><span class="qt">MOD(11,2)의 결과와 의미는?</span></p><button class="quiz-opt">0, 짝수</button><button class="quiz-opt" data-correct="true">1, 홀수</button><button class="quiz-opt">5, 몫</button><div class="quiz-feedback"></div></div>
+<div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<section class="card" id="audioReviewCard"><div class="card-inner">
+<span class="kicker pilgi">영상·음성 복습</span><h2>8차시 영상·음성 복습</h2><p class="lead">화면과 강사 음성을 함께 보거나 원하는 주제를 선택해 들을 수 있습니다.</p>
+<figure class="fig concept"><svg viewBox="0 0 560 100" role="img" aria-label="전체 듣기, 주제 선택, 재생 속도 조절" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="536" height="76" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/><path d="M42 50h10l6-14 8 28 8-36 8 42 8-31 6 21 6-10h12" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="140" y="47" fill="#1E3A5F" font-size="16" font-weight="700">전체 듣기 · 주제별 듣기</text><text x="140" y="69" fill="#475569" font-size="13">재생 속도와 듣기 위치를 조절할 수 있습니다</text></svg><figcaption>학습 주제를 선택하면 해당 부분부터 재생됩니다.</figcaption></figure>
+<div class="video-review"><video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/2026-11-8cha.mp4?v=1"></video><div class="video-copy"><span>화면과 강사 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div></div>
+<div class="audio-review"><audio id="reviewAudio" preload="metadata" src="audio/review/2026-11-8cha-instructor.mp3?v=1"></audio>
+<div class="player-controls"><button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button><button type="button" id="audioBack">−10초</button><button type="button" id="audioForward">+10초</button><label class="speed-wrap">재생 속도 <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select></label></div>
+<div class="timeline"><input class="seek-bar" id="audioSeek" type="range" min="0" max="1" step="0.1" value="0" aria-label="음성 재생 위치"><div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div><div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">0:00</span></div></div><div class="chapter-grid" id="chapterGrid"></div><p class="audio-note">강사 음성 합성으로 제작한 복습 음성입니다.</p></div></div></section>
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>window.REVIEW_AUDIO={"titles": ["VLOOKUP 열 번호", "MID와 CHOOSE", "INDEX MATCH 복습", "문자 연결", "날짜는 숫자", "YEAR MONTH DAY DATE", "HOUR MINUTE SECOND TIME", "WEEKDAY 유형", "WEEKDAY와 CHOOSE", "DAYS EDATE EOMONTH", "IF 기본", "중첩 IF 질문 순서", "중첩 IF 쓰기", "AND와 OR", "조건 목록을 IF로", "IFS", "IFERROR", "MOD로 홀수 짝수", "주말 여부", "근속연수 계산", "근속구분 VLOOKUP", "수습 종료일 WORKDAY", "이용 시간 올림", "필기 함수 문제 풀이", "SUMIFS 눈으로 풀기", "AVERAGEIF 인수 순서", "평균 이상 인원수", "0을 뺀 평균", "VLOOKUP과 HLOOKUP", "VLOOKUP 인수 고르기", "LARGE와 VLOOKUP 중첩", "RANK 옵션과 CHOOSE", "INDEX 행 번호와 열 번호", "MID로 성별 찾기", "오늘의 함정"], "starts": [0.0, 23.89, 40.980000000000004, 61.43000000000001, 81.16000000000001, 109.53000000000002, 134.46, 158.03, 179.44, 203.81, 228.73999999999998, 252.14999999999998, 276.52, 296.96999999999997, 319.97999999999996, 342.74999999999994, 369.11999999999995, 391.00999999999993, 412.4199999999999, 430.70999999999987, 454.59999999999985, 478.24999999999983, 501.17999999999984, 522.5099999999999, 546.16, 566.77, 590.5, 613.9100000000001, 636.7600000000001, 661.7700000000001, 689.1000000000001, 709.2300000000001, 729.5200000000002, 752.3700000000002, 781.1400000000003], "duration": 811.22, "src": "audio/review/2026-11-8cha-instructor.mp3"};</script>
+<script src="audio/review/player.js"></script>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-11 8차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  '9bbb52287af375ad',
+  '68a2bbf429acc7f6',
+  '1d3c61ba29a8a304',
+  '799b4fa176106108',
+  '0345c6705c8a657a',
+  '871b4f95f45d75b6',
+  'adf899b5064f769e',
+  '80311697fa93d30b',
+  'ae6fd527794e6187',
+  'db6f439e9999c4f7',
+  '79863b87fe14670d',
+  'e83e84eec19ad05b',
+  'a5a6ccaf14cb9e40',
+  'f3177b9e506f5f36',
+  'ce93aed446c7a37f',
+  'cc45086c23272d8c',
+  'd8467edd1b145f9b',
+  'b4beb49ac060c43e',
+  'e94f142db3f696b3',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
