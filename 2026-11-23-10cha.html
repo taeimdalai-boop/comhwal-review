@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 10차시 복습카드 (2026.11.23)</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); line-height:1.6;
+  background:
+    radial-gradient(ellipse at 12% 58%, #d7f4e7 0%, transparent 60%),
+    radial-gradient(ellipse at 88% 12%, #e5d8f7 0%, transparent 62%),
+    linear-gradient(150deg, #f8faf9 0%, #edf7f5 70%, #f5f7fb 100%);
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
+
+.fig.shot{display:block;padding:12px;text-align:center}.shot img{display:block;max-width:100%;max-height:360px;width:auto;height:auto;margin:auto;object-fit:contain}.shot a{display:block}.shot a:focus-visible{outline:3px solid #2563eb;outline-offset:3px}.fig svg{max-width:100%;height:auto}.card.active .draw{stroke-dasharray:var(--len,240);stroke-dashoffset:var(--len,240);animation:drawline .9s ease-out forwards;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){.card.active .draw{animation:none;stroke-dashoffset:0}.card.active [class*="a-"]{animation:none}.card.active .a-swapout{display:none}.card.active .a-swapin{opacity:1}}
+
+.summary-list{margin:0 0 16px;border-top:2px solid #315ea8;background:#fff}.summary-row{display:grid;grid-template-columns:minmax(100px,29%) 1fr;gap:12px;padding:12px 10px;border-bottom:1px solid #e2e8f0;line-height:1.5;font-size:15px}.summary-row strong{color:#164287}.summary-row span{min-width:0;color:#1f2937}.concept svg{display:block;width:100%;height:auto}.card.active .concept .step{animation:step-in .45s ease-out both;animation-delay:var(--d)}@keyframes step-in{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:400px){.summary-row{grid-template-columns:95px 1fr;gap:8px;font-size:14px}}@media(prefers-reduced-motion:reduce){.card.active .concept .step{animation:none}}
+
+/* 학습 카드 주변 장식: 본문과 조작 영역을 가리지 않도록 배치 */
+.ambient-stickers{position:fixed;inset:48px 0 58px;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-stickers i,.card-inner::before,.card-inner::after{background-image:url('assets/review-stickers.png');background-repeat:no-repeat;background-size:200% 200%;pointer-events:none;}
+.ambient-stickers i{position:absolute;width:clamp(82px,10vw,135px);aspect-ratio:1;filter:drop-shadow(0 10px 12px rgba(78,82,110,.10));}
+.ambient-stickers .laptop{left:2%;top:8%;background-position:0 0;}
+.ambient-stickers .book{right:2%;top:12%;background-position:100% 0;}
+.ambient-stickers .list{left:3%;bottom:9%;background-position:0 100%;}
+.ambient-stickers .star{right:3%;bottom:8%;background-position:100% 100%;}
+.deck{position:relative;z-index:1;}
+@media(max-width:900px){
+  .ambient-stickers{display:none;}
+  .card-inner{position:relative;padding-top:72px;}
+  .card-inner::before,.card-inner::after{content:"";position:absolute;top:0;width:68px;height:68px;}
+  .card-inner::before{right:73px;background-position:0 0;}
+  .card-inner::after{right:0;background-position:100% 0;}
+  .card:nth-of-type(4n+2) .card-inner::before,.card:nth-of-type(4n+3) .card-inner::before{background-position:0 100%;}
+  .card:nth-of-type(4n+2) .card-inner::after,.card:nth-of-type(4n+3) .card-inner::after{background-position:100% 100%;}
+}
+.panel code,.example-table td{overflow-wrap:anywhere;word-break:break-all}
+</style>
+<style>.example-label{font-size:12px;font-weight:700;color:#4b6c60;margin:0 0 7px}.example-wrap{overflow-x:auto}.example-table{width:100%;border-collapse:collapse;font-size:clamp(12px,2.5vw,15px);background:white}.example-table th,.example-table td{padding:8px;border:1px solid #cbd7d1;text-align:center;word-break:keep-all}.example-table th{background:#dff4ea;color:#285441}.example-table tr:nth-child(even){background:#f6faf9}.example-table td{overflow-wrap:anywhere}@media(prefers-reduced-motion:reduce){.example-table .step{animation:none!important;opacity:1!important}}</style></head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 10차시</span>
+  <span class="d">2026.11.23 (월)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="ambient-stickers" aria-hidden="true"><i class="laptop"></i><i class="book"></i><i class="list"></i><i class="star"></i></div>
+
+<div class="deck" id="deck">
+
+<section class="card"><div class="card-inner"><span class="kicker">10차시 복습카드</span><h2>필기 파일 관리 · 설정 +<br>조건부 서식 · 고급 필터 · 부분합 · 피벗</h2><figure class="fig concept"><div class="example-label">복습 순서</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>복습 순서</th><th>학습 내용</th></tr><tr class="step" style="--d:0.16s"><td>필기</td><td>파일 탐색기 · 폴더 옵션 · 포맷 · 파일과 폴더 · 클립보드 · 휴지통 · 메모장</td></tr><tr class="step" style="--d:0.32s"><td>필기</td><td>설정: 시스템 · 개인 설정 · 접근성 · 장치 · 앱 · 계정</td></tr><tr class="step" style="--d:0.48s"><td>실기</td><td>시험 구성 · 조건부 서식 복습 · 고급 필터(함수 조건) · 텍스트 나누기</td></tr><tr class="step" style="--d:0.64s"><td>분석 작업</td><td>부분합 · 피벗 테이블</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>필기</b> — 파일과 폴더를 다루는 방법과 윈도우 설정 위치를 정리합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>실기</b> — 조건부 서식을 복습하고 고급 필터를 수식 조건으로 써 봅니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>분석 작업</b> — 부분합과 피벗 테이블로 많은 데이터를 한눈에 요약합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 파일 탐색기</span><h2>탐색 창 · 폴더 창 · 보기 탭</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구성</th><th>하는 일</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>탐색 창(왼쪽)</td><td>내 PC · 드라이브 · 폴더를 계층 구조로 표시</td></tr><tr class="step" style="--d:0.32s"><td>폴더 창(오른쪽)</td><td>선택한 폴더 안의 파일과 폴더 목록</td></tr><tr class="step" style="--d:0.48s"><td>리본 메뉴</td><td>파일 · 홈 · 공유 · 보기 탭(탭 이름 더블 클릭 → 접기 · 펼치기)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>보기 탭</td><td>파일 확장명 · 숨긴 항목 · 레이아웃(큰 아이콘 · 자세히)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>Win+E</b>로 파일 탐색기를 엽니다. 왼쪽 <b>탐색 창</b>은 계층 구조, 오른쪽 <b>폴더 창</b>은 선택한 폴더의 내용입니다</span></div><div class="row"><span class="n">2</span><span class="b">확장명이 안 보이면 <b>보기 탭 › 파일 확장명</b>을 켭니다. 실무에서는 켜 두고 쓰는 것이 좋다고 했습니다</span></div><div class="row"><span class="n">3</span><span class="b">그림 파일이 많은 폴더는 <b>큰 아이콘</b>, 일반 폴더는 <b>자세히</b>가 편합니다. 필드 이름을 누르면 정렬됩니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 숨김</span><h2>숨김 속성과 숨긴 항목 표시는 따로입니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>설정</th><th>결과</th></tr><tr class="step" style="--d:0.16s"><td>확장명 표시를 켬</td><td>.xlsx · .png · .hwp 같은 확장명이 보임</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>속성 숨김 + 숨긴 항목 표시 켬</td><td>흐리게 보임</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>속성 숨김 + 숨긴 항목 표시 끔</td><td>화면에 보이지 않음</td></tr><tr class="step" style="--d:0.64s"><td>보호된 운영 체제 파일 숨기기</td><td>기본 설정(권장) · 일부를 실수로 지우면 오작동 위험</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>숨김 속성 해제</td><td>폴더 옵션은 숨긴 항목 표시 여부만 → 해당 항목의 속성에서 해제</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>속성의 숨김</b>과 <b>숨긴 항목 표시</b>는 서로 다른 스위치입니다. 숨김 파일이 흐리게 보이면 표시가 켜져 있는 것입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>보호된 운영 체제 파일</b>은 일부를 지우면 부팅 실패나 시스템 오작동이 생길 수 있어 기본으로 숨겨져 있습니다</span></div><div class="row"><span class="n">3</span><span class="b">숨김과 관련해 <b>폴더 옵션은 숨긴 항목의 표시 여부</b>만 바꿉니다. 숨김 속성은 해당 항목의 <b>속성에서 해제</b>하고, 여러 항목을 함께 선택해 바꿀 수도 있습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 폴더 옵션</span><h2>일반 · 보기 · 검색 탭</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>탭 · 항목</th><th>설정 내용</th></tr><tr class="step" style="--d:0.16s"><td>일반 · 폴더 찾아보기</td><td>같은 창에서 열기(기본) / 새 창에서 열기</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>일반 · 클릭 방식</td><td>두 번 클릭해서 열기(기본) / 한 번 클릭해서 열기</td></tr><tr class="step" style="--d:0.48s"><td>일반 · 개인 정보 보호</td><td>최근 사용한 파일 · 자주 쓰는 폴더 표시 끄기</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>보기 · 고급 설정</td><td>숨긴 파일 · 확장명 · 보호된 OS 파일 숨기기</td></tr><tr class="step" style="--d:0.80s"><td>검색</td><td>파일 이름 + 내용 검색(속도 느려질 수 있음)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">폴더 옵션은 <b>보기 탭 › 옵션</b>에서 엽니다. 탭이 세 개(일반 · 보기 · 검색)입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>한 번 클릭해서 열기</b>는 속성만 보고 싶어도 파일이 열려서 불편해 권하지 않았습니다. 두 번 클릭이 기본입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>같은 창에서 폴더 열기</b>가 기본입니다. 새 창으로 바꾸면 탐색기 창이 수십 개 쌓일 수 있습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 포맷</span><h2>포맷 대화 상자에서 보는 항목</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>의미</th></tr><tr class="step" style="--d:0.16s"><td>용량</td><td>쓸 수 있는 전체 용량</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>파일 시스템</td><td>FAT32 · NTFS · exFAT 중 선택(여러 기기 · 대용량 → exFAT)</td></tr><tr class="step" style="--d:0.48s"><td>할당 단위 크기</td><td>데이터를 저장하는 블록 크기(기본값 사용)</td></tr><tr class="step" style="--d:0.64s"><td>볼륨 레이블</td><td>장치에 표시되는 이름표</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>빠른 포맷</td><td>파일 연결 정보를 새로 만드는 방식 · 지운 자료가 복구될 수 있음</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>FAT32</b>는 파일 하나가 약 4GB 미만이어야 해서 10GB 영상은 저장되지 않습니다. 여러 기기에서 큰 파일을 쓰려면 <b>exFAT</b>입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>빠른 포맷</b>은 지운 자료가 포렌식·복구 프로그램으로 되살아날 수 있습니다. 중고로 팔 장치는 안전한 삭제 절차를 따릅니다</span></div><div class="row"><span class="n">3</span><span class="b">볼륨 레이블에 <b>연락처</b>를 적어 두면 잃어버린 유에스비를 찾아 주는 데 도움이 됩니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 파일과 폴더</span><h2>이름 규칙 · 속성 창 · 바로가기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>이름 규칙(교재 기준)</td><td>최대 255자 · 사용 불가 문자 9개(\ / : * ? &quot; &lt; &gt; 와 세로 막대) · 이름 중간의 공백은 가능</td></tr><tr class="step" style="--d:0.32s"><td>같은 이름</td><td>한 폴더 안에서는 확장명까지 같은 이름의 항목 ✕(확장명이 다르면 가능)</td></tr><tr class="step" style="--d:0.48s"><td>속성 창(Alt + Enter)에서 가능</td><td>위치 · 크기 · 만든 날짜 확인, 읽기 전용 · 숨김 지정, 공유 · 폴더는 하위 폴더와 파일 개수도 확인</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>속성 창에서 불가</td><td>폴더를 다른 곳으로 이동 · 특정 하위 폴더 삭제(탐색기에서 함)</td></tr><tr class="step" style="--d:0.80s"><td>저장 기본 단위</td><td>폴더가 아니라 파일</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>하나의 폴더 안</b>에는 확장명까지 같은 이름이 없습니다. 다른 폴더에서는 같은 이름을 써도 됩니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>속성 창은 내용을 확인·설정</b>하는 곳이고, 폴더를 옮기거나 하위 폴더를 지우는 곳이 아닙니다. 둘은 구분해서 외웁니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>Ctrl+Shift</b>를 누르고 끌면 바로가기 아이콘이 만들어지고, 한 대상에 여러 개를 만들 수 있습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 검색 · 복사 · 이동</span><h2>검색 범위와 드래그 기본 동작</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>동작</th><th>결과</th></tr><tr class="step" style="--d:0.16s"><td>탐색기 검색 상자(F3 · Ctrl + F)</td><td>지금 열려 있는 폴더 안을 검색</td></tr><tr class="step" style="--d:0.32s"><td>Win + S 작업 표시줄 검색</td><td>컴퓨터 · 앱 · 웹까지 넓게 검색</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>같은 드라이브로 끌기</td><td>이동(Ctrl을 누르면 복사)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>다른 드라이브로 끌기</td><td>복사(Shift를 누르면 이동)</td></tr><tr class="step" style="--d:0.80s"><td>Shift 클릭 / Ctrl 클릭</td><td>연속 선택 / 떨어진 항목 선택</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>D 드라이브(USB)</b>에서 <b>C 드라이브(바탕 화면)</b>로 끌면 글자가 «복사»로 뜨고, <b>Shift</b>를 누르면 «이동»으로 바뀝니다</span></div><div class="row"><span class="n">2</span><span class="b">같은 드라이브에서 <b>Ctrl</b>을 누르고 끌면 복사입니다. 기본 동작이 바뀐다고 외웁니다</span></div><div class="row"><span class="n">3</span><span class="b">시험에는 검색 방법 표(탐색기 <b>F3 · Ctrl+F</b> / 작업 표시줄 <b>Win+S</b>)가 나옵니다. <b>Win+F</b>가 아닙니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 클립보드</span><h2>복사한 내용을 잠시 보관하는 곳</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>저장 위치</td><td>주기억 장치 · 재부팅하면 비워짐(교재 기준 · 기록의 고정 항목은 유지)</td></tr><tr class="step" style="--d:0.32s"><td>기록 보기</td><td>클립보드 기록을 켠 뒤 Win + V · 최대 25개 · 골라서 붙여넣기</td></tr><tr class="step" style="--d:0.48s"><td>PrtSc</td><td>전체 화면을 클립보드로(교재 기준)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>Alt + PrtSc</td><td>지금 사용 중인 활성 창만 클립보드로</td></tr><tr class="step" style="--d:0.80s"><td>공유 범위</td><td>엑셀 · 메모장 등 설치된 앱이 함께 사용</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">교재 기준으로 <b>클립보드는 주기억 장치(RAM)</b>에 있어서 재부팅하면 비워집니다. 클립보드 기록의 고정 항목은 예외입니다</span></div><div class="row"><span class="n">2</span><span class="b">클립보드 기록을 켠 뒤 <b>Win+V</b>로 열면 <b>25개</b>까지 보이고, 하나를 골라 다시 붙일 수 있습니다</span></div><div class="row"><span class="n">3</span><span class="b">활성 창 캡처는 <b>Alt+PrtSc</b>입니다. Ctrl이 아닙니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 휴지통</span><h2>이럴 때는 휴지통을 거치지 않습니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>삭제 방법</th><th>휴지통</th></tr><tr class="step" style="--d:0.16s"><td>Delete 키 · 삭제 메뉴 · 휴지통으로 끌기</td><td>보관됨</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>Shift + Delete</td><td>보관 안 됨</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>USB 등 이동식 장치 · 네트워크 드라이브</td><td>보관 안 됨(구성에 따라 다를 수 있음)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>명령 프롬프트의 명령어 삭제</td><td>보관 안 됨</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>휴지통 크기 0 · «바로 제거» 설정</td><td>보관 안 됨</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>복사 · 이동으로 덮어쓴 파일</td><td>보관 안 됨</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>드라이브마다 휴지통</b>이 따로 있습니다. 교재 기준으로 USB 메모리 같은 이동식 장치는 휴지통을 거치지 않고 바로 삭제됩니다(구성에 따라 다를 수 있음)</span></div><div class="row"><span class="n">2</span><span class="b"><b>Shift+Delete</b>와 <b>명령어(DOS 모드) 삭제</b>는 휴지통에서 꺼낼 수 없는 삭제로 외웁니다</span></div><div class="row"><span class="n">3</span><span class="b">인공지능에게 파일 정리를 시킬 때는 <b>삭제하지 말고 버전별로 보관</b>하라고 지시해 두면 안전하다고 설명했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 휴지통</span><h2>복원 · 용량 · 이름 바꾸기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>규칙</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>복원하는 방법</td><td>복원 단추 · 끌어 놓기 · 잘라내기(Ctrl + X) 후 붙여넣기</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>복사 · 붙여넣기</td><td>복원할 수 없음</td></tr><tr class="step" style="--d:0.48s"><td>휴지통 안에서</td><td>이름 바꾸기 · 실행 불가(복원 후 가능)</td></tr><tr class="step" style="--d:0.64s"><td>휴지통 비우기 후</td><td>휴지통에서는 복원할 수 없음</td></tr><tr class="step" style="--d:0.80s"><td>크기</td><td>드라이브마다 설정 · 교재 기준 기본 5~10% · 0도 가능</td></tr><tr class="step" style="--d:0.96s"><td>가득 찼을 때</td><td>가장 오래전에 삭제한 파일부터 제거</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">복원은 <b>복원 단추 · 끌어 놓기 · 잘라내기(Ctrl+X) 후 붙여넣기</b>로 합니다. 시험에는 <b>복사 후 붙여넣기</b>가 틀린 보기로 나옵니다</span></div><div class="row"><span class="n">2</span><span class="b">휴지통 안의 파일은 <b>실행 · 이름 변경이 안 됩니다</b>. 복원하고 나서 합니다</span></div><div class="row"><span class="n">3</span><span class="b">휴지통 크기는 <b>10~20%가 아니라 교재 기준 5~10%</b>가 자동 설정입니다. 업무에 맞게 바꿀 수 있고 0도 가능합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 메모장</span><h2>.LOG · F5 · 할 수 없는 것</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>실행</td><td>Win + R › notepad 입력</td></tr><tr class="step" style="--d:0.32s"><td>할 수 있는 것</td><td>찾기(Ctrl + F) · 바꾸기(Ctrl + H) · 자동 줄 바꿈 · 페이지 설정</td></tr><tr class="step" style="--d:0.48s"><td>할 수 없는 것</td><td>그림 · 차트 · OLE 개체 삽입, 문단 설정</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>.LOG</td><td>첫 줄 왼쪽에 대문자로 입력 → 열 때마다 마지막 줄에 날짜 · 시간</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>F5</td><td>현재 날짜와 시간 삽입</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>첫 줄 왼쪽에 대문자 .LOG</b>를 쓰고 저장해야 합니다. 소문자나 둘째 줄이면 동작하지 않습니다. 삽입된 내용은 다시 저장해야 남습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>F5</b>는 프로그램마다 다릅니다. 탐색기는 새로 고침, 엑셀은 이동, 메모장은 날짜와 시간입니다</span></div><div class="row"><span class="n">3</span><span class="b">교재에서는 메모장 개요에 <b>마크다운 형식 지원</b>도 소개합니다(윈도우 기본 문서 작성 앱)</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 워드패드 · 유틸리티</span><h2>문단 설정과 OLE</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>프로그램</th><th>문단 설정</th><th>개체 삽입(OLE)</th></tr><tr class="step" style="--d:0.16s"><td>메모장</td><td>✕</td><td>✕</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>워드패드(윈도우 10 기준)</td><td>○</td><td>○</td></tr><tr class="step" style="--d:0.48s"><td>그림판 · 계산기</td><td>편의 프로그램(유틸리티)</td><td></td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>메모장은 문단 설정과 개체 삽입이 안 되고, 워드패드는 됩니다</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>OLE</b>는 한 프로그램의 개체를 다른 프로그램에 연결하거나 포함하는 기능입니다. 엑셀 표를 워드패드에 넣고 더블 클릭해 편집합니다</span></div><div class="row"><span class="n">3</span><span class="b">메모장 · 워드패드 · 그림판 · 계산기를 묶어 <b>유틸리티</b>라고 부릅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 윈도우 설정</span><h2>Win + I · 시스템 · 개인 설정 · 접근성</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>하고 싶은 일</th><th>설정 위치</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>화면 해상도 · 방향 · 복제 · 확장</td><td>시스템 › 디스플레이</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>바탕 화면 · 테마색 · 잠금 화면 · 화면 보호기</td><td>개인 설정</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>내레이터 · 돋보기 · 고대비</td><td>접근성</td></tr><tr class="step" style="--d:0.64s"><td>프린터 · 마우스</td><td>장치</td></tr><tr class="step" style="--d:0.80s"><td>프로그램 제거 · 기본 앱 · 시작 프로그램</td><td>앱</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>시스템 › 디스플레이</b>에서 해상도 · 방향 · 복제/확장 · 주 모니터를 설정합니다. <b>바탕 화면은 개인 설정</b>입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>내레이터</b>는 소리가 아니라 <b>접근성</b>에 있습니다. 문제에서 일부러 섞어 놓습니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>프로그램 제거</b>는 설정의 <b>앱</b>에서 할 수 있고, 일부 데스크톱 프로그램은 제어판의 프로그램 및 기능에서도 제거합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 시스템</span><h2>디스플레이 · 소리 · 전원 및 절전 · 정보</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>시스템 항목</th><th>설정 · 확인할 수 있는 것</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>디스플레이</td><td>해상도 · 방향(가로 · 세로) · 복제 / 확장 · 주 모니터</td></tr><tr class="step" style="--d:0.32s"><td>소리</td><td>출력 장치 · 마스터 볼륨</td></tr><tr class="step" style="--d:0.48s"><td>알림 및 작업</td><td>알림 켜기 · 끄기</td></tr><tr class="step" style="--d:0.64s"><td>전원 및 절전</td><td>화면 꺼짐 · 절전 모드 전환 시간</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>정보</td><td>CPU · RAM · 윈도우 버전 · 컴퓨터 이름 설정</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>해상도</b>는 화면을 이루는 <b>점(픽셀·화소)의 개수</b>입니다. 같은 조건에서는 개수가 많을수록 더 세밀합니다. 보통 권장 해상도를 씁니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>주 모니터</b>는 원하는 모니터로 정할 수 있습니다. «왼쪽 모니터만 된다», «해상도가 높은 것만 된다»는 틀린 설명입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>정보</b>에서 CPU · RAM · 윈도우 버전을 확인하고 컴퓨터 이름도 바꿉니다. 윈도우 10인지 11인지 모를 때 여기를 봅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 개인 설정</span><h2>배경 · 색 · 잠금 화면 · 화면 보호기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>개인 설정 항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>배경</td><td>바탕 화면 사진 · 색</td></tr><tr class="step" style="--d:0.32s"><td>색</td><td>기본 테마 색(윈도우 기본은 보통 파랑)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>잠금 화면</td><td>Win + L로 잠갔을 때의 화면 · 화면 보호기 설정</td></tr><tr class="step" style="--d:0.64s"><td>글꼴 · 시작 · 작업 표시줄</td><td>설치된 글꼴 확인 · 시작 메뉴 · 작업 표시줄 설정</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>화면 시간 제한 설정</td><td>개인 설정이 아님 → 시스템 › 전원 및 절전</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>바탕 화면 · 테마색 · 잠금 화면 · 화면 보호기</b>는 모두 <b>개인 설정</b>입니다</span></div><div class="row"><span class="n">2</span><span class="b">잠금 화면의 <b>화면 시간 제한 설정</b>을 누르면 <b>시스템의 전원 및 절전</b>이 열립니다. 개인 설정 항목이 아닙니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>화면 보호기</b>는 같은 화면이 오래 켜져 있을 때 생기는 <b>잔상</b>을 줄이려고 씁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 접근성</span><h2>돋보기 · 색 필터 · 키보드</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>돋보기</th><th>키</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>켜기 · 확대</td><td>Win + +(더하기)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>끄기</td><td>Win + Esc</td></tr><tr class="step" style="--d:0.48s"><td>전체 화면 모드</td><td>Ctrl + Alt + F</td></tr><tr class="step" style="--d:0.64s"><td>렌즈 모드</td><td>Ctrl + Alt + L</td></tr><tr class="step" style="--d:0.80s"><td>도킹 모드(한쪽 가장자리에 고정 · 기본 위치는 위쪽)</td><td>Ctrl + Alt + D</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">돋보기는 <b>Win++</b>로 켜고 <b>Win+Esc</b>로 끕니다. 모드는 <b>전체 · 렌즈 · 도킹</b> 세 가지입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>색상 필터 · 고대비</b>는 색을 구분하기 어려운 사용자를 위한 설정입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>화상 키보드</b>와 <b>고정 키</b>는 키보드 사용이 불편한 사용자를 돕습니다. 느낌만 알면 됩니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 접근성</span><h2>글자를 읽어 주는 기능</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>뜻</th><th>예</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>TTS(Text To Speech)</td><td>글자를 음성으로</td><td>내레이터 · 오디오북 AI 성우</td></tr><tr class="step" style="--d:0.32s"><td>STT(Speech To Text)</td><td>음성을 글자로</td><td>말하는 대로 입력해 주는 앱</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>내레이터</b>는 <b>접근성</b>에 있습니다. 시스템의 소리 설정에 끼워 넣은 보기에 속지 않습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>TTS</b>는 글자 → 음성, <b>STT</b>는 음성 → 글자입니다</span></div><div class="row"><span class="n">3</span><span class="b">인공지능을 쓸 때 말로 입력해 주는 STT 앱이 편하다고 소개했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 장치 · 앱</span><h2>프린터 · 마우스 · 기본 앱 · 시작 프로그램</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>설정</th><th>할 수 있는 일</th></tr><tr class="step" style="--d:0.16s"><td>장치 › 프린터 및 스캐너</td><td>프린터 추가 · 설치</td></tr><tr class="step" style="--d:0.32s"><td>장치 › 마우스</td><td>포인터 속도 · 휠 한 번에 스크롤할 줄 수</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>앱 › 앱 및 기능</td><td>프로그램 목록 확인 · 제거</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>앱 › 기본 앱</td><td>파일 형식(확장자)별로 여는 프로그램 지정</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>앱 › 시작 프로그램</td><td>컴퓨터를 켤 때 자동 실행되는 앱 켜기 · 끄기</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>프로그램 제거</b>는 <b>설정 › 앱</b>에서 할 수 있고, 일부 데스크톱 프로그램은 제어판 › 프로그램 및 기능에서도 제거합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>기본 앱</b>은 확장자별로 연결된 프로그램을 정하고 초기화합니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>시작 프로그램</b>이 많으면 부팅이 느려지고 시스템 자원을 많이 씁니다. 필요 없는 것은 꺼 둡니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 계정 · 시간 및 언어</span><h2>관리자와 표준 사용자</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>계정</th><th>할 수 있는 것</th><th>할 수 없는 것</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>관리자 계정</td><td>설정 변경 · 계정 추가/삭제 · 프로그램 설치/제거 · 보안 설정</td><td>—</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>표준 사용자 계정</td><td>설치된 앱 실행 · 내 테마와 바탕 화면 · 내 암호</td><td>관리자 승인 없이는 시스템 전체 앱 · 드라이버 설치, 보호된 시스템 설정 변경(교재: 하드웨어 · 앱 설치 · 중요한 파일 삭제 · 계정 유형 변경도 제한)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>관리자</b>는 시스템을 바꾸는 권한이 넓고(필요하면 승인), <b>표준 사용자</b>는 제한됩니다. 이름과 달리 모든 작업이 가능한 계정은 아닙니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>시간 및 언어</b>: 출장 갈 때 시간대를 바꿉니다. 한글이 깨지는 문제는 비유니코드 프로그램이면 <b>지역 › 관리자 옵션 › 시스템 로캘</b>, 표시 언어 문제는 언어 설정을 확인합니다(수업에서는 «지역 변경»으로 안내)</span></div><div class="row"><span class="n">3</span><span class="b"><b>업데이트 및 보안</b>은 시험에서 볼 것이 거의 없다고 했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 시험 구성</span><h2>교재 모의고사 기준 배점</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>영역</th><th>배점(교재 모의고사 기준)</th></tr><tr class="step" style="--d:0.16s"><td>기본 작업</td><td>20점 · 입력 · 셀 서식 · 텍스트 나누기 · 필터 등</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>계산 작업</td><td>함수 5문제 × 8점</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>분석 작업</td><td>2문제 × 10점</td></tr><tr class="step" style="--d:0.64s"><td>기타 작업 · 매크로</td><td>함수 · 수식 매크로 / 서식 매크로</td></tr><tr class="step" style="--d:0.80s"><td>기타 작업 · 차트</td><td>5문제 × 2점 = 10점</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>계산 작업(함수)</b>은 한 문제 8점짜리 5문제입니다. 가장 점수 비중이 큽니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>분석 작업</b>은 기능이 여러 개이고 시험에는 <b>두 문제</b>가 나옵니다. 오늘 부분합과 피벗을 배웠습니다</span></div><div class="row"><span class="n">3</span><span class="b">채점 서비스는 <b>수식이 달라도</b> 결과가 같으면 틀리게 나올 수 있어 <b>100% 믿지 않고 참고</b>만 합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 조건부 서식 복습</span><h2>=MONTH($B5)=10 — 월은 숫자입니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>조건부 서식을 적용할 레코드 범위만 선택(필드명 제외)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>②</td><td>옆 빈 셀에 =MONTH($B5)=10을 써 보고 TRUE가 나오는지 확인</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>수식 입력줄에서 수식 문자열만 선택해 Ctrl + X › 새 규칙 › 수식을 사용하여… › 수식 입력란에 Ctrl + V</td></tr><tr class="step" style="--d:0.64s"><td>④</td><td>서식: 글꼴 표준 색 빨강 · 채우기 표준 색 노랑</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=MONTH($B5)=10</code> — B는 입사일 열(예시). 열만 고정해서 행 전체를 칠합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>MONTH</b>는 월을 <b>숫자</b>로 돌려주므로 <code>10</code>과 바로 비교합니다. <b>LEFT · MID · RIGHT</b> 결과는 문자라서 숫자와 비교할 때 따옴표를 맞춰야 합니다</span></div><div class="row"><span class="n">3</span><span class="b">수식의 행 번호는 <b>범위의 첫 레코드 행</b> 기준으로 씁니다(범위가 5행부터면 B5)</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · 9차시</span><h2>IFS 마지막 TRUE · 줄무늬 MOD(ROW(),2)</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>첫 레코드 행</th><th>홀수 번째 레코드 행</th><th>조건식</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>4행부터</td><td>4 · 6 · 8행</td><td>=MOD(ROW(),2)=0</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>5행부터</td><td>5 · 7 · 9행</td><td>=MOD(ROW(),2)=1</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=IFS(A2&gt;=90,&quot;A&quot;,A2&gt;=80,&quot;B&quot;,TRUE,&quot;C&quot;)</code> — 맞는 조건이 없을 때의 값은 <b>마지막 조건 자리에 TRUE</b>를 쓰고 그 뒤에 씁니다</span></div><div class="row"><span class="n">2</span><span class="b"><code>=MOD(ROW(),2)=0</code> / <code>=MOD(ROW(),2)=1</code> — 첫 레코드의 <b>행 번호가 짝수인지 홀수인지</b>부터 봅니다</span></div><div class="row"><span class="n">3</span><span class="b">이 두 가지는 지난 퀴즈에서 정답률이 낮았습니다. 오늘 퀴즈에서 다시 묻습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 고급 필터</span><h2>수식 조건의 위 칸은 필드명을 쓰지 않습니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>조건 범위</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>위 칸(필드명 자리)</td><td>비우거나 원본에 없는 이름 · «월» · «조건식»</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>아래 칸(수식)</td><td>=MONTH(C4)=5 · C4는 첫 번째 레코드의 생년월일 셀</td></tr><tr class="step" style="--d:0.48s"><td>첫 레코드가 6월이면</td><td>FALSE로 보임(정상) · 다른 레코드는 차례로 검사</td></tr><tr class="step" style="--d:0.64s"><td>원본 필드명을 쓰면</td><td>수식 조건이 제대로 동작하지 않음</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><code>=MONTH(C4)=5</code> — 수식을 쓸 때 <b>위 칸에는 원본 필드명(생년월일)을 쓰지 않습니다</b></span></div><div class="row"><span class="n">2</span><span class="b">첫 번째 레코드 셀을 <b>상대 참조</b>로 쓰면 다른 레코드도 <b>차례로 검사</b>됩니다. 결과가 TRUE인 레코드만 추출됩니다</span></div><div class="row"><span class="n">3</span><span class="b">같은 행의 조건은 <b>AND</b>, 서로 다른 행의 조건은 <b>OR</b>입니다. 일반 조건(>=80 등)은 원본 필드명을 그대로 씁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 고급 필터</span><h2>목록 범위 · 조건 범위 · 복사 위치</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>대화 상자 항목</th><th>지정할 것</th></tr><tr class="step" style="--d:0.16s"><td>결과</td><td>현재 위치에 필터 / 다른 장소에 복사 — 문제 요구에 맞게</td></tr><tr class="step" style="--d:0.32s"><td>목록 범위</td><td>필드명을 포함한 데이터 전체(자동 인식 확인)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>조건 범위</td><td>조건 두 칸(이름 칸 + 수식 칸)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>복사 위치</td><td>결과를 놓을 시작 셀(문제가 지정)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>데이터 탭 › 정렬 및 필터 › 고급</b>에서 엽니다. 목록 범위가 자동으로 잡히지만 한 번 확인합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>조건 범위</b>를 잡을 때는 필드명 자리의 이름 칸과 수식 칸을 <b>함께</b> 선택합니다</span></div><div class="row"><span class="n">3</span><span class="b">시험에서는 <b>복사 위치</b>가 문제에 지정되어 있습니다. 연습할 때는 옆 빈 곳에 해도 같습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 텍스트 나누기</span><h2>구분 기호로 열을 나누고 필요 없는 열은 건너뜁니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>마법사</th><th>선택</th></tr><tr class="step" style="--d:0.16s"><td>1단계</td><td>구분 기호로 분리됨</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>2단계</td><td>쉼표 · 세미콜론 등 구분 기호 선택 · 미리 보기 확인</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>3단계</td><td>필요 없는 열 선택 › 열 가져오지 않음(건너뜀)</td></tr><tr class="step" style="--d:0.64s"><td>마침</td><td>나머지 열만 남음</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>3단계</b>에서 열을 선택해 <b>열 가져오지 않음(건너뜀)</b>을 지정하는 위치를 자주 까먹습니다. 꼭 기억합니다</span></div><div class="row"><span class="n">2</span><span class="b">데이터 탭에는 텍스트/CSV 파일에서 <b>가져오는</b> 명령도 있지만, 이미 시트에 들어온 데이터는 <b>텍스트 나누기</b>를 씁니다</span></div><div class="row"><span class="n">3</span><span class="b">실기에서 가장 쉬운 문제 중 하나입니다. 문제가 나오면 점수를 챙깁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 부분합</span><h2>정렬이 먼저입니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>①</td><td>그룹 기준 필드(예: 진료 과목)를 먼저 정렬</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>셀 포인터를 데이터 안에 두고 데이터 탭 › 부분합</td></tr><tr class="step" style="--d:0.48s"><td>③</td><td>그룹화할 항목 · 사용할 함수(합계) · 부분합 계산 항목(인원)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>④</td><td>윤곽 단추: 1 = 총합계만 · 2 = 그룹별 요약 · 3 = 전체 세부 데이터</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>부분합은 자동으로 정렬해 주지 않습니다.</b> 그룹 기준(문제의 «○○별»)을 먼저 정렬합니다</span></div><div class="row"><span class="n">2</span><span class="b">대화 상자에서 <b>그룹화할 항목 · 사용할 함수 · 부분합 계산 항목</b>을 고릅니다. 계산 항목은 체크된 것을 믿지 말고 스크롤하며 확인합니다</span></div><div class="row"><span class="n">3</span><span class="b">필기에서는 화면을 보여 주고 <b>윤곽 단추를 몇 번 눌렀는지</b> 묻습니다. 1은 총합계만, 번호가 커질수록 줄이 많아집니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 부분합</span><h2>두 번째 부분합은 «대치»를 해제합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>상황</th><th>결과 · 방법</th></tr><tr class="step" style="--d:0.16s"><td>«새로운 값으로 대치» 선택(기본)</td><td>이전 부분합이 사라짐</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>«새로운 값으로 대치» 해제</td><td>이전 부분합을 유지하고 새 부분합 추가</td></tr><tr class="step" style="--d:0.48s"><td>줄 순서(수업 예시)</td><td>인원 합계 먼저 → 연령대 평균 나중 = 평균 줄이 위</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>고치고 싶을 때</td><td>부분합 › 모두 제거 후 처음부터 다시</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>대치 해제</b>는 누적해서 결과를 보려고 할 때 씁니다. 필기에서도 «계산 결과를 계속 보려면 어떻게 하나»를 묻습니다</span></div><div class="row"><span class="n">2</span><span class="b">수업 예시: 합계를 먼저, 평균을 나중에 만들었더니 <b>평균 줄이 합계 줄 위</b>에 나타났습니다. 결과 모양만 보고 순서를 반대로 판단하지 않습니다</span></div><div class="row"><span class="n">3</span><span class="b">삽입 · 편집 · 삭제 중 <b>편집이 안 되면 삭제 후 다시 삽입</b>합니다. 부분합은 <b>모두 제거</b>가 삭제입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 피벗</span><h2>끌어다 놓기만 하면 표가 만들어집니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>작업창 영역</th><th>넣는 것(예)</th></tr><tr class="step" style="--d:0.16s"><td>필터</td><td>전체를 걸러 볼 항목(필요할 때)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>열</td><td>직위</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>행</td><td>부서</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>Σ 값</td><td>기본급(숫자 필드)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>삽입 탭 › 피벗 테이블</b>. 시험에서는 <b>기존 워크시트</b>의 문제가 지정한 셀에 만듭니다. 새 워크시트는 실무에서 많이 씁니다</span></div><div class="row"><span class="n">2</span><span class="b">필드를 영역에 놓는 것만으로 부서 × 직위 표가 만들어집니다. <b>SUMIFS · AVERAGEIFS를 여러 번 쓰는 것을 드래그로 대신</b>합니다</span></div><div class="row"><span class="n">3</span><span class="b">시험에서는 <b>같은 시트에 문제에서 정한 셀(예: I3)</b>이 주어집니다. 칸을 잘못 잡지 않도록 확인합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 피벗</span><h2>합계를 평균으로 · 표시 형식</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>하고 싶은 일</th><th>방법</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>표가 옆으로 길어짐</td><td>Σ 값을 열 영역에서 행 영역으로 이동</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>합계 → 평균</td><td>값 필드 설정 › 값 요약 기준 › 평균(값마다 따로)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>숫자 모양 바꾸기</td><td>값 필드 설정 › 표시 형식 › 회계 · 기호 «원»</td></tr><tr class="step" style="--d:0.64s"><td>이름표</td><td>«합계: …» → «평균: …» 으로 자동 변경</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>값 필드 설정</b>에서 합계 · 평균 등을 바꿉니다. 기본급과 실수령액처럼 <b>값이 둘이면 각각</b> 바꿉니다</span></div><div class="row"><span class="n">2</span><span class="b">값을 둘 이상 넣으면 <b>Σ 값</b>이 열에 생겨 표가 옆으로 길어집니다. <b>행 영역으로 옮기면</b> 아래로 펼쳐집니다</span></div><div class="row"><span class="n">3</span><span class="b">시험에서 값 필드 전체에 일관되게 적용하려면 <b>값 필드 설정의 표시 형식</b>을 씁니다. 홈 탭의 수동 서식은 새로 고침이나 범위 변경 때 유지되지 않을 수 있습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 피벗</span><h2>행 총합계 · 열 총합계 · 빈 셀</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>총합계</th><th>위치</th><th>합치는 방향</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>행 총합계</td><td>오른쪽</td><td>각 행의 합계</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>열 총합계</td><td>아래쪽</td><td>각 열의 합계</td></tr><tr class="step" style="--d:0.48s"><td>«열 총합계»를 끄면</td><td>아래쪽 줄이 사라짐</td><td>행 총합계만 남음</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>오른쪽 = 행 총합계</b>(각 행을 합친 값), <b>아래쪽 = 열 총합계</b>(각 열을 합친 값)입니다. 화면의 방향이 아니라 <b>어떤 데이터를 합쳤는지</b>로 판단합니다</span></div><div class="row"><span class="n">2</span><span class="b">셀 포인터가 <b>피벗 테이블 안</b>에 있어야 분석 · 디자인 탭이 보입니다. 옵션 › <b>빈 셀 표시</b>로 0이나 하이픈을 지정합니다</span></div><div class="row"><span class="n">3</span><span class="b">총합계는 옵션의 <b>요약 및 필터</b> 탭이나 <b>디자인 탭</b>에서 켜고 끌 수 있습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 피벗</span><h2>원본 변경 · 모두 지우기 · 레이아웃</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>하고 싶은 일</th><th>방법</th></tr><tr class="step" style="--d:0.16s"><td>레이아웃 · 모양 바꾸기</td><td>디자인 탭 › 보고서 레이아웃 · 피벗 테이블 스타일</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>원본 범위가 늘어남</td><td>피벗 테이블 분석 › 데이터 원본 변경</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>처음부터 다시</td><td>분석 › 지우기 › 모두 지우기(피벗 자체는 남음)</td></tr><tr class="step" style="--d:0.64s"><td>필드 하나만 빼기</td><td>작업창의 영역 밖으로 끌어내기</td></tr><tr class="step" style="--d:0.80s"><td>작업창이 사라짐</td><td>분석 › 필드 목록</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>데이터 원본 변경</b>은 처음 피벗을 만들 때 나온 대화 상자와 비슷합니다. 범위만 다시 잡습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>모두 지우기</b>는 필드 배치를 지우는 것이고, 피벗 테이블을 <b>삭제하는 것은 아닙니다</b></span></div><div class="row"><span class="n">3</span><span class="b">교재 142쪽부터 문제가 있습니다. 문제가 길고 <b>부분 점수가 없으니</b> 클릭하는 순서를 반복해서 익힙니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">오늘의 함정</span><h2>여기서 많이 틀립니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>✕ 이렇게 하면 틀림</th><th>○ 이렇게 합니다</th></tr><tr class="step" style="--d:0.16s"><td>숨김 속성만 켜고 완전히 사라진다고 생각</td><td>숨긴 항목 표시도 끈다</td></tr><tr class="step" style="--d:0.32s"><td>다른 드라이브로 끌면 이동이라고 생각</td><td>다른 드라이브는 복사 · 같은 드라이브는 이동</td></tr><tr class="step" style="--d:0.48s"><td>휴지통 파일을 복사 후 붙여넣기로 복원</td><td>복원 · 잘라내기 후 붙여넣기</td></tr><tr class="step" style="--d:0.64s"><td>바탕 화면을 디스플레이에서 찾음</td><td>바탕 화면은 개인 설정 · 내레이터는 접근성</td></tr><tr class="step" style="--d:0.80s"><td>고급 필터 수식 조건에 원본 필드명 사용</td><td>비우거나 원본에 없는 이름</td></tr><tr class="step" style="--d:0.96s"><td>정렬 없이 부분합 실행</td><td>그룹 기준 필드를 먼저 정렬</td></tr><tr class="step" style="--d:1.12s"><td>두 번째 부분합에서 대치를 그대로 둠</td><td>«새로운 값으로 대치» 해제</td></tr><tr class="step" style="--d:1.28s"><td>피벗 아래쪽 총합계를 행 총합계로 착각</td><td>아래쪽 = 열 총합계 · 오른쪽 = 행 총합계</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>숨김 속성 ≠ 숨긴 항목 표시</b> · <b>다른 드라이브 = 복사</b> · <b>복원 = 잘라내기</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>고급 필터 수식</b>은 필드명을 쓰지 않고, <b>부분합</b>은 <b>정렬 → 대치 해제</b> 순서로 합니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>열 총합계</b>는 아래쪽, <b>행 총합계</b>는 오른쪽입니다. 합치는 데이터를 기준으로 구분합니다</span></div></div></div></section><section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>10차시 복습 퀴즈</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="퀴즈 진행" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">퀴즈 진행</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이름 입력</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">본인 이름</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">문제 풀이</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">10문제</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">결과 확인</text></g></svg><figcaption>이름 입력 후 문제를 풀고 채점합니다.</figcaption></figure>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>복습 퀴즈 10문제</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="풀이 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">풀이 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">선택</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">각 문제의 답</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">맨 아래 버튼</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">복습</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">틀린 문제 확인</text></g></svg><figcaption>답을 고른 뒤 맨 아래의 채점 버튼을 누르세요.</figcaption></figure>
+<div class="quiz-item"><p class="q"><span class="qn">1</span><span class="qt">10GB 영상 파일을 저장하고 윈도우 · 맥 · exFAT을 지원하는 안드로이드 기기에서 함께 쓰려는 USB 메모리를 포맷한다. 고를 파일 시스템은?</span></p><button class="quiz-opt">FAT32(파일 하나 4GB 미만)</button><button class="quiz-opt">NTFS(교재 기준: 윈도우 중심)</button><button class="quiz-opt" data-correct="true">exFAT</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">2</span><span class="qt">폴더 옵션에서 할 수 없는 작업은?</span></p><button class="quiz-opt" data-correct="true">숨김 속성이 지정된 모든 파일의 숨김 속성을 일괄 해제</button><button class="quiz-opt">파일을 한 번 클릭해서 열지 두 번 클릭해서 열지 설정</button><button class="quiz-opt">검색할 때 파일 이름뿐 아니라 내용까지 검색하도록 설정</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">3</span><span class="qt">휴지통에서 파일을 꺼내 복원하는 방법으로 옳지 않은 것은?</span></p><button class="quiz-opt">휴지통 도구의 복원 단추</button><button class="quiz-opt" data-correct="true">복사(Ctrl + C)한 뒤 붙여넣기</button><button class="quiz-opt">잘라내기(Ctrl + X)한 뒤 붙여넣기</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">4</span><span class="qt">설정 › 시스템 › 디스플레이에서 설정할 수 없는 것은?</span></p><button class="quiz-opt">화면 해상도</button><button class="quiz-opt" data-correct="true">바탕 화면 배경 사진</button><button class="quiz-opt">모니터 복제 · 확장</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">5</span><span class="qt">돋보기 기능을 끄는 키는?</span></p><button class="quiz-opt">Ctrl + Alt + F</button><button class="quiz-opt">Win + L</button><button class="quiz-opt" data-correct="true">Win + Esc</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">6</span><span class="qt">입사일(B열)이 10월인 행 전체에 서식을 지정하려고 한다. 범위가 A5:E12일 때 조건부 서식에 쓸 수식으로 알맞은 것은?</span></p><button class="quiz-opt" data-correct="true">=MONTH($B5)=10</button><button class="quiz-opt">=MONTH(B5)=10</button><button class="quiz-opt">=MONTH($B$5)=10</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">7</span><span class="qt">고급 필터에서 MONTH 함수로 생년월일이 5월인 자료를 추출할 때, 조건 범위에서 수식 위 칸(필드명 자리)에는 무엇을 쓰는가?</span></p><button class="quiz-opt">원본 필드명 «생년월일»을 그대로 쓴다</button><button class="quiz-opt">반드시 «월»이라고 쓴다</button><button class="quiz-opt" data-correct="true">비워 두거나 원본 필드명과 다른 이름을 쓴다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">8</span><span class="qt">이미 만든 부분합을 유지한 채 두 번째 부분합을 추가하려고 한다. «새로운 값으로 대치»는 어떻게 하는가?</span></p><button class="quiz-opt">선택한다</button><button class="quiz-opt" data-correct="true">해제한다</button><button class="quiz-opt">선택해도 해제해도 같다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">9</span><span class="qt">피벗 테이블 맨 아래쪽에 나오는 총합계(각 열을 합친 값)만 없애려고 한다. 해제할 항목은?</span></p><button class="quiz-opt" data-correct="true">«열의 총합계 표시»</button><button class="quiz-opt">«행의 총합계 표시»</button><button class="quiz-opt">«값 필드 설정»의 평균</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">10</span><span class="qt">데이터가 5행부터 시작하는 표에서 첫 번째 레코드(5행)부터 홀수 번째 레코드(5 · 7 · 9행…)에 색을 칠하는 조건부 서식 수식은?</span></p><button class="quiz-opt">=MOD(ROW(),2)=0</button><button class="quiz-opt" data-correct="true">=MOD(ROW(),2)=1</button><button class="quiz-opt">=ROW()=1</button><div class="quiz-feedback"></div></div>
+<div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<section class="card" id="audioReviewCard"><div class="card-inner">
+<span class="kicker pilgi">영상·음성 복습</span><h2>10차시 영상·음성 복습</h2><p class="lead">화면과 강사 음성을 함께 보거나 원하는 주제를 선택해 들을 수 있습니다.</p>
+<figure class="fig concept"><svg viewBox="0 0 560 100" role="img" aria-label="전체 듣기, 주제 선택, 재생 속도 조절" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="536" height="76" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/><path d="M42 50h10l6-14 8 28 8-36 8 42 8-31 6 21 6-10h12" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="140" y="47" fill="#1E3A5F" font-size="16" font-weight="700">전체 듣기 · 주제별 듣기</text><text x="140" y="69" fill="#475569" font-size="13">재생 속도와 듣기 위치를 조절할 수 있습니다</text></svg><figcaption>학습 주제를 선택하면 해당 부분부터 재생됩니다.</figcaption></figure>
+<div class="video-review"><video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/2026-11-10cha.mp4?v=1"></video><div class="video-copy"><span>화면과 강사 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div></div>
+<div class="audio-review"><audio id="reviewAudio" preload="metadata" src="audio/review/2026-11-10cha-instructor.mp3?v=1"></audio>
+<div class="player-controls"><button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button><button type="button" id="audioBack">−10초</button><button type="button" id="audioForward">+10초</button><label class="speed-wrap">재생 속도 <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select></label></div>
+<div class="timeline"><input class="seek-bar" id="audioSeek" type="range" min="0" max="1" step="0.1" value="0" aria-label="음성 재생 위치"><div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div><div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">0:00</span></div></div><div class="chapter-grid" id="chapterGrid"></div><p class="audio-note">강사 음성 합성으로 제작한 복습 음성입니다.</p></div></div></section>
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>window.REVIEW_AUDIO={"titles": ["파일 탐색기", "숨김과 확장명", "폴더 옵션", "디스크 포맷", "파일과 폴더 이름 · 속성", "검색 · 복사 · 이동", "클립보드", "휴지통 보관 안 되는 경우", "휴지통 복원 규칙", "메모장", "워드패드와 유틸리티", "설정 항목 위치", "시스템 설정", "개인 설정", "접근성", "내레이터와 TTS · STT", "장치와 앱", "계정과 시간 · 언어", "실기 시험 구성", "조건부 서식 복습", "복습 9차시 다시 짚기", "고급 필터 함수 조건", "고급 필터 실행", "텍스트 나누기", "부분합 만들기", "부분합 대치 해제", "피벗 테이블 만들기", "피벗 값 필드 설정", "피벗 총합계와 옵션", "피벗 관리", "오늘의 함정"], "starts": [0.0, 40.45, 90.42, 135.75, 191.56, 244.89, 283.65999999999997, 330.03, 378.32, 421.57, 460.41999999999996, 488.86999999999995, 522.6, 565.45, 612.5400000000001, 660.0300000000001, 692.0000000000001, 727.1700000000002, 783.1400000000002, 823.5100000000002, 871.8800000000002, 910.2500000000002, 951.5000000000002, 995.0700000000003, 1048.0800000000004, 1089.5700000000004, 1133.9400000000005, 1184.3900000000006, 1221.0000000000007, 1265.9300000000007, 1304.3000000000009], "duration": 1341.34, "src": "audio/review/2026-11-10cha-instructor.mp3?v=1"};</script>
+<script src="audio/review/player.js"></script>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-11 10차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  '9bbb52287af375ad',
+  '68a2bbf429acc7f6',
+  '1d3c61ba29a8a304',
+  '799b4fa176106108',
+  '0345c6705c8a657a',
+  '871b4f95f45d75b6',
+  'adf899b5064f769e',
+  '80311697fa93d30b',
+  'ae6fd527794e6187',
+  'db6f439e9999c4f7',
+  '79863b87fe14670d',
+  'e83e84eec19ad05b',
+  'a5a6ccaf14cb9e40',
+  'f3177b9e506f5f36',
+  'ce93aed446c7a37f',
+  'cc45086c23272d8c',
+  'd8467edd1b145f9b',
+  'b4beb49ac060c43e',
+  'e94f142db3f696b3',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
