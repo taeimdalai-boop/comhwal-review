@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 12차시 복습카드 (2026.11.25)</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); line-height:1.6;
+  background:
+    radial-gradient(ellipse at 12% 58%, #d7f4e7 0%, transparent 60%),
+    radial-gradient(ellipse at 88% 12%, #e5d8f7 0%, transparent 62%),
+    linear-gradient(150deg, #f8faf9 0%, #edf7f5 70%, #f5f7fb 100%);
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
+
+.fig.shot{display:block;padding:12px;text-align:center}.shot img{display:block;max-width:100%;max-height:360px;width:auto;height:auto;margin:auto;object-fit:contain}.shot a{display:block}.shot a:focus-visible{outline:3px solid #2563eb;outline-offset:3px}.fig svg{max-width:100%;height:auto}.card.active .draw{stroke-dasharray:var(--len,240);stroke-dashoffset:var(--len,240);animation:drawline .9s ease-out forwards;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){.card.active .draw{animation:none;stroke-dashoffset:0}.card.active [class*="a-"]{animation:none}.card.active .a-swapout{display:none}.card.active .a-swapin{opacity:1}}
+
+.summary-list{margin:0 0 16px;border-top:2px solid #315ea8;background:#fff}.summary-row{display:grid;grid-template-columns:minmax(100px,29%) 1fr;gap:12px;padding:12px 10px;border-bottom:1px solid #e2e8f0;line-height:1.5;font-size:15px}.summary-row strong{color:#164287}.summary-row span{min-width:0;color:#1f2937}.concept svg{display:block;width:100%;height:auto}.card.active .concept .step{animation:step-in .45s ease-out both;animation-delay:var(--d)}@keyframes step-in{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:400px){.summary-row{grid-template-columns:95px 1fr;gap:8px;font-size:14px}}@media(prefers-reduced-motion:reduce){.card.active .concept .step{animation:none}}
+
+/* 학습 카드 주변 장식: 본문과 조작 영역을 가리지 않도록 배치 */
+.ambient-stickers{position:fixed;inset:48px 0 58px;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-stickers i,.card-inner::before,.card-inner::after{background-image:url('assets/review-stickers.png');background-repeat:no-repeat;background-size:200% 200%;pointer-events:none;}
+.ambient-stickers i{position:absolute;width:clamp(82px,10vw,135px);aspect-ratio:1;filter:drop-shadow(0 10px 12px rgba(78,82,110,.10));}
+.ambient-stickers .laptop{left:2%;top:8%;background-position:0 0;}
+.ambient-stickers .book{right:2%;top:12%;background-position:100% 0;}
+.ambient-stickers .list{left:3%;bottom:9%;background-position:0 100%;}
+.ambient-stickers .star{right:3%;bottom:8%;background-position:100% 100%;}
+.deck{position:relative;z-index:1;}
+@media(max-width:900px){
+  .ambient-stickers{display:none;}
+  .card-inner{position:relative;padding-top:72px;}
+  .card-inner::before,.card-inner::after{content:"";position:absolute;top:0;width:68px;height:68px;}
+  .card-inner::before{right:73px;background-position:0 0;}
+  .card-inner::after{right:0;background-position:100% 0;}
+  .card:nth-of-type(4n+2) .card-inner::before,.card:nth-of-type(4n+3) .card-inner::before{background-position:0 100%;}
+  .card:nth-of-type(4n+2) .card-inner::after,.card:nth-of-type(4n+3) .card-inner::after{background-position:100% 100%;}
+}
+.panel code,.example-table td{overflow-wrap:anywhere;word-break:break-all}
+</style>
+<style>.example-label{font-size:12px;font-weight:700;color:#4b6c60;margin:0 0 7px}.example-wrap{overflow-x:auto}.example-table{width:100%;border-collapse:collapse;font-size:clamp(12px,2.5vw,15px);background:white}.example-table th,.example-table td{padding:8px;border:1px solid #cbd7d1;text-align:center;word-break:keep-all}.example-table th{background:#dff4ea;color:#285441}.example-table tr:nth-child(even){background:#f6faf9}.example-table td{overflow-wrap:anywhere}@media(prefers-reduced-motion:reduce){.example-table .step{animation:none!important;opacity:1!important}}</style></head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 12차시</span>
+  <span class="d">2026.11.25 (수)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="ambient-stickers" aria-hidden="true"><i class="laptop"></i><i class="book"></i><i class="list"></i><i class="star"></i></div>
+
+<div class="deck" id="deck">
+
+<section class="card"><div class="card-inner"><span class="kicker">12차시 복습카드</span><h2>필기 컴퓨터 하드웨어 +<br>분석 작업 복습 · 매크로 · 차트 기초</h2><figure class="fig concept"><div class="example-label">복습 순서</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>복습 순서</th><th>학습 내용</th></tr><tr class="step" style="--d:0.16s"><td>필기</td><td>CPU · 기억 장치 · 속도와 용량 단위</td></tr><tr class="step" style="--d:0.32s"><td>필기</td><td>입출력 장치 · 포트 · 시모스 · 하드디스크 연결</td></tr><tr class="step" style="--d:0.48s"><td>필기</td><td>PC 관리 · 업그레이드 · 파티션</td></tr><tr class="step" style="--d:0.64s"><td>실기</td><td>데이터 표 · 시나리오 · 목표값 찾기 · 통합 복습</td></tr><tr class="step" style="--d:0.80s"><td>실기</td><td>매크로 기록과 실행 · 차트 기초</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>필기</b> — 4장 컴퓨터 하드웨어는 표로 나온 것을 키워드만 뽑아 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>분석 작업</b> — 어제 배운 가상 분석과 통합에 덧붙인 내용을 정리합니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>매크로 · 차트</b> — 실기의 마지막 두 가지를 시작합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 중앙 처리 장치</span><h2>PC · IR · 해독기 · 부호기 · MAR · MBR</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>하는 일</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>프로그램 카운터(PC)</td><td>다음에 실행할 명령어의 주소를 기억</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>명령 레지스터(IR)</td><td>그 주소에서 가져온 명령어를 저장</td></tr><tr class="step" style="--d:0.48s"><td>명령 해독기(디코더)</td><td>명령 레지스터의 명령을 해독</td></tr><tr class="step" style="--d:0.64s"><td>부호기(인코더)</td><td>해독된 명령에 따라 각 장치로 보낼 제어 신호를 생성</td></tr><tr class="step" style="--d:0.80s"><td>MAR</td><td>접근할 메모리의 주소를 잠시 저장(중간 버퍼)</td></tr><tr class="step" style="--d:0.96s"><td>MBR</td><td>메모리와 주고받는 명령 · 데이터를 잠시 저장(중간 버퍼)</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">명령 실행 순서</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>일</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>PC에 저장된 명령어의 주소를 MAR로</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>MAR이 가리키는 기억 장치 번지의 내용을 MBR로</td></tr><tr class="step" style="--d:0.48s"><td>③</td><td>MBR의 내용을 IR로 이동</td></tr><tr class="step" style="--d:0.64s"><td>④</td><td>해독기가 해독 → 부호기가 필요한 장치에 제어 신호를 보냄</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>PC · IR</b> 한 쌍, <b>해독기 · 부호기</b> 한 쌍, <b>MAR · MBR</b> 한 쌍으로 짝지어 역할까지 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b">실행 순서(PC → MAR → MBR → IR → 해독기 → 부호기)는 급하지 않다고 했습니다. 용어와 역할이 먼저입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>레지스터</b>는 기억 장치 중에서 가장 빠릅니다. «가장 빠르다»가 나오면 레지스터를 떠올립니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 중앙 처리 장치</span><h2>가산기 · 보수기 · 누산기 · 상태 레지스터</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>장치 · 레지스터</th><th>하는 일</th></tr><tr class="step" style="--d:0.16s"><td>가산기</td><td>이진수의 덧셈</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>보수기</td><td>뺄셈(교재: 보수를 이용한 덧셈으로 처리) · 진수 표현용이 아님</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>누산기(AC)</td><td>연산 결과를 일시적으로 저장</td></tr><tr class="step" style="--d:0.64s"><td>데이터 레지스터</td><td>연산할 데이터를 기억</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>상태 레지스터(PSW)</td><td>부호 · 오버플로 · 언더플로 · 자리 올림 · 인터럽트 같은 상태를 기억</td></tr><tr class="step" style="--d:0.96s"><td>인덱스 레지스터</td><td>주소를 바꿀 때 사용</td></tr><tr class="step" style="--d:1.12s"><td>범용 레지스터</td><td>여러 목적에 사용</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>보수기</b> = 뺄셈입니다. «진수를 표현하기 위해 사용한다»는 보기가 자주 나오지만 오답입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>누산기</b>(중간 결과)와 <b>상태 레지스터</b>(오버플로 · 자리 올림 같은 상태)를 서로 바꿔 외우지 않습니다</span></div><div class="row"><span class="n">3</span><span class="b">«연산 장치에 해당하지 않는 것»에는 <b>명령 레지스터(IR)</b>가 정답입니다. IR은 제어 장치에 속합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 주기억 장치</span><h2>읽기 전용 · 비휘발성 · POST</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>ROM의 특징</td><td>기본적으로 읽기 전용 · 전원이 꺼져도 유지되는 비휘발성</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>ROM에 저장되는 것</td><td>바이오스(BIOS) · 글자 폰트 · 자가 진단 프로그램(POST)</td></tr><tr class="step" style="--d:0.48s"><td>POST</td><td>Power On Self Test · 전원을 켜면 주변 장치를 검사하고, 문제가 있으면 신호음 등으로 알릴 수 있음</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>EEPROM</td><td>전기적 방법으로 여러 번 수정 · 기록 가능(교재: 플래시 메모리가 이 계열)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>롬</b>은 읽기 전용이고 <b>비휘발성</b>입니다. 램(휘발성)과 반대로 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b">컴퓨터를 켰을 때 꼭 필요한 <b>BIOS · 폰트 · POST</b>가 롬에 저장됩니다. 삐 소리 같은 신호음으로 알릴 수 있는 이 검사가 POST입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>EEPROM</b>은 여러 번 고쳐 쓸 수 있는 롬이며, 교재에서는 플래시 메모리와 연결합니다. 롬 종류를 모두 외우지는 않아도 된다고 했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 주기억 장치</span><h2>디램 · 에스램 · 완충 지대</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>종류</th><th>특징 · 쓰임</th></tr><tr class="step" style="--d:0.16s"><td>램(RAM)</td><td>읽고 쓰기 자유 · 전원이 꺼지면 사라지는 휘발성 · 실행 중인 프로그램과 데이터가 올라감</td></tr><tr class="step" style="--d:0.32s"><td>디램(DRAM)</td><td>일반적인 주기억 장치로 사용</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>에스램(SRAM)</td><td>접근 속도가 빠른 정적 램 · 캐시 메모리에 사용</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>캐시 메모리</td><td>CPU와 주기억 장치 사이에 위치해 속도 차이를 줄이고 처리 속도를 높임</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>램</b>은 작업대입니다. 용량이 크면 여러 프로그램을 동시에 올려 쓰기 좋습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>캐시 메모리</b>는 CPU와 주기억 장치 <b>사이</b>의 완충 지대이고, 캐시에는 빠른 <b>SRAM</b>을 씁니다</span></div><div class="row"><span class="n">3</span><span class="b">디램과 에스램의 세부 구분은 예전만큼 나오지 않는다고 했습니다. «일반 주기억 장치 = 디램, 캐시 = 에스램»만 외웁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 기타 메모리</span><h2>가상 · 연관 · 버퍼 · 플래시</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>메모리</th><th>특징</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>가상 메모리</td><td>보조 기억 장치의 일부를 주기억 장치처럼 사용 · 큰 프로그램 · 여러 프로그램 실행 가능 · 속도는 느려질 수 있음</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>연관 메모리</td><td>주소가 아니라 저장된 내용의 일부로 검색해 접근</td></tr><tr class="step" style="--d:0.48s"><td>버퍼 메모리</td><td>장치 사이의 속도 차이를 줄이려고 임시로 두는 메모리(캐시도 해당)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>플래시 메모리</td><td>비휘발성 · 전력 소모가 적고 전송 속도가 빠름 · 교재: 블록 단위 저장</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>가상 메모리</b>의 장점은 큰 프로그램을 실행할 수 있다는 것이지 속도가 빨라지는 것이 아닙니다. «수행 속도가 향상된다»는 보기는 틀립니다</span></div><div class="row"><span class="n">2</span><span class="b">캐시 · 가상 · 연관 메모리의 <b>설명을 한 줄씩 짝지어</b> 외웁니다. 문제에서 설명만 보고 이름을 적을 수 있어야 한다고 했습니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>플래시 메모리</b>는 트랙이 아니라 <b>블록</b> 단위입니다. 트랙은 원판을 쓰는 하드디스크의 용어입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 보조 기억 장치</span><h2>원판을 쓰는 HDD · 반도체를 쓰는 SSD</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>하드디스크(HDD)</th><th>SSD</th></tr><tr class="step" style="--d:0.16s"><td>저장 방식</td><td>자성 물질을 입힌 원판(교재: 금속 원판)</td><td>반도체(기계적 장치 없음)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>충격</td><td>약함 · 본체에 고정해 사용</td><td>강함</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>발열 · 소음</td><td>원판이 돌아 소음 · 열이 생김</td><td>적음</td></tr><tr class="step" style="--d:0.64s"><td>속도</td><td>SSD보다 느림</td><td>아주 빠른 입출력</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>가격</td><td>상대적으로 저렴</td><td>비쌈(단점)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>하드디스크</b>는 원판 · 헤드 · 충격에 약함, <b>SSD</b>는 반도체 · 충격에 강함 · 발열 소음 적음으로 구분합니다</span></div><div class="row"><span class="n">2</span><span class="b">SSD는 소형화와 경량화가 가능하다는 장점이 있고 <b>비싸다</b>는 것이 단점입니다</span></div><div class="row"><span class="n">3</span><span class="b">둘 다 <b>보조 기억 장치</b>이고, SSD는 CPU의 구성 요소가 아닙니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 단위</span><h2>B에서 EB까지 · 빠른 순서</h2><figure class="fig concept"><div class="example-label">기억 용량 단위</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단위</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>B › KB › MB › GB › TB › PB › EB</td><td>한 단계마다 1,024배(2¹⁰, 교재 기준)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>PB · EB</td><td>페타바이트 · 엑사바이트 — 처음 보는 단위라 따로 외움</td></tr><tr class="step" style="--d:0.48s"><td>B(바이트)</td><td>8비트 · 문자 표현의 기본 단위</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">접근 속도 순서</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>빠름 → 느림</th><th>기억 장치</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>1</td><td>레지스터</td></tr><tr class="step" style="--d:0.32s"><td>2</td><td>캐시 메모리</td></tr><tr class="step" style="--d:0.48s"><td>3</td><td>주기억 장치(램 · 롬)</td></tr><tr class="step" style="--d:0.64s"><td>4</td><td>보조 기억 장치(SSD · 하드디스크 등)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">단위 순서는 <b>B › KB › MB › GB › TB › PB › EB</b>이고 교재 환산 문제에서는 1,024배씩 올라갑니다</span></div><div class="row"><span class="n">2</span><span class="b">빠른 순서는 <b>레지스터 › 캐시 › 주기억 장치 › 보조 기억 장치</b>입니다. 레지스터가 항상 맨 앞입니다</span></div><div class="row"><span class="n">3</span><span class="b">시디롬 · 플로피 디스크 · 자기 테이프는 거의 안 쓰므로 앞쪽 장치를 중심으로 봅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 단위</span><h2>밀마나 피펨아</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단위</th><th>지수 · 설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>밀리초(ms)</td><td>10⁻³초 · 1/1,000초</td></tr><tr class="step" style="--d:0.32s"><td>마이크로초(μs)</td><td>10⁻⁶초 · 1/1,000,000초</td></tr><tr class="step" style="--d:0.48s"><td>나노초(ns)</td><td>10⁻⁹초</td></tr><tr class="step" style="--d:0.64s"><td>피코초(ps)</td><td>10⁻¹²초</td></tr><tr class="step" style="--d:0.80s"><td>펨토초(fs)</td><td>10⁻¹⁵초</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>아토초(as)</td><td>10⁻¹⁸초 · 가장 빠름</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>밀 · 마 · 나 · 피 · 펨 · 아</b> — 앞글자를 따서 순서대로 외우고, 단위와 지수를 함께 씁니다</span></div><div class="row"><span class="n">2</span><span class="b">뒤로 갈수록 짧은 시간이라 <b>빠릅니다</b>. 목록에 아토초 · 펨토초가 없으면 <b>피코초</b>가 가장 빠릅니다</span></div><div class="row"><span class="n">3</span><span class="b">PC 업그레이드 문제에서 <b>수치가 작을수록 좋은 것</b>이 이 시간 단위(접근 시간)입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 입력 장치</span><h2>판독기 · 키오스크</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>장치</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>OMR(광학 마크 판독기)</td><td>시험 답안 카드처럼 마크한 곳을 읽음</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>OCR(광학 문자 판독기)</td><td>인쇄된 문자를 읽음(수업 예: 영수증 · 지로 용지)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>MICR(자기 잉크 문자 판독기)</td><td>자기 잉크로 인쇄된 문자를 읽음(수업 예: 수표)</td></tr><tr class="step" style="--d:0.64s"><td>바코드 · QR 판독기</td><td>바코드 · QR 코드를 읽음</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>키오스크</td><td>터치스크린으로 정보를 입력 · 조회하는 무인 단말기(입력 장치에 포함)</td></tr><tr class="step" style="--d:0.96s"><td>디지타이저</td><td>교재: 도면 · 좌표 입력에 사용</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>OMR · OCR · MICR</b>을 한 글자씩 구분합니다. 마크 · 문자 · 자기 잉크 문자입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>키오스크</b>는 식당 · 관공서 · 매장에서 쓰는 터치스크린 단말기이며 입력 장치입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>UPS</b>(무정전 전원 공급 장치)는 입력 장치가 아니라 전원 장치입니다. 문제에 섞여 나옵니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 출력 장치</span><h2>프린터 종류 · 속도 단위 IPM</h2><figure class="fig concept"><div class="example-label">프린터 종류</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>프린터</th><th>특징</th></tr><tr class="step" style="--d:0.16s"><td>도트 매트릭스</td><td>핀으로 때려서 찍는 충격식 · 예전 방식</td></tr><tr class="step" style="--d:0.32s"><td>잉크젯</td><td>노즐로 잉크를 분사 · 노즐이 막히지 않게 주기적으로 청소</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>레이저</td><td>복사기와 같은 원리 · 토너 사용 · 비충격식 · 빠름</td></tr><tr class="step" style="--d:0.64s"><td>감열식</td><td>열에 반응하는 특수 용지(영수증 · 휴대용 프린터)</td></tr><tr class="step" style="--d:0.80s"><td>열전사</td><td>열로 특수 잉크를 녹여 인쇄(유통 기한 표시 등)</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">속도 · 해상도 단위</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단위</th><th>뜻</th></tr><tr class="step" style="--d:0.16s"><td>CPS</td><td>초당 출력하는 문자 수</td></tr><tr class="step" style="--d:0.32s"><td>LPM</td><td>분당 출력하는 줄 수</td></tr><tr class="step" style="--d:0.48s"><td>PPM</td><td>분당 출력하는 페이지 수</td></tr><tr class="step" style="--d:0.64s"><td>DPI</td><td>1인치당 점의 수(해상도)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>IPM</td><td>분당 출력하는 이미지 수 · 교재: ISO가 정한 표준 속도 단위</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>레이저</b> = 토너 · 복사기 원리 · 비충격식, <b>잉크젯</b> = 노즐 · 잉크, <b>도트</b> = 핀 · 충격으로 구분합니다</span></div><div class="row"><span class="n">2</span><span class="b">프린터 속도 단위에서 <b>«표준»이라는 말이 보이면 IPM</b>(Image Per Minute)입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>감열식</b>은 영수증과 휴대용 프린터에서 쉽게 볼 수 있어 실생활과 연결해 기억합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 입출력 제어</span><h2>입출력은 채널이 맡습니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>채널</td><td>CPU 대신 주변 장치(입출력 장치)의 제어권을 넘겨받아 입출력을 관리</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>인터럽트 신호</td><td>입출력 완료 · 문제 발생처럼 처리가 필요한 일을 CPU에 알리는 신호(수업 예: 작업 끝남 · 문제 발생)</td></tr><tr class="step" style="--d:0.48s"><td>캐시 메모리(구분)</td><td>CPU와 주기억 장치의 속도 차이를 줄임 — 채널이 아님</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>입출력 장치의 제어권</b>을 가진 것은 <b>채널</b>입니다. 그동안 CPU는 다른 작업을 할 수 있습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>인터럽트</b>는 입출력이 끝났거나 문제가 생겼을 때처럼 처리가 필요한 일을 알리는 신호입니다</span></div><div class="row"><span class="n">3</span><span class="b">CPU와 주기억 장치의 속도 차이를 줄이는 것은 채널이 아니라 <b>캐시 메모리</b>입니다. 섞어 내는 문제가 나옵니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 포트</span><h2>직렬 · 병렬 · USB · HDMI</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>포트</th><th>특징</th></tr><tr class="step" style="--d:0.16s"><td>직렬(시리얼) 포트</td><td>한 번에 1비트씩 전송</td></tr><tr class="step" style="--d:0.32s"><td>병렬 포트(LPT)</td><td>교재: 한 번에 8비트씩 · 프린터 포트</td></tr><tr class="step" style="--d:0.48s"><td>PS/2 포트</td><td>예전 키보드 · 마우스용 — 요즘은 안 쓰므로 안 봐도 됨</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>USB(범용 직렬 버스)</td><td>직렬 · 1비트씩 · 교재: 최대 127개 · 핫 플러그인 · 플러그 앤 플레이</td></tr><tr class="step" style="--d:0.80s"><td>USB 단자 색</td><td>버전에 따라 색이 다른 경우가 많음(파란색은 USB 3.x에 흔히 쓰임 · 제조사마다 다를 수 있음) · 실제 속도는 포트 · 장치 · 케이블이 지원하는 규격으로 결정</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>HDMI</td><td>영상 + 음성을 한 케이블로 · 교재: 압축하지 않고 전송</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>USB는 직렬</b>이고 한 번에 <b>1비트</b>씩입니다. 병렬이라고 하거나 8비트씩이라는 보기는 틀립니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>핫 플러그인</b>은 전원이 켜진 상태에서 꽂을 수 있다는 뜻이고, <b>플러그 앤 플레이</b>는 꽂으면 운영 체제가 자동으로 인식해 쓸 수 있게 한다는 뜻입니다(필요한 드라이버 설치도 지원)</span></div><div class="row"><span class="n">3</span><span class="b"><b>HDMI</b> 하나로 영상과 음성이 함께 나갑니다. 예전에는 화면과 소리 케이블이 따로였다고 했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · BIOS</span><h2>부팅 순서 · 날짜 · 암호</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>시모스(CMOS) 셋업</td><td>날짜 · 시간, 전원 관리, 하드디스크 종류, PnP, 부팅 순서, 시스템 암호 설정</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>펌웨어</td><td>롬에 기록된 하드웨어 제어용 마이크로 프로그램 집합 · 소프트웨어 업그레이드로 성능 향상</td></tr><tr class="step" style="--d:0.48s"><td>바이오스(BIOS)</td><td>기본 입출력 시스템 · 롬에 저장</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>부팅 순서 · 날짜와 시간 · 시스템 암호</b>를 바꾸는 곳이 <b>시모스 셋업</b>입니다. 윈도우 로그인 암호와는 다릅니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>펌웨어</b>는 하드웨어 교체 없이 소프트웨어 업그레이드만으로 성능을 높일 수 있는 마이크로 프로그램 집합입니다</span></div><div class="row"><span class="n">3</span><span class="b">요즘은 들어갈 일이 거의 없어 깊이 보지 않아도 되지만, 용어는 문제에 나옵니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 하드디스크 연결</span><h2>IDE · SATA · SCSI는 인터페이스, RAID는 구성 기술</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방식</th><th>특징</th></tr><tr class="step" style="--d:0.16s"><td>IDE(PATA)</td><td>병렬 방식 · 선이 넓고 두꺼움 · 예전에 사용</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>SATA</td><td>직렬(Serial) 방식 · 선이 얇아 통풍에 유리 · 요즘 사용</td></tr><tr class="step" style="--d:0.48s"><td>마스터 · 슬레이브</td><td>한 케이블에 연결된 두 하드디스크를 구분하는 설정 · 예전에는 점퍼 핀, 교재 문제: 시모스에서 지정 · 수업: 운영 체제가 있는 쪽이 보통 마스터</td></tr><tr class="step" style="--d:0.64s"><td>SCSI</td><td>하드디스크 연결 방식의 하나(용어만)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>RAID</td><td>연결 방식이 아니라, 여러 개의 하드디스크를 하나의 디스크처럼 묶어 구성하는 기술(요약집)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>SATA</b>는 <b>직렬(Serial)</b>입니다. 병렬 방식이라고 하면 틀립니다. 선이 얇아 통풍에 유리합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>RAID</b>는 인터페이스가 아니라 디스크를 묶는 <b>구성 기술</b>입니다. 교재 본문에는 없지만 요약집에 있고 시험에 나온다고 했습니다</span></div><div class="row"><span class="n">3</span><span class="b">마스터 · 슬레이브는 용어만 알면 됩니다. 예전에는 하드디스크 뒷면의 핀으로 직접 지정했다고 했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · PC 관리</span><h2>UPS · 서지 · 항온항습 · 관리 방법</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>장치</th><th>역할</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>UPS(무정전 전원 공급 장치)</td><td>정전 시 일정 시간 전원을 공급하는 배터리 팩 · 서버실 같은 곳</td></tr><tr class="step" style="--d:0.32s"><td>전압 조절기 · 정전압 정주파 장치</td><td>전압 · 주파수를 일정하게 유지</td></tr><tr class="step" style="--d:0.48s"><td>서지 보호</td><td>갑작스러운 전압 · 전류 상승을 막음</td></tr><tr class="step" style="--d:0.64s"><td>항온 항습 장치</td><td>온도와 습도를 조절</td></tr><tr class="step" style="--d:0.80s"><td>번인(버닝) 현상</td><td>화면을 오래 켜 두면 잔상이 남는 현상(수업: 버닝) · 화면 보호기로 예방</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">관리 방법(교재 문제)</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>상황</th><th>옳은 방법</th></tr><tr class="step" style="--d:0.16s"><td>이동 · 부품 교체</td><td>전원을 끄고 작업</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>시스템에 문제가 생겼을 때</td><td>모든 파티션을 제거하는 것은 옳지 않음</td></tr><tr class="step" style="--d:0.48s"><td>소프트웨어</td><td>최신 백신 사용 · 불필요한 프로그램은 설치하지 않고 점검해 제거</td></tr><tr class="step" style="--d:0.64s"><td>저장 매체</td><td>자기 저장 매체는 강한 자석을 멀리하고, 주기적으로 검사 · 별도 매체에 백업(교재 문제에서는 «오래 저장한 데이터를 재저장한다»가 옳지 않은 보기로 출제 · 실무에서는 주기적 점검과 새 매체 이관)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>UPS</b>는 정전 때 전원을 이어 주는 배터리 팩입니다. 서버실처럼 정전에 대비해야 하는 곳에 널리 쓰이고, 수업에서는 시험에도 나왔다고 했습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>항온 항습 장치</b>는 온도와 습도를 조절합니다. 표의 장치와 역할을 한 줄씩 연결합니다</span></div><div class="row"><span class="n">3</span><span class="b">관리 방법 문제는 읽어 보면 풀립니다. <b>모든 파티션 제거</b>처럼 과한 조치는 오답입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 업그레이드 · 파티션</span><h2>수치가 클수록 · 작을수록 · 파티션</h2><figure class="fig concept"><div class="example-label">업그레이드 판단</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>수치가</th><th>해당하는 것</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>클수록 좋음(교재의 단순 비교 · 같은 조건)</td><td>CPU 클럭 속도 · 성능(MIPS) · 모뎀 전송 속도 · 용량 · 회전 수</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>작을수록 좋음</td><td>접근 시간 · 처리 시간 단위(ms 〜 as)</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">파티션</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>파티션</td><td>하나의 물리적인 하드디스크를 논리적으로 여러 개로 나눔</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>사용 전</td><td>파일 시스템을 정하고 포맷해야 사용 가능</td></tr><tr class="step" style="--d:0.48s"><td>운영 체제</td><td>파티션마다 서로 다른 운영 체제를 설치할 수 있음</td></tr><tr class="step" style="--d:0.64s"><td>응급 처치(용량 부족)</td><td>휴지통 비우기 · 디스크 정리 · 쓰지 않는 윈도우 기능 제거</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">PC 업그레이드는 <b>램 증설</b>이 가장 흔합니다. 클수록 좋은 것 · 작을수록 좋은 것을 나누는 문제가 나옵니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>파티션</b>은 물리적으로 하나인 디스크를 논리적으로 나누는 것입니다. 나눈 뒤에는 <b>포맷</b>이 필요합니다</span></div><div class="row"><span class="n">3</span><span class="b">하드디스크 용량이 부족하면 <b>휴지통 · 디스크 정리</b>를 합니다. USB 파일 정리는 관계없는 보기입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 데이터 표</span><h2>한 방향만 있을 때 · 지울 때</h2><figure class="fig concept"><div class="example-label">값이 나열된 방향</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방향</th><th>수식 위치</th><th>지정하는 칸</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>가로(행)로만</td><td>값 행의 아래 칸 · 첫 값의 바로 왼쪽</td><td>행 입력 셀만</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>세로(열)로만</td><td>값 열의 오른쪽 칸 · 첫 값의 바로 위</td><td>열 입력 셀만</td></tr><tr class="step" style="--d:0.48s"><td>가로 + 세로(2변수)</td><td>왼쪽 위 모서리</td><td>행 · 열 입력 셀 둘 다</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">결과 영역 지우기</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>하는 일</th><th>결과</th></tr><tr class="step" style="--d:0.16s"><td>결과 셀 하나만 선택하고 Delete</td><td>지워지지 않음(배열 수식 {=TABLE( )}이므로)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>결과 영역 전체를 선택하고 Delete</td><td>지워짐</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">값이 <b>한 방향</b>뿐이면 모서리가 아니라 <b>값 옆</b>에 수식을 두고, 해당하는 입력 셀 <b>하나만</b> 지정합니다</span></div><div class="row"><span class="n">2</span><span class="b">데이터 표 결과는 {=TABLE( )} <b>배열 수식</b>이라 일부 셀만 지우거나 고칠 수 없습니다. 전체를 선택해 지웁니다</span></div><div class="row"><span class="n">3</span><span class="b">둘 다 필기에서 물을 수 있는 내용이니 한 번씩 직접 해 보라고 했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 시나리오</span><h2>이름 정의 확인 · 숨기기와 시트 보호</h2><figure class="fig concept"><div class="example-label">이름 정의 · 요약</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>방법</th></tr><tr class="step" style="--d:0.16s"><td>이름 정의</td><td>이름 상자에 입력 + Enter · 수식 탭 › 선택 영역에서 만들기(병합된 셀은 피함)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>잘못 정의했을 때</td><td>수식 탭 › 이름 관리자 › 편집 · 삭제</td></tr><tr class="step" style="--d:0.48s"><td>요약</td><td>시나리오 관리자 › 요약 › 시나리오 요약 · 문제가 지정한 위치로 시트 이동</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">시나리오 보호</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>변경 금지</td><td>기본으로 선택되어 있음</td></tr><tr class="step" style="--d:0.32s"><td>숨기기</td><td>체크하면 시나리오 관리자 목록에서 숨김</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>적용 시점</td><td>검토 탭 › 시트 보호를 했을 때 실제로 적용</td></tr><tr class="step" style="--d:0.64s"><td>출제(수업 설명)</td><td>필기에서 묻고 실기에서는 보지 않음</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">이름 정의가 되어 있으면 요약에 <b>셀 주소 대신 이름</b>이 나옵니다. 이름이 틀리면 <b>이름 관리자</b>에서 고칩니다</span></div><div class="row"><span class="n">2</span><span class="b">시나리오의 <b>변경 금지 · 숨기기</b>는 <b>시트 보호</b>를 해야 적용됩니다. 필기에서 물어봅니다</span></div><div class="row"><span class="n">3</span><span class="b">요약을 만들고 나서 <b>요약 시트의 위치</b>까지 문제대로 옮겨야 마무리입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · 11차시</span><h2>목표값 찾기 · 값을 바꿀 셀</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>대화 상자 칸</th><th>넣을 것</th><th>예: 월 상환액을 3만 원으로</th></tr><tr class="step" style="--d:0.16s"><td>수식 셀</td><td>결과(수식)가 들어 있는 셀</td><td>월 상환액 셀</td></tr><tr class="step" style="--d:0.32s"><td>찾는 값</td><td>그 결과가 가져야 할 값을 직접 입력</td><td>30000</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>값을 바꿀 셀</td><td>수식이 참조하는 입력 셀</td><td>상환 기간 셀</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>값을 바꿀 셀</b>은 수식이 <b>참조하는 입력 셀</b>입니다. 결과가 들어 있는 수식 셀을 고르면 틀립니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>수식 셀</b>과 <b>찾는 값</b>은 짝입니다. «이 셀의 결과가 이 값이 되게 하라»로 읽습니다</span></div><div class="row"><span class="n">3</span><span class="b">그림이 나오면 «월 상환액이 3만 원이 되려면 상환 기간이 얼마여야 하는가»처럼 <b>문장으로 해석</b>한 뒤 칸을 채웁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 분석 작업 · 통합</span><h2>첫 행 · 왼쪽 열 · 와일드카드</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>결과가 시작될 왼쪽 위 셀 선택 › 데이터 탭 › 통합</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>함수 선택(합계 · 평균 · 최대 등) · 참조 영역에 각 표를 선택하고 추가</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>사용할 레이블: 레이블이 첫 행과 왼쪽 열에 모두 있으면 둘 다 체크(한 방향뿐이면 해당하는 것만) › 확인</td></tr><tr class="step" style="--d:0.64s"><td>④</td><td>원본 데이터에 연결: 원본이 바뀌면 통합 결과도 자동 갱신 · 원본과 결과가 같은 시트이면 사용할 수 없음</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>예</td><td>교재 기출 예제: 현대* · *코리아 레이블을 먼저 입력하고 통합 › 판매량의 최댓값</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">레이블이 첫 행과 왼쪽 열에 모두 있는 표에서 <b>첫 행 · 왼쪽 열</b>을 모두 체크하면 순서가 달라도 <b>이름이 같은 항목끼리</b> 계산합니다</span></div><div class="row"><span class="n">2</span><span class="b">참조 영역은 선택만 하지 말고 반드시 <b>«추가»</b>를 눌러 목록에 올립니다</span></div><div class="row"><span class="n">3</span><span class="b">교재 기출 예제에는 <b>와일드카드(*)</b>를 쓴 레이블도 있습니다. 결과 영역에 먼저 입력해 두고 통합합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>셀 포인터 · 기록 단추 · 이름 · 저장 위치</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>방법</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>셀 포인터</td><td>작업 영역 바깥에 두고 시작(선택 동작까지 기록되도록)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>시작</td><td>개발 도구 탭 › 코드 › 매크로 기록 · 상대 참조로 기록은 누르지 않음</td></tr><tr class="step" style="--d:0.48s"><td>매크로 이름</td><td>문제가 지정한 이름을 입력(예: 합계)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>바로 가기 키</td><td>소문자 입력 = Ctrl + 문자 · 대문자 입력 = Ctrl + Shift + 문자 · Alt 조합은 지정할 수 없음</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>저장 위치</td><td>현재 통합 문서(기본값 · 시험) · 새 통합 문서 · 개인용 매크로 통합 문서</td></tr><tr class="step" style="--d:0.96s"><td>파일 형식</td><td>매크로를 포함한 통합 문서(.xlsm)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">작업할 셀에 포인터가 있는 채로 기록을 시작하면 <b>그 셀을 선택하는 동작이 기록되지 않아</b> 다른 곳에서 실행하면 틀립니다. 그래서 바깥에서 시작합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>바로 가기 키</b>는 소문자는 Ctrl+문자, 대문자는 Ctrl+Shift+문자로 지정되며 Alt로는 바꿀 수 없습니다. 수업에서는 실기에서 바로 가기 키를 지정하는 문제는 나오지 않는다고 했습니다</span></div><div class="row"><span class="n">3</span><span class="b">저장 위치는 기본인 <b>현재 통합 문서</b>를 그대로 둡니다. 기록 단추를 누르고 확인하면 바로 기록이 시작됩니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>첫 줄만 기록하고 바로 중지</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>할 일</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>셀 포인터를 작업 영역 바깥에 둠</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>매크로 기록 › 이름 입력 › 확인</td></tr><tr class="step" style="--d:0.48s"><td>③</td><td>F4 셀 클릭 › SUM 함수 입력 › F12까지 채우기</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>④</td><td>개발 도구 › 기록 중지(꼭)</td></tr><tr class="step" style="--d:0.80s"><td>⑤</td><td>단추(또는 도형)를 만들어 매크로 연결</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>⑥</td><td>결과를 지운 뒤 실행해 같은 결과가 나오는지 검증</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">기록하는 것은 <b>문제의 첫 줄</b>에 나온 동작까지입니다. 나머지 줄은 매크로 밖의 작업입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>기록 중지</b>를 하지 않고 단추나 도형을 그리면 그 동작까지 기록되어 실행할 때마다 단추가 새로 생깁니다. 이때는 지우고 다시 기록합니다</span></div><div class="row"><span class="n">3</span><span class="b">검증은 <b>결과를 지우고 다른 셀에서 단추를 눌러</b> 같은 결과가 나오는지 보는 것입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>바로 가기 키 · 매크로 목록 · 양식 컨트롤 단추</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방법</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>바로 가기 키</td><td>Ctrl + 지정한 문자 · 같은 엑셀 단축키(예: Ctrl+G 이동)보다 매크로가 우선</td></tr><tr class="step" style="--d:0.32s"><td>매크로 대화 상자</td><td>개발 도구 › 코드 › 매크로 › 이름 선택 › 실행</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>양식 컨트롤 단추</td><td>개발 도구 › 컨트롤 › 삽입 › 양식 컨트롤 › 단추 · Alt + 드래그로 셀에 맞춤 · 다 그리면 매크로 지정 창이 자동으로 뜸</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>단추 글자 수정</td><td>마우스 오른쪽 단추 › 텍스트 편집(왼쪽 단추를 누르면 매크로가 실행됨)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">바로 가기 키를 <b>Ctrl+G</b>로 지정하면 엑셀 기본 단축키(이동)보다 <b>매크로가 먼저</b> 실행됩니다. 필기에서 묻는다고 했습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>양식 컨트롤 단추</b>는 그리자마자 <b>매크로 지정 창</b>이 자동으로 뜹니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>Alt</b>를 누른 채 드래그하면 단추 크기와 위치가 <b>셀 경계에 딱 맞습니다</b>. 위치를 잘못 그렸으면 다시 Alt를 누르고 조절합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>채우기 기록 · 도형은 오른쪽 단추로 지정</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>단계</th><th>방법</th></tr><tr class="step" style="--d:0.16s"><td>서식 기록</td><td>바깥에서 시작 › 영역 선택 › 홈 › 채우기 색 › 표준색 빨강 › 기록 중지</td></tr><tr class="step" style="--d:0.32s"><td>도형 그리기</td><td>삽입 › 도형 › 지정한 모양 선택 · Alt + 드래그로 지정한 위치에 맞춤</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>매크로 연결</td><td>도형은 마우스 오른쪽 단추 › 매크로 지정(창이 저절로 뜨지 않음)</td></tr><tr class="step" style="--d:0.64s"><td>글자 맞춤</td><td>실선 테두리로 도형 전체를 선택 › 홈 › 맞춤 › 가로 · 세로 가운데</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>검증</td><td>채우기를 없음으로 지운 뒤 도형을 눌러 다시 채워지는지 확인</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>양식 컨트롤 단추</b>는 그리면 지정 창이 뜨지만, <b>도형</b>은 <b>오른쪽 단추 › 매크로 지정</b>으로 따로 연결합니다. 둘을 혼동하지 않습니다</span></div><div class="row"><span class="n">2</span><span class="b">도형 전체의 서식(가로 · 세로 가운데 등)은 <b>점선이 아니라 실선 테두리</b>가 보이는 상태로 선택해서 바꿉니다. 글자만 드래그하면 일부 글자에만 적용됩니다</span></div><div class="row"><span class="n">3</span><span class="b">기록 중지 전에 도형을 그리면 그 동작까지 기록됩니다. <b>첫 줄을 마치면 바로 기록 중지</b>입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>수식 · 서식 패턴 · 잘못 만들었을 때</h2><figure class="fig concept"><div class="example-label">문제 유형</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>유형</th><th>예</th></tr><tr class="step" style="--d:0.16s"><td>수식 매크로</td><td>성명별 합계 · 수령액(기본급 + 수당 − 세금) · 평균(AVERAGE) 후 채우기</td></tr><tr class="step" style="--d:0.32s"><td>서식 매크로</td><td>채우기 색 · 모든 테두리 · 쉼표 스타일(홈 › 표시 형식)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>순서(공통)</td><td>바깥에서 시작 › 기록 › 동작 › 기록 중지 › 단추 · 도형 › 매크로 지정 › 검증</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">수정 · 삭제</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>상황</th><th>방법</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>매크로를 잘못 기록</td><td>개발 도구 › 매크로 › 삭제 후 처음부터 다시 기록</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>이름에 오타</td><td>삭제하고 다시 만들기(수업: 이름은 코드 편집기에서만 고칠 수 있음)</td></tr><tr class="step" style="--d:0.48s"><td>단추 글자 오타</td><td>오른쪽 단추 › 텍스트 편집</td></tr><tr class="step" style="--d:0.64s"><td>VBA 편집기</td><td>Alt + F11 · 컴활 2급은 코드를 몰라도 됨</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">매크로 문제는 <b>문제만 달라지고 순서는 같습니다</b>. 수식 한 개와 서식 한 개가 한 묶음으로 나온다고 했습니다</span></div><div class="row"><span class="n">2</span><span class="b">잘못 만든 매크로는 코드를 고치지 않고 <b>삭제 후 다시 만드는 것</b>이 빠릅니다. 이름 오타도 마찬가지입니다</span></div><div class="row"><span class="n">3</span><span class="b">기록 중지 · 도형 매크로 지정 · 마지막 <b>검증</b>까지 해야 점수를 모두 받습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트</span><h2>Alt + F1 · F11 · 현재 선택 영역</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방법</th><th>결과</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>범위 선택 › Alt + F1</td><td>현재 워크시트에 차트가 삽입됨</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>범위 선택 › F11</td><td>차트만 있는 새 차트 시트가 생성됨</td></tr><tr class="step" style="--d:0.48s"><td>차트를 선택하면</td><td>차트 디자인 탭 · 서식 탭이 나타남</td></tr><tr class="step" style="--d:0.64s"><td>서식 탭 › 현재 선택 영역</td><td>지금 선택한 요소의 이름 확인</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>Alt+F1</b>은 같은 시트에 차트, <b>F11</b>은 새 차트 시트입니다. 키 이름과 결과를 짝지어 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b">차트를 선택하면 <b>차트 디자인 · 서식</b> 탭이 나타납니다. 서식 탭 왼쪽의 <b>현재 선택 영역</b>이 선택한 요소를 알려 줍니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 실제 시험의 차트 지시는 다섯 개 안팎이고 부분 점수가 있다고 했습니다. 하나도 놓치지 않는 것이 중요합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트</span><h2>차트 영역과 그림 영역을 구분합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>요소</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>차트 제목</td><td>차트 맨 위의 제목</td></tr><tr class="step" style="--d:0.32s"><td>값(세로) 축 제목</td><td>세로 막대형에서 세로축의 제목</td></tr><tr class="step" style="--d:0.48s"><td>항목(가로) 축 제목</td><td>가로축의 제목</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>차트 영역</td><td>차트 전체 · 선택하면 바깥쪽에 선택점이 나타남</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>그림 영역</td><td>차트 영역 안쪽 · 그래프가 그려지는 영역</td></tr><tr class="step" style="--d:0.96s"><td>눈금선</td><td>축이 있는 세로 막대형에서는 주 가로 눈금선이 기본 · 추가할 수 있는 눈금선(보조 · 세로 등)은 차트 종류에 따라 다름</td></tr><tr class="step" style="--d:1.12s"><td>데이터 계열</td><td>막대 · 선처럼 값을 나타내는 것(예: 생산량 계열)</td></tr><tr class="step" style="--d:1.28s"><td>데이터 레이블</td><td>계열에 값이나 이름을 적은 이름표</td></tr><tr class="step" style="--d:1.44s"><td>추세선</td><td>데이터 계열의 증가 · 감소 흐름을 보여 주는 선</td></tr><tr class="step" style="--d:1.60s"><td>범례</td><td>데이터 계열의 이름을 표시</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>차트 영역</b>은 차트 전체, <b>그림 영역</b>은 그 안쪽 그래프 부분입니다. 시험에 계속 나오니 가장 먼저 구분합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>값 축</b>(세로) · <b>항목 축</b>(가로) 제목은 세로 막대형 기준입니다. 눈금선은 <b>주 · 보조</b>, <b>가로 · 세로</b>로 나눠 봅니다</span></div><div class="row"><span class="n">3</span><span class="b">필기에서는 차트 그림을 보고 <b>보조 가로 눈금선 · 데이터 레이블이 적용되어 있다</b> 같은 설명의 맞고 틀림을 묻습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">오늘의 함정</span><h2>여기서 많이 틀립니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>✕ 이렇게 하면 틀림</th><th>○ 이렇게 합니다</th></tr><tr class="step" style="--d:0.16s"><td>명령 레지스터(IR)를 연산 장치로 분류</td><td>IR은 제어 장치 · 연산 장치는 가산기 · 보수기 · 누산기 등</td></tr><tr class="step" style="--d:0.32s"><td>보수기를 진수 표현에 쓴다고 생각</td><td>보수기는 뺄셈</td></tr><tr class="step" style="--d:0.48s"><td>플래시 메모리를 트랙 단위로 저장한다고 외움</td><td>교재: 블록 단위</td></tr><tr class="step" style="--d:0.64s"><td>가상 메모리를 쓰면 속도가 빨라진다고 생각</td><td>큰 프로그램 실행은 가능하지만 속도는 느려질 수 있음</td></tr><tr class="step" style="--d:0.80s"><td>USB를 병렬 방식으로 분류</td><td>직렬 · 한 번에 1비트씩</td></tr><tr class="step" style="--d:0.96s"><td>처리 속도 단위에서 앞쪽(밀리초)이 더 빠르다고 생각</td><td>뒤로 갈수록(아토초 쪽) 더 빠름</td></tr><tr class="step" style="--d:1.12s"><td>목표값 찾기에서 «값을 바꿀 셀»에 결과 수식 셀을 지정</td><td>수식이 참조하는 입력 셀</td></tr><tr class="step" style="--d:1.28s"><td>데이터 표 결과 셀 하나만 지우려 함</td><td>결과 영역 전체를 선택하고 Delete</td></tr><tr class="step" style="--d:1.44s"><td>기록 중지 전에 단추를 그림</td><td>기록 중지 후 단추 · 도형을 그림</td></tr><tr class="step" style="--d:1.60s"><td>도형도 그리면 매크로 지정 창이 뜬다고 생각</td><td>단추는 자동 · 도형은 오른쪽 단추 › 매크로 지정</td></tr><tr class="step" style="--d:1.76s"><td>차트 영역과 그림 영역을 같은 곳으로 봄</td><td>차트 영역 = 전체 · 그림 영역 = 안쪽</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>IR = 제어 장치</b>, <b>보수기 = 뺄셈</b>, <b>USB = 직렬 1비트</b>, 플래시 = 블록</span></div><div class="row"><span class="n">2</span><span class="b"><b>목표값 찾기의 값을 바꿀 셀 = 입력 셀</b>, 데이터 표 결과는 통째로 삭제</span></div><div class="row"><span class="n">3</span><span class="b"><b>기록 중지 후 단추</b>, <b>도형은 오른쪽 단추 › 매크로 지정</b>, 차트 영역 ≠ 그림 영역</span></div></div></div></section><section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>12차시 복습 퀴즈</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="퀴즈 진행" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">퀴즈 진행</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이름 입력</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">본인 이름</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">문제 풀이</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">10문제</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">결과 확인</text></g></svg><figcaption>이름 입력 후 문제를 풀고 채점합니다.</figcaption></figure>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>복습 퀴즈 10문제</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="풀이 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">풀이 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">선택</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">각 문제의 답</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">맨 아래 버튼</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">복습</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">틀린 문제 확인</text></g></svg><figcaption>답을 고른 뒤 맨 아래의 채점 버튼을 누르세요.</figcaption></figure>
+<div class="quiz-item"><p class="q"><span class="qn">1</span><span class="qt">CPU의 제어 장치에서 다음에 실행할 명령어의 주소를 기억하는 레지스터는?</span></p><button class="quiz-opt">명령 레지스터(IR)</button><button class="quiz-opt" data-correct="true">프로그램 카운터(PC)</button><button class="quiz-opt">누산기</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">2</span><span class="qt">CPU의 연산 장치 구성 요소 중, 뺄셈을 수행하기 위해 사용하는 것은?</span></p><button class="quiz-opt" data-correct="true">보수기</button><button class="quiz-opt">해독기(디코더)</button><button class="quiz-opt">인덱스 레지스터</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">3</span><span class="qt">다음 중 연산 장치에 해당하지 않는 것은?</span></p><button class="quiz-opt">가산기</button><button class="quiz-opt">누산기</button><button class="quiz-opt" data-correct="true">명령 레지스터(IR)</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">4</span><span class="qt">전원이 꺼져도 내용이 지워지지 않고 바이오스(BIOS)와 자가 진단 프로그램(POST)이 저장되는 기억 장치는?</span></p><button class="quiz-opt">RAM</button><button class="quiz-opt" data-correct="true">ROM</button><button class="quiz-opt">캐시 메모리</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">5</span><span class="qt">처리 속도 단위 μs, ns, ps 중 가장 빠른(가장 짧은 시간의) 단위는?</span></p><button class="quiz-opt">μs(마이크로초)</button><button class="quiz-opt">ns(나노초)</button><button class="quiz-opt" data-correct="true">ps(피코초)</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">6</span><span class="qt">교재 기준으로 USB(범용 직렬 버스)에 대한 설명으로 옳은 것은?</span></p><button class="quiz-opt" data-correct="true">직렬 방식이며 핫 플러그인과 플러그 앤 플레이를 지원한다</button><button class="quiz-opt">병렬 방식으로 한 번에 8비트씩 전송한다</button><button class="quiz-opt">허브를 사용해도 최대 4개까지만 연결할 수 있다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">7</span><span class="qt">CPU 대신 입출력 장치에 대한 제어권을 넘겨받아 입출력 작업을 관리하는 것은?</span></p><button class="quiz-opt">캐시 메모리</button><button class="quiz-opt" data-correct="true">채널</button><button class="quiz-opt">가산기</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">8</span><span class="qt">월 상환액이 3만 원이 되려면 상환 기간이 얼마여야 하는지 목표값 찾기로 구하려 한다. «값을 바꿀 셀»에 지정할 셀은?</span></p><button class="quiz-opt">월 상환액을 계산하는 수식이 들어 있는 셀</button><button class="quiz-opt">3만 원을 입력해 둔 셀</button><button class="quiz-opt" data-correct="true">상환 기간이 입력된 셀</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">9</span><span class="qt">삽입 탭의 도형(사각형 등)에 매크로를 연결하는 방법으로 옳은 것은?</span></p><button class="quiz-opt" data-correct="true">도형을 마우스 오른쪽 단추로 눌러 «매크로 지정»을 선택한다</button><button class="quiz-opt">도형을 그리면 매크로 지정 창이 자동으로 나타난다</button><button class="quiz-opt">도형을 선택하고 Alt+F1을 누른다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">10</span><span class="qt">차트로 만들 범위를 선택한 뒤 Alt+F1을 누르면 어떻게 되는가?</span></p><button class="quiz-opt">새 차트 시트에 차트가 만들어진다</button><button class="quiz-opt" data-correct="true">현재 워크시트에 차트가 삽입된다</button><button class="quiz-opt">차트 서식 창만 열린다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<section class="card" id="audioReviewCard"><div class="card-inner">
+<span class="kicker pilgi">영상·음성 복습</span><h2>12차시 영상·음성 복습</h2><p class="lead">화면과 강사 음성을 함께 보거나 원하는 주제를 선택해 들을 수 있습니다.</p>
+<figure class="fig concept"><svg viewBox="0 0 560 100" role="img" aria-label="전체 듣기, 주제 선택, 재생 속도 조절" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="536" height="76" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/><path d="M42 50h10l6-14 8 28 8-36 8 42 8-31 6 21 6-10h12" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="140" y="47" fill="#1E3A5F" font-size="16" font-weight="700">전체 듣기 · 주제별 듣기</text><text x="140" y="69" fill="#475569" font-size="13">재생 속도와 듣기 위치를 조절할 수 있습니다</text></svg><figcaption>학습 주제를 선택하면 해당 부분부터 재생됩니다.</figcaption></figure>
+<div class="video-review"><video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/2026-11-12cha.mp4?v=1"></video><div class="video-copy"><span>화면과 강사 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div></div>
+<div class="audio-review"><audio id="reviewAudio" preload="metadata" src="audio/review/2026-11-12cha-instructor.mp3?v=1"></audio>
+<div class="player-controls"><button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button><button type="button" id="audioBack">−10초</button><button type="button" id="audioForward">+10초</button><label class="speed-wrap">재생 속도 <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select></label></div>
+<div class="timeline"><input class="seek-bar" id="audioSeek" type="range" min="0" max="1" step="0.1" value="0" aria-label="음성 재생 위치"><div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div><div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">0:00</span></div></div><div class="chapter-grid" id="chapterGrid"></div><p class="audio-note">강사 음성 합성으로 제작한 복습 음성입니다.</p></div></div></section>
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>window.REVIEW_AUDIO={"titles": ["CPU와 제어 장치", "연산 장치와 레지스터", "ROM과 BIOS", "RAM과 캐시 메모리", "가상 메모리와 연관 메모리", "하드디스크와 SSD", "기억 용량 단위와 접근 속도", "처리 속도 단위", "입력 장치", "출력 장치와 프린터", "채널과 인터럽트", "포트와 USB", "시모스 셋업과 펌웨어", "하드디스크 인터페이스와 RAID", "PC 관리와 전원 장치", "업그레이드와 파티션", "데이터 표 보충", "시나리오 보충", "복습 11차시 다시 짚기", "통합 복습", "매크로 기록 준비", "수식 매크로 기록", "매크로 실행과 단추", "서식 매크로와 도형", "매크로 문제 유형과 수정", "차트 만들기", "차트 구성 요소", "오늘의 함정"], "starts": [0.0, 53.17, 103.54, 151.99, 197.64, 249.36999999999998, 296.78, 337.07, 381.52, 431.40999999999997, 489.29999999999995, 530.87, 605.4000000000001, 658.7300000000001, 721.5000000000002, 798.3500000000003, 876.7200000000003, 921.8900000000003, 978.2600000000003, 1026.4700000000005, 1086.6000000000006, 1146.5700000000006, 1192.9400000000007, 1254.0300000000009, 1314.880000000001, 1376.610000000001, 1417.4600000000012, 1490.9500000000012], "duration": 1533.27, "src": "audio/review/2026-11-12cha-instructor.mp3?v=1"};</script>
+<script src="audio/review/player.js"></script>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-11 12차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  '9bbb52287af375ad',
+  '68a2bbf429acc7f6',
+  '1d3c61ba29a8a304',
+  '799b4fa176106108',
+  '0345c6705c8a657a',
+  '871b4f95f45d75b6',
+  'adf899b5064f769e',
+  '80311697fa93d30b',
+  'ae6fd527794e6187',
+  'db6f439e9999c4f7',
+  '79863b87fe14670d',
+  'e83e84eec19ad05b',
+  'a5a6ccaf14cb9e40',
+  'f3177b9e506f5f36',
+  'ce93aed446c7a37f',
+  'cc45086c23272d8c',
+  'd8467edd1b145f9b',
+  'b4beb49ac060c43e',
+  'e94f142db3f696b3',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
