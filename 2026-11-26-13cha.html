@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 13차시 복습카드 (2026.11.26)</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); line-height:1.6;
+  background:
+    radial-gradient(ellipse at 12% 58%, #d7f4e7 0%, transparent 60%),
+    radial-gradient(ellipse at 88% 12%, #e5d8f7 0%, transparent 62%),
+    linear-gradient(150deg, #f8faf9 0%, #edf7f5 70%, #f5f7fb 100%);
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
+
+.fig.shot{display:block;padding:12px;text-align:center}.shot img{display:block;max-width:100%;max-height:360px;width:auto;height:auto;margin:auto;object-fit:contain}.shot a{display:block}.shot a:focus-visible{outline:3px solid #2563eb;outline-offset:3px}.fig svg{max-width:100%;height:auto}.card.active .draw{stroke-dasharray:var(--len,240);stroke-dashoffset:var(--len,240);animation:drawline .9s ease-out forwards;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){.card.active .draw{animation:none;stroke-dashoffset:0}.card.active [class*="a-"]{animation:none}.card.active .a-swapout{display:none}.card.active .a-swapin{opacity:1}}
+
+.summary-list{margin:0 0 16px;border-top:2px solid #315ea8;background:#fff}.summary-row{display:grid;grid-template-columns:minmax(100px,29%) 1fr;gap:12px;padding:12px 10px;border-bottom:1px solid #e2e8f0;line-height:1.5;font-size:15px}.summary-row strong{color:#164287}.summary-row span{min-width:0;color:#1f2937}.concept svg{display:block;width:100%;height:auto}.card.active .concept .step{animation:step-in .45s ease-out both;animation-delay:var(--d)}@keyframes step-in{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:400px){.summary-row{grid-template-columns:95px 1fr;gap:8px;font-size:14px}}@media(prefers-reduced-motion:reduce){.card.active .concept .step{animation:none}}
+
+/* 학습 카드 주변 장식: 본문과 조작 영역을 가리지 않도록 배치 */
+.ambient-stickers{position:fixed;inset:48px 0 58px;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-stickers i,.card-inner::before,.card-inner::after{background-image:url('assets/review-stickers.png');background-repeat:no-repeat;background-size:200% 200%;pointer-events:none;}
+.ambient-stickers i{position:absolute;width:clamp(82px,10vw,135px);aspect-ratio:1;filter:drop-shadow(0 10px 12px rgba(78,82,110,.10));}
+.ambient-stickers .laptop{left:2%;top:8%;background-position:0 0;}
+.ambient-stickers .book{right:2%;top:12%;background-position:100% 0;}
+.ambient-stickers .list{left:3%;bottom:9%;background-position:0 100%;}
+.ambient-stickers .star{right:3%;bottom:8%;background-position:100% 100%;}
+.deck{position:relative;z-index:1;}
+@media(max-width:900px){
+  .ambient-stickers{display:none;}
+  .card-inner{position:relative;padding-top:72px;}
+  .card-inner::before,.card-inner::after{content:"";position:absolute;top:0;width:68px;height:68px;}
+  .card-inner::before{right:73px;background-position:0 0;}
+  .card-inner::after{right:0;background-position:100% 0;}
+  .card:nth-of-type(4n+2) .card-inner::before,.card:nth-of-type(4n+3) .card-inner::before{background-position:0 100%;}
+  .card:nth-of-type(4n+2) .card-inner::after,.card:nth-of-type(4n+3) .card-inner::after{background-position:100% 100%;}
+}
+.panel code,.example-table td{overflow-wrap:anywhere;word-break:break-all}
+</style>
+<style>.example-label{font-size:12px;font-weight:700;color:#4b6c60;margin:0 0 7px}.example-wrap{overflow-x:auto}.example-table{width:100%;border-collapse:collapse;font-size:clamp(12px,2.5vw,15px);background:white}.example-table th,.example-table td{padding:8px;border:1px solid #cbd7d1;text-align:center;word-break:keep-all}.example-table th{background:#dff4ea;color:#285441}.example-table tr:nth-child(even){background:#f6faf9}.example-table td{overflow-wrap:anywhere}@media(prefers-reduced-motion:reduce){.example-table .step{animation:none!important;opacity:1!important}}</style></head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 13차시</span>
+  <span class="d">2026.11.26 (목)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="ambient-stickers" aria-hidden="true"><i class="laptop"></i><i class="book"></i><i class="list"></i><i class="star"></i></div>
+
+<div class="deck" id="deck">
+
+<section class="card"><div class="card-inner"><span class="kicker">13차시 복습카드</span><h2>필기 소프트웨어 · 운영체제 · 언어 · 정보 통신 +<br>실기 매크로 복습 · 차트 편집</h2><figure class="fig concept"><div class="example-label">복습 순서</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>복습 순서</th><th>학습 내용</th></tr><tr class="step" style="--d:0.16s"><td>필기</td><td>소프트웨어 사용권 · 운영체제 · 운영 기법</td></tr><tr class="step" style="--d:0.32s"><td>필기</td><td>프로그래밍 언어 · 언어 번역 · 웹 프로그래밍 언어</td></tr><tr class="step" style="--d:0.48s"><td>필기</td><td>정보 통신 · 네트워크 장비 · 인터넷 용어</td></tr><tr class="step" style="--d:0.64s"><td>실기</td><td>매크로 이름 · 바로 가기 키 · 단추 복습</td></tr><tr class="step" style="--d:0.80s"><td>실기</td><td>차트 구성 요소 · 차트 편집</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>필기</b> — 5장 소프트웨어를 끝내고 6장 정보 통신으로 넘어왔습니다. 표로 나온 것은 키워드만 뽑아 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>매크로</b> — 어제 한 매크로를 이름 규칙과 대화 상자 중심으로 다시 짚었습니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>차트</b> — 실기의 마지막 단원 차트를 구성 요소부터 편집까지 이어서 정리합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · 12차시</span><h2>많이 틀린 3가지</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>헷갈린 것</th><th>이렇게 구분합니다</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>PC와 IR</td><td>PC = 다음에 실행할 명령어의 주소 · IR = 지금 실행할 명령어 자체</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>ROM과 RAM</td><td>ROM = 읽기 전용 · 전원이 꺼져도 유지(비휘발성) · BIOS · POST 저장 / RAM = 꺼지면 사라짐</td></tr><tr class="step" style="--d:0.48s"><td>목표값의 수식 셀</td><td>결과가 나오는 수식이 들어 있는 셀(예: 월 상환액)</td></tr><tr class="step" style="--d:0.64s"><td>목표값의 찾는 값</td><td>맞추고 싶은 목표 숫자를 직접 입력(예: 30000)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>목표값의 값을 바꿀 셀</td><td>답을 찾으려는 입력 셀(예: 상환 기간) · 수식 셀이 아님</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>PC</b>는 «다음 주소», <b>IR</b>은 «지금 명령어»입니다. 이름이 비슷한 MAR(주소) · MBR(데이터)과도 구분합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>롬</b>은 비휘발성이라 바이오스 · 폰트 · 자가 진단 프로그램(POST)을 저장하고, <b>램</b>은 전원이 꺼지면 사라집니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>목표값 찾기</b>: 수식 셀(결과를 계산) · 찾는 값(목표 숫자) · 값을 바꿀 셀(답이 될 입력 셀) 세 칸을 서로 바꿔 넣지 않습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 5장 소프트웨어</span><h2>상용 · 셰어웨어 · 트라이얼 · 프리웨어 · 공개</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>종류</th><th>특징</th></tr><tr class="step" style="--d:0.16s"><td>상용 소프트웨어</td><td>대가를 지불하고 정식으로 구입해 사용</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>셰어웨어</td><td>기능 · 사용 기간에 제한을 두고 무료로 배포 · 써 보고 마음에 들면 구입</td></tr><tr class="step" style="--d:0.48s"><td>트라이얼 버전</td><td>체험용으로 일부 기능만 제공(교재에서는 셰어웨어보다 범위가 좁다고 구분)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>프리웨어</td><td>사용료 없이 누구나 쓸 수 있음(교재 기준) · 구체적인 이용 범위는 사용권에 따름</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>공개 소프트웨어</td><td>소스 코드까지 공개 · 누구나 개발에 참여(예: 리눅스)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>셰어웨어</b>는 «기능이나 기간의 제한», <b>프리웨어</b>는 «사용료 없이 이용(범위는 사용권에 따름)», <b>상용</b>은 «구입해서 사용»이 키워드입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>공개 소프트웨어</b>는 소스 코드를 공개한 것입니다. 셰어웨어와 같은 것으로 보지 않습니다</span></div><div class="row"><span class="n">3</span><span class="b">셰어웨어와 트라이얼은 비슷해 보이므로 <b>제한의 정도</b>로 구분한다고 수업에서 짚었습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 5장 소프트웨어</span><h2>데모 · 알파 · 베타 · 패치 · 벤치마크 · 번들</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>종류</th><th>특징</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>데모 버전</td><td>프로그램을 홍보하려고 기간 · 기능을 제한 · «홍보»라는 단어가 키워드</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>알파 버전</td><td>정식 배포 전, 개발 회사 안에서 하는 테스트</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>베타 버전</td><td>일반 사용자에게 무료로 배포해 써 보게 하는 테스트(예: 게임 베타 테스트 모집)</td></tr><tr class="step" style="--d:0.64s"><td>패치 버전</td><td>이미 배포한 프로그램의 오류 수정 · 성능 향상</td></tr><tr class="step" style="--d:0.80s"><td>벤치마크</td><td>프로그램이나 장치의 성능을 검사</td></tr><tr class="step" style="--d:0.96s"><td>번들</td><td>하드웨어 · 소프트웨어를 구입할 때 무료로 끼워 주는 것</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">알파와 베타는 <b>테스트하는 장소</b>로 구분합니다. 회사 안이면 알파, 회사 밖이면 베타입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>데모</b>는 셰어웨어와 비슷해 보이지만 목적이 <b>홍보</b>입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>번들</b>은 «구입할 때 무료로 제공», <b>패치</b>는 «이미 나온 프로그램의 수정»이 키워드입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 운영체제</span><h2>응답 시간 · 처리 능력 · 신뢰도 · 사용 가능도</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>목적</td><td>응답 시간 단축 · 처리 능력 증대 · 신뢰도 향상 · 사용 가능도 증대</td></tr><tr class="step" style="--d:0.32s"><td>종류</td><td>유닉스 · 리눅스 · 윈도우 · MS-DOS · 안드로이드 · iOS</td></tr><tr class="step" style="--d:0.48s"><td>자원 관리</td><td>프로세서 · 기억 장치 · 주변 장치 · 파일(데이터)</td></tr><tr class="step" style="--d:0.64s"><td>스케줄링</td><td>일을 효율적으로 처리할 순서와 시간을 정함</td></tr><tr class="step" style="--d:0.80s"><td>인터페이스</td><td>사용자와 시스템 사이의 편리한 환경(예: 그래픽 사용자 인터페이스)</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>«주요 기능이 아닌 것»</td><td>교재의 주요 기능 목록에는 보안이 없음(실제 운영체제는 보안 기능도 제공)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">목적 네 가지는 <b>응답 시간은 짧을수록</b>, 처리 능력 · 신뢰도 · 사용 가능도는 <b>높을수록</b> 좋다는 방향으로 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b">유닉스 · 리눅스 · 윈도우 · 안드로이드 · iOS는 모두 <b>운영체제</b>입니다. 프로그래밍 언어와 섞어 내는 문제가 있습니다</span></div><div class="row"><span class="n">3</span><span class="b">«운영체제의 주요 기능이 아닌 것»에는 교재 기준으로 <b>보안</b>이 정답으로 나옵니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 운영체제</span><h2>감작대 · 언서문</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>구성</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>제어 프로그램</td><td>감시 프로그램 · 작업 제어 프로그램 · 데이터 관리 프로그램 → «감작대»</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>처리 프로그램</td><td>언어 번역 프로그램 · 서비스 프로그램 · 문제 프로그램 → «언서문»</td></tr><tr class="step" style="--d:0.48s"><td>운영체제의 구성</td><td>제어 프로그램 + 처리 프로그램</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>유틸리티</td><td>메모장 · 그림판 · 계산기 등 · 사용 편의를 위한 것이지 컴퓨터 동작에 필수는 아님</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">운영체제는 <b>제어 프로그램과 처리 프로그램</b>으로 이루어집니다. «제어 프로그램과 감시 응용 프로그램»처럼 바꿔 쓴 보기는 틀립니다</span></div><div class="row"><span class="n">2</span><span class="b">제어가 먼저입니다. <b>감작대</b> 세 글자와 <b>언서문</b> 세 글자만 구분하면 섞어 낸 문제도 풀립니다</span></div><div class="row"><span class="n">3</span><span class="b">유틸리티를 «컴퓨터 동작에 <b>필수적</b>이다»라고 쓴 보기는 틀린 설명입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 운영 기법</span><h2>언제, 어디서 처리하느냐로 구분합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방식</th><th>특징 · 예</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>일괄 처리</td><td>일정량을 모았다가 한꺼번에 처리 · 급여 계산 · 공공요금 · 온라인과 오프라인 모두 가능</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>실시간 처리</td><td>데이터가 발생하면 즉시 처리 · 항공기 · 열차 · 은행 업무</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>분산 처리</td><td>떨어진 여러 대의 컴퓨터를 연결해 작업을 나눠 처리 · 대용량(빅데이터) 처리에 유리(수업)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>일괄 처리</b>는 오프라인만 가능한 것이 아니라 <b>온라인과 오프라인 모두</b> 가능합니다. 틀린 보기로 자주 나옵니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>실시간</b>은 «바로바로», <b>일괄</b>은 «모았다가 한꺼번에»가 키워드입니다</span></div><div class="row"><span class="n">3</span><span class="b">일괄 · 실시간 · 분산 세 방식만 순서대로 고르는 문제에서는 <b>일괄 › 실시간 › 분산</b>이 정답으로 나왔습니다(운영 기법 전체의 발달 순서는 임베디드 카드)</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 운영 기법</span><h2>CPU가 몇 개인지, 몇 대가 일하는지</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방식</th><th>구분 기준</th></tr><tr class="step" style="--d:0.16s"><td>시분할</td><td>한 대의 컴퓨터를 여러 사용자가 시간을 나눠 사용(예: 0.1초씩 돌아가며)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>다중 프로그래밍</td><td>CPU 1개로 여러 프로그램이 동시에 실행되는 것처럼 처리</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>다중 처리</td><td>둘 이상의 처리 장치(CPU 여러 개)로 처리(교재 기준) · 듀얼 코어 · 쿼드 코어 · 헥사 코어가 예</td></tr><tr class="step" style="--d:0.64s"><td>듀얼 시스템</td><td>교재 기준: 두 대의 시스템이 동시에 업무를 처리</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>듀플렉스 시스템</td><td>두 대가 있어도 한 대만 가동 · 문제가 생기면 대기하던 한 대가 가동</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>다중 프로그래밍</b>은 CPU 1개, <b>다중 처리</b>는 CPU 여러 개입니다. 이름이 비슷하므로 <b>CPU 개수</b>로 구분합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>듀얼</b>은 두 대가 동시에, <b>듀플렉스</b>는 한 대만 가동하고 한 대는 대기입니다. 어떻게 동작하는지 차이를 알면 됩니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>시분할</b>은 사용자 여러 명이 «혼자 쓰는 것처럼» 느끼게 하는 방식입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 운영체제</span><h2>전자 제품 안에 내장되어 제어합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>임베디드 시스템</td><td>전자 제품(세탁기 · 냉장고 · TV · 전기밥솥) 안에 내장되어 특정 기능을 제어</td></tr><tr class="step" style="--d:0.32s"><td>구성</td><td>마이크로프로세서 + 응용 프로그램 · 하드웨어에 내장되어 동작하는 소프트웨어(펌웨어 형태)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>운영체제</td><td>용량이 큰 운영체제는 부담 → 기능에 맞게 작게 만든 운영체제 · 교재의 예: 윈도우 CE</td></tr><tr class="step" style="--d:0.64s"><td>발달 과정(수업)</td><td>일괄 처리가 가장 먼저 → 다중 프로그래밍 · 다중 처리 · 시분할 등이 이어서 등장 → 다중 모드 → 분산 처리</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>임베디드</b> = «제품 안에 내장되어 제어하는 시스템»입니다. 설명하는 보기를 고르는 문제에서 이 뜻을 기억합니다</span></div><div class="row"><span class="n">2</span><span class="b">임베디드용 운영체제로는 교재에서 <b>윈도우 CE</b>를 예로 듭니다</span></div><div class="row"><span class="n">3</span><span class="b">발달 과정은 맨 앞이 <b>일괄 처리</b>, 현재 많이 쓰는 것이 <b>분산 처리</b>라는 양 끝만 확실히 외웁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 프로그래밍 언어</span><h2>기계에 가까우면 저급, 사람에 가까우면 고급</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>특징</th></tr><tr class="step" style="--d:0.16s"><td>기계어</td><td>0과 1로 이루어진 컴퓨터가 직접 이해하는 언어</td></tr><tr class="step" style="--d:0.32s"><td>어셈블리어</td><td>기계어와 1:1로 대응되는 간단한 명령어 · 교재 기준: 처리 속도가 빠르고 하드웨어 제어에 쓰지만 작성이 어려움</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>저급 언어</td><td>기계어 · 어셈블리어 · 사람이 이해하기 어렵고 수정도 어려움</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>고급 언어</td><td>자연어와 비슷한 형태 · 작성이 쉬움 · 기계어로 번역하는 과정이 필요</td></tr><tr class="step" style="--d:0.80s"><td>고급 언어의 예</td><td>C · BASIC · COBOL · (수업에서 본 VBA)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>저급 언어</b> = 기계어와 어셈블리어, <b>고급 언어</b> = 자연어에 가까운 언어입니다</span></div><div class="row"><span class="n">2</span><span class="b">교재 암기 기준으로 기계에 가까울수록 <b>실행은 빠르지만 작성은 어렵고</b>, 사람에 가까울수록 <b>작성은 쉽지만 번역이 필요</b>합니다</span></div><div class="row"><span class="n">3</span><span class="b">어셈블리어는 기계어와 거의 같은 수준이라 «이해하기 힘들고 수정 · 변경이 어렵다»는 설명이 붙습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 프로그래밍 언어</span><h2>이름을 다 외우기보다 구분하는 요령</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>문제 중심 언어</td><td>LISP · GPSS · SPSS · SAS · 특정 분야의 문제 해결(교재 분류)</td></tr><tr class="step" style="--d:0.32s"><td>절차 중심 언어</td><td>C · COBOL · FORTRAN · PASCAL · ALGOL · 정해진 절차를 순서대로 기술</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>언어가 아닌 것</td><td>UNIX · Linux는 운영체제 · «프로그래밍 언어가 아닌 것»에 섞여 나옴</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>객체 지향의 특징</td><td>추상화 · 캡슐화 · 상속성 · 다형성(수업: 다양성) · 한 번 만든 것을 재사용</td></tr><tr class="step" style="--d:0.80s"><td>객체 지향 언어 예</td><td>C++ · 자바</td></tr><tr class="step" style="--d:0.96s"><td>비주얼 프로그래밍</td><td>화면에서 눈으로 보면서 만드는 방식(예: 비주얼 베이직)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">언어 이름이 낯설어도 <b>운영체제(유닉스 · 리눅스)</b>만 골라내면 «프로그래밍 언어가 아닌 것» 문제는 풀립니다</span></div><div class="row"><span class="n">2</span><span class="b">프로그래밍 기법은 시험 위주로 <b>객체 지향</b>만 확실히 봅니다. 특징 중 다른 단어(예: 그룹화)가 섞여 있으면 그 보기가 틀립니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>비주얼 프로그래밍</b>은 지난 시간에 본 비주얼 베이직처럼 화면을 보며 만드는 방식입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 프로그래밍 언어</span><h2>컴파일러는 통번역, 인터프리터는 동시통역</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>비교</th><th>컴파일러</th><th>인터프리터</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>번역 단위</td><td>프로그램 전체(통번역)</td><td>한 줄씩(바로바로)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>목적 프로그램</td><td>만든다(교재: 실행 파일까지 만든다고 설명 · 실제로는 링크 과정을 거칠 수 있음)</td><td>만들지 않는다</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>번역 속도</td><td>느림</td><td>빠름</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>실행 속도</td><td>빠름</td><td>느림(실행할 때마다 다시 번역)</td></tr><tr class="step" style="--d:0.80s"><td>번역 대상</td><td>고급 언어 → 기계어</td><td>고급 언어 → 기계어(어셈블리어는 어셈블러가 번역)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>컴파일러</b> = 전체 번역 · 목적 프로그램 O · 번역 느림 · 실행 빠름, <b>인터프리터</b> = 한 줄씩 · 목적 프로그램 X · 번역 빠름 · 실행 느림입니다</span></div><div class="row"><span class="n">2</span><span class="b">번역 속도와 실행 속도가 <b>서로 반대</b>입니다. 한 쪽을 바꿔 쓴 보기에 주의합니다</span></div><div class="row"><span class="n">3</span><span class="b">어셈블리어로 작성한 프로그램은 <b>어셈블러</b>가 번역합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 웹 프로그래밍 언어</span><h2>HTML · DHTML · HTML5 · SGML · XML · VRML</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>언어</th><th>키워드</th></tr><tr class="step" style="--d:0.16s"><td>HTML</td><td>하이퍼텍스트 문서 · 정해진 태그 · 웹 브라우저만 있으면 열림</td></tr><tr class="step" style="--d:0.32s"><td>DHTML</td><td>앞의 D = 다이내믹 · 동적인 웹 페이지(사용자의 동작에 반응)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>HTML5</td><td>ActiveX 설치 없이 웹 브라우저에서 비디오 · 오디오 같은 최신 멀티미디어 감상</td></tr><tr class="step" style="--d:0.64s"><td>SGML</td><td>전자 문서를 다른 시스템과 주고받음</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>XML</td><td>HTML의 단점을 보완 · 태그를 사용자가 직접 정의</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>VRML</td><td>가상 현실(3차원 가상 공간)</td></tr><tr class="step" style="--d:1.12s"><td>ASP · JSP · PHP</td><td>웹 프로그래밍 언어 · 수업에서 ASP는 윈도우 환경, JSP · PHP는 여러 운영체제에서 쓴다고 설명</td></tr><tr class="step" style="--d:1.28s"><td>스크립트</td><td>자바 스크립트 · VB 스크립트도 웹 페이지 표현에 쓰는 언어</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">문제의 <b>키워드</b>를 먼저 찾습니다. «ActiveX 없이»는 HTML5, «전자 문서»는 SGML, «가상 현실»은 VRML(VR)입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>XML</b>은 태그를 직접 정의해서 쓰므로 필드를 구분해 엑셀로 가져오기 쉽다고 수업에서 설명했습니다</span></div><div class="row"><span class="n">3</span><span class="b">HTML · DHTML · HTML5는 웹 문서 기술입니다. 이름만으로 판단하지 말고, 보기에 낯선 이름이 섞여 있으면 <b>웹 언어인지 운영체제인지</b>부터 가립니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 정보 통신</span><h2>동시에 주고받는지, 서버가 따로 있는지</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>방식</th><th>특징 · 예</th></tr><tr class="step" style="--d:0.16s"><td>단방향</td><td>한쪽에서만 보냄 · TV · 라디오 방송</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>반이중</td><td>양쪽 모두 보낼 수 있지만 한쪽이 보내면 한쪽은 받기만 · 무전기</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>전이중</td><td>양쪽이 동시에 송수신 · 교재의 예: 전화 · 인터넷</td></tr><tr class="step" style="--d:0.64s"><td>클라이언트/서버</td><td>서버(정보 제공)와 클라이언트(요청)의 역할이 나뉨 · 구글에 접속해 정보를 받는 방식</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>P2P(동배간 처리)</td><td>누구든지 서버도 되고 클라이언트도 됨 · 내 폴더를 공유해 다른 사람에게 줄 수도 있음</td></tr></table></div></figure><figure class="fig concept"><div class="example-label">방식 비교</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>핵심 질문</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>전송 방식</td><td>동시에 주고받을 수 있나? 번갈아 하나? 한쪽만 보내나?</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>운영 방식</td><td>서버와 클라이언트 역할이 나뉘나? 모두가 서버도 되나?</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>반이중</b>과 <b>전이중</b>을 바꿔 쓴 보기에 주의합니다. 번갈아 = 무전기(반이중), 동시에 = 전화(전이중)입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>클라이언트/서버</b>는 정보를 제공하는 컴퓨터와 제공받는 컴퓨터로 구성된다는 설명이 키워드입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>P2P</b>는 «누구든지 서버가 될 수도 클라이언트가 될 수도 있다»가 키워드입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 정보 통신</span><h2>좁은 범위부터 순서대로</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>통신망</th><th>범위 · 특징</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>LAN(근거리 통신망)</td><td>회사 · 학교 · 연구소 · 고속 전송 · 프린터 같은 주변 장치 공유</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>MAN(도시권 통신망)</td><td>LAN의 기능을 수용하며 도시 전역 · 신도시나 큰 아파트 단지처럼 더 넓은 범위</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>WAN(광대역 통신망 · 광역 통신망이라고도 함)</td><td>국가와 국가 · 대륙과 대륙 · 교재에서는 오류 발생률이 비교적 높다고 설명</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>범위 순서</td><td>LAN › MAN › WAN (좁은 것부터)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">범위가 좁은 순서는 <b>LAN › MAN › WAN</b>입니다. 순서대로 나열하는 문제에 대비해 한 줄로 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>LAN</b>은 좁은 지역 + 고속 + 장치 공유, <b>WAN</b>은 넓은 지역 + 오류 발생률이 상대적으로 높음이 키워드입니다</span></div><div class="row"><span class="n">3</span><span class="b">MAN은 LAN과 WAN 사이의 중간 범위입니다. «도시권»이라는 단어로 기억합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 정보 통신</span><h2>무선 LAN은 3요소, VAN은 부가 가치</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>무선 LAN(WLAN)</td><td>선이 없는 근거리 통신망 · AP를 중심으로 일정한 거리 안에서 사용(예: Wi-Fi)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>구성 요소 3가지</td><td>무선 랜 카드 · 무선 접속 장치(AP) · 안테나(교재 기준)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>VAN(부가 가치 통신망)</td><td>통신 회선을 빌려 정보의 새로운 가치를 더해 이용자에게 제공</td></tr><tr class="step" style="--d:0.64s"><td>VAN의 예</td><td>카드사가 결제 가능 여부를 조회해 주는 방식</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">무선 랜 구성 요소 세 가지는 <b>무선 랜 카드 · AP · 안테나</b>입니다. «해당하지 않는 것» 문제에서 다른 장비가 섞여 나옵니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>VAN</b> = 부가 가치 통신망입니다. 회선을 빌려 부가 가치를 더한다는 말이 키워드입니다</span></div><div class="row"><span class="n">3</span><span class="b">ISDN · B-ISDN은 지금은 거의 쓰지 않아 수업에서 넘어갔습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 정보 통신</span><h2>장비 이름과 역할을 짝지어 외웁니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>장비</th><th>역할</th></tr><tr class="step" style="--d:0.16s"><td>NIC(랜 카드)</td><td>컴퓨터를 네트워크(인터넷)에 연결하는 장치</td></tr><tr class="step" style="--d:0.32s"><td>허브</td><td>여러 대의 컴퓨터를 한곳에 연결 · 교재: 회선을 통합 관리(더미 · 스위치 허브로 나뉨)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>리피터</td><td>거리가 멀어져 약해진 신호를 증폭해 다시 전송</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>브리지</td><td>물리적으로 다른 LAN 네트워크를 연결하는 다리 역할</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>라우터</td><td>최적의 경로를 설정(라우팅) · 데이터 흐름을 제어</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>게이트웨이</td><td>다른 네트워크와 데이터를 주고받는 출입구(교재 기준) · 고정 IP 설정의 «기본 게이트웨이»는 밖으로 나가는 출입구 주소</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">설명 속 <b>키워드</b>로 장비를 고릅니다. 증폭 → 리피터, 두 LAN 연결 → 브리지, 최적의 경로 → 라우터, 출입구 → 게이트웨이입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>허브</b>는 «여러 대를 한곳에 연결 · 회선 통합 관리», <b>닉</b>은 «랜 카드»입니다. 허브의 세부 종류는 나중에 문제로 봅니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>게이트웨이</b>는 출입구 역할입니다. 고정 IP를 설정할 때 입력하던 «기본 게이트웨이»도 밖으로 나가는 출입구 주소를 뜻합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷</span><h2>도메인 · VoIP · 모뎀 · 코덱 · IPTV</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>도메인</td><td>문자로 된 인터넷 주소 · 일반적으로 등록기관을 통해 등록해서 사용하며 비용이 들 수 있음</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>KISA · ICANN</td><td>국가 도메인(.kr)은 한국인터넷진흥원(KISA)이 관리 · ICANN은 전 세계 도메인 체계를 조정</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>VoIP</td><td>음성을 압축해 인터넷으로 전송 · 인터넷 전화</td></tr><tr class="step" style="--d:0.64s"><td>모뎀</td><td>디지털 신호 ↔ 아날로그 신호 변환(변복조 장치)</td></tr><tr class="step" style="--d:0.80s"><td>코덱</td><td>아날로그 음성 · 비디오를 디지털 신호로 변환(교재 기준)</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>IPTV</td><td>인터넷으로 동영상을 시간에 구애받지 않고 이용 · 인터넷 검색도 가능</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>도메인</b>은 문자 주소이고, 일반적으로 등록해서 쓰며, 관리 기관은 국내(.kr) KISA · 세계 ICANN입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>VoIP</b> = 인터넷 전화, <b>IPTV</b> = 인터넷에 연결된 TV 서비스, <b>모뎀</b> = 디지털 ↔ 아날로그 변환입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>코덱</b>은 아날로그 신호를 디지털로 바꾸는 장치로 교재에서 설명합니다. 압축 · 복원에도 쓰입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷</span><h2>문제로 확인한 인터넷의 기본</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>인터넷</td><td>TCP/IP로 연결된 전 세계 네트워크 · 중앙에서 통제하는 기구는 없음</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>IP 주소</td><td>교재 기준: 인터넷에 연결된 컴퓨터를 구분하는 고유한 주소 · 같은 네트워크 안에서 중복되지 않게 사용</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>WWW</td><td>웹 브라우저를 통해 인터넷을 효과적으로 사용하게 해 주는 서비스</td></tr><tr class="step" style="--d:0.64s"><td>URL</td><td>https://… 처럼 주소창에 쓰는 인터넷 자원의 주소(형식은 다음 시간에)</td></tr><tr class="step" style="--d:0.80s"><td>IPv4 · IPv6</td><td>다음 시간에 자세히 정리</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">인터넷을 «상업용 네트워크»이거나 «중앙 통제 기구가 운영한다»고 설명한 보기는 문제에서 <b>틀린 설명</b>이었습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>IP 주소</b>는 컴퓨터를 구분하는 고유 주소, <b>WWW</b>는 웹 브라우저를 쓰는 서비스입니다</span></div><div class="row"><span class="n">3</span><span class="b">IPv4 · IPv6 · URL 형식은 <b>다음 수업</b>에서 이어서 배우므로 오늘은 용어만 알아 둡니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>이름은 문자로 시작하고 공백은 안 됩니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>규칙</th></tr><tr class="step" style="--d:0.16s"><td>기록 방식</td><td>기본은 절대 참조 · 컴활 2급에서는 상대 참조로 바꾸지 않음(수업)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>첫 글자</td><td>반드시 문자 · 숫자로 시작할 수 없음</td></tr><tr class="step" style="--d:0.48s"><td>둘째 글자부터</td><td>문자 · 숫자 · 밑줄(_) 사용 가능</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>쓸 수 없는 것</td><td>공백 · 특수 문자(예: / ? . -)</td></tr><tr class="step" style="--d:0.80s"><td>중복</td><td>컴활 기록에서는 기존 매크로와 겹치지 않는 이름을 사용(같은 범위에서 중복 불가) · 셀 주소(A1 등)와 같은 이름도 불가 · 대소문자는 구분하지 않음</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>바로 가기 키</td><td>영문자만 · 기본 키는 Ctrl · 대문자로 쓰면 Ctrl+Shift · 그 통합 문서가 열려 있는 동안 엑셀 기본 키보다 매크로가 우선</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">매크로 이름은 <b>문자로 시작</b>합니다. 숫자가 첫 글자이거나 <b>공백이 들어간 이름</b>은 쓸 수 없습니다</span></div><div class="row"><span class="n">2</span><span class="b">매크로 이름에는 <b>밑줄(_)</b>은 쓸 수 있지만 슬래시 · 물음표 · 마침표 · 하이픈 같은 특수 문자는 쓸 수 없습니다</span></div><div class="row"><span class="n">3</span><span class="b">바로 가기 키를 <b>Ctrl+G</b>처럼 엑셀 기본 키와 겹치게 지정하면 <b>매크로가 먼저</b> 실행됩니다. 대문자로 지정하면 Shift가 자동으로 붙습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>Alt + F8 · 이름 변경은 대화 상자에서 안 됩니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>매크로 기록 단축키</td><td>수업에서는 기록 단추에 전용 단일 단축키가 없다고 확인 · 엑셀 안내: Alt, T, M, R 키 순서로도 시작 가능</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>Alt + F8</td><td>매크로 대화 상자 열기 · 실행 · 한 단계씩 코드 실행 · 편집 · 만들기 · 삭제 · 옵션</td></tr><tr class="step" style="--d:0.48s"><td>편집</td><td>매크로 코드가 보이는 편집기가 열림</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>옵션</td><td>바로 가기 키와 설명만 수정 가능 · 매크로 이름은 수정 불가</td></tr><tr class="step" style="--d:0.80s"><td>이름을 바꾸려면</td><td>코드 편집기에서 수정하거나 삭제하고 다시 기록(수업)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>Alt+F8</b>은 매크로 대화 상자, 매크로 <b>기록에는 전용 단일 단축키가 없다</b>는 설명을 구분합니다</span></div><div class="row"><span class="n">2</span><span class="b">대화 상자의 <b>옵션</b>에서는 바로 가기 키와 설명만 고칠 수 있습니다. «매크로 이름을 변경할 수 있다»는 보기는 틀립니다</span></div><div class="row"><span class="n">3</span><span class="b">항목마다 <b>되는 것과 안 되는 것</b>을 직접 눌러 보며 확인해 두는 것이 좋다고 수업에서 짚었습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 매크로</span><h2>기록 · 중지 · 단추 · 검증</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>할 일</th></tr><tr class="step" style="--d:0.16s"><td>①</td><td>셀 포인터를 작업 영역 바깥에 두고 매크로 기록 시작</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>F4 셀 선택 › SUM 함수 입력 › 범위 선택 › 엔터 › 아래로 채우기</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>개발 도구 › 기록 중지(반드시)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>④</td><td>개발 도구 › 컨트롤 › 삽입 › 양식 컨트롤 › 단추 · Alt를 누른 채 셀에 맞게 그림 › 매크로 지정 › 확인</td></tr><tr class="step" style="--d:0.80s"><td>⑤</td><td>단추 글자를 «합계»로 고침</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>⑥</td><td>합계를 지우고 단추를 눌러 같은 결과가 나오는지 검증</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">매크로 문제는 <b>수식 한 개와 서식 한 개</b>의 두 가지 형태로 나온다고 했습니다. 순서는 같습니다</span></div><div class="row"><span class="n">2</span><span class="b">단추를 <b>잘못 만들었으면</b> 마우스 오른쪽 단추 › 잘라내기로 지우고, 크기는 오른쪽 단추로 선택해 조절점이 보이면 <b>Alt를 누른 채 드래그</b>해 맞춥니다(수업)</span></div><div class="row"><span class="n">3</span><span class="b">시험 문제는 단추를 만드는 데까지지만, <b>검증까지 해야</b> 안심할 수 있습니다. 합계를 지우고 어느 셀에서든 단추를 눌러 봅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트</span><h2>Alt + F1 · F11 · 차트 영역과 그림 영역</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>요소</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>Alt + F1</td><td>선택한 범위로 현재 워크시트에 차트 삽입</td></tr><tr class="step" style="--d:0.32s"><td>F11</td><td>차트만 있는 새 차트 시트 생성 · Ctrl+Page Down으로 시트 이동</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>차트 영역</td><td>차트 전체(바깥쪽 큰 영역) · 선택하면 바깥에 선택점이 나타남</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>그림 영역</td><td>데이터 계열이 들어 있는 안쪽 영역</td></tr><tr class="step" style="--d:0.80s"><td>데이터 계열</td><td>서로 관련된 데이터 요소의 집합 · 막대 하나하나는 데이터 요소(마우스를 올리면 «계열 이름 · 요소» 표시)</td></tr><tr class="step" style="--d:0.96s"><td>데이터 레이블</td><td>막대 위에 값을 표시</td></tr><tr class="step" style="--d:1.12s"><td>추세선 · 범례</td><td>추세선 = 계열의 추세를 보여 줌 · 범례 = 계열 이름 · 위치 문제가 나옴</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>차트 영역</b>은 바깥쪽 큰 영역, <b>그림 영역</b>은 그 안쪽의 그래프 영역입니다. 서식 탭의 <b>현재 선택 영역</b>에서 확인합니다</span></div><div class="row"><span class="n">2</span><span class="b">실기에서는 차트가 <b>이미 주어집니다</b>. 지우고 새로 만들면 채점이 되지 않을 수 있다고 수업에서 안내했습니다</span></div><div class="row"><span class="n">3</span><span class="b">필기는 차트 그림을 보고 이 <b>용어</b>를 묻는 문제가 많아서, 이름을 정확히 알아 두어야 합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>연속된 범위는 모서리 드래그 · 계열은 선택 후 Delete</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>상황</th><th>방법</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>연속된 범위</td><td>차트를 선택하면 보이는 범위 모서리를 드래그해 조절</td></tr><tr class="step" style="--d:0.32s"><td>연속되지 않은 범위</td><td>모서리 드래그로는 조절할 수 없음</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>중간 계열 삭제</td><td>차트에서 그 계열을 선택하고 Delete</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>선택이 안 될 만큼 작은 계열</td><td>서식 탭 › 현재 선택 영역 목록에서 계열 이름을 골라 선택</td></tr><tr class="step" style="--d:0.80s"><td>체크 해제(숨김)</td><td>체크 상자를 빼서 계열을 숨기는 것은 삭제가 아니므로 수업에서는 쓰지 않고 계열을 직접 삭제하도록 안내</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">범위 조절 문제는 <b>모서리 드래그</b>가 기본이지만 <b>연속된 범위일 때만</b> 가능합니다</span></div><div class="row"><span class="n">2</span><span class="b">중간 계열을 빼라는 문제는 <b>계열 선택 › Delete</b>입니다. 막대가 너무 작으면 서식 탭의 현재 선택 영역 목록에서 고릅니다</span></div><div class="row"><span class="n">3</span><span class="b">교재에는 체크 상자를 빼서 계열을 숨기는 방법이 나오기도 하지만, 수업에서는 «숨김과 삭제는 다르다»며 계열 삭제를 쓰라고 했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>지울 것이 범례에 없으면 행/열 전환을 이용합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>지울 대상</th><th>방법</th></tr><tr class="step" style="--d:0.16s"><td>범례에 나온 데이터 계열</td><td>계열을 선택하고 Delete</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>가로 축의 항목</td><td>계열처럼 직접 삭제할 수 없음 · 수업에서는 차트 디자인 › 행/열 전환으로 계열로 바꾼 뒤 선택</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>삭제한 뒤</td><td>다시 행/열 전환을 눌러 원래 모양으로 되돌림</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>필기에서 묻는 것</td><td>행/열 전환은 가로(항목) 축의 항목과 범례 항목을 서로 바꿈</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">지울 항목이 <b>범례에 있는지</b>가 갈림길입니다. 범례에 없으면 <b>행/열 전환 › 삭제 › 행/열 전환</b> 순서입니다</span></div><div class="row"><span class="n">2</span><span class="b">필기에서는 «행/열 전환을 하면 가로 항목 축과 세로 값 축이 바뀐다»는 보기가 틀리고, <b>가로 항목 축과 범례 항목이 서로 바뀐다</b>가 맞는 설명입니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 데이터 선택 대화 상자 안에서 지우면 차트가 꼬일 수 있다며 이 방법을 쓰라고 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>제목은 직접 입력하거나 셀과 연결합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>방법</th></tr><tr class="step" style="--d:0.16s"><td>차트 요소 추가</td><td>축 · 축 제목 · 차트 제목 · 데이터 레이블 · 데이터 표 · 오차 막대 · 눈금선 · 범례 · 추세선</td></tr><tr class="step" style="--d:0.32s"><td>제목 입력</td><td>차트 제목을 넣고 글자를 직접 입력할 수 있음</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>셀과 연결</td><td>제목을 실선이 되도록 선택(안에 커서 X) › 수식 입력줄에 = 입력 › 연결할 셀(A1) 클릭 › Enter</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>글꼴 변경</td><td>글꼴 칸에 이름(예: 돋움)을 직접 입력하고 Enter</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>글자 크기</td><td>크기 칸에 숫자(예: 20)를 직접 입력</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">제목을 <b>실선(테두리가 실선)</b>으로 선택한 뒤 <b>수식 입력줄에 =</b>를 입력하고 셀을 클릭 › Enter 하면 시트의 글자를 그대로 가져옵니다</span></div><div class="row"><span class="n">2</span><span class="b">제목 설정은 <b>직접 입력하는 형태와 셀 연결 형태</b> 두 가지가 모두 나오고, 글꼴 · 크기 변경도 함께 나옵니다</span></div><div class="row"><span class="n">3</span><span class="b">글꼴 목록을 스크롤해서 찾지 않고 <b>칸에 이름을 입력</b>하고 Enter를 누르는 것이 빠릅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>값 축을 더블클릭하면 작업 창이 열립니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>작업 창 열기</td><td>값(세로) 축을 더블클릭하면 오른쪽에 작업 창이 열림</td></tr><tr class="step" style="--d:0.32s"><td>작업 창 아이콘</td><td>채우기 및 선 · 효과 · 크기 및 속성 · 축 옵션</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>축 옵션</td><td>최소값 · 최대값 · 기본 단위(주) · 표시 단위</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>기본 단위(주 단위)</td><td>눈금 간격 · 엑셀 메뉴 이름은 «주 단위» · 예: 5000이 촘촘하면 10000으로 변경</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>표시 단위</td><td>큰 수의 자릿수를 줄여 표시(예: 만)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">값 축을 <b>더블클릭</b>하면 오른쪽 <b>작업 창</b>이 열립니다. 위쪽 네 개의 아이콘 중 <b>축 옵션</b>을 찾습니다</span></div><div class="row"><span class="n">2</span><span class="b">문제의 «<b>기본 단위</b>» 표현은 작업 창의 <b>주 단위</b>입니다. 수업에서 간격 5000을 10000으로 바꿔 눈금을 널찍하게 했습니다</span></div><div class="row"><span class="n">3</span><span class="b">값이 아주 커서 0이 많을 때는 <b>표시 단위</b>로 자릿수를 줄여 표시합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>막대(생산량)와 꺾은선(불량률)을 한 차트에</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>할 일</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>①</td><td>차트(또는 계열 하나)를 선택</td></tr><tr class="step" style="--d:0.32s"><td>②</td><td>차트 디자인 › 차트 종류 변경 › 혼합</td></tr><tr class="step" style="--d:0.48s"><td>③</td><td>계열별 차트 종류 선택(예: 표식이 있는 꺾은선형)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>④</td><td>보조로 옮길 계열의 «보조 축»에 체크</td></tr><tr class="step" style="--d:0.80s"><td>⑤</td><td>확인 · 생긴 보조 축도 더블클릭해 최댓값 · 단위를 따로 조절(예: 0.05 · 0.01)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">값 차이가 크면 작은 계열이 바닥에 붙어 보이지 않습니다. 그때 <b>혼합(콤보) 차트 + 보조 축</b>을 씁니다</span></div><div class="row"><span class="n">2</span><span class="b">이전 기수 수업에서는 <b>계열 하나를 먼저 선택</b>하고 들어가면 차트 전체의 종류가 한꺼번에 바뀌는 일을 피할 수 있다고 안내했습니다</span></div><div class="row"><span class="n">3</span><span class="b">값 차이가 큰 계열이 <b>세 개 이상</b>이면 한 차트에 모두 표현하기 어려우므로 차트를 나누는 것이 좋습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>차트 요소 추가 또는 오른쪽 + 버튼에서 넣습니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>요소</th><th>방법</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>데이터 레이블</td><td>계열 한 번 클릭 = 계열 전체 · 한 번 더 = 요소 하나 › 오른쪽 단추 › 데이터 레이블 추가</td></tr><tr class="step" style="--d:0.32s"><td>레이블 서식</td><td>레이블 내용(값 · 항목 이름)과 위치(위쪽 · 안쪽 끝 · 바깥쪽 끝)를 지정</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>범례</td><td>차트 요소 추가 › 범례 › 위쪽 · 아래쪽 · 왼쪽 · 오른쪽 · 문제가 위치를 지정하면 이 메뉴로</td></tr><tr class="step" style="--d:0.64s"><td>추세선</td><td>계열을 선택하고 차트 요소 추가 › 추세선 · 전체적인 방향을 보여 줌</td></tr><tr class="step" style="--d:0.80s"><td>눈금선</td><td>차트 요소 추가 › 눈금선 · 선택한 눈금선은 Delete로 삭제</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">데이터 레이블을 <b>요소 하나에만</b> 달 때는 계열을 한 번 더 클릭해 그 요소만 선택한 뒤 추가합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>«항목 이름을 표시»</b>하라는 문제는 값에 체크하지 않고 <b>범주 이름</b>에 체크합니다</span></div><div class="row"><span class="n">3</span><span class="b">범례 위치는 <b>범례 메뉴로 지정</b>합니다. 끌어서 옮기면 지정한 위치와 달라질 수 있다고 이전 기수 수업에서 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>서식 탭 또는 작업 창에서 설정합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>방법</th></tr><tr class="step" style="--d:0.16s"><td>먼저</td><td>서식을 적용할 요소(예: 차트 영역)를 선택</td></tr><tr class="step" style="--d:0.32s"><td>스타일 갤러리</td><td>스타일의 이름은 세로 방향으로, 번호는 가로 방향으로 찾음</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>채우기</td><td>단색 · 그라데이션 · 질감 · 그림 · 그라데이션은 미리 설정 › 종류 › 방향 순으로 지정</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>테두리</td><td>선 › 실선 › 색 › 너비(직접 입력, 예: 2pt) › 둥근 모서리 체크(차트 영역 선택 시)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>효과</td><td>그림자 › 미리 설정 › 바깥쪽 · 문제가 지정한 오프셋 위치(예: 오른쪽 아래)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">서식은 <b>적용할 요소를 먼저 선택</b>한 뒤에 설정합니다. 차트 영역과 그림 영역을 헷갈리지 않도록 현재 선택 영역으로 확인합니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>차트 영역</b>의 테두리 설정에서 <b>둥근 모서리</b>를 체크하며, 너비는 칸에 직접 입력합니다</span></div><div class="row"><span class="n">3</span><span class="b">그림자는 <b>효과 › 그림자 › 미리 설정 › 바깥쪽</b>에서 문제가 지정한 위치를 고릅니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 차트 편집</span><h2>막대 모양을 바꾸는 두 가지 수치</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>설정</th><th>결과</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>계열 겹치기 양수(예: 50%)</td><td>같은 묶음의 막대끼리 겹침</td></tr><tr class="step" style="--d:0.32s"><td>계열 겹치기 0</td><td>막대끼리 붙음</td></tr><tr class="step" style="--d:0.48s"><td>계열 겹치기 음수</td><td>막대 사이가 떨어짐</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>간격 너비를 좁힘(예: 0%)</td><td>막대가 굵어짐</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>간격 너비를 넓힘(예: 100%)</td><td>막대가 가늘어짐</td></tr><tr class="step" style="--d:0.96s"><td>데이터 표</td><td>차트 요소 추가 › 데이터 표 · 차트에 쓴 데이터를 표로 표시</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>계열 겹치기</b>는 양수 = 겹침, 음수 = 떨어짐입니다. 말을 보고 막대 모양을 머릿속에 그려 봅니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>간격 너비</b>는 좁힐수록 막대가 굵어지고, 넓힐수록 가늘어집니다. 반대로 외우지 않습니다</span></div><div class="row"><span class="n">3</span><span class="b">필기에서는 완성된 차트를 보고 <b>겹치기 · 간격 · 눈금선 · 데이터 표 · 데이터 레이블</b>이 어떻게 설정되었는지 묻습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">오늘의 함정</span><h2>여기서 많이 틀립니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>✕ 이렇게 하면 틀림</th><th>○ 이렇게 합니다</th></tr><tr class="step" style="--d:0.16s"><td>공개 소프트웨어를 셰어웨어와 같은 것으로 봄</td><td>공개 = 소스 코드 공개 · 셰어웨어 = 기능 · 기간 제한 후 무료 배포</td></tr><tr class="step" style="--d:0.32s"><td>알파 테스트를 회사 밖에서 한다고 외움</td><td>알파 = 회사 안 · 베타 = 회사 밖(일반 사용자)</td></tr><tr class="step" style="--d:0.48s"><td>운영체제 주요 기능에 보안을 넣음</td><td>교재의 주요 기능 목록에는 보안이 없음</td></tr><tr class="step" style="--d:0.64s"><td>서비스 프로그램을 제어 프로그램으로 분류</td><td>제어 = 감시 · 작업 제어 · 데이터 관리 / 서비스 = 처리 프로그램</td></tr><tr class="step" style="--d:0.80s"><td>일괄 처리는 오프라인에서만 쓴다고 함</td><td>일괄 처리는 온라인과 오프라인 모두 가능</td></tr><tr class="step" style="--d:0.96s"><td>컴파일러가 한 줄씩 번역한다고 함</td><td>컴파일러 = 전체 번역 · 한 줄씩 = 인터프리터</td></tr><tr class="step" style="--d:1.12s"><td>반이중과 전이중을 바꿔 외움</td><td>반이중 = 번갈아(무전기) · 전이중 = 동시에(전화)</td></tr><tr class="step" style="--d:1.28s"><td>매크로 이름에 공백을 넣음</td><td>첫 글자는 문자 · 공백과 특수 문자는 쓸 수 없음 · 밑줄은 가능</td></tr><tr class="step" style="--d:1.44s"><td>범례 위치를 끌어서 대충 맞춤</td><td>차트 요소 추가 › 범례 메뉴에서 문제가 지정한 위치를 고름</td></tr><tr class="step" style="--d:1.60s"><td>간격 너비를 좁히면 막대가 가늘어진다고 함</td><td>간격 너비를 좁히면 굵어지고 넓히면 가늘어짐</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>알파 = 회사 안, 베타 = 회사 밖</b>, <b>컴파일러 = 전체, 인터프리터 = 한 줄씩</b>, <b>반이중 = 번갈아, 전이중 = 동시에</b></span></div><div class="row"><span class="n">2</span><span class="b"><b>보안</b>은 교재의 운영체제 주요 기능에 없고, <b>일괄 처리</b>는 온라인과 오프라인 모두 쓸 수 있습니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>매크로 이름</b>에는 공백이 안 되고, <b>범례 위치</b>는 메뉴로 지정하며, <b>간격 너비</b>는 좁을수록 굵습니다</span></div></div></div></section><section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>13차시 복습 퀴즈</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="퀴즈 진행" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">퀴즈 진행</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이름 입력</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">본인 이름</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">문제 풀이</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">10문제</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">결과 확인</text></g></svg><figcaption>이름 입력 후 문제를 풀고 채점합니다.</figcaption></figure>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>복습 퀴즈 10문제</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="풀이 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">풀이 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">선택</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">각 문제의 답</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">맨 아래 버튼</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">복습</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">틀린 문제 확인</text></g></svg><figcaption>답을 고른 뒤 맨 아래의 채점 버튼을 누르세요.</figcaption></figure>
+<div class="quiz-item"><p class="q"><span class="qn">1</span><span class="qt">지금 실행하고 있는 명령어 자체를 저장하는 레지스터는?</span></p><button class="quiz-opt">프로그램 카운터(PC)</button><button class="quiz-opt" data-correct="true">명령 레지스터(IR)</button><button class="quiz-opt">누산기</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">2</span><span class="qt">소프트웨어를 정식으로 내놓기 전에 회사 밖의 일반 사용자에게 먼저 써 보게 하여 오류를 찾는 테스트 버전은?</span></p><button class="quiz-opt">알파 버전</button><button class="quiz-opt">패치 버전</button><button class="quiz-opt" data-correct="true">베타 버전</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">3</span><span class="qt">운영체제의 제어 프로그램에 해당하는 것은?</span></p><button class="quiz-opt" data-correct="true">감시 프로그램</button><button class="quiz-opt">서비스 프로그램</button><button class="quiz-opt">언어 번역 프로그램</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">4</span><span class="qt">CPU는 한 개이지만 여러 프로그램이 동시에 실행되는 것처럼 처리하는 운영 방식은?</span></p><button class="quiz-opt">다중 처리</button><button class="quiz-opt" data-correct="true">다중 프로그래밍</button><button class="quiz-opt">듀플렉스 시스템</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">5</span><span class="qt">고급 언어로 작성한 프로그램 전체를 한꺼번에 번역하여 목적 프로그램을 만들고, 번역은 오래 걸리지만 실행 속도가 빠른 번역 프로그램은?</span></p><button class="quiz-opt">인터프리터</button><button class="quiz-opt">어셈블러</button><button class="quiz-opt" data-correct="true">컴파일러</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">6</span><span class="qt">ActiveX 설치 없이 웹 브라우저에서 비디오 · 오디오 같은 최신 멀티미디어 콘텐츠를 볼 수 있게 한 웹 언어는?</span></p><button class="quiz-opt" data-correct="true">HTML5</button><button class="quiz-opt">XML</button><button class="quiz-opt">VRML</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">7</span><span class="qt">데이터를 전송할 때 최적의 경로를 설정하는 네트워크 장비는?</span></p><button class="quiz-opt">리피터</button><button class="quiz-opt" data-correct="true">라우터</button><button class="quiz-opt">브리지</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">8</span><span class="qt">월 상환액이 30,000원이 되는 상환 기간을 목표값 찾기로 구한다. 목표값 찾기 대화 상자에서 «수식 셀»에 지정하는 셀은?</span></p><button class="quiz-opt">상환 기간이 입력된 셀</button><button class="quiz-opt">30000을 입력해 둔 셀</button><button class="quiz-opt" data-correct="true">월 상환액을 계산하는 수식이 들어 있는 셀</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">9</span><span class="qt">다음 중 매크로 이름으로 사용할 수 있는 것은?</span></p><button class="quiz-opt" data-correct="true">합계_1</button><button class="quiz-opt">1합계</button><button class="quiz-opt">합계 매크로</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">10</span><span class="qt">차트에서 그래프가 그려지는 안쪽이 아니라, 차트 전체(선택하면 바깥쪽에 선택점이 나타나는 영역)를 가리키는 것은?</span></p><button class="quiz-opt">그림 영역</button><button class="quiz-opt" data-correct="true">차트 영역</button><button class="quiz-opt">데이터 계열</button><div class="quiz-feedback"></div></div>
+<div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<section class="card" id="audioReviewCard"><div class="card-inner">
+<span class="kicker pilgi">영상·음성 복습</span><h2>13차시 영상·음성 복습</h2><p class="lead">화면과 강사 음성을 함께 보거나 원하는 주제를 선택해 들을 수 있습니다.</p>
+<figure class="fig concept"><svg viewBox="0 0 560 100" role="img" aria-label="전체 듣기, 주제 선택, 재생 속도 조절" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="536" height="76" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/><path d="M42 50h10l6-14 8 28 8-36 8 42 8-31 6 21 6-10h12" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="140" y="47" fill="#1E3A5F" font-size="16" font-weight="700">전체 듣기 · 주제별 듣기</text><text x="140" y="69" fill="#475569" font-size="13">재생 속도와 듣기 위치를 조절할 수 있습니다</text></svg><figcaption>학습 주제를 선택하면 해당 부분부터 재생됩니다.</figcaption></figure>
+<div class="video-review"><video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/2026-11-13cha.mp4?v=1"></video><div class="video-copy"><span>화면과 강사 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div></div>
+<div class="audio-review"><audio id="reviewAudio" preload="metadata" src="audio/review/2026-11-13cha-instructor.mp3?v=1"></audio>
+<div class="player-controls"><button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button><button type="button" id="audioBack">−10초</button><button type="button" id="audioForward">+10초</button><label class="speed-wrap">재생 속도 <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select></label></div>
+<div class="timeline"><input class="seek-bar" id="audioSeek" type="range" min="0" max="1" step="0.1" value="0" aria-label="음성 재생 위치"><div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div><div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">0:00</span></div></div><div class="chapter-grid" id="chapterGrid"></div><p class="audio-note">강사 음성 합성으로 제작한 복습 음성입니다.</p></div></div></section>
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>window.REVIEW_AUDIO={"titles": ["복습 12차시 다시 짚기", "소프트웨어 사용권 ①", "소프트웨어 사용권 ②", "운영체제의 목적과 주요 기능", "제어 프로그램과 처리 프로그램", "운영 기법 ① 일괄 · 실시간 · 분산", "운영 기법 ② 시분할 · 다중 처리 · 듀얼과 듀플렉스", "임베디드 시스템과 발달 과정", "프로그래밍 언어: 저급과 고급", "언어 이름 구분과 객체 지향", "언어 번역 프로그램", "웹 프로그래밍 언어", "정보 전송 방식과 네트워크 운영 방식", "통신망의 범위: LAN · MAN · WAN", "무선 LAN과 VAN", "네트워크 장비", "인터넷 관련 용어", "인터넷의 특징과 URL", "매크로 이름과 바로 가기 키 규칙", "매크로 대화 상자", "합계 매크로 다시 해 보기", "차트 만들기와 구성 요소", "차트 범위 조절과 계열 삭제", "행/열 전환과 계열 삭제", "차트 제목과 글꼴", "축 옵션", "혼합 차트와 보조 축", "데이터 레이블 · 범례 · 추세선 · 눈금선", "스타일 · 채우기 · 테두리 · 그림자", "계열 겹치기와 간격 너비", "오늘의 함정"], "starts": [0.0, 28.37, 60.18000000000001, 91.59000000000002, 131.08, 165.85, 200.77999999999997, 230.58999999999997, 270.4, 302.45, 336.65999999999997, 377.90999999999997, 419.63999999999993, 453.44999999999993, 488.7799999999999, 518.3499999999999, 556.8, 602.29, 634.9, 677.75, 712.6800000000001, 746.7300000000001, 782.0600000000002, 819.1500000000002, 849.8400000000003, 884.2100000000003, 914.9800000000004, 946.7100000000004, 981.7200000000005, 1015.8500000000005, 1049.4200000000005], "duration": 1088.22, "src": "audio/review/2026-11-13cha-instructor.mp3?v=1"};</script>
+<script src="audio/review/player.js"></script>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-11 13차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  '9bbb52287af375ad',
+  '68a2bbf429acc7f6',
+  '1d3c61ba29a8a304',
+  '799b4fa176106108',
+  '0345c6705c8a657a',
+  '871b4f95f45d75b6',
+  'adf899b5064f769e',
+  '80311697fa93d30b',
+  'ae6fd527794e6187',
+  'db6f439e9999c4f7',
+  '79863b87fe14670d',
+  'e83e84eec19ad05b',
+  'a5a6ccaf14cb9e40',
+  'f3177b9e506f5f36',
+  'ce93aed446c7a37f',
+  'cc45086c23272d8c',
+  'd8467edd1b145f9b',
+  'b4beb49ac060c43e',
+  'e94f142db3f696b3',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
