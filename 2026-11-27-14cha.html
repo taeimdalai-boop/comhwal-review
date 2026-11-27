@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>컴활2급 엑셀 14차시 복습카드 (2026.11.27)</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+:root{
+  --blue:#2563EB; --blue-d:#1D4ED8; --blue-l:#EFF4FF;
+  --red:#DC2626; --red-l:#FEF2F2;
+  --amber:#B45309; --amber-l:#FFFBEB;
+  --green:#047857; --green-l:#ECFDF5;
+  --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --bg:#F3F6FB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+body{
+  font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--ink); line-height:1.6;
+  background:
+    radial-gradient(ellipse at 12% 58%, #d7f4e7 0%, transparent 60%),
+    radial-gradient(ellipse at 88% 12%, #e5d8f7 0%, transparent 62%),
+    linear-gradient(150deg, #f8faf9 0%, #edf7f5 70%, #f5f7fb 100%);
+  display:flex; flex-direction:column;
+}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ── 상단 바 ── */
+.topbar{
+  flex:0 0 auto; background:#fff; border-bottom:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-top)) 16px;
+  padding-top:calc(10px + env(safe-area-inset-top));
+  display:flex; align-items:center; gap:10px;
+}
+.topbar .t{font-size:14px; font-weight:700; letter-spacing:-0.3px;}
+.topbar .d{font-size:12px; color:var(--mute); margin-left:auto;}
+.progress{flex:0 0 auto; height:3px; background:var(--line);}
+.progress>i{display:block; height:100%; width:0; background:var(--blue); transition:width .25s;}
+
+/* ── 카드 덱 ── */
+.deck{
+  flex:1 1 auto; display:flex; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none;}
+.card{
+  flex:0 0 100%; width:100%; scroll-snap-align:center; scroll-snap-stop:always;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:22px 18px calc(28px + env(safe-area-inset-bottom)) 18px;
+}
+.card-inner{max-width:620px; margin:0 auto;}
+
+.kicker{
+  display:inline-block; font-size:11px; font-weight:800; letter-spacing:0.08em;
+  color:var(--blue); background:var(--blue-l); border-radius:999px; padding:5px 11px; margin-bottom:12px;
+}
+.kicker.silgi{color:var(--green); background:var(--green-l);}
+.kicker.pilgi{color:var(--amber); background:var(--amber-l);}
+h1{font-size:30px; line-height:1.3; margin:0 0 12px; letter-spacing:-0.8px;}
+h2{font-size:23px; line-height:1.34; margin:0 0 14px; letter-spacing:-0.5px;}
+p{margin:0 0 12px; font-size:16px;}
+.lead{font-size:17px; color:#374151;}
+.mute{color:var(--mute); font-size:14px;}
+.trap-x{color:#8A93A3; font-size:14px; font-weight:400;}
+.trap-o{display:block; margin-top:5px; color:var(--blue-d); font-size:17px; font-weight:700; line-height:1.45;}
+.trap-o code{font-size:15px;}
+
+.panel{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 16px 4px; margin:0 0 14px;}
+.panel.flat{padding-bottom:16px;}
+.row{display:flex; gap:11px; padding:10px 0; border-bottom:1px solid #F1F3F7;}
+.row:last-child{border-bottom:none;}
+.row .n{flex:0 0 auto; width:22px; height:22px; border-radius:7px; background:var(--blue); color:#fff;
+  font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+.row .b{flex:1 1 auto; font-size:15px;}
+.row .b b{color:var(--blue-d);}
+
+kbd{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+  background:#fff; border:1px solid #CBD5E1; border-bottom-width:2px; border-radius:6px; padding:2px 7px; color:#0F172A;}
+code{background:var(--blue-l); color:var(--blue-d); padding:2px 6px; border-radius:5px; font-size:14px; font-weight:600;}
+
+.callout{border-radius:12px; padding:14px 15px; margin:0 0 14px; font-size:15px;}
+.callout>b:first-child{display:block; margin-bottom:5px; font-size:14px;}  /* 제목용. 본문 속 <b>까지 블록이 되면 문장이 토막난다 */
+.callout.warn{background:var(--red-l); border:1px solid #FCA5A5;} .callout.warn b{color:var(--red);}
+.callout.tip{background:var(--green-l); border:1px solid #A7F3D0;} .callout.tip b{color:var(--green);}
+.callout.note{background:var(--amber-l); border:1px solid #FDE68A;} .callout.note b{color:var(--amber);}
+
+table{width:100%; border-collapse:collapse; font-size:14px; margin:0 0 14px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+th,td{border-bottom:1px solid var(--line); padding:10px 11px; text-align:left; vertical-align:middle;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{background:#F8FAFF; font-weight:700; font-size:13px; color:#334155;}
+td:first-child{font-weight:600; white-space:nowrap;}
+.wrapfirst td:first-child{white-space:normal; width:40%;}
+
+/* 비교 블록 */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.vs>div{background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px;}
+.vs h4{margin:0 0 7px; font-size:14px;}
+.vs .l h4{color:var(--blue);} .vs .r h4{color:var(--amber);}
+.vs p{font-size:14px; margin:0;}
+
+/* 도해 */
+.fig{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 10px 10px; margin:0 0 14px;}
+.svg-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.svg-wrap svg{display:block;}
+.fig figcaption{font-size:13px; color:var(--mute); text-align:center; margin-top:9px; padding:0 6px;}
+
+/* ── 퀴즈 ── */
+.gate{background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center;}
+.gate input{width:100%; max-width:260px; font-size:17px; padding:12px 14px; margin:12px 0;
+  border:1px solid #CBD5E1; border-radius:10px; font-family:inherit; text-align:center;}
+.btn{font-family:inherit; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  padding:13px 24px; cursor:pointer; background:var(--blue); color:#fff;}
+.btn:active{background:var(--blue-d);}
+.btn.ghost{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+.quiz-item .q{font-size:17px; font-weight:700; line-height:1.45; margin:0 0 14px;}
+.quiz-opt{display:block; width:100%; text-align:left; font-family:inherit; font-size:15.5px; line-height:1.45;
+  background:#fff; border:1.5px solid var(--line); border-radius:11px; padding:13px 14px; margin-bottom:9px; cursor:pointer; color:var(--ink);}
+.quiz-opt.selected{border-color:var(--blue); background:var(--blue-l);}
+.quiz-opt.correct{border-color:var(--green); background:var(--green-l); font-weight:700;}
+.quiz-opt.wrong{border-color:var(--red); background:var(--red-l);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-feedback{display:none; font-size:14.5px; font-weight:600; padding:11px 13px; border-radius:10px; margin-top:4px;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--green-l); color:var(--green);}
+.quiz-feedback.no{background:var(--red-l); color:var(--red);}
+#submitStatus{font-size:16px; font-weight:700; color:var(--blue-d); margin:14px 0 0; min-height:24px;}
+
+/* ── 하단 내비 ── */
+.nav{
+  flex:0 0 auto; background:#fff; border-top:1px solid var(--line);
+  padding:9px 14px calc(9px + env(safe-area-inset-bottom)) 14px;
+  display:flex; align-items:center; gap:12px;
+}
+.nav button{white-space:nowrap;font-family:inherit; font-size:14px; font-weight:700; border:1px solid var(--line);
+  background:#fff; color:var(--ink); border-radius:9px; padding:9px 15px; cursor:pointer;}
+.nav button:disabled{opacity:.35; cursor:default;}
+.dots{flex:1 1 auto; display:flex; gap:5px; justify-content:center; flex-wrap:wrap;}
+.dots i{width:6px; height:6px; border-radius:50%; background:#D1D5DB; cursor:pointer;}
+.dots i.on{background:var(--blue); transform:scale(1.4);}
+.counter{font-size:12px; color:var(--mute); font-variant-numeric:tabular-nums; min-width:42px; text-align:center;}
+
+.foot{text-align:center; font-size:13px; color:var(--mute); margin-top:22px; padding-top:16px; border-top:1px solid var(--line);}
+
+/* ── 모션 ──
+   원칙(CEO 지시 2026-10-13): «무슨 일이 일어나는지» 보여 줄 때만 움직인다.
+   글자만 나타나거나 깜박이는 효과는 쓰지 않는다. 움직이는 것은 글자가 아니라 «설명하는 대상»이다.
+   기본 상태 = 최종 상태. 애니메이션은 시작 상태(from)만 정의하고 both로 지연 구간에도 시작 상태를 유지한다.
+   보고 있는 카드(.active)에서만 재생된다. */
+/* 키보드 키가 차례로 눌리는 모습 */
+.keyseq{display:flex; gap:7px; align-items:center; flex-wrap:wrap; margin:0 0 14px;}
+.keyseq kbd{opacity:1;}
+.card.active .keyseq kbd{animation:press .5s ease-out both; animation-delay:calc(var(--i,0)*.45s + .5s);}
+@keyframes press{
+  0%{opacity:.35; transform:translateY(0) scale(1);}
+  35%{opacity:1; transform:translateY(3px) scale(.94); background:var(--blue); color:#fff; border-color:var(--blue-d);}
+  100%{opacity:1; transform:translateY(0) scale(1); background:var(--blue-l); color:var(--blue-d); border-color:#93B4F7;}
+}
+.keyseq .arw{color:var(--mute); font-size:13px;}
+.keyseq .res{font-size:14px; font-weight:700; color:var(--green);}
+.card.active .keyseq .res{animation:rise .4s ease-out both; animation-delay:2.4s;}
+
+/* 테두리가 그려지는 모습 */
+.card.active .draw{stroke-dasharray:var(--len,300); stroke-dashoffset:var(--len,300);
+  animation:drawline .9s ease-out forwards; animation-delay:var(--d,2.6s);}
+@keyframes drawline{to{stroke-dashoffset:0;}}
+
+
+/* 도해 안의 단계 모션 */
+.card.active .a-in{animation:a-in .45s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-in{from{opacity:0;}}
+.card.active .a-pop{transform-box:fill-box; transform-origin:center; animation:a-pop .45s cubic-bezier(.3,1.6,.5,1) both; animation-delay:var(--d,0s);}
+@keyframes a-pop{from{opacity:0; transform:scale(.4);}}
+.card.active .a-growx{transform-box:fill-box; transform-origin:left center; animation:a-growx .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growx{from{transform:scaleX(0);}}
+.card.active .a-growy{transform-box:fill-box; transform-origin:center top; animation:a-growy .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-growy{from{transform:scaleY(0);}}
+/* 설명하는 대상(행·열)이 깜박이며 강조된다 — 끝나면 강조된 채로 남는다 */
+.card.active .a-flash{animation:a-flash 1.6s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-flash{0%{opacity:0;}12%{opacity:1;}30%{opacity:.2;}48%{opacity:1;}66%{opacity:.2;}84%{opacity:1;}100%{opacity:1;}}
+/* 입력한 값이 자기 자리(왼쪽·오른쪽)로 붙는다 */
+.card.active .a-fromr{animation:a-fromr .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-fromr{from{transform:translateX(100px); opacity:0;}}
+.card.active .a-froml{animation:a-froml .6s ease-out both; animation-delay:var(--d,0s);}
+@keyframes a-froml{from{transform:translateX(-100px); opacity:0;}}
+/* 열 너비를 좁히면 보이는 모습이 데이터마다 달라진다 */
+.card.active .a-shrinkb{transform-box:fill-box; transform-origin:left center; animation:a-shrinkb 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkb{from{transform:scaleX(1.75);}}
+.card.active .a-shrinkn{transform-box:fill-box; transform-origin:left center; animation:a-shrinkn 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-shrinkn{from{transform:scaleX(1.5);}}
+.card.active .a-slide60{animation:a-slide60 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-slide60{from{transform:translateX(60px);}}
+.a-wideout{opacity:0;}
+.card.active .a-wideout{animation:a-wideout 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-wideout{0%{opacity:1; transform:none;}60%{opacity:0;}100%{opacity:0; transform:translateX(-50px);}}
+.card.active .a-narrowin{animation:a-narrowin 1.1s ease-in-out both; animation-delay:var(--d,.9s);}
+@keyframes a-narrowin{0%{opacity:0; transform:translateX(50px);}55%{opacity:0;}100%{opacity:1; transform:none;}}
+
+/* 값이 다른 값으로 바뀌는 모습 (A가 사라지고 B가 나타난다) */
+.a-swapout{opacity:0;}
+.card.active .a-swapout{animation:a-swapout .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapout{0%{opacity:1;}100%{opacity:0;}}
+.card.active .a-swapin{animation:a-swapin .5s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-swapin{from{opacity:0;}}
+/* 셀 포인터가 움직인다 (--fx/--fy = 출발 위치와의 차이) */
+.card.active .a-move{animation:a-move .9s ease-in-out both; animation-delay:var(--d,0s);}
+@keyframes a-move{from{transform:translate(var(--fx,0px),var(--fy,0px));}}
+
+@media (prefers-reduced-motion: reduce){
+  .card.active .keyseq kbd,.card.active .keyseq .res,.card.active .draw,
+  .card.active [class*="a-"]{animation:none;}
+  .card.active .draw{stroke-dashoffset:0;}
+}
+
+/* 실제 Windows 엑셀 캡처 — 파일이 없으면 onerror로 자리째 사라진다 */
+.fig.shot{display:none;}  /* 사진이 실제로 뜬 뒤에만 보인다 — 없으면 학생 화면에 빈 자리가 생기지 않는다 */
+.shot .svg-wrap{overflow-x:auto;}
+.shot a{display:block;}
+.shot img{display:block; width:100%; height:auto; border-radius:8px; border:1px solid var(--line);}
+
+.quiz-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px 8px;margin:0 0 14px;}
+.quiz-item .q{display:flex;gap:9px;align-items:flex-start;}
+.qt{flex:1 1 auto;min-width:0;}
+.qn{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;margin-top:-1px;}
+#wrongList{margin:12px 0 0;}
+#wrongList .msg{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 8px;}
+#wrongList .chips-w{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+#wrongList button{font-family:inherit;font-size:14px;font-weight:800;border:1.5px solid var(--red);background:var(--red-l);color:var(--red);border-radius:999px;padding:7px 15px;cursor:pointer;}
+@media (min-width:700px){
+  h1{font-size:36px;} h2{font-size:26px;}
+  .card{padding:34px 24px;}
+}
+
+/* ── 마지막 장: 영상 + 음성 복습 ── */
+.video-review{margin:0 0 14px;background:#111827;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(17,24,39,.18)}
+.review-video{display:block;width:100%;aspect-ratio:16/9;background:#111827}
+.video-copy{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 13px;color:#E5E7EB;font-size:12px;font-weight:750}
+.video-copy b{color:#FCD34D}.audio-review{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(37,99,235,.08)}
+.player-controls{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center}.player-controls button{min-height:42px;border:1px solid #CBD5E1;border-radius:10px;background:#fff;color:var(--ink);padding:8px 11px;font:750 13px inherit;cursor:pointer}.player-controls .main-play{background:var(--blue);border-color:var(--blue);color:#fff}.speed-wrap{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #CBD5E1;border-radius:10px;font-size:13px;font-weight:750}.speed-wrap select{border:0;background:transparent;color:var(--blue-d);font:inherit;outline:none}.timeline{position:relative;margin-top:15px;padding-top:8px}.seek-bar{display:block;width:100%;margin:0;accent-color:var(--blue);cursor:pointer}.chapter-marks{position:absolute;left:7px;right:7px;top:13px;height:8px;pointer-events:none}.chapter-marks i{position:absolute;width:3px;height:11px;border-radius:3px;background:#F59E0B;transform:translateX(-1px)}.time-row{display:flex;justify-content:space-between;margin-top:3px;color:var(--mute);font-size:12px;font-variant-numeric:tabular-nums}.chapter-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.chapter-btn{display:flex;align-items:center;gap:8px;border:1px solid #CBD5E1;border-radius:9px;background:#fff;color:var(--ink);padding:9px 10px;text-align:left;font:750 12px/1.25 inherit;cursor:pointer}.chapter-btn time{flex:0 0 auto;color:var(--blue-d);font-family:'JetBrains Mono',monospace}.chapter-btn.active{border-color:#93C5FD;background:#EFF6FF;color:var(--blue-d)}.audio-note{margin:12px 0 0;color:var(--mute);font-size:12px;text-align:center}@media(max-width:560px){.chapter-grid{grid-template-columns:1fr}}
+
+.fig.shot{display:block;padding:12px;text-align:center}.shot img{display:block;max-width:100%;max-height:360px;width:auto;height:auto;margin:auto;object-fit:contain}.shot a{display:block}.shot a:focus-visible{outline:3px solid #2563eb;outline-offset:3px}.fig svg{max-width:100%;height:auto}.card.active .draw{stroke-dasharray:var(--len,240);stroke-dashoffset:var(--len,240);animation:drawline .9s ease-out forwards;animation-delay:var(--d,0s)}
+@media(prefers-reduced-motion:reduce){.card.active .draw{animation:none;stroke-dashoffset:0}.card.active [class*="a-"]{animation:none}.card.active .a-swapout{display:none}.card.active .a-swapin{opacity:1}}
+
+.summary-list{margin:0 0 16px;border-top:2px solid #315ea8;background:#fff}.summary-row{display:grid;grid-template-columns:minmax(100px,29%) 1fr;gap:12px;padding:12px 10px;border-bottom:1px solid #e2e8f0;line-height:1.5;font-size:15px}.summary-row strong{color:#164287}.summary-row span{min-width:0;color:#1f2937}.concept svg{display:block;width:100%;height:auto}.card.active .concept .step{animation:step-in .45s ease-out both;animation-delay:var(--d)}@keyframes step-in{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@media(max-width:400px){.summary-row{grid-template-columns:95px 1fr;gap:8px;font-size:14px}}@media(prefers-reduced-motion:reduce){.card.active .concept .step{animation:none}}
+
+/* 학습 카드 주변 장식: 본문과 조작 영역을 가리지 않도록 배치 */
+.ambient-stickers{position:fixed;inset:48px 0 58px;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-stickers i,.card-inner::before,.card-inner::after{background-image:url('assets/review-stickers.png');background-repeat:no-repeat;background-size:200% 200%;pointer-events:none;}
+.ambient-stickers i{position:absolute;width:clamp(82px,10vw,135px);aspect-ratio:1;filter:drop-shadow(0 10px 12px rgba(78,82,110,.10));}
+.ambient-stickers .laptop{left:2%;top:8%;background-position:0 0;}
+.ambient-stickers .book{right:2%;top:12%;background-position:100% 0;}
+.ambient-stickers .list{left:3%;bottom:9%;background-position:0 100%;}
+.ambient-stickers .star{right:3%;bottom:8%;background-position:100% 100%;}
+.deck{position:relative;z-index:1;}
+@media(max-width:900px){
+  .ambient-stickers{display:none;}
+  .card-inner{position:relative;padding-top:72px;}
+  .card-inner::before,.card-inner::after{content:"";position:absolute;top:0;width:68px;height:68px;}
+  .card-inner::before{right:73px;background-position:0 0;}
+  .card-inner::after{right:0;background-position:100% 0;}
+  .card:nth-of-type(4n+2) .card-inner::before,.card:nth-of-type(4n+3) .card-inner::before{background-position:0 100%;}
+  .card:nth-of-type(4n+2) .card-inner::after,.card:nth-of-type(4n+3) .card-inner::after{background-position:100% 100%;}
+}
+.panel code,.example-table td{overflow-wrap:anywhere;word-break:break-all}
+</style>
+<style>.example-label{font-size:12px;font-weight:700;color:#4b6c60;margin:0 0 7px}.example-wrap{overflow-x:auto}.example-table{width:100%;border-collapse:collapse;font-size:clamp(12px,2.5vw,15px);background:white}.example-table th,.example-table td{padding:8px;border:1px solid #cbd7d1;text-align:center;word-break:keep-all}.example-table th{background:#dff4ea;color:#285441}.example-table tr:nth-child(even){background:#f6faf9}.example-table td{overflow-wrap:anywhere}@media(prefers-reduced-motion:reduce){.example-table .step{animation:none!important;opacity:1!important}}</style></head>
+<body>
+
+<div class="topbar">
+  <span class="t">컴활2급 엑셀 · 14차시</span>
+  <span class="d">2026.11.27 (금)</span>
+</div>
+<div class="progress"><i id="bar"></i></div>
+
+<div class="ambient-stickers" aria-hidden="true"><i class="laptop"></i><i class="book"></i><i class="list"></i><i class="star"></i></div>
+
+<div class="deck" id="deck">
+
+<section class="card"><div class="card-inner"><span class="kicker">14차시 복습카드</span><h2>필기 인터넷 · ICT 신기술 · 멀티미디어 · 정보 보안 +<br>실기 모의시험 요령</h2><figure class="fig concept"><div class="example-label">복습 순서</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>복습 순서</th><th>학습 내용</th></tr><tr class="step" style="--d:0.16s"><td>필기</td><td>IPv6 · 도메인 · URL · 프로토콜 · 전자우편</td></tr><tr class="step" style="--d:0.32s"><td>필기</td><td>웹 브라우저 · ICT 신기술</td></tr><tr class="step" style="--d:0.48s"><td>필기</td><td>멀티미디어(그래픽 · 오디오 · 비디오) · 인공지능</td></tr><tr class="step" style="--d:0.64s"><td>필기</td><td>정보 보안 · 바이러스 · 보안 위협</td></tr><tr class="step" style="--d:0.80s"><td>실기</td><td>모의시험 푸는 순서 · 연습 방법</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>필기</b> — 오늘로 책 진도를 모두 마쳤습니다. 표로 나온 것은 키워드만 뽑아 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>보충</b> — 녹음이 비는 구간(IPv6 구조 · 멀티미디어 개요 · 그래픽 파일 형식 · 오디오 앞부분)은 이전 기수 수업 자료로 채웠습니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>실기</b> — 모의시험을 한 번에 풀어 보는 수업이었고, 푸는 순서와 연습 방법을 정리했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">복습 · 13차시</span><h2>많이 틀린 6가지</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>헷갈린 것</th><th>이렇게 구분합니다</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>목표값 찾기</td><td>수식 셀 = 결과를 계산하는 셀 · 값을 바꿀 셀 = 답이 될 입력 셀(예: 상환 기간)</td></tr><tr class="step" style="--d:0.32s"><td>IR과 PC</td><td>IR = 지금 실행할 명령어 자체 · PC = 다음에 실행할 명령어의 주소</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>알파와 베타</td><td>알파 = 개발 회사 안에서 테스트 · 베타 = 회사 밖의 일반 사용자에게 배포</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>다중 프로그래밍 · 다중 처리</td><td>CPU 1개로 여러 프로그램 = 다중 프로그래밍 · CPU 여러 개 = 다중 처리</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>컴파일러 · 인터프리터</td><td>컴파일러 = 전체 번역 · 목적 프로그램 O / 인터프리터 = 한 줄씩 · 목적 프로그램 X</td></tr><tr class="step" style="--d:0.96s"><td>매크로 이름</td><td>첫 글자는 문자 · 공백 불가 · 밑줄(_)은 가능</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>목표값 찾기</b>의 세 칸 — 수식 셀(결과를 계산) · 찾는 값(목표 숫자) · 값을 바꿀 셀(답이 될 입력 셀)을 서로 바꿔 넣지 않습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>알파는 회사 안, 베타는 회사 밖</b>입니다. 다중 프로그래밍과 다중 처리는 <b>CPU 개수</b>로 구분합니다</span></div><div class="row"><span class="n">3</span><span class="b">번역 프로그램은 <b>컴파일러 = 전체, 인터프리터 = 한 줄씩</b>이며 번역 속도와 실행 속도가 서로 반대입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷</span><h2>8비트 4부분, 16비트 8부분</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>IPv4</th><th>IPv6</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>구성</td><td>8비트 × 4부분 = 32비트</td><td>16비트 × 8부분 = 128비트</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>표기</td><td>10진수 · 점(.)으로 구분</td><td>16진수 · 콜론(:)으로 구분</td></tr><tr class="step" style="--d:0.48s"><td>예</td><td>192.168.0.54</td><td>2001:0DB8:0000:0000:0000:FF00:0042:8329</td></tr><tr class="step" style="--d:0.64s"><td>특징</td><td>네트워크 길이에 따라 A ~ E 클래스로 구분(교재)</td><td>주소 부족을 해결하려고 개발 · 클래스 구분이 아님</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>IPv4</b>는 «8비트씩 4부분 · 32비트 · 10진수 · 점», <b>IPv6</b>는 «16비트씩 8부분 · 128비트 · 16진수 · 콜론»입니다</span></div><div class="row"><span class="n">2</span><span class="b">«16비트 8부분»을 «8비트 16부분»으로 바꿔 쓴 보기에 주의합니다. 문제에 <b>A ~ E 클래스</b>가 나오면 IPv4 이야기입니다</span></div><div class="row"><span class="n">3</span><span class="b">이 카드의 구조 설명은 녹음이 비는 구간이라 <b>이전 기수 수업 자료</b>로 보충했습니다. 수업에서는 IPv4가 8비트씩 4부분 32비트임을 문제로 확인했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷</span><h2>0 생략 · 유니캐스트 · 멀티캐스트 · 애니캐스트</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>0의 생략</td><td>각 부분 앞쪽의 0은 생략 가능 · :: 는 주소에서 한 번만 사용 · 표준 축약 표기에서는 0이 2개 이상 연속된 부분 중 가장 긴 구간을 줄이고 길이가 같으면 첫 번째 구간을 줄임</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>교재의 평가</td><td>IPv4보다 호환성 · 보안 · 확장성이 뛰어나고 전송 속도도 빠르다고 설명 · «호환성이 뛰어나지 않다»는 보기는 틀림</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>유니캐스트</td><td>교재 · 수업: 1:1 통신 · 정해진 한 대와 통신</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>애니캐스트</td><td>교재 · 수업: 1:1 통신 · 같은 주소를 가진 여러 후보 중 가장 가까운 한 대로 전달</td></tr><tr class="step" style="--d:0.80s"><td>멀티캐스트</td><td>다중 통신 · 여러 대에 동시에 전송</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>브로드캐스트</td><td>IPv6의 주소 체계에 없음(보기에 섞여 나오면 틀림)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">주소 체계는 <b>유니 · 멀티 · 애니캐스트</b> 세 가지입니다. 유니와 애니는 1:1, 멀티는 다중으로 구분하고, 시험에는 «멀티캐스트» 용어가 나온다고 했습니다</span></div><div class="row"><span class="n">2</span><span class="b">문제의 «IPv4와 <b>연동성이 뛰어나지 않다</b>»는 보기는 교재 기준으로 틀린 설명입니다(교재에서는 호환성이 우수하다고 설명)</span></div><div class="row"><span class="n">3</span><span class="b">IPv4는 A ~ E 클래스로 구분하고 IPv6는 유니 · 멀티 · 애니캐스트로 구분하는지 <b>무엇으로 구분하는지</b>를 짝지어 외웁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷</span><h2>왼쪽부터 호스트 · 기관 이름 · 기관 종류 · 국가</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>도메인 네임</td><td>숫자 IP 주소를 외우기 어려워 문자로 만든 주소 · 전 세계에서 유일해야 함</td></tr><tr class="step" style="--d:0.32s"><td>구성(교재의 국내 기관형 예)</td><td>왼쪽부터 호스트 컴퓨터 이름 · 기관 이름 · 기관의 종류 · 국가명(예: www.example.co.kr) · 국가 코드가 없는 도메인도 있음</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>기관의 종류</td><td>ac = 대학 · go = 정부 기관 · co = 회사 · com = 상업 기관</td></tr><tr class="step" style="--d:0.64s"><td>국가</td><td>kr = 한국</td></tr><tr class="step" style="--d:0.80s"><td>등록</td><td>컴퓨터에서 임의로 설정해 쓰는 것이 아니라 등록기관을 통해 등록(일반적으로 비용이 듦)</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>DNS</td><td>문자로 된 도메인 네임을 IP 주소로 변환해 사이트를 볼 수 있게 도와줌</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">교재의 국내 기관형 도메인 예는 <b>호스트 › 기관 이름 › 기관 종류 › 국가</b> 순서이고(국가 코드가 없는 도메인도 있음), 기관 종류는 <b>ac(대학) · go(정부) · co(회사)</b>를 구분합니다</span></div><div class="row"><span class="n">2</span><span class="b">«컴퓨터에서 <b>임의로 설정</b>하여 사용할 수 있다»는 도메인 설명은 틀립니다. 등록해서 쓰고 전 세계에서 하나뿐이어야 합니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>DNS</b>는 도메인 네임 → IP 주소 변환입니다. 수업에서는 DNS 설정을 함부로 바꾸면 사이트에 들어가지 못할 수 있다고 짚었습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷</span><h2>프로토콜 › 호스트 › 포트 번호 › 파일 경로</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>이름</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>①</td><td>프로토콜</td><td>HTTP(하이퍼텍스트 전송 규약) · FTP(파일 전송 규약) · 텔넷 · 뉴스 등</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>②</td><td>호스트(서버) 주소</td><td>예: www.naver.com</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>포트 번호</td><td>형식표에서 대괄호 [ ]는 생략 가능이라는 뜻 · 실제 주소에서는 :80처럼 콜론으로 씀 · 서비스마다 기본 번호가 있음</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>④</td><td>파일 경로</td><td>호스트에서 문서 · 파일 등 자원의 위치를 나타내는 경로</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">URL 형식의 순서는 <b>프로토콜 → 호스트 주소 → 포트 번호 → 파일 경로</b>입니다. 순서를 묻는 문제가 나옵니다</span></div><div class="row"><span class="n">2</span><span class="b">형식표의 <b>대괄호는 생략할 수 있다</b>는 뜻입니다. 실제 주소에서 포트는 :80처럼 콜론으로 씁니다</span></div><div class="row"><span class="n">3</span><span class="b">프로토콜의 «P»는 규칙(Protocol)이고, 웹 페이지를 만드는 언어 HTML의 «L»은 언어(Language)입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷</span><h2>아래부터 물 · 데 · 네 · 전 · 세 · 표 · 응</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>계층</th><th>대표 장비 · 프로토콜</th></tr><tr class="step" style="--d:0.16s"><td>응용(7)</td><td>HTTP · FTP · SMTP처럼 사용자가 쓰는 서비스</td></tr><tr class="step" style="--d:0.32s"><td>표현(6) · 세션(5)</td><td>표현 · 세션 계층</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>전송(4)</td><td>TCP · 게이트웨이(교재 표 기준)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>네트워크(3)</td><td>IP · 라우터</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>데이터 링크(2)</td><td>브리지</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>물리(1)</td><td>리피터 · 허브 · 전기 신호 · 케이블</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">OSI 7계층은 <b>물리 › 데이터 링크 › 네트워크 › 전송 › 세션 › 표현 › 응용</b> 순서이고, 약어는 ISO가 아니라 <b>OSI</b>(Open Systems Interconnection)입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>TCP는 전송 계층(Transport)</b>이라 둘 다 T로 외우고, <b>IP는 네트워크 계층</b>입니다. HTTP는 가장 위쪽 응용 계층입니다</span></div><div class="row"><span class="n">3</span><span class="b">장비와 계층을 짝지어 외우는 문제가 나옵니다. 수업에서는 표를 요약집에서 같이 보라고 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷 서비스</span><h2>SMTP = 보내기 · POP3 = 받기</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>전자우편 주소</td><td>사용자 ID @ 메일 서버 주소(예: ID@naver.com)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>SMTP</td><td>작성한 메일을 상대 계정이 있는 곳으로 전송(송신) · 수업: S를 Send로 외움(암기용)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>POP3</td><td>메일 서버에 있는 메일을 사용자 컴퓨터로 가져옴(수신)</td></tr><tr class="step" style="--d:0.64s"><td>IMAP</td><td>메일을 서버에 둔 채로 볼 수 있는 방식 · POP3는 내려받는 방식(수업)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>MIME</td><td>전자우편에서 멀티미디어 파일을 다룰 수 있게 하는 규격 · 정식 이름은 Multipurpose Internet Mail Extensions · M을 멀티미디어와 연결해 외움(암기용)</td></tr><tr class="step" style="--d:0.96s"><td>아웃룩</td><td>여러 메일 계정의 메일을 한 프로그램에서 받아 관리 · SMTP · POP3 서버 주소를 이용</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>SMTP는 송신, POP3는 수신</b>입니다. 보기에서 두 가지가 바뀐 채로 나오므로 «받을 때 SMTP를 이용한다»는 설명은 틀립니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>MIME</b>은 멀티미디어가 나오면 고릅니다. IMAP은 POP3와 비슷하게 메일을 가져오는 프로토콜이지만 서버에 둔 채로 볼 수 있다는 차이가 있습니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 네이버나 지메일 같은 서비스에서 SMTP · POP3 서버 주소를 제공하고, 아웃룩에 넣어 여러 계정을 한 곳에서 관리한다고 설명했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷 서비스</span><h2>HTTP의 P는 프로토콜, HTML의 L은 언어</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>스팸</td><td>원하지 않는데 일방적으로 보내는 메일 · 메시지</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>FTP</td><td>File Transfer Protocol · 컴퓨터와 컴퓨터 사이에서 파일을 주고받는 원격 파일 전송 프로토콜</td></tr><tr class="step" style="--d:0.48s"><td>WWW</td><td>인터넷에서 웹 자원을 하이퍼텍스트로 거미줄처럼 연결해 제공하는 정보 서비스 · 멀티미디어 형식의 정보도 제공</td></tr><tr class="step" style="--d:0.64s"><td>웹 페이지</td><td>서버가 정보를 제공하고 클라이언트가 웹 브라우저로 검색해 받음</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>HTTP</td><td>하이퍼텍스트 문서를 웹 브라우저와 서버 사이에서 전송하는 프로토콜 · P = Protocol</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>HTML</td><td>웹 페이지를 표현하는 언어 · L = Language</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«파일을 주고받기 위한 프로토콜»이 나오면 <b>FTP</b>, «하이퍼텍스트 문서 전송»이 나오면 <b>HTTP</b>를 고릅니다</span></div><div class="row"><span class="n">2</span><span class="b">«HTML은 하이퍼텍스트 문서를 전송하는 <b>프로토콜</b>이다»는 틀린 설명입니다. HTML은 언어이고 HTTP가 프로토콜입니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>WWW</b>는 하이퍼텍스트 기반이고 멀티미디어 정보를 제공합니다. 웹 브라우저로는 크롬 · 엣지 · 웨일 등을 씁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷 서비스</span><h2>플러그인 · 히스토리 · 북마크 · 쿠키</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>웹 브라우저 종류</td><td>엣지(인터넷 익스플로러를 대체한 브라우저) · 크롬 · 파이어폭스 · 웨일 · 사파리</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>플러그인</td><td>교재: 웹 브라우저의 기능을 확장하던 외부 프로그램(오디오 · 비디오 · 애니메이션 실행) · 현재의 브라우저 확장 프로그램과는 구분</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>히스토리</td><td>방문한 사이트의 주소가 기록된 목록</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>북마크</td><td>즐겨찾기 · 자주 가는 사이트를 저장</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>쿠키</td><td>특정 웹 사이트가 사용자 정보를 저장해 두는 작은 파일 · 로그인 상태 · 사이트 설정 등 · 허용을 거부할 수 있음(거부해도 모든 추적이 막히는 것은 아님)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">엣지 · 크롬 · 파이어폭스 · 웨일 · 사파리는 모두 <b>웹 브라우저</b>입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>플러그인</b> = 기능 확장, <b>히스토리</b> = 방문 기록, <b>북마크</b> = 즐겨찾기, <b>쿠키</b> = 사이트가 저장하는 사용자 정보입니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 «웹 사이트의 쿠키 정보를 허용하시겠습니까»라는 창을 예로 들어, 허용하면 방문 정보가 추천과 광고에 쓰일 수 있다고 설명했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 6장 인터넷 서비스</span><h2>웹 브라우저에서 할 수 없는 일도 확인합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>캐싱</td><td>자주 다니는 사이트의 정보를 따로 저장해 두었다가 빨리 보여 줌</td></tr><tr class="step" style="--d:0.32s"><td>포털 사이트</td><td>인터넷 이용의 관문 역할 · 네이버 같은 사이트</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>미러 사이트</td><td>접속자가 많아 사이트가 다운되는 것을 막으려고 똑같은 사이트를 하나 더 만들어 둠</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>브라우저에 없는 기능</td><td>멀티미디어(동영상 · 음성) 편집기를 선택하는 기능 · 따로 프로그램을 써야 함</td></tr><tr class="step" style="--d:0.80s"><td>브라우저에서 되는 일</td><td>로그인 정보 저장(쿠키) · 즐겨찾기 · 방문 기록 관리</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>캐싱</b>은 «빨리 보여 주려고 저장», <b>미러 사이트</b>는 «다운 방지를 위해 똑같이 복제»가 키워드입니다</span></div><div class="row"><span class="n">2</span><span class="b">«웹 브라우저 설정에서 <b>멀티미디어 편집기</b>를 선택할 수 있다»는 보기는 틀린 설명입니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 포털 사이트의 위력이 AI 때문에 약해지고 있다는 이야기도 했지만 시험 범위는 아닙니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 ICT 신기술</span><h2>빌려 쓰면 클라우드, 연결해서 처리하면 그리드</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>클라우드 컴퓨팅</td><td>필요한 만큼 소프트웨어 · 하드웨어를 빌려 쓰는 방식 · 교재: 쓴 만큼 요금 지불(예: 구글 드라이브)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>그리드 컴퓨팅</td><td>지리적으로 떨어진 컴퓨터를 초고속 인터넷망으로 연결해 하나처럼 사용</td></tr><tr class="step" style="--d:0.48s"><td>스마트 그리드</td><td>전기의 생산부터 소비까지 효율을 높이는 지능형 전력망 시스템</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>사물 인터넷(IoT)</td><td>사물을 인터넷에 연결해 정보를 주고받음(교재) · 예: 밖에서 보일러 켜고 끄기</td></tr><tr class="step" style="--d:0.80s"><td>만물 인터넷(IoE)</td><td>IoT에서 진화 · 수업에서는 사물끼리 스스로 통신(예: 창문 센서가 보일러를 켬) · 사람 · 데이터까지 연결하는 개념이기도 함</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>빌려 쓰면 클라우드, 연결해서 처리하면 그리드</b>로 짝지어 외웁니다. 와이파이(Wi-Fi)는 기기를 무선 LAN에 연결하는 기술로, 인터넷에 연결된 무선 LAN이면 인터넷도 쓸 수 있습니다</span></div><div class="row"><span class="n">2</span><span class="b">문제에서 «IoT를 이용하면 통신 비용이 줄고 <b>정보 보안 기술 적용이 쉬워진다</b>»는 보기는 틀린 설명입니다. 연결이 늘수록 보안이 더 중요해집니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 IoT로 모은 데이터를 인공지능이 학습하고 스스로 판단하는 단계로 발전하고 있다고 설명했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 ICT 신기술</span><h2>자동차 · 위치 · 이동 중 인터넷</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>텔레매틱스</td><td>자동차에 정보 통신 · 정보 처리 기술을 융합해 운전자에게 서비스 제공</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>LBS</td><td>위치 기반 서비스 · 내비게이션 · 주변 맛집 · 버스 도착 시간(실시간 TV가 아님)</td></tr><tr class="step" style="--d:0.48s"><td>빅데이터</td><td>엄청나게 많은 데이터와 이를 처리하는 기술</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>와이브로</td><td>이동하면서 언제 어디서나 고속으로 무선 인터넷 접속 · 와이파이보다 범위가 넓음(수업)</td></tr><tr class="step" style="--d:0.80s"><td>UWB</td><td>근거리에서 컴퓨터 · 주변 기기 · 가전 제품을 연결하는 초고속 무선 인터페이스</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>핀테크</td><td>금융 + 기술 · 네이버페이 · 카카오페이 같은 간편 결제 · 시험에 계속 나왔다고 함(수업)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«핸드폰 · 노트북으로 <b>이동하면서</b> 접속»은 와이브로, «<b>위치</b> 기반»은 LBS, «<b>자동차</b>»는 텔레매틱스를 고릅니다</span></div><div class="row"><span class="n">2</span><span class="b">요약집에는 <b>블록체인 · 엣지 컴퓨팅 · 핀테크</b> 같은 용어도 더 들어 있고, 수업에서는 핀테크가 시험에 많이 나왔다고 했습니다</span></div><div class="row"><span class="n">3</span><span class="b">RSS · 시맨틱 웹 · 트랙백은 수업에서 읽어 보고 넘어가는 정도로 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 ICT 신기술</span><h2>전자 태그가 나오면 RFID</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>상황</th><th>기술</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>사물에 붙은 «전자 태그»로 인식</td><td>RFID · 도서관 대출 · 버스 카드 · 마라톤 기록 · 전자 명함</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>가까이 대고 카드 결제</td><td>NFC(수업에서 RFID 기술의 하나로 설명)</td></tr><tr class="step" style="--d:0.48s"><td>노트북을 핫스팟에 연결</td><td>Wi-Fi</td></tr><tr class="step" style="--d:0.64s"><td>핸드폰과 무선 이어폰 연결</td><td>블루투스</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>이동하면서 언제 어디서나 인터넷 접속</td><td>와이브로</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>센서를 뿌려 온도 · 습도 · 위치를 전달(산불 감시)</td><td>USN(유비쿼터스 센서 네트워크)</td></tr><tr class="step" style="--d:1.12s"><td>떨어진 컴퓨터를 연결해 하나처럼 사용</td><td>그리드 컴퓨팅</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«사물에 붙은 <b>전자 태그</b>»가 나오면 <b>RFID</b>를 고릅니다. 상황을 보고 기술 이름을 고르는 문제가 나옵니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>USN</b>은 RFID 태그나 센서가 인식한 주변 정보를 네트워크로 전달하는 것입니다. 수업에서는 센서를 뿌려 산불을 감시하는 예로 설명했습니다</span></div><div class="row"><span class="n">3</span><span class="b">무선 이어폰은 <b>블루투스</b>이고 교재의 대표 용도 기준으로 휴대폰과 무선 이어폰은 블루투스로 연결한다고 구분합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>디지털화 · 상호작용성 · 비선형성 · 통합성</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>멀티미디어</td><td>문자 · 그래픽 · 이미지 · 오디오 · 비디오 등 여러 매체를 통합해 다룸</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>특징</td><td>디지털화 · 상호작용성 · 비선형성 · 정보의 통합성</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>특징이 아닌 것</td><td>선형성 · 획일화(보기에서 틀린 설명으로 나옴)</td></tr><tr class="step" style="--d:0.64s"><td>하이퍼텍스트</td><td>글자(텍스트)를 서로 연결한 것</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>하이퍼미디어</td><td>하이퍼텍스트 + 멀티미디어 · 글자를 누르면 동영상이 나오는 경우</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">특징 네 가지는 <b>디지털화 · 상호작용성 · 비선형성 · 통합성</b>입니다. «<b>선형성</b>»이 특징이라고 쓴 보기는 틀립니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>하이퍼텍스트</b>는 글자 연결, <b>하이퍼미디어</b>는 거기에 멀티미디어를 더한 것으로 구분합니다</span></div><div class="row"><span class="n">3</span><span class="b">이 구간은 녹음이 비어 <b>이전 기수 수업 자료</b>로 보충했습니다. 이후 카드는 오늘 수업 녹음 중심입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>뼈대를 세우고, 색을 칠하고, 없는 색은 섞어 만듭니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>모델링</td><td>3차원 개체를 만들기 위해 뼈대를 세우는 과정 · 렌더링 전에 수행 · 스케치</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>렌더링</td><td>모델링한 개체에 명암 · 색상을 입혀 채색하는 과정</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>디더링</td><td>원하는 색이 없을 때 가지고 있는 색을 섞어 새로운 색처럼 표현하는 기법</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«명암 · 색상을 입혀 채색»이 나오면 <b>렌더링</b>입니다. <b>모델링</b>에 색을 입힌다고 쓴 보기는 틀립니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>디더링</b>은 제작 단계가 아니라 색을 섞어 표현하는 기법입니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 모델링 · 렌더링 · 디더링을 이어서 학습하면 기억에 남는다고 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>이미지가 어떻게 바뀌는지 그려 보며 외웁니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>모핑</td><td>두 개의 이미지를 부드럽게 연결해 변환(아기 → 노인) · 파워포인트의 모핑 전환 효과</td></tr><tr class="step" style="--d:0.32s"><td>필터링</td><td>이미지에 효과를 줌 · 사진 앱의 필터</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>인터레이싱</td><td>교재 기준: 이미지를 처음에 대략적으로 보여 주다가 점점 선명하게 보여 줌(영상 분야에서는 교차 주사라는 뜻으로도 씀)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«두 이미지를 <b>부드럽게 연결해 변환</b>»은 모핑입니다. 수업에서는 모핑을 꼭 알아야 한다고 짚었습니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>인터레이싱</b>은 이미지 용어이므로 «오디오 데이터와 관련된 용어가 아닌 것»에 섞여 나옵니다(오디오 용어는 샘플링 · PCM · 시퀀싱)</span></div><div class="row"><span class="n">3</span><span class="b">그 밖의 그래픽 용어는 읽어 보고 넘어가도 된다고 수업에서 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>계단 현상과 셀 · 키프레임 · 클레이</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>앨리어싱</td><td>이미지를 확대했을 때 경계가 계단처럼 보이는 현상(비트맵)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>안티 앨리어싱</td><td>계단 현상을 줄여 경계를 부드럽게 보이게 하는 기법</td></tr><tr class="step" style="--d:0.48s"><td>셀 애니메이션</td><td>투명한 셀룰로이드(셀)에 그림을 그려 만듦</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>키프레임 애니메이션</td><td>핵심이 되는 두 프레임을 정하면 중간 프레임을 자동으로 생성</td></tr><tr class="step" style="--d:0.80s"><td>클레이 애니메이션</td><td>점토 인형을 조금씩 움직여 촬영</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«이미지 가장자리가 <b>톱니(계단) 모양</b>»이면 앨리어싱, 이를 <b>부드럽게</b> 만들면 안티 앨리어싱입니다</span></div><div class="row"><span class="n">2</span><span class="b">«<b>핵심이 되는 두 프레임</b>을 정하고 중간을 자동으로»는 키프레임 애니메이션입니다</span></div><div class="row"><span class="n">3</span><span class="b">비트맵 이미지를 확대하면 앨리어싱 현상이 생깁니다. 교재에서는 벡터를 확대해도 깨지지 않는 방식으로 구분합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>점을 찍는 방식과 선으로 잇는 방식</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>구분</th><th>비트맵</th><th>벡터</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>표현 방식</td><td>픽셀 격자에 각 점의 색상 값(교재: 좌표와 RGB 색상 값)을 저장</td><td>점과 점을 연결하는 직선 · 곡선</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>확대하면</td><td>앨리어싱(계단 현상)이 생김</td><td>교재 기준: 확대해도 깨지지 않고 선명</td></tr><tr class="step" style="--d:0.48s"><td>용량 · 속도</td><td>표시 속도는 빠르지만 용량이 큼</td><td>단순한 도형 표현에 적합</td></tr><tr class="step" style="--d:0.64s"><td>대표 파일</td><td>BMP · TIF · GIF · JPG · PNG</td><td>AI(일러스트레이터) 등</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>트루컬러</td><td>RGB 각 0 ~ 255 = 8비트 × 3 = 24비트(3바이트)</td><td>—</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«<b>점</b>을 찍는 방식 · 래스터 · 앨리어싱»이 나오면 비트맵, «<b>직선 · 곡선</b>으로 표현»이 나오면 벡터입니다</span></div><div class="row"><span class="n">2</span><span class="b">트루컬러는 <b>RGB 각 8비트 × 3 = 24비트</b>입니다. 수업에서는 바탕 화면 한 장이 점 수 × 3바이트라 용량이 크다고 설명했습니다</span></div><div class="row"><span class="n">3</span><span class="b">확대가 필요한 로고 · 문자 · 도형은 <b>벡터</b>가 알맞아 현수막 · 명함 도안에 쓰고(수업), 사진은 출력 크기에 맞는 고해상도 비트맵을 씁니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>BMP · JPG · GIF · PNG</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>형식</th><th>특징</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>BMP</td><td>윈도우 표준 비트맵 형식 · 교재 기준: 압축하지 않아 파일 크기가 큼</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>JPG</td><td>인터넷에서 널리 쓰는 국제 표준 압축 방식 · 손실 · 무손실 압축 · 확장자 JPG · JPEG · JPE</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>GIF</td><td>인터넷 표준 그래픽 · 애니메이션을 표현할 수 있음</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>PNG</td><td>GIF를 대체해 인터넷에서 사용 · 투명층(투명 배경)을 표현할 수 있음</td></tr><tr class="step" style="--d:0.80s"><td>공통</td><td>JPG · PNG · GIF는 모두 이미지 형식 · 비디오 형식이 아님 · 교재는 애니메이션 = GIF · 투명층 = PNG로 구분(실제로는 APNG도 애니메이션을 지원)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">교재에서 <b>애니메이션은 GIF, 투명층은 PNG</b>입니다. BMP는 압축을 하지 않아 크고, JPG는 압축으로 작습니다</span></div><div class="row"><span class="n">2</span><span class="b">JPG 압축 중 <b>손실 압축</b>은 줄인 정보를 복구하지 못하고, <b>무손실 압축</b>은 복구되지만 압축률이 낮습니다. JPG · PNG · GIF를 비디오 형식으로 쓴 보기는 틀립니다</span></div><div class="row"><span class="n">3</span><span class="b">이 카드는 녹음이 비는 구간이라 <b>이전 기수 수업 자료</b>로 보충했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>샘플링과 PCM · 악보 파일 MIDI · 압축 MP3</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>WAV(웨이브)</td><td>디지털 오디오를 담는 파일 형식 · 교재: 아날로그 소리를 디지털로 변환해 저장 · 주로 비압축 PCM</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>샘플링</td><td>아날로그 신호를 일정한 시간 간격으로 측정하는 단계</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>PCM</td><td>아날로그 신호를 표본화해 측정한 값을 디지털 신호로 바꾸는 대표적인 방법 · 교재 그림은 막대(직사각형)로 표현</td></tr><tr class="step" style="--d:0.64s"><td>시퀀싱</td><td>교재: 음악을 제작하고 편집하는 작업</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>MIDI(미디)</td><td>소리 파형이 아니라 연주 정보를 저장(악보에 비유) · 신시사이저 · 소프트웨어 음원으로 연주 · 용량이 매우 작음</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>MP3</td><td>고품질 오디오 압축 표준(손실 압축) · 음질 저하를 줄이며 용량을 약 1/12까지 줄임(수업)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">오디오 용어는 <b>샘플링 · PCM · 시퀀싱</b>입니다. 인터레이싱은 이미지 용어라서 «오디오 용어가 아닌 것»에 섞여 나옵니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>MIDI는 악보</b>, <b>MP3는 압축</b>입니다. MP3는 MPEG 오디오 규격이고, 시험에서는 MP3 = 오디오 압축, MPEG-1 · 2 · 4 = 영상 중심으로 구분해 외웁니다</span></div><div class="row"><span class="n">3</span><span class="b">앞부분(WAV · 샘플링 · PCM · 시퀀싱)은 녹음이 비는 구간이라 <b>이전 기수 수업 자료</b>로 보충했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>MPEG은 별표, 단계별로 구분합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>형식 · 용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>MPEG-1</td><td>CD(비디오 CD 등)에 대한 영상 표준(발전 순서로 보면 처음)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>MPEG-2</td><td>DVD에 대한 영상 표준</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>MPEG-4</td><td>인터넷 · 모바일에서 사용하는 영상 표준 · MP4는 대표적인 파일 형식</td></tr><tr class="step" style="--d:0.64s"><td>MPEG-7</td><td>멀티미디어 내용을 설명하는 표준 · 검색 · 필터링 지원</td></tr><tr class="step" style="--d:0.80s"><td>MPEG-21</td><td>제작 · 유통 · 보안 등 전반을 다루는 통합 프레임워크(수업 설명)</td></tr><tr class="step" style="--d:0.96s"><td>AVI</td><td>윈도우 표준 동영상 형식</td></tr><tr class="step" style="--d:1.12s;background:#daf5e5"><td>ASF · WMV</td><td>교재: 스트리밍을 위한 윈도우 미디어 규격 · ASF는 컨테이너, WMV는 윈도우 미디어 비디오 형식</td></tr><tr class="step" style="--d:1.28s;background:#daf5e5"><td>스트리밍</td><td>파일을 모두 다운로드하지 않고 받으면서 바로 재생(유튜브 · 라이브 방송)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>MPEG-1 = CD, MPEG-2 = DVD, MPEG-4 = 인터넷 · 모바일, MPEG-7 = 내용 설명 · 검색, MPEG-21 = 통합 프레임워크</b>로 짝지어 외웁니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>MP3</b>는 MPEG 오디오 규격으로 오디오 압축에 쓰이고, MPEG-1 · 2 · 4는 영상 중심으로 외웁니다. 비디오 형식에는 AVI · ASF · WMV가 나옵니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>스트리밍</b>은 시험에 많이 나온다고 수업에서 강조했습니다. «지연 시간을 줄이려고 다운로드하면서 보는 것»이 키워드입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>VOD · VCS · CAI · MOD · 홀로그램 · 메타버스</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>VOD</td><td>주문형 비디오 · 원하는 영상(영화 · 드라마 · 뉴스)을 선택해 보는 서비스</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>VCS</td><td>화상 회의 시스템 · 초고속 정보 통신망으로 멀리서 회의 · 수업(줌 · 구글 밋)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>CAI</td><td>컴퓨터를 이용해 학습자에게 교육 내용을 설명하고 연습 문제를 주는 방식</td></tr><tr class="step" style="--d:0.64s"><td>MOD</td><td>주문형 음악</td></tr><tr class="step" style="--d:0.80s"><td>홀로그램</td><td>레이저 같은 광원을 이용해 3차원 영상으로 표현</td></tr><tr class="step" style="--d:0.96s"><td>메타버스</td><td>가상 세계에서 모임 · 쇼 · 경제 활동까지 하는 공간</td></tr><tr class="step" style="--d:1.12s;background:#daf5e5"><td>LBS · DMB</td><td>LBS는 위치 기반 서비스 · 실시간 TV는 DMB(보기에 LBS가 섞여 나옴)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">영문 약자를 풀어서 뜻과 짝지어 둡니다. <b>VOD(주문형 비디오) · VCS(화상 회의) · CAI(컴퓨터 보조 교육) · MOD(주문형 음악)</b>입니다</span></div><div class="row"><span class="n">2</span><span class="b">«멀티미디어 기능이 강화된 <b>실시간 TV</b>»를 LBS라고 한 보기는 틀립니다. LBS는 위치 기반 서비스입니다</span></div><div class="row"><span class="n">3</span><span class="b">메타버스에서는 일상생활과 경제 활동이 가능하다고 수업에서 설명했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 7장 멀티미디어</span><h2>필요한 기술은 인터랙션 · 렌더링 · 트래킹</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>가상 현실(VR)</td><td>3차원 기법으로 현실처럼 구현한 가상 세계 · VR 안경(HMD) 같은 장비로 들어감</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>증강 현실(AR)</td><td>카메라 화면이나 투명 디스플레이로 보는 현실에 가상의 정보를 더해 보여 줌</td></tr><tr class="step" style="--d:0.48s"><td>혼합 현실(MR)</td><td>현실 세계와 가상 세계를 합쳐 서로 상호작용</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>필요한 기술</td><td>인터랙션(움직임에 반응) · 렌더링(그래픽 표현) · 트래킹(움직임 · 위치 파악)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>핵심 기술이 아닌 것</td><td>스트리밍(방송을 다 받지 않고 바로 보는 기술)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">VR · AR · MR의 구분은 «<b>가상 세계에 들어감</b> / <b>현실 화면에 정보를 더함</b> / <b>합쳐서 상호작용</b>»입니다</span></div><div class="row"><span class="n">2</span><span class="b">«고화질 영상을 제작해서 텔레비전에 나타내는 기술»은 가상 현실이 아닙니다</span></div><div class="row"><span class="n">3</span><span class="b">핵심 기술을 묻는 문제에는 <b>스트리밍</b>이 «핵심 기술이 아닌 것»으로 섞여 나옵니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 8장 인공지능</span><h2>지도 · 비지도 · 강화 학습, 인공 신경망, 퍼셉트론, 환각</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>일반적인 뜻</th></tr><tr class="step" style="--d:0.16s"><td>지도 학습</td><td>정답(레이블)이 있는 데이터로 학습</td></tr><tr class="step" style="--d:0.32s"><td>비지도 학습</td><td>정답 없이 데이터의 규칙 · 묶음을 찾음</td></tr><tr class="step" style="--d:0.48s"><td>강화 학습</td><td>행동에 대한 보상을 받으며 학습</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>인공 신경망</td><td>사람 뇌의 신경 구조를 본뜬 학습 모델</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>퍼셉트론</td><td>인공 신경망의 기본이 되는 가장 단순한 형태</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>환각(할루시네이션)</td><td>생성형 AI가 그럴듯하지만 사실이 아닌 내용을 만들어 내는 현상</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">수업에서는 <b>지도 학습 · 비지도 학습 · 강화 학습 · 인공 신경망 · 퍼셉트론 · 환각</b>을 용어로 짚었고, 읽어 보면 풀 수 있다고 했습니다</span></div><div class="row"><span class="n">2</span><span class="b">표의 뜻은 수업에서 정의를 하나하나 설명하지 않아 <b>일반적인 설명</b>으로 정리했습니다. 교재의 설명도 한 번 읽어 둡니다</span></div><div class="row"><span class="n">3</span><span class="b">교재의 인공지능 장(197쪽 부근)을 한 번 읽어 두고, 용어는 위 표로 확인합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>해킹은 침입, 크래킹은 불법 이용과 변조</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s"><td>정보 사회의 특징</td><td>처리할 정보의 양 증가 · 변화 속도가 빠름 · 사이버 공간에서 새로운 인간관계와 문화 형성</td></tr><tr class="step" style="--d:0.32s"><td>문제점</td><td>정보의 편중으로 계층 간 정보 격차가 커짐</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>잘못된 보기</td><td>정보 편중으로 정보 격차가 «감소»한다 · 개성과 자유를 «경시»하게 된다</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>해킹</td><td>교재: 사용 권한이 없는 사람이 시스템에 침입해 정보를 수정하거나 빼냄(실제로는 취약점을 찾아 접근하는 행위 전반 · 권한 없는 침입은 불법 해킹)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>크래킹</td><td>불법적으로 시스템을 사용하거나 정보를 변조 · 파괴 · 자신의 이익에 맞게 변경(크래커)</td></tr><tr class="step" style="--d:0.96s"><td>컴퓨터 범죄와 거리가 먼 것</td><td>인터넷 쇼핑몰의 상품 가격 비교표 작성</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">교재 기준 <b>해킹 = 침입해서 수정 · 빼냄</b>, <b>크래킹 = 불법 사용 · 변조 · 파괴</b>로 용어만 구분하면 됩니다</span></div><div class="row"><span class="n">2</span><span class="b">정보 편중으로 정보 차이가 <b>감소</b>한다, 개성과 자유를 <b>경시</b>하게 된다는 보기는 틀린 설명입니다</span></div><div class="row"><span class="n">3</span><span class="b">크랙을 이용한 소프트웨어의 불법 사용이 크래킹의 예입니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>맞는 행동과 틀린 행동을 구분합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>○ 맞는 행동</th><th>✕ 틀린 행동</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>의심스러운 이메일은 열지 않고 바로 삭제</td><td>의심스러운 이메일을 열어 내용을 확인한 뒤 삭제</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>패스워드를 주기적으로 변경(교재 기준) · 서비스마다 다른 비밀번호 · 중요한 서비스는 2단계 인증 설정</td><td>해킹 방지를 위해 패스워드를 가급적 변경하지 않음</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>사이트마다 서로 다른 패스워드를 사용</td><td>게시판에 올라와 있으니 안전하다고 생각해 파일을 다운로드</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>방화벽 사용 · 암호화 · 접근 통제 도구 사용</td><td>DNS 설정을 임의로 변경(수업: 사이트에 못 들어갈 수 있음)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">수업에서는 요즘은 메일을 <b>열기만 해도</b> 바이러스에 걸릴 수 있어 모르는 메일은 열지도 말고 삭제하라고 안내했습니다</span></div><div class="row"><span class="n">2</span><span class="b">시험에서는 <b>패스워드를 주기적으로 변경</b>하는 것이 맞는 보기이고, «가급적 변경하지 않는다»는 보기는 틀립니다. 실제로는 2단계 인증도 설정합니다</span></div><div class="row"><span class="n">3</span><span class="b">DNS 설정을 임의로 바꾸는 것은 보안 조치가 아닌 항목으로 나옵니다. 사이트마다 서로 다른 패스워드를 쓰고 암호화해 관리해 주는 프로그램도 있다고 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>숙주가 있어야 번식합니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>숙주</td><td>바이러스는 숙주가 있어야 번식(세균은 혼자 번식)</td></tr><tr class="step" style="--d:0.32s"><td>숨는 곳</td><td>디스크의 부트 영역 · 프로그램 영역</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>기능</td><td>복제 · 은폐 · 파괴로 시스템을 망가뜨림</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>감염 경로</td><td>인터넷 · 통신 매체로 받은 파일 · 외부에서 복사해 온 파일(USB 등) · 전자우편 첨부 파일</td></tr><tr class="step" style="--d:0.80s"><td>영향</td><td>소프트웨어뿐 아니라 하드웨어 성능에도 영향을 미칠 수 있음</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>틀린 보기</td><td>교재 문제: 전자우편 첨부 파일로 감염될 확률이 «매우 적다»는 틀린 설명</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>복제 · 은폐 · 파괴</b>가 바이러스의 기능입니다. 숙주에 붙어 번식한다는 점이 세균과 다릅니다</span></div><div class="row"><span class="n">2</span><span class="b">바이러스는 주로 <b>인터넷</b>에서 걸린다고 시험에 나왔고, 전자우편의 첨부 파일도 <b>주요 감염 경로</b>입니다(«감염 확률이 매우 적다»는 틀림)</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 바이러스가 소프트웨어뿐 아니라 <b>하드웨어 성능</b>까지 영향을 미칠 수 있다는 점을 기억하라고 했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>실행 파일은 파일 바이러스, 오피스는 매크로 바이러스</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>파일 바이러스</td><td>실행 파일(EXE 등)을 감염시킴</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>매크로 바이러스</td><td>MS 오피스에서 매크로 기능을 이용해 다른 파일을 감염 · 대표 이름 멜리사</td></tr><tr class="step" style="--d:0.48s"><td>예방법</td><td>최신 버전 백신 · 다운로드한 파일 검사 후 사용 · 방화벽 설치 · 의심 메일은 열지 않고 삭제</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>예방과 무관한 것</td><td>정기적으로 디스크 정리(쓸데없는 파일 삭제)</td></tr><tr class="step" style="--d:0.80s"><td>틀린 설명</td><td>전자우편 첨부 파일을 열어서 확인한 후 사용</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«매크로 바이러스인 것은?»에는 <b>멜리사</b>를 고릅니다. 멜리사는 이메일과 워드 매크로로 대규모로 확산된 대표적인 매크로 바이러스이고, 시험에 자주 나온다고 짚었습니다</span></div><div class="row"><span class="n">2</span><span class="b">예방법 문제에서 <b>디스크 정리</b>와 <b>첨부 파일을 열어서 확인</b>은 틀린 항목으로 나옵니다</span></div><div class="row"><span class="n">3</span><span class="b">핸드폰도 마찬가지로 백신을 깔고 다운로드한 파일을 검사한 뒤 사용하라고 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>가로막기 · 가로채기 · 수정 · 위조</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>유형</th><th>상황</th><th>해치는 보안 요건</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>가로막기</td><td>A가 B에게 보내는 정보를 중간에서 막음(선이 끊김)</td><td>가용성</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>가로채기</td><td>보내는 정보를 중간에서 C가 몰래 봄(도청)</td><td>기밀성</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>수정 · 변조</td><td>중간에서 정보가 바뀜(세모가 네모로)</td><td>무결성</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>위조</td><td>거짓 정보를 끼워 넣음</td><td>무결성(교재 · 수업 기준)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>가로막기는 가용성, 가로채기는 기밀성, 수정 · 변조 · 위조는 무결성</b>을 해칩니다. 많이 틀리는 곳이라고 수업에서 짚었습니다</span></div><div class="row"><span class="n">2</span><span class="b">«무결성을 해치는 행위가 아닌 것»에는 <b>가로막기</b>나 가로채기가 섞여 나옵니다. 회선을 끊는 것은 가로채기가 아니라 가로막기입니다</span></div><div class="row"><span class="n">3</span><span class="b">그림으로 이해하면 외우지 않아도 된다고 했습니다. A → B 사이 선이 끊김 / C가 중간에서 봄 / 중간에서 모양이 바뀜을 떠올립니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>인증 · 접근 제어 · 방화벽 · 암호화 · 침입 탐지</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>기법</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>인증</td><td>정보를 보낸 사람이 맞는지 신원을 확인</td></tr><tr class="step" style="--d:0.32s"><td>접근 제어</td><td>허용된 범위만 접근하도록 통제</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>방화벽</td><td>외부의 불법적인 침입으로부터 내부를 보호</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>암호화</td><td>받는 사람 외에는 내용을 알 수 없게 바꿈</td></tr><tr class="step" style="--d:0.80s"><td>침입 탐지 시스템</td><td>컴퓨터가 비정상적으로 사용되지 않도록 감시</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>보안 기술이 아닌 것</td><td>브리지(네트워크를 연결하는 통신 장비)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«보안 관련 기술이 아닌 것»에는 <b>브리지</b>가 섞여 나옵니다. 브리지는 연결하는 장비입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>방화벽</b>은 외부 침입을 막는 장치입니다. 전통적인 경계 방화벽은 이미 내부에서 일어난 모든 공격까지 막아 주지는 못한다고 이전 기수 수업에서 짚었습니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>비밀키 · 공개키</b> 방법은 책에는 없지만 시험에 나오고 있어 다음 주에 다룹니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>보안을 위협하는 구체적인 형태 ①</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>디도스(DDoS)</td><td>분산 서비스 거부 공격 · 여러 대의 장비로 대량의 데이터를 한 곳에 집중 · 특정 서버의 정상 기능을 방해</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>웜</td><td>자신을 연속적으로 복제해 시스템에 부하를 일으킴</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>트로이 목마</td><td>정상적인 기능을 하는 프로그램인 것처럼 숨어 있다가 동작할 때 활성화</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>백도어</td><td>정상적인 인증 절차를 우회하는 숨겨진 통로 · 프로그래머가 일부러 만들어 두거나 공격자가 설치 · 해커가 이용</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«<b>여러 대</b>의 컴퓨터를 일제히 동작시켜 대량의 데이터를 한 곳에 보내»는 디도스입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>웜</b>은 스스로를 복제해 부하를 일으키고, <b>트로이 목마</b>는 정상 프로그램인 척 숨어 있다는 점이 다릅니다</span></div><div class="row"><span class="n">3</span><span class="b">백도어가 해커가 들어오는 통로가 된다는 점을 수업에서 짚었습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>엿보기, 속이기, 입력 빼내기, 자리 비움</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>스니핑</td><td>네트워크를 지나다니는 패킷을 엿보아 계정 · 패스워드 등을 알아냄(스니퍼 이용)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>스푸핑</td><td>눈속임 · IP 주소 · 이메일 발신자 등 출처를 속여 정상인 척함</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>키로거</td><td>키보드로 입력하는 키 정보를 가로채 개인 정보를 빼내 감</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>피기백킹</td><td>정당한 사용자가 시스템을 종료하지 않고 자리를 떠났을 때 비인가 사용자가 이용</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«패킷 속의 <b>계정과 패스워드</b>를 엿본다»는 스니핑이고, «정상인 척 속인다»는 스푸핑입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>키로거</b> 때문에 은행 사이트에서 키보드 보안 프로그램 설치를 요구한다고 수업에서 설명했습니다</span></div><div class="row"><span class="n">3</span><span class="b"><b>로그아웃</b>을 하지 않으면 다른 사람이 내 계정을 쓸 수 있습니다. 공용 컴퓨터나 학원 PC에서 특히 조심합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>사칭은 피싱, 문자는 스미싱, QR 코드는 큐싱</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>피싱</td><td>유명한 기업 · 금융 기관을 자칭해 금융 정보 · 비밀번호 입력을 유도하고 예금을 인출</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>스미싱</td><td>문자 메시지를 이용한 방식</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>큐싱</td><td>QR 코드를 이용한 방식 · 공유 킥보드 등의 QR 코드 위에 다른 스티커를 덧붙임</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">«기업 · 금융 기관을 <b>자칭</b>하며 비밀번호 입력을 유도»는 피싱입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>스미싱 = 문자</b>, <b>큐싱 = QR 코드</b>로 짝지어 외웁니다. 뉴스에 나오는 용어가 시험에 나올 수 있다고 했습니다</span></div><div class="row"><span class="n">3</span><span class="b">수업에서는 QR 코드를 함부로 찍지 말라고 당부했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 9장 정보 보안</span><h2>뉴스에 자주 나오는 보안 용어</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>용어</th><th>설명</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>랜섬웨어</td><td>파일을 암호화해 열지 못하게 한 뒤 복구를 대가로 금전을 요구 · 확장자 변경은 나타날 수 있는 증상</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>랜섬웨어의 틀린 설명</td><td>«사용하던 파일이 갑자기 보이지 않는다» · 교재 문제 기준: 파일이 사라지는 것이 아니라 암호화되어 열리지 않는 상황으로 구분</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>허니팟</td><td>꿀단지처럼 해커를 유인해 침입 방법을 알아내는 덫</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>디지털 워터마킹</td><td>저작권 정보를 콘텐츠에 삽입(교재 문제는 눈에 보이지 않게) · AI 생성물 구별에도 사용(수업)</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">랜섬웨어는 <b>암호화 + 금전 요구</b>이고(확장자 변경이 함께 나타나기도 함), 시스템 복원이 어렵고 최근에도 시험에 나왔다고 수업에서 설명했습니다</span></div><div class="row"><span class="n">2</span><span class="b">«<b>해커를 유인</b>한다»는 허니팟, «<b>저작권 정보를 삽입</b>»은 디지털 워터마킹입니다</span></div><div class="row"><span class="n">3</span><span class="b">앞뒤 용어(스니핑 · 스푸핑 · 피싱 · 큐싱)와 섞어 낸 문제에서는 키워드부터 찾습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">필기 · 마무리</span><h2>최근 기출부터 푸는 것이 우선입니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>우선순위</td><td>최근 기출 문제를 먼저 · 최신 회차부터 내림차순으로 풀기</td></tr><tr class="step" style="--d:0.32s"><td>사이트</td><td>수업 자료실에 CBT 사이트 3곳 안내 · 학생 평가상 이기적 CBT가 가장 쉽고 그다음이 신화공(수업)</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>윈도우 11 문제</td><td>2027년 개정 출제기준을 반영한 문제 · 2026년 안에 응시한다면 현재 시험 범위가 아니므로 넘어가도 됨(수업)</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>학원 CBT</td><td>개인 아이디 · 패스워드가 필요 · 카톡으로 요청 · 오답 노트 · 성적 분석 · 개념 학습 · 키워드 검색 기능</td></tr><tr class="step" style="--d:0.80s"><td>아이디 유효 기간</td><td>올해 12월 31일까지(연장이 필요하면 카톡으로 요청)</td></tr><tr class="step" style="--d:0.96s"><td>다음 주</td><td>책에 없지만 시험에 나오는 정보 보안 내용(비밀키 · 공개키 등)을 이어서 학습</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">수업에서는 <b>최근 기출을 먼저</b> 풀고, 배우지 않은 내용이 나오면 요약집으로 채우라고 안내했습니다</span></div><div class="row"><span class="n">2</span><span class="b">학원 CBT는 <b>개인 아이디</b>로 오답 노트와 약한 파트 분석이 기록됩니다. 아이디는 카톡으로 요청하면 개인에게 보내 줍니다</span></div><div class="row"><span class="n">3</span><span class="b">다음 주 월요일에는 책 없이 <b>요약집과 작은 책자</b>만 가져오라고 안내했습니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 모의시험</span><h2>쉬운 것부터, 함수는 막히면 건너뜁니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>순서</th><th>문제</th><th>요령</th></tr><tr class="step" style="--d:0.16s;background:#daf5e5"><td>①</td><td>1-2 기본 작업</td><td>글자 크기 · 가운데 맞춤 같은 서식을 먼저 풀어 점수를 확보</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>②</td><td>1-3 조건부 서식</td><td>이어서 풀기</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>③</td><td>3번 분석 작업</td><td>2번은 건너뛰고 바로 분석 · 클릭만 잘하면 풀리는 문제가 많음</td></tr><tr class="step" style="--d:0.64s;background:#daf5e5"><td>④</td><td>4번 매크로 · 차트</td><td>여기까지 20분 안에(시험 시간 40분)</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>⑤</td><td>2번 계산 작업(함수)</td><td>8점짜리 다섯 문제 중 3개는 맞추기 · 막히면 무조건 건너뛰기</td></tr><tr class="step" style="--d:0.96s;background:#daf5e5"><td>⑥</td><td>1-1 입력</td><td>5점 · 오타가 나기 쉬우니 마지막에</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">문제를 풀 때는 <b>시트 이름</b>을 먼저 봅니다. 순서는 <b>기본 작업 → 조건부 서식 → 분석 → 매크로 · 차트 → 함수 → 입력</b>입니다</span></div><div class="row"><span class="n">2</span><span class="b">함수 한 문제를 붙잡으면 시간이 10분 20분씩 간다고 했습니다. <b>풀 수 있는 것부터</b> 풀고 어려운 것은 건너뜁니다</span></div><div class="row"><span class="n">3</span><span class="b">입력 문제는 영어가 많이 나오고 <b>글자 하나만 틀려도</b> 오답이 될 수 있어 마지막에 시간을 남겨 풉니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">실기 · 모의시험</span><h2>원본은 복사해 쓰고 수시로 Ctrl + S</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>항목</th><th>내용</th></tr><tr class="step" style="--d:0.16s"><td>연습 순서</td><td>최신 기출 문제 10개를 먼저 풀어 봄(시험 시간 40분 기준)</td></tr><tr class="step" style="--d:0.32s;background:#daf5e5"><td>원본 보존</td><td>실습 파일 원본은 두고 복사본을 열어 푼다 · 다시 연습할 때 원본이 필요</td></tr><tr class="step" style="--d:0.48s;background:#daf5e5"><td>저장</td><td>작업 중간중간 Ctrl + S로 저장 · 저장하지 않아 떨어진 사례가 있었다고 함</td></tr><tr class="step" style="--d:0.64s"><td>채점 사이트</td><td>교재 선택 › 엑셀(2급 실기는 액세스 없음) › 최신 기출 회차 선택 › 작업한 파일 업로드 › 채점</td></tr><tr class="step" style="--d:0.80s;background:#daf5e5"><td>채점 결과</td><td>참고용 · 수식을 다르게 입력했을 때 정답과 매칭되지 않으면 틀린 것으로 나올 수 있음</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b">연습할 때는 <b>원본을 복사한 파일</b>로 풀고 원본은 그대로 둡니다</span></div><div class="row"><span class="n">2</span><span class="b">채점 사이트는 <b>100% 맹신하지 말고 참고용</b>으로 씁니다. 함수가 같은 결과인데도 틀렸다고 나올 수 있다고 수업에서 짚었습니다</span></div><div class="row"><span class="n">3</span><span class="b">실기는 <b>수시로 Ctrl + S</b>입니다. 시험장에서는 문제 파일이 열려 있으니 작업하는 대로 저장합니다</span></div></div></div></section><section class="card"><div class="card-inner"><span class="kicker">오늘의 함정</span><h2>여기서 많이 틀립니다</h2><figure class="fig concept"><div class="example-label">예시 화면 · 설명 도해</div><div class="example-wrap"><table class="example-table"><tr class="step" style="--d:0.0s"><th>✕ 이렇게 하면 틀림</th><th>○ 이렇게 합니다</th></tr><tr class="step" style="--d:0.16s"><td>IPv6의 주소 체계에 브로드캐스트를 넣음</td><td>IPv6 = 유니캐스트 · 멀티캐스트 · 애니캐스트</td></tr><tr class="step" style="--d:0.32s"><td>URL 순서를 «호스트 → 프로토콜…»로 외움</td><td>프로토콜 → 호스트 주소 → 포트 번호 → 파일 경로</td></tr><tr class="step" style="--d:0.48s"><td>SMTP로 메일을 받는다고 외움</td><td>SMTP = 송신 · POP3 = 수신</td></tr><tr class="step" style="--d:0.64s"><td>HTML을 프로토콜이라고 함</td><td>HTML = 언어 · HTTP = 프로토콜</td></tr><tr class="step" style="--d:0.80s"><td>모델링 단계에서 색을 칠한다고 함</td><td>모델링 = 뼈대 · 렌더링 = 명암 · 색상</td></tr><tr class="step" style="--d:0.96s"><td>PNG가 애니메이션을 표현한다고 함</td><td>교재 기준: 애니메이션 = GIF · 투명층 = PNG</td></tr><tr class="step" style="--d:1.12s"><td>회선을 끊는 것을 가로채기라고 함</td><td>가로막기 = 가용성 · 가로채기 = 기밀성</td></tr><tr class="step" style="--d:1.28s"><td>랜섬웨어가 파일을 삭제한다고 함</td><td>교재 문제 기준: 파일을 암호화해 열 수 없게 하고 금전을 요구</td></tr><tr class="step" style="--d:1.44s"><td>실기에서 1-1 입력부터 풂</td><td>입력은 오타가 나기 쉬우니 마지막에</td></tr></table></div></figure><div class="panel"><div class="row"><span class="n">1</span><span class="b"><b>IPv6에 브로드캐스트 없음</b>, <b>URL은 프로토콜부터</b>, <b>SMTP는 송신</b>, <b>HTML은 언어</b>입니다</span></div><div class="row"><span class="n">2</span><span class="b"><b>렌더링 = 색 입히기</b>, <b>GIF = 애니메이션</b>, <b>PNG = 투명층</b>, <b>가로막기 = 가용성</b>, <b>랜섬웨어 = 암호화 + 금전 요구</b>입니다</span></div><div class="row"><span class="n">3</span><span class="b">실기 모의시험은 <b>기본 작업 → 조건부 서식 → 분석 → 매크로 · 차트 → 함수 → 입력</b> 순서로 풀고, 중간중간 저장합니다</span></div></div></div></section><section class="card"><div class="card-inner">
+  <span class="kicker">미니 퀴즈</span>
+  <h2>14차시 복습 퀴즈</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="퀴즈 진행" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">퀴즈 진행</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">이름 입력</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">본인 이름</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">문제 풀이</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">10문제</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">결과 확인</text></g></svg><figcaption>이름 입력 후 문제를 풀고 채점합니다.</figcaption></figure>
+  <p class="lead">10문제가 한 화면에 나옵니다. 위에서부터 고르고 맨 아래에서 채점하세요.</p>
+  <div class="gate" id="nameGate">
+    <p style="margin:0;font-size:15px;">이름을 입력하면 시작합니다.</p>
+    <input type="text" id="studentName" placeholder="이름 (띄어쓰기 없이)" autocomplete="off">
+    <br><button class="btn" onclick="startQuiz()">퀴즈 시작하기</button>
+    <p class="mute" style="margin:14px 0 0;">채점 결과는 선생님께 전달되어 복습 확인에 쓰입니다.</p>
+  </div>
+</div></section>
+
+<div id="quizBody" style="display:none">
+<section class="card"><div class="card-inner" id="quiz">
+  <span class="kicker">미니 퀴즈 · 10문제</span>
+  <h2>복습 퀴즈 10문제</h2><figure class="fig concept"><svg viewBox="0 0 560 112" role="img" aria-label="풀이 순서" xmlns="http://www.w3.org/2000/svg"><text x="12" y="20" font-size="13" font-weight="700" fill="#1D4ED8">풀이 순서</text><g class="step" style="--d:0.0s"><rect x="12.0" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="97.3" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">선택</text><text x="97.3" y="79" text-anchor="middle" font-size="11" fill="#334155">각 문제의 답</text></g><g class="step" style="--d:0.2s"><rect x="194.7" y="34" width="170.7" height="60" rx="9" fill="#ECFDF5" stroke="#94A3B8"/><text x="280.0" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">채점</text><text x="280.0" y="79" text-anchor="middle" font-size="11" fill="#334155">맨 아래 버튼</text></g><g class="step" style="--d:0.4s"><rect x="377.3" y="34" width="170.7" height="60" rx="9" fill="#DBEAFE" stroke="#94A3B8"/><text x="462.7" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1E3A5F">복습</text><text x="462.7" y="79" text-anchor="middle" font-size="11" fill="#334155">틀린 문제 확인</text></g></svg><figcaption>답을 고른 뒤 맨 아래의 채점 버튼을 누르세요.</figcaption></figure>
+<div class="quiz-item"><p class="q"><span class="qn">1</span><span class="qt">IPv6 주소에 대한 설명으로 옳은 것은?</span></p><button class="quiz-opt">8비트씩 4부분, 모두 32비트로 구성된다</button><button class="quiz-opt" data-correct="true">16비트씩 8부분, 모두 128비트로 구성된다</button><button class="quiz-opt">모든 컴퓨터에 한꺼번에 보내는 브로드캐스트 방식을 사용한다</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">2</span><span class="qt">URL의 형식을 순서대로 바르게 나열한 것은?</span></p><button class="quiz-opt">호스트 주소 → 프로토콜 → 포트 번호 → 파일 경로</button><button class="quiz-opt">프로토콜 → 포트 번호 → 호스트 주소 → 파일 경로</button><button class="quiz-opt" data-correct="true">프로토콜 → 호스트 주소 → 포트 번호 → 파일 경로</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">3</span><span class="qt">TCP와 IP가 OSI 7계층에서 속하는 계층을 바르게 짝지은 것은?</span></p><button class="quiz-opt" data-correct="true">TCP : 전송 계층, IP : 네트워크 계층</button><button class="quiz-opt">TCP : 네트워크 계층, IP : 전송 계층</button><button class="quiz-opt">TCP : 응용 계층, IP : 물리 계층</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">4</span><span class="qt">전자우편에서 메일 서버에 있는 메일을 내 컴퓨터로 가져와 받을 때 사용하는 프로토콜은?</span></p><button class="quiz-opt">SMTP</button><button class="quiz-opt" data-correct="true">POP3</button><button class="quiz-opt">FTP</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">5</span><span class="qt">지리적으로 떨어져 있는 컴퓨터를 초고속 인터넷망으로 연결해 하나의 컴퓨터처럼 사용하는 기술은?</span></p><button class="quiz-opt">클라우드 컴퓨팅</button><button class="quiz-opt">사물 인터넷</button><button class="quiz-opt" data-correct="true">그리드 컴퓨팅</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">6</span><span class="qt">MPEG 표준 중에서 DVD 영상에 대한 표준은?</span></p><button class="quiz-opt" data-correct="true">MPEG-2</button><button class="quiz-opt">MPEG-4</button><button class="quiz-opt">MPEG-7</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">7</span><span class="qt">보내는 정보가 상대에게 도착하지 못하도록 중간에서 회선을 끊어 가용성을 해치는 보안 위협 유형은?</span></p><button class="quiz-opt">가로채기</button><button class="quiz-opt" data-correct="true">가로막기</button><button class="quiz-opt">수정</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">8</span><span class="qt">네트워크를 지나다니는 패킷을 엿보아 그 안의 계정과 패스워드를 알아내는 행위는?</span></p><button class="quiz-opt">스푸핑</button><button class="quiz-opt">피싱</button><button class="quiz-opt" data-correct="true">스니핑</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">9</span><span class="qt">월 상환액이 30,000원이 되는 상환 기간을 목표값 찾기로 구하려 한다. 대화 상자의 «값을 바꿀 셀»에 지정하는 셀은?</span></p><button class="quiz-opt" data-correct="true">상환 기간이 입력된 셀</button><button class="quiz-opt">월 상환액을 계산하는 수식이 들어 있는 셀</button><button class="quiz-opt">30000을 입력해 둔 셀</button><div class="quiz-feedback"></div></div>
+<div class="quiz-item"><p class="q"><span class="qn">10</span><span class="qt">고급 언어로 작성한 프로그램을 한 줄씩 번역해 바로 실행하며 목적 프로그램을 만들지 않는 언어 번역 프로그램은?</span></p><button class="quiz-opt">컴파일러</button><button class="quiz-opt" data-correct="true">인터프리터</button><button class="quiz-opt">어셈블러</button><div class="quiz-feedback"></div></div>
+<div class="quiz-submit-box" style="text-align:center;margin:20px 0;">
+    <button class="btn" id="gradeBtn" onclick="gradeQuiz()">채점하기</button>
+    <p id="submitStatus"></p>
+    <div id="wrongList"></div>
+    <button class="btn ghost" id="retryAllBtn" onclick="retryQuiz()" style="display:none;margin-top:10px;">전체 다시 풀기</button>
+  </div>
+</div></section>
+</div>
+
+<section class="card" id="audioReviewCard"><div class="card-inner">
+<span class="kicker pilgi">영상·음성 복습</span><h2>14차시 영상·음성 복습</h2><p class="lead">화면과 강사 음성을 함께 보거나 원하는 주제를 선택해 들을 수 있습니다.</p>
+<figure class="fig concept"><svg viewBox="0 0 560 100" role="img" aria-label="전체 듣기, 주제 선택, 재생 속도 조절" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="536" height="76" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/><path d="M42 50h10l6-14 8 28 8-36 8 42 8-31 6 21 6-10h12" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="140" y="47" fill="#1E3A5F" font-size="16" font-weight="700">전체 듣기 · 주제별 듣기</text><text x="140" y="69" fill="#475569" font-size="13">재생 속도와 듣기 위치를 조절할 수 있습니다</text></svg><figcaption>학습 주제를 선택하면 해당 부분부터 재생됩니다.</figcaption></figure>
+<div class="video-review"><video id="reviewVideo" class="review-video" controls playsinline preload="metadata" src="video/review/2026-11-14cha.mp4?v=1"></video><div class="video-copy"><span>화면과 강사 음성을 함께 보는 복습 영상</span><b>기본 1.2×</b></div></div>
+<div class="audio-review"><audio id="reviewAudio" preload="metadata" src="audio/review/2026-11-14cha-instructor.mp3?v=1"></audio>
+<div class="player-controls"><button type="button" class="main-play" id="audioToggle">▶ 전체 듣기</button><button type="button" id="audioBack">−10초</button><button type="button" id="audioForward">+10초</button><label class="speed-wrap">재생 속도 <select id="audioRate" aria-label="재생 속도"><option value="0.8">0.8×</option><option value="1">1.0×</option><option value="1.2" selected>1.2×</option><option value="1.5">1.5×</option><option value="2">2.0×</option></select></label></div>
+<div class="timeline"><input class="seek-bar" id="audioSeek" type="range" min="0" max="1" step="0.1" value="0" aria-label="음성 재생 위치"><div class="chapter-marks" id="chapterMarks" aria-hidden="true"></div><div class="time-row"><span id="audioNow">0:00</span><span id="audioDuration">0:00</span></div></div><div class="chapter-grid" id="chapterGrid"></div><p class="audio-note">강사 음성 합성으로 제작한 복습 음성입니다.</p></div></div></section>
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)">&#8592; 이전</button>
+  <span class="dots" id="dots"></span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="nextBtn" onclick="go(1)">다음 &#8594;</button>
+</div>
+<script>window.REVIEW_AUDIO={"titles": ["복습 13차시 다시 짚기", "IPv4와 IPv6의 구조", "IPv6의 특징", "도메인 네임과 DNS", "URL의 형식", "프로토콜과 OSI 7계층", "전자우편과 프로토콜", "스팸 · FTP · WWW · HTTP", "웹 브라우저와 관련 용어", "캐싱 · 포털 · 미러 사이트", "ICT 신기술 ① 클라우드 · 그리드 · IoT", "ICT 신기술 ② 텔레매틱스 · LBS · 와이브로", "유비쿼터스 · RFID · USN", "멀티미디어의 특징과 하이퍼미디어", "모델링 · 렌더링 · 디더링", "모핑 · 필터링 · 인터레이싱", "앨리어싱과 애니메이션", "비트맵과 벡터", "그래픽 파일 형식", "오디오: WAV · MIDI · MP3", "비디오: MPEG · AVI · 스트리밍", "멀티미디어 활용 서비스", "가상 · 증강 · 혼합 현실", "인공지능 용어 읽어 두기", "정보 사회와 해킹 · 크래킹", "컴퓨터 범죄 예방과 대책", "컴퓨터 바이러스", "바이러스의 분류와 예방", "보안 위협의 유형", "정보 보안 기법", "DDoS · 웜 · 트로이 목마 · 백도어", "스니핑 · 스푸핑 · 키로거 · 피기백킹", "피싱 · 스미싱 · 큐싱", "랜섬웨어 · 허니팟 · 디지털 워터마킹", "필기 CBT 연습 방법", "실기 모의시험 푸는 순서", "실기 연습과 채점 사이트", "오늘의 함정"], "starts": [0.0, 36.53, 73.86, 127.75, 160.92, 196.32999999999998, 238.61999999999998, 275.30999999999995, 318.0799999999999, 368.36999999999995, 407.29999999999995, 448.1499999999999, 488.2799999999999, 529.53, 567.4200000000001, 601.9500000000002, 646.3200000000002, 682.2100000000003, 727.3000000000003, 771.7500000000003, 817.8800000000003, 865.1300000000003, 903.4200000000004, 945.8700000000005, 982.9600000000005, 1029.6500000000005, 1074.1800000000005, 1113.7500000000005, 1149.3200000000004, 1189.3700000000003, 1230.9400000000003, 1272.0300000000004, 1310.8800000000006, 1343.5700000000006, 1387.6200000000006, 1429.6700000000005, 1468.6800000000005, 1510.5700000000006], "duration": 1552.97, "src": "audio/review/2026-11-14cha-instructor.mp3?v=1"};</script>
+<script src="audio/review/player.js"></script>
+<script>
+/* ── 카드 덱 내비게이션 ── */
+const deck = document.getElementById('deck');
+let cards = [];
+let idx = 0;
+
+function visibleCards(){
+  return Array.prototype.filter.call(deck.querySelectorAll('.card'), function(c){
+    return c.offsetParent !== null;
+  });
+}
+function buildDots(){
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  cards.forEach(function(c, i){
+    const s = document.createElement('i');
+    s.addEventListener('click', function(){ jump(i); });
+    d.appendChild(s);
+  });
+}
+function refresh(){
+  cards = visibleCards();
+  buildDots();
+  sync();
+}
+function sync(){
+  if(!cards.length) return;
+  const w = deck.clientWidth;
+  idx = Math.min(cards.length - 1, Math.max(0, Math.round(deck.scrollLeft / w)));
+  document.getElementById('counter').textContent = (idx + 1) + ' / ' + cards.length;
+  document.getElementById('bar').style.width = ((idx + 1) / cards.length * 100) + '%';
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
+  const dots = document.getElementById('dots').children;
+  for(let i = 0; i < dots.length; i++){ dots[i].classList.toggle('on', i === idx); }
+  // 보고 있는 카드에만 .active — 등장 모션은 그때 한 번 재생된다
+  cards.forEach(function(c, i){ c.classList.toggle('active', i === idx); });
+}
+function jump(i){
+  if(i < 0 || i >= cards.length) return;
+  deck.scrollTo({ left: i * deck.clientWidth, behavior: 'smooth' });
+}
+function go(step){ jump(idx + step); }
+
+deck.addEventListener('scroll', function(){
+  clearTimeout(window._st);
+  window._st = setTimeout(sync, 60);
+});
+window.addEventListener('resize', function(){ jump(idx); sync(); });
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ go(1); }
+  if(e.key === 'ArrowLeft'){ go(-1); }
+});
+refresh();
+
+/* ── 퀴즈 ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHddiC823pPgZohkcL-oC2f6LLJUX8MhSIJGjjE9jhRuX7TE_lmPvBUGPWNwxjH8rj/exec';
+const SHEET_NAME = '2026-11 14차시';
+let studentName = '';
+
+// 수강생 확인용. 실명 대신 이름의 해시값만 둔다(공개 저장소이므로 명단 미게시).
+const NAME_HASHES = [
+  '9bbb52287af375ad',
+  '68a2bbf429acc7f6',
+  '1d3c61ba29a8a304',
+  '799b4fa176106108',
+  '0345c6705c8a657a',
+  '871b4f95f45d75b6',
+  'adf899b5064f769e',
+  '80311697fa93d30b',
+  'ae6fd527794e6187',
+  'db6f439e9999c4f7',
+  '79863b87fe14670d',
+  'e83e84eec19ad05b',
+  'a5a6ccaf14cb9e40',
+  'f3177b9e506f5f36',
+  'ce93aed446c7a37f',
+  'cc45086c23272d8c',
+  'd8467edd1b145f9b',
+  'b4beb49ac060c43e',
+  'e94f142db3f696b3',
+  'e87e3049b21ed704'
+];
+
+function normName(s){ return s.replace(/\s/g, ''); }
+
+async function hashName(s){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').slice(0,16);
+}
+
+async function startQuiz(){
+  const val = normName(document.getElementById('studentName').value.trim());
+  if(!val){ alert('이름을 입력해주세요.'); return; }
+  let ok = false;
+  try {
+    ok = NAME_HASHES.includes(await hashName(val));
+  } catch(e) {
+    ok = true;   // 구형 브라우저 등으로 확인이 불가하면 막지 않는다
+  }
+  if(!ok){
+    alert('수강생 명단에서 이름을 찾지 못했어요.\n\n· 띄어쓰기 없이 본인 이름을 정확히 입력해주세요.\n· 그래도 안 되면 선생님께 알려주세요.');
+    return;
+  }
+  studentName = val;
+  document.getElementById('nameGate').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'contents';
+  refresh();
+  setTimeout(function(){ go(1); }, 80);
+}
+
+const quizItems = document.querySelectorAll('.quiz-item');
+let attemptCount = 0;
+
+// 답 선택만 (채점 전에는 정답 공개 안 함, 자유롭게 다시 고를 수 있음)
+quizItems.forEach(item => {
+  const opts = item.querySelectorAll('.quiz-opt');
+  opts.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if(item.dataset.graded === 'true') return;
+      opts.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+});
+
+// 채점하기: 정답 공개 + 점수 계산 + 구글시트에 기록 (누를 때마다 새 기록 추가)
+function gradeQuiz(){
+  if(!studentName){ alert('이름을 먼저 입력하고 퀴즈를 시작해주세요.'); return; }
+
+  let answered = 0;
+  quizItems.forEach(item => { if(item.querySelector('.quiz-opt.selected')) answered++; });
+  if(answered < quizItems.length){
+    if(!confirm('아직 안 고른 문제가 ' + (quizItems.length - answered) + '개 있어요. 그래도 채점할까요?')) return;
+  }
+
+  let score = 0;
+  const answers = [];
+  const wrongNos = [];
+  quizItems.forEach((item, idx) => {
+    const opts = item.querySelectorAll('.quiz-opt');
+    const selected = item.querySelector('.quiz-opt.selected');
+    const feedback = item.querySelector('.quiz-feedback');
+    let correctText = '';
+    opts.forEach(o => {
+      o.disabled = true;
+      o.classList.remove('selected');
+      if(o.dataset.correct === 'true'){ o.classList.add('correct'); correctText = o.textContent; }
+    });
+    if(selected){
+      const isCorrect = selected.dataset.correct === 'true';
+      if(!isCorrect){ selected.classList.add('wrong'); wrongNos.push(idx + 1); }
+      feedback.textContent = isCorrect ? '정답입니다! 🎉' : "오답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', isCorrect ? 'ok' : 'no');
+      answers.push(isCorrect ? 1 : 0);
+      if(isCorrect) score++;
+    } else {
+      feedback.textContent = "미응답입니다. 정답은 '" + correctText + "' 입니다.";
+      feedback.classList.add('show', 'no');
+      answers.push('');
+      wrongNos.push(idx + 1);
+    }
+    item.dataset.graded = 'true';
+  });
+
+  attemptCount++;
+  const payload = { sheetName: SHEET_NAME, name: studentName, score: score, answers: answers };
+  /* 스무날 동행 앱 연동 — 앱(iframe) 안에서 열렸을 때만 점수를 전달한다.
+     단독으로 열면(window.parent === window) 아무 동작도 하지 않는다. */
+  if (window.parent !== window) {
+    ['https://seumunal.vercel.app', 'http://localhost:5180'].forEach(function (o) {
+      try { window.parent.postMessage({ type: 'QUIZ_RESULT', score: score, total: quizItems.length }, o); } catch (e) {}
+    });
+  }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  document.getElementById('submitStatus').textContent =
+    studentName + '님, ' + attemptCount + '회차 채점 완료! 10문제 중 ' + score + '문제 정답 🎉';
+  document.getElementById('retryAllBtn').style.display = 'inline-block';
+  // 틀린 문제 번호를 누르면 그 문제로 바로 이동한다(한 화면에 10문제가 있으므로 카드를 되돌릴 필요가 없다)
+  const wl = document.getElementById('wrongList');
+  if(wrongNos.length){
+    wl.innerHTML = '<p class="msg">틀린 문제 — 눌러서 이동</p><div class="chips-w">' +
+      wrongNos.map(n => '<button type="button" onclick="jumpQ(' + n + ')">' + n + '번</button>').join('') + '</div>';
+  } else {
+    wl.innerHTML = '<p class="msg">전부 맞혔습니다 🎉</p>';
+  }
+}
+
+function jumpQ(n){
+  const item = quizItems[n - 1];
+  const card = item.closest('.card');
+  const c = card.getBoundingClientRect(), r = item.getBoundingClientRect();
+  card.scrollTo({ top: card.scrollTop + (r.top - c.top) - 12, behavior: 'smooth' });
+}
+
+// 다시 풀기: 화면만 초기화 (이전에 기록한 점수는 시트에 그대로 남음)
+function retryQuiz(){
+  quizItems.forEach(item => {
+    item.dataset.graded = '';
+    const opts = item.querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = false; o.classList.remove('selected', 'correct', 'wrong'); });
+    const feedback = item.querySelector('.quiz-feedback');
+    feedback.classList.remove('show', 'ok', 'no');
+    feedback.textContent = '';
+  });
+  document.getElementById('submitStatus').textContent = '';
+  document.getElementById('retryAllBtn').style.display = 'none';
+  document.getElementById('wrongList').innerHTML = '';
+  // 문제 1번 카드(13/24)로 바로 이동 — 부드러운 스크롤이면 10장을 훑고 지나가므로 즉시 이동한다
+  const first = quizItems[0].closest('.card');
+  const target = cards.indexOf(first);
+  if(target >= 0){
+    first.scrollTop = 0;
+    deck.scrollTo({ left: target * deck.clientWidth, behavior: 'instant' });
+    sync();
+  }
+}
+</script>
+
+</body>
+</html>
